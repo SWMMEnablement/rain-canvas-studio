@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs2' | 'double' | 'custom';
+export type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -56,6 +56,97 @@ export function generateRainfallData(
       for (let i = 0; i < numSteps; i++) {
         const t = i / numSteps;
         const intensity = (totalDepth / duration) * (1 + Math.sin(t * Math.PI));
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'triangular': {
+      // Triangular profile - peak at 1/3 of duration (common UK practice)
+      const peakPosition = 0.33;
+      const peakIntensity = (2 * totalDepth) / duration;
+      
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let intensity: number;
+        
+        if (t <= peakPosition) {
+          // Rising limb
+          intensity = peakIntensity * (t / peakPosition);
+        } else {
+          // Falling limb
+          intensity = peakIntensity * (1 - t) / (1 - peakPosition);
+        }
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'trapezoidal': {
+      // Trapezoidal profile with sustained peak
+      const riseEnd = 0.25;
+      const peakEnd = 0.6;
+      const peakIntensity = totalDepth / (duration * (riseEnd / 2 + (peakEnd - riseEnd) + (1 - peakEnd) / 2));
+      
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let intensity: number;
+        
+        if (t <= riseEnd) {
+          // Rising limb
+          intensity = peakIntensity * (t / riseEnd);
+        } else if (t <= peakEnd) {
+          // Sustained peak
+          intensity = peakIntensity;
+        } else {
+          // Falling limb
+          intensity = peakIntensity * (1 - t) / (1 - peakEnd);
+        }
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'fsr': {
+      // FSR (Flood Studies Report) profile - commonly used in UK
+      // Based on 75% summer profile with peak at around 40% of duration
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        // FSR cumulative distribution curve
+        if (t <= 0.1) {
+          cumulativeFraction = 0.05 * (t / 0.1);
+        } else if (t <= 0.3) {
+          cumulativeFraction = 0.05 + 0.15 * ((t - 0.1) / 0.2);
+        } else if (t <= 0.5) {
+          cumulativeFraction = 0.20 + 0.40 * ((t - 0.3) / 0.2);
+        } else if (t <= 0.7) {
+          cumulativeFraction = 0.60 + 0.25 * ((t - 0.5) / 0.2);
+        } else {
+          cumulativeFraction = 0.85 + 0.15 * ((t - 0.7) / 0.3);
+        }
+        
+        // Calculate intensity from cumulative (derivative approximation)
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        
+        if (nextT <= 0.1) {
+          nextCumulative = 0.05 * (nextT / 0.1);
+        } else if (nextT <= 0.3) {
+          nextCumulative = 0.05 + 0.15 * ((nextT - 0.1) / 0.2);
+        } else if (nextT <= 0.5) {
+          nextCumulative = 0.20 + 0.40 * ((nextT - 0.3) / 0.2);
+        } else if (nextT <= 0.7) {
+          nextCumulative = 0.60 + 0.25 * ((nextT - 0.5) / 0.2);
+        } else {
+          nextCumulative = 0.85 + 0.15 * ((nextT - 0.7) / 0.3);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        const incrementalTime = (timeStep / 60);
+        const intensity = incrementalDepth / incrementalTime;
+        
         data.push(intensity);
       }
       break;

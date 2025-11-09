@@ -1,12 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type PatternType = 'block' | 'scs2' | 'double' | 'custom';
+type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr';
 
 interface PatternOption {
   id: PatternType;
   name: string;
   icon: string;
   description: string;
+  category: 'swmm' | 'icm';
 }
 
 const patterns: PatternOption[] = [
@@ -15,24 +17,49 @@ const patterns: PatternOption[] = [
     name: 'Block Pattern',
     icon: '▯',
     description: 'Uniform intensity throughout the storm duration. Simple and commonly used for preliminary analysis.',
+    category: 'swmm',
   },
   {
     id: 'scs2',
     name: 'SCS Type II',
     icon: '⏐',
     description: 'Standard NRCS (SCS) 24-hour rainfall distribution with peak intensity around the middle of the storm. Most common for design storms in the US.',
+    category: 'swmm',
   },
   {
     id: 'double',
     name: 'Double Peak',
     icon: '⩗',
     description: 'Pattern with two intensity peaks, simulating complex storm systems with multiple convective cells.',
+    category: 'swmm',
   },
   {
     id: 'custom',
     name: 'Custom',
     icon: '✎',
     description: 'Draw your own rainfall distribution using the interactive chart. Click and drag to adjust intensities.',
+    category: 'swmm',
+  },
+  {
+    id: 'triangular',
+    name: 'Triangular',
+    icon: '△',
+    description: 'Triangular profile with linear rise to peak and linear recession. Common in UK practice and InfoWorks ICM modeling.',
+    category: 'icm',
+  },
+  {
+    id: 'trapezoidal',
+    name: 'Trapezoidal',
+    icon: '⏢',
+    description: 'Trapezoidal profile with rising limb, sustained peak period, and falling limb. Used for design storms in InfoWorks ICM.',
+    category: 'icm',
+  },
+  {
+    id: 'fsr',
+    name: 'FSR Profile',
+    icon: '📊',
+    description: 'Flood Studies Report (FSR) rainfall profile. Standard design storm profile used in UK drainage design with InfoWorks.',
+    category: 'icm',
   },
 ];
 
@@ -43,6 +70,32 @@ interface PatternSelectorProps {
 
 export function PatternSelector({ selectedPattern, onPatternChange }: PatternSelectorProps) {
   const selectedPatternInfo = patterns.find(p => p.id === selectedPattern);
+  const swmmPatterns = patterns.filter(p => p.category === 'swmm');
+  const icmPatterns = patterns.filter(p => p.category === 'icm');
+
+  const PatternGrid = ({ patterns }: { patterns: PatternOption[] }) => (
+    <div className="grid grid-cols-2 gap-3">
+      {patterns.map((pattern) => (
+        <button
+          key={pattern.id}
+          onClick={() => onPatternChange(pattern.id)}
+          className={`
+            p-4 rounded-lg border-2 transition-all duration-300
+            flex flex-col items-center gap-2 text-center
+            hover:scale-105 hover:shadow-md
+            ${
+              selectedPattern === pattern.id
+                ? 'border-primary bg-accent shadow-md'
+                : 'border-border bg-card hover:border-primary/50'
+            }
+          `}
+        >
+          <div className="text-3xl">{pattern.icon}</div>
+          <div className="text-sm font-medium">{pattern.name}</div>
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <Card className="shadow-card hover:shadow-hover transition-all duration-300">
@@ -51,27 +104,18 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
         <CardDescription>Select a rainfall distribution pattern</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-2 gap-3">
-          {patterns.map((pattern) => (
-            <button
-              key={pattern.id}
-              onClick={() => onPatternChange(pattern.id)}
-              className={`
-                p-4 rounded-lg border-2 transition-all duration-300
-                flex flex-col items-center gap-2 text-center
-                hover:scale-105 hover:shadow-md
-                ${
-                  selectedPattern === pattern.id
-                    ? 'border-primary bg-accent shadow-md'
-                    : 'border-border bg-card hover:border-primary/50'
-                }
-              `}
-            >
-              <div className="text-3xl">{pattern.icon}</div>
-              <div className="text-sm font-medium">{pattern.name}</div>
-            </button>
-          ))}
-        </div>
+        <Tabs defaultValue="swmm" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="swmm">SWMM Patterns</TabsTrigger>
+            <TabsTrigger value="icm">InfoWorks ICM</TabsTrigger>
+          </TabsList>
+          <TabsContent value="swmm" className="mt-4">
+            <PatternGrid patterns={swmmPatterns} />
+          </TabsContent>
+          <TabsContent value="icm" className="mt-4">
+            <PatternGrid patterns={icmPatterns} />
+          </TabsContent>
+        </Tabs>
         
         {selectedPatternInfo && (
           <div className="rounded-lg bg-accent/50 p-4 border-l-4 border-primary">
