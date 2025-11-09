@@ -1,14 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr';
+type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr';
 
 interface PatternOption {
   id: PatternType;
   name: string;
   icon: string;
   description: string;
-  category: 'swmm' | 'icm';
+  category: 'swmm' | 'icm' | 'international';
 }
 
 const patterns: PatternOption[] = [
@@ -61,6 +61,55 @@ const patterns: PatternOption[] = [
     description: 'Flood Studies Report (FSR) rainfall profile. Standard design storm profile used in UK drainage design with InfoWorks.',
     category: 'icm',
   },
+  {
+    id: 'chicago',
+    name: 'Chicago Storm',
+    icon: '🌆',
+    description: 'Alternating block method widely used in urban hydrology worldwide. Peak intensity positioned at specified time with alternating blocks before and after.',
+    category: 'international',
+  },
+  {
+    id: 'huff1',
+    name: 'Huff 1st Quartile',
+    icon: '📈',
+    description: 'Huff curve with most rainfall in first quartile. Common for short-duration, high-intensity storms. Used globally for design storms.',
+    category: 'international',
+  },
+  {
+    id: 'huff2',
+    name: 'Huff 2nd Quartile',
+    icon: '📊',
+    description: 'Huff curve with peak in second quartile. Typical of frontal storms. Widely adopted in international hydrologic practice.',
+    category: 'international',
+  },
+  {
+    id: 'huff3',
+    name: 'Huff 3rd Quartile',
+    icon: '📉',
+    description: 'Huff curve with peak in third quartile. Represents storms with late-arriving intensity. Used in probabilistic design.',
+    category: 'international',
+  },
+  {
+    id: 'huff4',
+    name: 'Huff 4th Quartile',
+    icon: '📐',
+    description: 'Huff curve with peak in final quartile. Characterizes storms with extended build-up period. Applied in various climatic regions.',
+    category: 'international',
+  },
+  {
+    id: 'desbordes',
+    name: 'Desbordes',
+    icon: '🇫🇷',
+    description: 'French standard design storm profile. Double-triangle pattern commonly used in European urban drainage design and Caquot method.',
+    category: 'international',
+  },
+  {
+    id: 'arr',
+    name: 'Australian ARR',
+    icon: '🇦🇺',
+    description: 'Australian Rainfall & Runoff design storm. Ensemble-based temporal pattern used across Australia with regional variations.',
+    category: 'international',
+  },
 ];
 
 interface PatternSelectorProps {
@@ -72,6 +121,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
   const selectedPatternInfo = patterns.find(p => p.id === selectedPattern);
   const swmmPatterns = patterns.filter(p => p.category === 'swmm');
   const icmPatterns = patterns.filter(p => p.category === 'icm');
+  const internationalPatterns = patterns.filter(p => p.category === 'international');
 
   const PatternGrid = ({ patterns }: { patterns: PatternOption[] }) => (
     <div className="grid grid-cols-2 gap-3">
@@ -105,15 +155,19 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs defaultValue="swmm" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="swmm">SWMM Patterns</TabsTrigger>
-            <TabsTrigger value="icm">InfoWorks ICM</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="swmm">SWMM</TabsTrigger>
+            <TabsTrigger value="icm">InfoWorks</TabsTrigger>
+            <TabsTrigger value="international">International</TabsTrigger>
           </TabsList>
           <TabsContent value="swmm" className="mt-4">
             <PatternGrid patterns={swmmPatterns} />
           </TabsContent>
           <TabsContent value="icm" className="mt-4">
             <PatternGrid patterns={icmPatterns} />
+          </TabsContent>
+          <TabsContent value="international" className="mt-4">
+            <PatternGrid patterns={internationalPatterns} />
           </TabsContent>
         </Tabs>
         
