@@ -2,8 +2,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
 import { useState, useMemo, useRef } from "react";
-import { Download, TrendingUp } from "lucide-react";
+import { Download, TrendingUp, Settings } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -82,10 +83,10 @@ export function PatternComparison() {
   ]);
   const chartRef = useRef<HTMLDivElement>(null);
 
-  // Fixed parameters for comparison
-  const totalDepth = 2.0;
-  const duration = 6.0;
-  const timeStep = 15;
+  // Customizable parameters for comparison
+  const [totalDepth, setTotalDepth] = useState(2.0);
+  const [duration, setDuration] = useState(6.0);
+  const [timeStep, setTimeStep] = useState(15);
 
   const chartData = useMemo(() => {
     const numSteps = Math.ceil((duration * 60) / timeStep);
@@ -203,6 +204,61 @@ export function PatternComparison() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* Storm Parameters */}
+        <div className="space-y-4 p-4 rounded-lg border border-border bg-accent/20">
+          <div className="flex items-center gap-2">
+            <Settings className="w-4 h-4 text-primary" />
+            <h4 className="text-sm font-semibold text-foreground">Storm Parameters</h4>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label className="text-xs">Total Depth</Label>
+                <span className="text-xs font-mono text-muted-foreground">{totalDepth.toFixed(1)} in</span>
+              </div>
+              <Slider
+                value={[totalDepth]}
+                onValueChange={(value) => setTotalDepth(value[0])}
+                min={0.5}
+                max={10}
+                step={0.5}
+                className="w-full"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label className="text-xs">Duration</Label>
+                <span className="text-xs font-mono text-muted-foreground">{duration.toFixed(1)} hrs</span>
+              </div>
+              <Slider
+                value={[duration]}
+                onValueChange={(value) => setDuration(value[0])}
+                min={1}
+                max={24}
+                step={0.5}
+                className="w-full"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label className="text-xs">Time Step</Label>
+                <span className="text-xs font-mono text-muted-foreground">{timeStep} min</span>
+              </div>
+              <Slider
+                value={[timeStep]}
+                onValueChange={(value) => setTimeStep(value[0])}
+                min={5}
+                max={60}
+                step={5}
+                className="w-full"
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Preset Groups */}
         <div className="space-y-2">
           <h4 className="text-sm font-semibold text-foreground">Quick Presets</h4>
