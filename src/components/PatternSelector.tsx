@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr';
+type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff';
 
 interface PatternOption {
   id: PatternType;
@@ -108,6 +108,27 @@ const patterns: PatternOption[] = [
     name: 'Australian ARR',
     icon: '🇦🇺',
     description: 'Australian Rainfall & Runoff design storm. Ensemble-based temporal pattern used across Australia with regional variations.',
+    category: 'international',
+  },
+  {
+    id: 'jma',
+    name: 'Japan JMA',
+    icon: '🇯🇵',
+    description: 'Japan Meteorological Agency design storm pattern. Center-peaked distribution commonly used in Japanese urban drainage design with emphasis on typhoon characteristics.',
+    category: 'international',
+  },
+  {
+    id: 'china',
+    name: 'China Design Storm',
+    icon: '🇨🇳',
+    description: 'Chinese national standard design storm (Pillow-shaped). Peak-centered triangular pattern widely used in urban flood control and drainage design across China.',
+    category: 'international',
+  },
+  {
+    id: 'sa_huff',
+    name: 'South African Huff',
+    icon: '🇿🇦',
+    description: 'South African adapted Huff curve. Modified 2nd quartile pattern calibrated for South African rainfall characteristics and used in regional design practices.',
     category: 'international',
   },
 ];

@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr';
+export type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -402,6 +402,94 @@ export function generateRainfallData(
           nextCumulative = 0.15 + 0.50 * Math.pow((nextT - 0.3) / 0.2, 0.8);
         } else if (nextT <= 0.7) {
           nextCumulative = 0.65 + 0.25 * ((nextT - 0.5) / 0.2);
+        } else {
+          nextCumulative = 0.90 + 0.10 * ((nextT - 0.7) / 0.3);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        const intensity = incrementalDepth / (timeStep / 60);
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'jma': {
+      // Japan Meteorological Agency (JMA) pattern
+      // Center-peaked pattern typical of Japanese typhoon-based design storms
+      const peakPosition = 0.5;
+      const peakIntensity = (2.4 * totalDepth) / duration;
+      
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let intensity: number;
+        
+        // Sharp center peak with asymmetric limbs (steeper rise than fall)
+        if (t <= peakPosition) {
+          // Rising limb - power curve for rapid intensification
+          intensity = peakIntensity * Math.pow(t / peakPosition, 1.2);
+        } else {
+          // Falling limb - exponential decay typical of typhoon passage
+          const decay = Math.exp(-2.5 * (t - peakPosition) / (1 - peakPosition));
+          intensity = peakIntensity * decay;
+        }
+        
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'china': {
+      // China Design Storm (Pillow-shaped / 枕形)
+      // Peak-centered triangular pattern used in Chinese drainage standards
+      const peakPosition = 0.4;
+      const r = 0.4; // Peak position ratio commonly used in China
+      const peakIntensity = (2 * totalDepth) / (duration * (r + (1 - r) * 0.5));
+      
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let intensity: number;
+        
+        if (t <= peakPosition) {
+          // Rising limb
+          intensity = peakIntensity * (t / peakPosition);
+        } else {
+          // Falling limb (gentler slope)
+          intensity = peakIntensity * (1 - t) / (1 - peakPosition);
+        }
+        
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'sa_huff': {
+      // South African adapted Huff curve
+      // Modified 2nd quartile pattern calibrated for South African conditions
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        // South African modification: slightly earlier peak than standard Huff 2nd quartile
+        if (t <= 0.2) {
+          cumulativeFraction = 0.15 * (t / 0.2);
+        } else if (t <= 0.45) {
+          // Peak slightly earlier and more pronounced
+          cumulativeFraction = 0.15 + 0.55 * Math.pow((t - 0.2) / 0.25, 0.65);
+        } else if (t <= 0.7) {
+          cumulativeFraction = 0.70 + 0.20 * ((t - 0.45) / 0.25);
+        } else {
+          cumulativeFraction = 0.90 + 0.10 * ((t - 0.7) / 0.3);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        
+        if (nextT <= 0.2) {
+          nextCumulative = 0.15 * (nextT / 0.2);
+        } else if (nextT <= 0.45) {
+          nextCumulative = 0.15 + 0.55 * Math.pow((nextT - 0.2) / 0.25, 0.65);
+        } else if (nextT <= 0.7) {
+          nextCumulative = 0.70 + 0.20 * ((nextT - 0.45) / 0.25);
         } else {
           nextCumulative = 0.90 + 0.10 * ((nextT - 0.7) / 0.3);
         }
