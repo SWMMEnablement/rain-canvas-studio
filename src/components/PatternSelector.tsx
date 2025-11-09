@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff';
+type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian';
 
 interface PatternOption {
   id: PatternType;
@@ -101,6 +101,27 @@ const patterns: PatternOption[] = [
     name: 'Desbordes',
     icon: '🇫🇷',
     description: 'French standard design storm profile. Double-triangle pattern commonly used in European urban drainage design and Caquot method.',
+    category: 'international',
+  },
+  {
+    id: 'dwa',
+    name: 'German DWA',
+    icon: '🇩🇪',
+    description: 'German DWA-A 531 standard design storm. Euler Type II pattern widely used in German drainage design with characteristic central peak.',
+    category: 'international',
+  },
+  {
+    id: 'dutch',
+    name: 'Dutch NEERSLAG',
+    icon: '🇳🇱',
+    description: 'Dutch national rainfall pattern (NEERSLAG/STOWA). Asymmetric distribution optimized for Netherlands low-lying areas and polder systems.',
+    category: 'international',
+  },
+  {
+    id: 'italian',
+    name: 'Italian Pattern',
+    icon: '🇮🇹',
+    description: 'Italian design storm for Mediterranean climate. Sharp peak pattern representing intense convective storms typical in Southern Europe.',
     category: 'international',
   },
   {

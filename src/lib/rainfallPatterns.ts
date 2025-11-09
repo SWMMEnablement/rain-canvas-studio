@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff';
+export type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -496,6 +496,96 @@ export function generateRainfallData(
         
         const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
         const intensity = incrementalDepth / (timeStep / 60);
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'dwa': {
+      // German DWA-A 531 Euler Type II
+      // Center-peaked pattern per German drainage standards
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        // DWA Euler Type II cumulative distribution
+        if (t <= 0.25) {
+          cumulativeFraction = 0.09 * (t / 0.25);
+        } else if (t <= 0.375) {
+          cumulativeFraction = 0.09 + 0.11 * ((t - 0.25) / 0.125);
+        } else if (t <= 0.5) {
+          // Sharp peak at center
+          cumulativeFraction = 0.20 + 0.38 * ((t - 0.375) / 0.125);
+        } else if (t <= 0.625) {
+          cumulativeFraction = 0.58 + 0.23 * ((t - 0.5) / 0.125);
+        } else if (t <= 0.75) {
+          cumulativeFraction = 0.81 + 0.11 * ((t - 0.625) / 0.125);
+        } else {
+          cumulativeFraction = 0.92 + 0.08 * ((t - 0.75) / 0.25);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        
+        if (nextT <= 0.25) {
+          nextCumulative = 0.09 * (nextT / 0.25);
+        } else if (nextT <= 0.375) {
+          nextCumulative = 0.09 + 0.11 * ((nextT - 0.25) / 0.125);
+        } else if (nextT <= 0.5) {
+          nextCumulative = 0.20 + 0.38 * ((nextT - 0.375) / 0.125);
+        } else if (nextT <= 0.625) {
+          nextCumulative = 0.58 + 0.23 * ((nextT - 0.5) / 0.125);
+        } else if (nextT <= 0.75) {
+          nextCumulative = 0.81 + 0.11 * ((nextT - 0.625) / 0.125);
+        } else {
+          nextCumulative = 0.92 + 0.08 * ((nextT - 0.75) / 0.25);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        const intensity = incrementalDepth / (timeStep / 60);
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'dutch': {
+      // Dutch NEERSLAG/STOWA pattern
+      // Asymmetric pattern for low-lying polder regions
+      const peakPosition = 0.35;
+      const peakIntensity = (2.5 * totalDepth) / duration;
+      
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let intensity: number;
+        
+        if (t <= peakPosition) {
+          // Rapid rise (steeper than triangular)
+          intensity = peakIntensity * Math.pow(t / peakPosition, 0.8);
+        } else {
+          // Extended gradual recession (characteristic of Dutch patterns)
+          const decay = Math.exp(-1.5 * (t - peakPosition) / (1 - peakPosition));
+          intensity = peakIntensity * decay;
+        }
+        
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'italian': {
+      // Italian Mediterranean convective storm pattern
+      // Very sharp peak representing intense convective events
+      const peakPosition = 0.45;
+      const peakIntensity = (3.2 * totalDepth) / duration;
+      
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let intensity: number;
+        
+        // Sharp Gaussian peak representing intense Mediterranean convection
+        const sigma = 0.12; // Narrow peak
+        intensity = peakIntensity * Math.exp(-Math.pow((t - peakPosition) / sigma, 2));
+        
         data.push(intensity);
       }
       break;
