@@ -3,6 +3,8 @@ import { PatternSelector } from "@/components/PatternSelector";
 import { StormParameters } from "@/components/StormParameters";
 import { RainfallChart } from "@/components/RainfallChart";
 import { ExportButtons } from "@/components/ExportButtons";
+import { ScsRegionalGuide } from "@/components/ScsRegionalGuide";
+import { PatternComparison } from "@/components/PatternComparison";
 import { Droplets } from "lucide-react";
 import {
   generateRainfallData,
@@ -50,11 +52,14 @@ const Index = () => {
         <section className="bg-card p-6 rounded-xl shadow-card border border-border">
           <h2 className="text-2xl font-semibold mb-3 text-foreground">Explore Rainfall Patterns</h2>
           <p className="text-muted-foreground leading-relaxed">
-            Pattern Painter helps hydrologists and engineers quickly generate synthetic rainfall patterns 
+            Rainfall Pattern Painter helps hydrologists and engineers quickly generate synthetic rainfall patterns 
             without hunting for historical data. Adjust parameters to create custom hyetographs for your 
             stormwater models.
           </p>
         </section>
+
+        {/* SCS Regional Guide */}
+        <ScsRegionalGuide />
 
         {/* Controls */}
         <div className="grid md:grid-cols-2 gap-6">
@@ -83,6 +88,9 @@ const Index = () => {
             timeStep={timeStep}
           />
         </section>
+
+        {/* Pattern Comparison */}
+        <PatternComparison />
       </main>
 
       {/* Footer */}
