@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useState, useMemo, useRef } from "react";
-import { Download, TrendingUp, Settings } from "lucide-react";
+import { Download, TrendingUp, Settings, RotateCcw, FileText } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -17,7 +17,7 @@ import {
 } from "recharts";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 import { calculatePatternStatistics, type PatternStatistics } from "@/lib/patternStatistics";
-import { toast } from "sonner";
+import { toast } from "@/hooks/use-toast";
 
 interface ComparisonPattern {
   id: PatternType;
@@ -83,10 +83,15 @@ export function PatternComparison() {
   ]);
   const chartRef = useRef<HTMLDivElement>(null);
 
+  // Default parameters
+  const DEFAULT_DEPTH = 2.0;
+  const DEFAULT_DURATION = 6.0;
+  const DEFAULT_TIMESTEP = 15;
+
   // Customizable parameters for comparison
-  const [totalDepth, setTotalDepth] = useState(2.0);
-  const [duration, setDuration] = useState(6.0);
-  const [timeStep, setTimeStep] = useState(15);
+  const [totalDepth, setTotalDepth] = useState(DEFAULT_DEPTH);
+  const [duration, setDuration] = useState(DEFAULT_DURATION);
+  const [timeStep, setTimeStep] = useState(DEFAULT_TIMESTEP);
 
   const chartData = useMemo(() => {
     const numSteps = Math.ceil((duration * 60) / timeStep);
@@ -135,7 +140,14 @@ export function PatternComparison() {
 
   const loadPreset = (preset: PresetGroup) => {
     setSelectedPatterns(preset.patterns);
-    toast.success(`Loaded preset: ${preset.name}`);
+    toast({ title: "Preset loaded", description: `Loaded preset: ${preset.name}` });
+  };
+
+  const resetToDefaults = () => {
+    setTotalDepth(DEFAULT_DEPTH);
+    setDuration(DEFAULT_DURATION);
+    setTimeStep(DEFAULT_TIMESTEP);
+    toast({ title: "Parameters reset", description: "Storm parameters restored to defaults" });
   };
 
   const exportChartAsPNG = async () => {
@@ -153,9 +165,9 @@ export function PatternComparison() {
       link.href = canvas.toDataURL();
       link.click();
       
-      toast.success('Chart exported as PNG');
+      toast({ title: "Export successful", description: "Chart exported as PNG" });
     } catch (error) {
-      toast.error('Failed to export chart');
+      toast({ title: "Export failed", description: "Failed to export chart", variant: "destructive" });
       console.error(error);
     }
   };
@@ -166,7 +178,7 @@ export function PatternComparison() {
     try {
       const svgElement = chartRef.current.querySelector('svg');
       if (!svgElement) {
-        toast.error('Chart not found');
+        toast({ title: "Export failed", description: "Chart not found", variant: "destructive" });
         return;
       }
       
@@ -180,9 +192,152 @@ export function PatternComparison() {
       link.click();
       
       URL.revokeObjectURL(svgUrl);
-      toast.success('Chart exported as SVG');
+      toast({ title: "Export successful", description: "Chart exported as SVG" });
     } catch (error) {
-      toast.error('Failed to export chart');
+      toast({ title: "Export failed", description: "Failed to export chart", variant: "destructive" });
+      console.error(error);
+    }
+  };
+
+  const exportAsPDF = async () => {
+    if (!chartRef.current) return;
+
+    try {
+      const [html2canvas, { jsPDF }] = await Promise.all([
+        import('html2canvas').then(m => m.default),
+        import('jspdf')
+      ]);
+
+      toast({ title: "Generating PDF", description: "Please wait..." });
+
+      // Capture the chart
+      const canvas = await html2canvas(chartRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+      });
+      const chartImage = canvas.toDataURL('image/png');
+
+      // Create PDF
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const margin = 15;
+      let yPosition = margin;
+
+      // Title
+      pdf.setFontSize(18);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Rainfall Pattern Comparison Report', margin, yPosition);
+      yPosition += 10;
+
+      // Date
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(100, 100, 100);
+      pdf.text(`Generated: ${new Date().toLocaleString()}`, margin, yPosition);
+      yPosition += 8;
+
+      // Storm Parameters
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(0, 0, 0);
+      pdf.text('Storm Parameters', margin, yPosition);
+      yPosition += 6;
+
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`Total Depth: ${totalDepth.toFixed(1)} inches`, margin, yPosition);
+      yPosition += 5;
+      pdf.text(`Duration: ${duration.toFixed(1)} hours`, margin, yPosition);
+      yPosition += 5;
+      pdf.text(`Time Step: ${timeStep} minutes`, margin, yPosition);
+      yPosition += 10;
+
+      // Selected Patterns
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Selected Patterns', margin, yPosition);
+      yPosition += 6;
+
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      const patternNames = selectedPatterns.map(id => 
+        comparisonPatterns.find(p => p.id === id)?.name || id
+      ).join(', ');
+      const splitPatterns = pdf.splitTextToSize(patternNames, pageWidth - 2 * margin);
+      pdf.text(splitPatterns, margin, yPosition);
+      yPosition += splitPatterns.length * 5 + 8;
+
+      // Chart
+      const chartWidth = pageWidth - 2 * margin;
+      const chartHeight = (canvas.height * chartWidth) / canvas.width;
+      
+      if (yPosition + chartHeight > pageHeight - margin) {
+        pdf.addPage();
+        yPosition = margin;
+      }
+
+      pdf.addImage(chartImage, 'PNG', margin, yPosition, chartWidth, chartHeight);
+      yPosition += chartHeight + 10;
+
+      // Statistics Table
+      if (yPosition + 60 > pageHeight - margin) {
+        pdf.addPage();
+        yPosition = margin;
+      }
+
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Pattern Statistics', margin, yPosition);
+      yPosition += 8;
+
+      // Table headers
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'bold');
+      const colWidth = (pageWidth - 2 * margin) / 5;
+      pdf.text('Pattern', margin, yPosition);
+      pdf.text('Peak (in/hr)', margin + colWidth, yPosition);
+      pdf.text('Time to Peak', margin + 2 * colWidth, yPosition);
+      pdf.text('Centroid', margin + 3 * colWidth, yPosition);
+      pdf.text('Skewness', margin + 4 * colWidth, yPosition);
+      yPosition += 6;
+
+      // Table rows
+      pdf.setFont('helvetica', 'normal');
+      Object.entries(patternStats).forEach(([name, stats]) => {
+        if (yPosition > pageHeight - margin - 10) {
+          pdf.addPage();
+          yPosition = margin;
+        }
+
+        const shortName = name.length > 18 ? name.substring(0, 15) + '...' : name;
+        pdf.text(shortName, margin, yPosition);
+        pdf.text(stats.peakIntensity.toString(), margin + colWidth, yPosition);
+        pdf.text(`${stats.timeToPeak} hrs`, margin + 2 * colWidth, yPosition);
+        pdf.text(`${stats.centroid} hrs`, margin + 3 * colWidth, yPosition);
+        pdf.text((stats.skewness > 0 ? '+' : '') + stats.skewness.toString(), margin + 4 * colWidth, yPosition);
+        yPosition += 5;
+      });
+
+      // Footer
+      const totalPages = pdf.internal.pages.length - 1;
+      for (let i = 1; i <= totalPages; i++) {
+        pdf.setPage(i);
+        pdf.setFontSize(8);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text(
+          `Page ${i} of ${totalPages}`,
+          pageWidth / 2,
+          pageHeight - 10,
+          { align: 'center' }
+        );
+      }
+
+      // Save the PDF
+      pdf.save('rainfall-pattern-comparison-report.pdf');
+      toast({ title: "Export successful", description: "PDF report generated successfully" });
+    } catch (error) {
+      toast({ title: "Export failed", description: "Failed to generate PDF report", variant: "destructive" });
       console.error(error);
     }
   };
@@ -257,6 +412,16 @@ export function PatternComparison() {
               />
             </div>
           </div>
+          
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={resetToDefaults}
+            className="w-full md:w-auto flex items-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" />
+            Reset to Defaults
+          </Button>
         </div>
 
         {/* Preset Groups */}
@@ -357,7 +522,7 @@ export function PatternComparison() {
             </div>
 
             {/* Export Buttons */}
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <Button
                 variant="outline"
                 size="sm"
@@ -375,6 +540,15 @@ export function PatternComparison() {
               >
                 <Download className="w-4 h-4" />
                 Export SVG
+              </Button>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={exportAsPDF}
+                className="flex items-center gap-2"
+              >
+                <FileText className="w-4 h-4" />
+                Export Full Report (PDF)
               </Button>
             </div>
 
