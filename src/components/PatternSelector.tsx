@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian';
+type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian';
 
 interface PatternOption {
   id: PatternType;
@@ -20,10 +20,31 @@ const patterns: PatternOption[] = [
     category: 'swmm',
   },
   {
+    id: 'scs1',
+    name: 'SCS Type I',
+    icon: '⏐',
+    description: 'NRCS (SCS) Type I distribution for Pacific maritime climate with wet winters. Peak occurs earlier than Type II.',
+    category: 'swmm',
+  },
+  {
+    id: 'scs1a',
+    name: 'SCS Type IA',
+    icon: '⏐',
+    description: 'NRCS (SCS) Type IA for Pacific Northwest coastal areas. Represents maritime climate with very wet winters and early peak.',
+    category: 'swmm',
+  },
+  {
     id: 'scs2',
     name: 'SCS Type II',
     icon: '⏐',
     description: 'Standard NRCS (SCS) 24-hour rainfall distribution with peak intensity around the middle of the storm. Most common for design storms in the US.',
+    category: 'swmm',
+  },
+  {
+    id: 'scs3',
+    name: 'SCS Type III',
+    icon: '⏐',
+    description: 'NRCS (SCS) Type III for Gulf Coast and coastal areas with frequent tropical storms. Features sharp peak and heavy rainfall.',
     category: 'swmm',
   },
   {

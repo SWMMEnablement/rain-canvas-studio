@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs2' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -19,20 +19,137 @@ export function generateRainfallData(
       break;
     }
 
-    case 'scs2': {
-      // SCS Type II distribution (approximated)
+    case 'scs1': {
+      // SCS Type I distribution - Pacific maritime climate
+      // Peak occurs earlier (around 40% of duration)
       for (let i = 0; i < numSteps; i++) {
         const t = i / numSteps;
-        let intensity: number;
+        let cumulativeFraction: number;
         
-        if (t < 0.5) {
-          // Rising limb - exponential increase
-          intensity = (totalDepth / duration) * 0.5 * Math.pow(t / 0.5, 1.5);
+        // SCS Type I cumulative distribution approximation
+        if (t <= 0.4) {
+          cumulativeFraction = 0.50 * Math.pow(t / 0.4, 0.8);
+        } else if (t <= 0.6) {
+          cumulativeFraction = 0.50 + 0.35 * ((t - 0.4) / 0.2);
         } else {
-          // Peak and falling limb
-          const peakFactor = Math.exp(-Math.pow((t - 0.5) / 0.15, 2));
-          intensity = (totalDepth / duration) * (1.5 + 3.5 * peakFactor);
+          cumulativeFraction = 0.85 + 0.15 * ((t - 0.6) / 0.4);
         }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        
+        if (nextT <= 0.4) {
+          nextCumulative = 0.50 * Math.pow(nextT / 0.4, 0.8);
+        } else if (nextT <= 0.6) {
+          nextCumulative = 0.50 + 0.35 * ((nextT - 0.4) / 0.2);
+        } else {
+          nextCumulative = 0.85 + 0.15 * ((nextT - 0.6) / 0.4);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        const intensity = incrementalDepth / (timeStep / 60);
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'scs1a': {
+      // SCS Type IA distribution - Pacific Northwest coastal
+      // Very early peak (around 35% of duration)
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        // SCS Type IA cumulative distribution approximation
+        if (t <= 0.35) {
+          cumulativeFraction = 0.55 * Math.pow(t / 0.35, 0.75);
+        } else if (t <= 0.55) {
+          cumulativeFraction = 0.55 + 0.30 * ((t - 0.35) / 0.2);
+        } else {
+          cumulativeFraction = 0.85 + 0.15 * ((t - 0.55) / 0.45);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        
+        if (nextT <= 0.35) {
+          nextCumulative = 0.55 * Math.pow(nextT / 0.35, 0.75);
+        } else if (nextT <= 0.55) {
+          nextCumulative = 0.55 + 0.30 * ((nextT - 0.35) / 0.2);
+        } else {
+          nextCumulative = 0.85 + 0.15 * ((nextT - 0.55) / 0.45);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        const intensity = incrementalDepth / (timeStep / 60);
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'scs2': {
+      // SCS Type II distribution - Most of US (moderate climate)
+      // Peak at approximately 50% of duration
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        // SCS Type II cumulative distribution approximation
+        if (t <= 0.5) {
+          cumulativeFraction = 0.35 * Math.pow(t / 0.5, 0.9);
+        } else if (t <= 0.6) {
+          cumulativeFraction = 0.35 + 0.45 * ((t - 0.5) / 0.1);
+        } else {
+          cumulativeFraction = 0.80 + 0.20 * ((t - 0.6) / 0.4);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        
+        if (nextT <= 0.5) {
+          nextCumulative = 0.35 * Math.pow(nextT / 0.5, 0.9);
+        } else if (nextT <= 0.6) {
+          nextCumulative = 0.35 + 0.45 * ((nextT - 0.5) / 0.1);
+        } else {
+          nextCumulative = 0.80 + 0.20 * ((nextT - 0.6) / 0.4);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        const intensity = incrementalDepth / (timeStep / 60);
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'scs3': {
+      // SCS Type III distribution - Gulf Coast and high rainfall areas
+      // Very sharp peak at approximately 50% of duration
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        // SCS Type III cumulative distribution approximation
+        if (t <= 0.5) {
+          cumulativeFraction = 0.25 * Math.pow(t / 0.5, 1.0);
+        } else if (t <= 0.58) {
+          cumulativeFraction = 0.25 + 0.50 * ((t - 0.5) / 0.08);
+        } else {
+          cumulativeFraction = 0.75 + 0.25 * ((t - 0.58) / 0.42);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        
+        if (nextT <= 0.5) {
+          nextCumulative = 0.25 * Math.pow(nextT / 0.5, 1.0);
+        } else if (nextT <= 0.58) {
+          nextCumulative = 0.25 + 0.50 * ((nextT - 0.5) / 0.08);
+        } else {
+          nextCumulative = 0.75 + 0.25 * ((nextT - 0.58) / 0.42);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        const intensity = incrementalDepth / (timeStep / 60);
         data.push(intensity);
       }
       break;
