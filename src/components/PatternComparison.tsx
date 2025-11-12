@@ -3,8 +3,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import { useState, useMemo, useRef } from "react";
-import { Download, TrendingUp, Settings, RotateCcw, FileText } from "lucide-react";
+import { Download, TrendingUp, Settings, RotateCcw, FileText, BarChart3, Activity } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -92,10 +93,15 @@ export function PatternComparison() {
   const [totalDepth, setTotalDepth] = useState(DEFAULT_DEPTH);
   const [duration, setDuration] = useState(DEFAULT_DURATION);
   const [timeStep, setTimeStep] = useState(DEFAULT_TIMESTEP);
+  const [showCumulative, setShowCumulative] = useState(false);
 
   const chartData = useMemo(() => {
     const numSteps = Math.ceil((duration * 60) / timeStep);
     const data: any[] = [];
+    const timeStepHours = timeStep / 60;
+
+    // Store cumulative values for each pattern
+    const cumulatives: Record<string, number> = {};
 
     for (let i = 0; i < numSteps; i++) {
       const time = ((i * timeStep) / 60).toFixed(1);
@@ -105,7 +111,17 @@ export function PatternComparison() {
         const intensities = generateRainfallData(patternId, totalDepth, duration, timeStep);
         const pattern = comparisonPatterns.find((p) => p.id === patternId);
         if (pattern) {
-          point[pattern.name] = intensities[i];
+          if (showCumulative) {
+            // Calculate cumulative depth
+            if (!cumulatives[pattern.name]) {
+              cumulatives[pattern.name] = 0;
+            }
+            cumulatives[pattern.name] += intensities[i] * timeStepHours;
+            point[pattern.name] = parseFloat(cumulatives[pattern.name].toFixed(3));
+          } else {
+            // Show intensity
+            point[pattern.name] = intensities[i];
+          }
         }
       });
 
@@ -113,7 +129,7 @@ export function PatternComparison() {
     }
 
     return data;
-  }, [selectedPatterns, totalDepth, duration, timeStep]);
+  }, [selectedPatterns, totalDepth, duration, timeStep, showCumulative]);
 
   // Calculate statistics for each selected pattern
   const patternStats = useMemo(() => {
@@ -129,6 +145,36 @@ export function PatternComparison() {
     
     return stats;
   }, [selectedPatterns, totalDepth, duration, timeStep]);
+
+  // Auto-analysis summary
+  const analysisSummary = useMemo(() => {
+    if (Object.keys(patternStats).length === 0) return null;
+
+    const entries = Object.entries(patternStats);
+    
+    const earliestPeak = entries.reduce((min, [name, stats]) => 
+      stats.timeToPeak < min.stats.timeToPeak ? { name, stats } : min
+    , { name: entries[0][0], stats: entries[0][1] });
+
+    const latestPeak = entries.reduce((max, [name, stats]) => 
+      stats.timeToPeak > max.stats.timeToPeak ? { name, stats } : max
+    , { name: entries[0][0], stats: entries[0][1] });
+
+    const highestIntensity = entries.reduce((max, [name, stats]) => 
+      stats.peakIntensity > max.stats.peakIntensity ? { name, stats } : max
+    , { name: entries[0][0], stats: entries[0][1] });
+
+    const lowestIntensity = entries.reduce((min, [name, stats]) => 
+      stats.peakIntensity < min.stats.peakIntensity ? { name, stats } : min
+    , { name: entries[0][0], stats: entries[0][1] });
+
+    return {
+      earliestPeak,
+      latestPeak,
+      highestIntensity,
+      lowestIntensity,
+    };
+  }, [patternStats]);
 
   const togglePattern = (patternId: PatternType) => {
     setSelectedPatterns((prev) =>
@@ -489,7 +535,11 @@ export function PatternComparison() {
                     tick={{ fill: "hsl(var(--muted-foreground))" }}
                   />
                   <YAxis
-                    label={{ value: "Intensity (in/hr)", angle: -90, position: "insideLeft" }}
+                    label={{ 
+                      value: showCumulative ? "Cumulative Depth (in)" : "Intensity (in/hr)", 
+                      angle: -90, 
+                      position: "insideLeft" 
+                    }}
                     stroke="hsl(var(--foreground))"
                     tick={{ fill: "hsl(var(--muted-foreground))" }}
                   />
@@ -516,9 +566,26 @@ export function PatternComparison() {
                   })}
                 </LineChart>
               </ResponsiveContainer>
-              <p className="text-xs text-muted-foreground text-center mt-2">
-                Comparison parameters: {totalDepth} inches total depth, {duration} hour duration, {timeStep} minute time step
-              </p>
+              <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+                <p className="text-xs text-muted-foreground">
+                  Comparison parameters: {totalDepth} inches total depth, {duration} hour duration, {timeStep} minute time step
+                </p>
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="view-mode" className="text-xs text-muted-foreground flex items-center gap-1.5">
+                    <Activity className="w-3.5 h-3.5" />
+                    Intensity
+                  </Label>
+                  <Switch
+                    id="view-mode"
+                    checked={showCumulative}
+                    onCheckedChange={setShowCumulative}
+                  />
+                  <Label htmlFor="view-mode" className="text-xs text-muted-foreground flex items-center gap-1.5">
+                    <BarChart3 className="w-3.5 h-3.5" />
+                    Cumulative
+                  </Label>
+                </div>
+              </div>
             </div>
 
             {/* Export Buttons */}
@@ -551,6 +618,90 @@ export function PatternComparison() {
                 Export Full Report (PDF)
               </Button>
             </div>
+
+            {/* Analysis Summary */}
+            {analysisSummary && (
+              <div className="space-y-3 p-4 rounded-lg border border-border bg-primary/5">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-primary" />
+                  <h4 className="text-sm font-semibold text-foreground">Auto-Analysis Summary</h4>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-2 p-2 rounded bg-card">
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-muted-foreground">Earliest Peak</p>
+                        <p className="text-sm font-semibold text-foreground flex items-center gap-1.5 mt-0.5">
+                          {comparisonPatterns.find(p => p.name === analysisSummary.earliestPeak.name) && (
+                            <div
+                              className="w-2.5 h-2.5 rounded-full"
+                              style={{ backgroundColor: comparisonPatterns.find(p => p.name === analysisSummary.earliestPeak.name)?.color }}
+                            />
+                          )}
+                          {analysisSummary.earliestPeak.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          at {analysisSummary.earliestPeak.stats.timeToPeak} hours
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2 p-2 rounded bg-card">
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-muted-foreground">Latest Peak</p>
+                        <p className="text-sm font-semibold text-foreground flex items-center gap-1.5 mt-0.5">
+                          {comparisonPatterns.find(p => p.name === analysisSummary.latestPeak.name) && (
+                            <div
+                              className="w-2.5 h-2.5 rounded-full"
+                              style={{ backgroundColor: comparisonPatterns.find(p => p.name === analysisSummary.latestPeak.name)?.color }}
+                            />
+                          )}
+                          {analysisSummary.latestPeak.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          at {analysisSummary.latestPeak.stats.timeToPeak} hours
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-2 p-2 rounded bg-card">
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-muted-foreground">Highest Intensity</p>
+                        <p className="text-sm font-semibold text-foreground flex items-center gap-1.5 mt-0.5">
+                          {comparisonPatterns.find(p => p.name === analysisSummary.highestIntensity.name) && (
+                            <div
+                              className="w-2.5 h-2.5 rounded-full"
+                              style={{ backgroundColor: comparisonPatterns.find(p => p.name === analysisSummary.highestIntensity.name)?.color }}
+                            />
+                          )}
+                          {analysisSummary.highestIntensity.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {analysisSummary.highestIntensity.stats.peakIntensity} in/hr
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2 p-2 rounded bg-card">
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-muted-foreground">Lowest Intensity</p>
+                        <p className="text-sm font-semibold text-foreground flex items-center gap-1.5 mt-0.5">
+                          {comparisonPatterns.find(p => p.name === analysisSummary.lowestIntensity.name) && (
+                            <div
+                              className="w-2.5 h-2.5 rounded-full"
+                              style={{ backgroundColor: comparisonPatterns.find(p => p.name === analysisSummary.lowestIntensity.name)?.color }}
+                            />
+                          )}
+                          {analysisSummary.lowestIntensity.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {analysisSummary.lowestIntensity.stats.peakIntensity} in/hr
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Pattern Statistics */}
             <div className="space-y-3">
