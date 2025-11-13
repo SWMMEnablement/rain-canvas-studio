@@ -4,8 +4,10 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState, useMemo, useRef } from "react";
-import { Download, TrendingUp, Settings, RotateCcw, FileText, BarChart3, Activity } from "lucide-react";
+import { Download, TrendingUp, Settings, RotateCcw, FileText, BarChart3, Activity, MapPin, Lightbulb, Gauge } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -93,35 +95,59 @@ export function PatternComparison() {
   const [totalDepth, setTotalDepth] = useState(DEFAULT_DEPTH);
   const [duration, setDuration] = useState(DEFAULT_DURATION);
   const [timeStep, setTimeStep] = useState(DEFAULT_TIMESTEP);
-  const [showCumulative, setShowCumulative] = useState(false);
+  const [viewMode, setViewMode] = useState<'intensity' | 'cumulative' | 'delta'>('intensity');
+  
+  // Watershed characteristics for recommendations
+  const [location, setLocation] = useState<string>('');
+  const [soilType, setSoilType] = useState<string>('');
+  const [watershedSize, setWatershedSize] = useState<string>('');
 
   const chartData = useMemo(() => {
     const numSteps = Math.ceil((duration * 60) / timeStep);
     const data: any[] = [];
     const timeStepHours = timeStep / 60;
 
-    // Store cumulative values for each pattern
+    // Store cumulative values and all intensities for each pattern
     const cumulatives: Record<string, number> = {};
+    const allIntensities: Record<string, number[]> = {};
+    
+    // Pre-generate all pattern data
+    selectedPatterns.forEach((patternId) => {
+      const pattern = comparisonPatterns.find((p) => p.id === patternId);
+      if (pattern) {
+        allIntensities[pattern.name] = generateRainfallData(patternId, totalDepth, duration, timeStep);
+      }
+    });
 
     for (let i = 0; i < numSteps; i++) {
       const time = ((i * timeStep) / 60).toFixed(1);
       const point: any = { time };
 
       selectedPatterns.forEach((patternId) => {
-        const intensities = generateRainfallData(patternId, totalDepth, duration, timeStep);
         const pattern = comparisonPatterns.find((p) => p.id === patternId);
-        if (pattern) {
-          if (showCumulative) {
-            // Calculate cumulative depth
-            if (!cumulatives[pattern.name]) {
-              cumulatives[pattern.name] = 0;
-            }
-            cumulatives[pattern.name] += intensities[i] * timeStepHours;
-            point[pattern.name] = parseFloat(cumulatives[pattern.name].toFixed(3));
-          } else {
-            // Show intensity
-            point[pattern.name] = intensities[i];
+        if (!pattern) return;
+        
+        const intensities = allIntensities[pattern.name];
+        
+        if (viewMode === 'cumulative') {
+          // Calculate cumulative depth
+          if (!cumulatives[pattern.name]) {
+            cumulatives[pattern.name] = 0;
           }
+          cumulatives[pattern.name] += intensities[i] * timeStepHours;
+          point[pattern.name] = parseFloat(cumulatives[pattern.name].toFixed(3));
+        } else if (viewMode === 'delta' && selectedPatterns.length === 2) {
+          // Calculate delta between two patterns (only works with exactly 2 patterns)
+          const patterns = selectedPatterns.map(id => comparisonPatterns.find(p => p.id === id)).filter(Boolean);
+          if (patterns.length === 2) {
+            const intensities1 = allIntensities[patterns[0]!.name];
+            const intensities2 = allIntensities[patterns[1]!.name];
+            const delta = intensities1[i] - intensities2[i];
+            point[`${patterns[0]!.name} - ${patterns[1]!.name}`] = parseFloat(delta.toFixed(3));
+          }
+        } else {
+          // Use intensity (default)
+          point[pattern.name] = intensities[i];
         }
       });
 
@@ -129,7 +155,7 @@ export function PatternComparison() {
     }
 
     return data;
-  }, [selectedPatterns, totalDepth, duration, timeStep, showCumulative]);
+  }, [selectedPatterns, totalDepth, duration, timeStep, viewMode]);
 
   // Calculate statistics for each selected pattern
   const patternStats = useMemo(() => {
@@ -176,6 +202,97 @@ export function PatternComparison() {
     };
   }, [patternStats]);
 
+  // Pattern recommendation engine
+  const recommendedPattern = useMemo(() => {
+    if (!location || !soilType || !watershedSize) return null;
+
+    const loc = location.toLowerCase();
+    const soil = soilType.toLowerCase();
+    const size = watershedSize.toLowerCase();
+
+    // Location-based recommendations
+    if (loc.includes('pacific') || loc.includes('west coast') || loc.includes('california') || loc.includes('oregon') || loc.includes('washington')) {
+      return {
+        pattern: 'scs1a' as PatternType,
+        name: 'SCS Type IA',
+        reason: 'Type IA is recommended for Pacific maritime climates with mild, wet winters. It represents storms with less intense rainfall distributed more evenly throughout the storm duration.'
+      };
+    }
+    
+    if (loc.includes('hawaii') || loc.includes('alaska')) {
+      return {
+        pattern: 'scs1' as PatternType,
+        name: 'SCS Type I',
+        reason: 'Type I is suitable for Hawaii, Alaska, and coastal areas with maritime climates featuring moderate rainfall intensities.'
+      };
+    }
+    
+    if (loc.includes('midwest') || loc.includes('great plains') || loc.includes('central') || loc.includes('south') || loc.includes('southeast') || loc.includes('east')) {
+      // Further refine based on soil and size for Type II regions
+      if (soil.includes('clay') || soil.includes('d') || size.includes('large')) {
+        return {
+          pattern: 'scs2' as PatternType,
+          name: 'SCS Type II',
+          reason: 'Type II is recommended for the majority of the US (except Pacific and arid West). It features a peak intensity near the middle of the storm, suitable for clay soils and larger watersheds with slower response times.'
+        };
+      }
+      return {
+        pattern: 'scs2' as PatternType,
+        name: 'SCS Type II',
+        reason: 'Type II is the most commonly used pattern in the US, representing typical storm behavior in the eastern two-thirds of the country with a strong central peak.'
+      };
+    }
+    
+    if (loc.includes('southwest') || loc.includes('desert') || loc.includes('arid') || loc.includes('arizona') || loc.includes('new mexico') || loc.includes('nevada')) {
+      // Sandy soils or small watersheds favor Type III
+      if (soil.includes('sand') || soil.includes('a') || soil.includes('b') || size.includes('small')) {
+        return {
+          pattern: 'scs3' as PatternType,
+          name: 'SCS Type III',
+          reason: 'Type III is ideal for the arid Southwest with sandy/permeable soils and small watersheds. It features an extreme peak intensity (77% in 15 minutes) representing intense thunderstorm activity.'
+        };
+      }
+      return {
+        pattern: 'scs3' as PatternType,
+        name: 'SCS Type III',
+        reason: 'Type III is designed for the arid/semi-arid Southwest (Gulf of Mexico to California), featuring very intense, short-duration storm peaks typical of desert thunderstorms.'
+      };
+    }
+
+    // Chicago method for urban areas
+    if (loc.includes('urban') || loc.includes('city') || size.includes('small')) {
+      return {
+        pattern: 'chicago' as PatternType,
+        name: 'Chicago Storm',
+        reason: 'Chicago method is excellent for small urban watersheds with fast response times. It features a sharp peak with symmetric rainfall distribution around the peak.'
+      };
+    }
+
+    // Huff quartile recommendations based on soil and size
+    if (soil.includes('sand') || soil.includes('a')) {
+      return {
+        pattern: 'huff1' as PatternType,
+        name: 'Huff 1st Quartile',
+        reason: 'Huff 1st Quartile is recommended for highly permeable sandy soils (Type A). Early-peaked storms allow more infiltration before peak runoff occurs.'
+      };
+    }
+
+    if (size.includes('large') || soil.includes('clay') || soil.includes('d')) {
+      return {
+        pattern: 'huff4' as PatternType,
+        name: 'Huff 4th Quartile',
+        reason: 'Huff 4th Quartile is suitable for large watersheds or clay soils (Type D) with slow response. Late-peaked storms account for soil saturation over time.'
+      };
+    }
+
+    // Default to SCS Type II (most common)
+    return {
+      pattern: 'scs2' as PatternType,
+      name: 'SCS Type II',
+      reason: 'SCS Type II is the most widely applicable pattern for general use in the continental US, representing typical mid-storm peak behavior.'
+    };
+  }, [location, soilType, watershedSize]);
+
   const togglePattern = (patternId: PatternType) => {
     setSelectedPatterns((prev) =>
       prev.includes(patternId)
@@ -189,11 +306,22 @@ export function PatternComparison() {
     toast({ title: "Preset loaded", description: `Loaded preset: ${preset.name}` });
   };
 
+  const applyRecommendation = () => {
+    if (recommendedPattern) {
+      setSelectedPatterns([recommendedPattern.pattern]);
+      toast({ 
+        title: "Recommendation applied", 
+        description: `Selected ${recommendedPattern.name} based on watershed characteristics` 
+      });
+    }
+  };
+
   const resetToDefaults = () => {
     setTotalDepth(DEFAULT_DEPTH);
     setDuration(DEFAULT_DURATION);
     setTimeStep(DEFAULT_TIMESTEP);
-    toast({ title: "Parameters reset", description: "Storm parameters restored to defaults" });
+    setViewMode('intensity');
+    toast({ title: "Parameters reset", description: "Comparison parameters restored to defaults" });
   };
 
   const exportChartAsPNG = async () => {
@@ -405,6 +533,92 @@ export function PatternComparison() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* Pattern Recommendation Engine */}
+        <div className="space-y-4 p-4 rounded-lg border border-border bg-primary/5">
+          <div className="flex items-center gap-2">
+            <Lightbulb className="w-5 h-5 text-primary" />
+            <h4 className="text-sm font-semibold text-foreground">Pattern Recommendation Engine</h4>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Enter watershed characteristics to receive pattern recommendations based on regional and site-specific conditions.
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <Label className="text-xs flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5" />
+                Location/Region
+              </Label>
+              <Select value={location} onValueChange={setLocation}>
+                <SelectTrigger className="h-9">
+                  <SelectValue placeholder="Select region" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Pacific West Coast">Pacific West Coast</SelectItem>
+                  <SelectItem value="Hawaii/Alaska">Hawaii/Alaska</SelectItem>
+                  <SelectItem value="Midwest">Midwest</SelectItem>
+                  <SelectItem value="Southeast">Southeast</SelectItem>
+                  <SelectItem value="Northeast">Northeast</SelectItem>
+                  <SelectItem value="Southwest Desert">Southwest Desert</SelectItem>
+                  <SelectItem value="Central Plains">Central Plains</SelectItem>
+                  <SelectItem value="Urban Area">Urban Area</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-xs">Soil Type</Label>
+              <Select value={soilType} onValueChange={setSoilType}>
+                <SelectTrigger className="h-9">
+                  <SelectValue placeholder="Select soil type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Type A - Sand">Type A - Sand (High infiltration)</SelectItem>
+                  <SelectItem value="Type B - Loam">Type B - Loam (Moderate infiltration)</SelectItem>
+                  <SelectItem value="Type C - Silt">Type C - Silt (Low infiltration)</SelectItem>
+                  <SelectItem value="Type D - Clay">Type D - Clay (Very low infiltration)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-xs">Watershed Size</Label>
+              <Select value={watershedSize} onValueChange={setWatershedSize}>
+                <SelectTrigger className="h-9">
+                  <SelectValue placeholder="Select size" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Small (<1 sq mi)">Small (&lt;1 sq mi)</SelectItem>
+                  <SelectItem value="Medium (1-10 sq mi)">Medium (1-10 sq mi)</SelectItem>
+                  <SelectItem value="Large (>10 sq mi)">Large (&gt;10 sq mi)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {recommendedPattern && (
+            <div className="p-3 rounded-lg border border-primary/20 bg-primary/10 space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: comparisonPatterns.find(p => p.id === recommendedPattern.pattern)?.color }}
+                  />
+                  <p className="text-sm font-semibold text-foreground">
+                    Recommended: {recommendedPattern.name}
+                  </p>
+                </div>
+                <Button size="sm" variant="outline" onClick={applyRecommendation}>
+                  Apply
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {recommendedPattern.reason}
+              </p>
+            </div>
+          )}
+        </div>
+
         {/* Storm Parameters */}
         <div className="space-y-4 p-4 rounded-lg border border-border bg-accent/20">
           <div className="flex items-center gap-2">
@@ -536,7 +750,9 @@ export function PatternComparison() {
                   />
                   <YAxis
                     label={{ 
-                      value: showCumulative ? "Cumulative Depth (in)" : "Intensity (in/hr)", 
+                      value: viewMode === 'cumulative' ? "Cumulative Depth (in)" : 
+                             viewMode === 'delta' ? "Intensity Difference (in/hr)" : 
+                             "Intensity (in/hr)", 
                       angle: -90, 
                       position: "insideLeft" 
                     }}
@@ -551,39 +767,62 @@ export function PatternComparison() {
                     }}
                   />
                   <Legend />
-                  {selectedPatterns.map((patternId) => {
-                    const pattern = comparisonPatterns.find((p) => p.id === patternId);
-                    return pattern ? (
-                      <Line
-                        key={pattern.id}
-                        type="monotone"
-                        dataKey={pattern.name}
-                        stroke={pattern.color}
-                        strokeWidth={2}
-                        dot={false}
-                      />
-                    ) : null;
-                  })}
+                  {viewMode === 'delta' && selectedPatterns.length === 2 ? (
+                    // Delta view: show single line representing difference
+                    <Line
+                      key="delta"
+                      type="monotone"
+                      dataKey={`${comparisonPatterns.find(p => p.id === selectedPatterns[0])?.name} - ${comparisonPatterns.find(p => p.id === selectedPatterns[1])?.name}`}
+                      stroke="#8b5cf6"
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                  ) : (
+                    // Regular view: show all selected patterns
+                    selectedPatterns.map((patternId) => {
+                      const pattern = comparisonPatterns.find((p) => p.id === patternId);
+                      return pattern ? (
+                        <Line
+                          key={pattern.id}
+                          type="monotone"
+                          dataKey={pattern.name}
+                          stroke={pattern.color}
+                          strokeWidth={2}
+                          dot={false}
+                        />
+                      ) : null;
+                    })
+                  )}
                 </LineChart>
               </ResponsiveContainer>
-              <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+              <div className="flex items-center justify-between mt-3 pt-3 border-t border-border flex-wrap gap-3">
                 <p className="text-xs text-muted-foreground">
                   Comparison parameters: {totalDepth} inches total depth, {duration} hour duration, {timeStep} minute time step
                 </p>
-                <div className="flex items-center gap-2">
-                  <Label htmlFor="view-mode" className="text-xs text-muted-foreground flex items-center gap-1.5">
-                    <Activity className="w-3.5 h-3.5" />
-                    Intensity
-                  </Label>
-                  <Switch
-                    id="view-mode"
-                    checked={showCumulative}
-                    onCheckedChange={setShowCumulative}
-                  />
-                  <Label htmlFor="view-mode" className="text-xs text-muted-foreground flex items-center gap-1.5">
-                    <BarChart3 className="w-3.5 h-3.5" />
-                    Cumulative
-                  </Label>
+                <div className="flex items-center gap-3">
+                  <RadioGroup value={viewMode} onValueChange={(value: any) => setViewMode(value)} className="flex items-center gap-3">
+                    <div className="flex items-center gap-1.5">
+                      <RadioGroupItem value="intensity" id="view-intensity" />
+                      <Label htmlFor="view-intensity" className="text-xs text-muted-foreground flex items-center gap-1 cursor-pointer">
+                        <Activity className="w-3.5 h-3.5" />
+                        Intensity
+                      </Label>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <RadioGroupItem value="cumulative" id="view-cumulative" />
+                      <Label htmlFor="view-cumulative" className="text-xs text-muted-foreground flex items-center gap-1 cursor-pointer">
+                        <BarChart3 className="w-3.5 h-3.5" />
+                        Cumulative
+                      </Label>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <RadioGroupItem value="delta" id="view-delta" disabled={selectedPatterns.length !== 2} />
+                      <Label htmlFor="view-delta" className={`text-xs flex items-center gap-1 cursor-pointer ${selectedPatterns.length !== 2 ? 'text-muted-foreground/50' : 'text-muted-foreground'}`}>
+                        <Gauge className="w-3.5 h-3.5" />
+                        Delta {selectedPatterns.length !== 2 && '(select 2)'}
+                      </Label>
+                    </div>
+                  </RadioGroup>
                 </div>
               </div>
             </div>
