@@ -6,8 +6,8 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useState, useMemo, useRef } from "react";
-import { Download, TrendingUp, Settings, RotateCcw, FileText, BarChart3, Activity, MapPin, Lightbulb, Gauge } from "lucide-react";
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import { Download, TrendingUp, Settings, RotateCcw, FileText, BarChart3, Activity, MapPin, Lightbulb, Gauge, Play, Pause, SkipBack } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -17,6 +17,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  ReferenceLine,
 } from "recharts";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 import { calculatePatternStatistics, type PatternStatistics } from "@/lib/patternStatistics";
@@ -101,6 +102,12 @@ export function PatternComparison() {
   const [location, setLocation] = useState<string>('');
   const [soilType, setSoilType] = useState<string>('');
   const [watershedSize, setWatershedSize] = useState<string>('');
+  
+  // Animation state
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [currentTimeIndex, setCurrentTimeIndex] = useState(0);
+  const [animationSpeed, setAnimationSpeed] = useState(1); // 1x, 2x, 4x speed
+  const animationIntervalRef = useRef<number | null>(null);
 
   const chartData = useMemo(() => {
     const numSteps = Math.ceil((duration * 60) / timeStep);
@@ -323,6 +330,65 @@ export function PatternComparison() {
     setViewMode('intensity');
     toast({ title: "Parameters reset", description: "Comparison parameters restored to defaults" });
   };
+
+  // Animation controls
+  const startAnimation = useCallback(() => {
+    setIsAnimating(true);
+    setCurrentTimeIndex(0);
+  }, []);
+
+  const pauseAnimation = useCallback(() => {
+    setIsAnimating(false);
+  }, []);
+
+  const resetAnimation = useCallback(() => {
+    setIsAnimating(false);
+    setCurrentTimeIndex(0);
+  }, []);
+
+  // Animation loop
+  useEffect(() => {
+    if (isAnimating) {
+      const numSteps = Math.ceil((duration * 60) / timeStep);
+      const interval = (100 / animationSpeed); // Base speed: 100ms per frame
+      
+      animationIntervalRef.current = window.setInterval(() => {
+        setCurrentTimeIndex((prev) => {
+          if (prev >= numSteps - 1) {
+            setIsAnimating(false);
+            return prev;
+          }
+          return prev + 1;
+        });
+      }, interval);
+
+      return () => {
+        if (animationIntervalRef.current) {
+          clearInterval(animationIntervalRef.current);
+        }
+      };
+    }
+  }, [isAnimating, duration, timeStep, animationSpeed]);
+
+  // Get current time for animation marker
+  const currentTime = useMemo(() => {
+    return ((currentTimeIndex * timeStep) / 60).toFixed(1);
+  }, [currentTimeIndex, timeStep]);
+
+  // Get current intensities for display
+  const currentIntensities = useMemo(() => {
+    if (!isAnimating && currentTimeIndex === 0) return null;
+    
+    const intensities: Record<string, number> = {};
+    selectedPatterns.forEach((patternId) => {
+      const pattern = comparisonPatterns.find((p) => p.id === patternId);
+      if (pattern) {
+        const data = generateRainfallData(patternId, totalDepth, duration, timeStep);
+        intensities[pattern.name] = data[currentTimeIndex] || 0;
+      }
+    });
+    return intensities;
+  }, [selectedPatterns, currentTimeIndex, totalDepth, duration, timeStep, isAnimating]);
 
   const exportChartAsPNG = async () => {
     if (!chartRef.current) return;
@@ -767,6 +833,22 @@ export function PatternComparison() {
                     }}
                   />
                   <Legend />
+                  {/* Animation marker */}
+                  {(isAnimating || currentTimeIndex > 0) && (
+                    <ReferenceLine
+                      x={currentTime}
+                      stroke="hsl(var(--primary))"
+                      strokeWidth={2}
+                      strokeDasharray="5 5"
+                      label={{
+                        value: `t = ${currentTime} hrs`,
+                        position: 'top',
+                        fill: 'hsl(var(--primary))',
+                        fontSize: 12,
+                        fontWeight: 'bold'
+                      }}
+                    />
+                  )}
                   {viewMode === 'delta' && selectedPatterns.length === 2 ? (
                     // Delta view: show single line representing difference
                     <Line
@@ -795,6 +877,78 @@ export function PatternComparison() {
                   )}
                 </LineChart>
               </ResponsiveContainer>
+              
+              {/* Animation Controls */}
+              <div className="mt-3 pt-3 border-t border-border space-y-3">
+                <div className="flex items-center justify-between flex-wrap gap-3">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={isAnimating ? pauseAnimation : startAnimation}
+                      className="flex items-center gap-2"
+                    >
+                      {isAnimating ? (
+                        <>
+                          <Pause className="w-4 h-4" />
+                          Pause
+                        </>
+                      ) : (
+                        <>
+                          <Play className="w-4 h-4" />
+                          Play Animation
+                        </>
+                      )}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={resetAnimation}
+                      disabled={currentTimeIndex === 0 && !isAnimating}
+                    >
+                      <SkipBack className="w-4 h-4" />
+                    </Button>
+                    <div className="flex items-center gap-2 px-3 py-1 rounded border border-border bg-accent/20">
+                      <span className="text-xs text-muted-foreground">Speed:</span>
+                      <Select value={animationSpeed.toString()} onValueChange={(val) => setAnimationSpeed(Number(val))}>
+                        <SelectTrigger className="h-7 w-16 text-xs">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="0.5">0.5x</SelectItem>
+                          <SelectItem value="1">1x</SelectItem>
+                          <SelectItem value="2">2x</SelectItem>
+                          <SelectItem value="4">4x</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  
+                  {currentIntensities && (
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <span className="text-xs font-semibold text-foreground">Current Time: {currentTime} hrs</span>
+                      <div className="flex items-center gap-2">
+                        {selectedPatterns.map((patternId) => {
+                          const pattern = comparisonPatterns.find(p => p.id === patternId);
+                          if (!pattern) return null;
+                          return (
+                            <div key={pattern.id} className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-border bg-card">
+                              <div
+                                className="w-2 h-2 rounded-full"
+                                style={{ backgroundColor: pattern.color }}
+                              />
+                              <span className="text-xs text-muted-foreground">
+                                {currentIntensities[pattern.name]?.toFixed(3)} in/hr
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
               <div className="flex items-center justify-between mt-3 pt-3 border-t border-border flex-wrap gap-3">
                 <p className="text-xs text-muted-foreground">
                   Comparison parameters: {totalDepth} inches total depth, {duration} hour duration, {timeStep} minute time step

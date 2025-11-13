@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { PatternSelector } from "@/components/PatternSelector";
 import { StormParameters } from "@/components/StormParameters";
 import { RainfallChart } from "@/components/RainfallChart";
 import { ExportButtons } from "@/components/ExportButtons";
 import { ScsRegionalGuide } from "@/components/ScsRegionalGuide";
 import { PatternComparison } from "@/components/PatternComparison";
+import { SwmmFileIntegration } from "@/components/SwmmFileIntegration";
 import { Droplets } from "lucide-react";
 import {
   generateRainfallData,
@@ -12,6 +13,32 @@ import {
   prepareExportData,
   type PatternType,
 } from "@/lib/rainfallPatterns";
+
+const patternNames: Record<PatternType, string> = {
+  'scs1a': 'SCS Type IA',
+  'scs1': 'SCS Type I',
+  'scs2': 'SCS Type II',
+  'scs3': 'SCS Type III',
+  'huff1': 'Huff 1st Quartile',
+  'huff2': 'Huff 2nd Quartile',
+  'huff3': 'Huff 3rd Quartile',
+  'huff4': 'Huff 4th Quartile',
+  'chicago': 'Chicago Storm',
+  'desbordes': 'Desbordes',
+  'arr': 'Australian ARR',
+  'dwa': 'German DWA',
+  'block': 'Block',
+  'triangular': 'Triangular',
+  'double': 'Double Peak',
+  'custom': 'Custom',
+  'trapezoidal': 'Trapezoidal',
+  'fsr': 'FSR',
+  'jma': 'JMA',
+  'china': 'China',
+  'sa_huff': 'South African Huff',
+  'dutch': 'Dutch',
+  'italian': 'Italian',
+};
 
 const Index = () => {
   const [selectedPattern, setSelectedPattern] = useState<PatternType>('block');
@@ -88,6 +115,15 @@ const Index = () => {
             timeStep={timeStep}
           />
         </section>
+
+        {/* SWMM5 File Integration */}
+        <SwmmFileIntegration
+          selectedPattern={selectedPattern}
+          patternName={patternNames[selectedPattern]}
+          totalDepth={depth}
+          duration={duration}
+          timeStep={timeStep}
+        />
 
         {/* Pattern Comparison */}
         <PatternComparison />
