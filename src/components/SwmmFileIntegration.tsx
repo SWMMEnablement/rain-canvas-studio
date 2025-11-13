@@ -11,6 +11,7 @@ import { useState, useRef, useMemo } from "react";
 import { Upload, Download, FileText, Plus, Eye, Edit, Layers } from "lucide-react";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 import { toast } from "@/hooks/use-toast";
+import { type UnitSystem, convertDepth, convertIntensity, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
 
 interface SwmmFileIntegrationProps {
   selectedPattern: PatternType;
@@ -18,6 +19,7 @@ interface SwmmFileIntegrationProps {
   totalDepth: number;
   duration: number;
   timeStep: number;
+  unitSystem: UnitSystem;
 }
 
 const allPatterns: Array<{ id: PatternType; name: string; category: string }> = [
@@ -41,6 +43,7 @@ export function SwmmFileIntegration({
   totalDepth,
   duration,
   timeStep,
+  unitSystem,
 }: SwmmFileIntegrationProps) {
   const [inpFile, setInpFile] = useState<File | null>(null);
   const [inpContent, setInpContent] = useState<string>("");
@@ -84,13 +87,13 @@ export function SwmmFileIntegration({
 
   const generateTimeSeriesData = (pattern: PatternType, patternDisplayName: string, tsName: string): string => {
     const intensities = generateRainfallData(pattern, totalDepth, duration, timeStep);
+    const exportDepth = convertDepth(totalDepth, 'USA', unitSystem);
     const timeSeriesLines: string[] = [];
     
     timeSeriesLines.push(`; Generated time series for ${patternDisplayName}`);
-    timeSeriesLines.push(`; Total depth: ${totalDepth} in, Duration: ${duration} hrs, Time step: ${timeStep} min`);
+    timeSeriesLines.push(`; Total depth: ${exportDepth.toFixed(unitSystem === 'USA' ? 2 : 1)} ${getDepthUnit(unitSystem)}, Duration: ${duration} hrs, Time step: ${timeStep} min`);
     timeSeriesLines.push(`${tsName}`);
     
-    // Convert to SWMM5 time series format
     const startDate = "01/01/2024";
     
     for (let i = 0; i < intensities.length; i++) {
@@ -99,7 +102,8 @@ export function SwmmFileIntegration({
       const minutes = timeMinutes % 60;
       const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
       
-      const depthIncrement = intensities[i] * (timeStep / 60);
+      const intensity = convertIntensity(intensities[i], 'USA', unitSystem);
+      const depthIncrement = intensity * (timeStep / 60);
       timeSeriesLines.push(`${tsName}  ${startDate}  ${timeStr}  ${depthIncrement.toFixed(6)}`);
     }
     

@@ -23,6 +23,14 @@ import {
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 import { calculatePatternStatistics, type PatternStatistics } from "@/lib/patternStatistics";
 import { toast } from "@/hooks/use-toast";
+import { type UnitSystem, convertIntensity, convertDepth, getIntensityUnit, getDepthUnit, formatIntensity, formatDepth } from "@/lib/unitConversions";
+
+interface PatternComparisonProps {
+  depth: number;
+  duration: number;
+  timeStep: number;
+  unitSystem: UnitSystem;
+}
 
 interface ComparisonPattern {
   id: PatternType;
@@ -79,7 +87,7 @@ const presetGroups: PresetGroup[] = [
   },
 ];
 
-export function PatternComparison() {
+export function PatternComparison({ depth: totalDepth, duration, timeStep, unitSystem }: PatternComparisonProps) {
   const [selectedPatterns, setSelectedPatterns] = useState<PatternType[]>([
     'scs1a',
     'scs1',
@@ -87,16 +95,6 @@ export function PatternComparison() {
     'scs3',
   ]);
   const chartRef = useRef<HTMLDivElement>(null);
-
-  // Default parameters
-  const DEFAULT_DEPTH = 2.0;
-  const DEFAULT_DURATION = 6.0;
-  const DEFAULT_TIMESTEP = 15;
-
-  // Customizable parameters for comparison
-  const [totalDepth, setTotalDepth] = useState(DEFAULT_DEPTH);
-  const [duration, setDuration] = useState(DEFAULT_DURATION);
-  const [timeStep, setTimeStep] = useState(DEFAULT_TIMESTEP);
   const [viewMode, setViewMode] = useState<'intensity' | 'cumulative' | 'delta'>('intensity');
   
   // Watershed characteristics for recommendations
@@ -325,11 +323,8 @@ export function PatternComparison() {
   };
 
   const resetToDefaults = () => {
-    setTotalDepth(DEFAULT_DEPTH);
-    setDuration(DEFAULT_DURATION);
-    setTimeStep(DEFAULT_TIMESTEP);
     setViewMode('intensity');
-    toast({ title: "Parameters reset", description: "Comparison parameters restored to defaults" });
+    toast({ title: "View mode reset", description: "Switched back to intensity view" });
   };
 
   // Animation controls
@@ -697,16 +692,8 @@ export function PatternComparison() {
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <Label className="text-xs">Total Depth</Label>
-                <span className="text-xs font-mono text-muted-foreground">{totalDepth.toFixed(1)} in</span>
+                <span className="text-xs font-mono text-muted-foreground">{convertDepth(totalDepth, 'USA', unitSystem).toFixed(unitSystem === 'USA' ? 1 : 0)} {getDepthUnit(unitSystem)}</span>
               </div>
-              <Slider
-                value={[totalDepth]}
-                onValueChange={(value) => setTotalDepth(value[0])}
-                min={0.5}
-                max={10}
-                step={0.5}
-                className="w-full"
-              />
             </div>
 
             <div className="space-y-2">
@@ -714,14 +701,6 @@ export function PatternComparison() {
                 <Label className="text-xs">Duration</Label>
                 <span className="text-xs font-mono text-muted-foreground">{duration.toFixed(1)} hrs</span>
               </div>
-              <Slider
-                value={[duration]}
-                onValueChange={(value) => setDuration(value[0])}
-                min={1}
-                max={24}
-                step={0.5}
-                className="w-full"
-              />
             </div>
 
             <div className="space-y-2">
@@ -729,14 +708,6 @@ export function PatternComparison() {
                 <Label className="text-xs">Time Step</Label>
                 <span className="text-xs font-mono text-muted-foreground">{timeStep} min</span>
               </div>
-              <Slider
-                value={[timeStep]}
-                onValueChange={(value) => setTimeStep(value[0])}
-                min={5}
-                max={60}
-                step={5}
-                className="w-full"
-              />
             </div>
           </div>
           
@@ -817,9 +788,9 @@ export function PatternComparison() {
                   />
                   <YAxis
                     label={{ 
-                      value: viewMode === 'cumulative' ? "Cumulative Depth (in)" : 
-                             viewMode === 'delta' ? "Intensity Difference (in/hr)" : 
-                             "Intensity (in/hr)", 
+                      value: viewMode === 'cumulative' ? `Cumulative Depth (${getDepthUnit(unitSystem)})` : 
+                             viewMode === 'delta' ? `Intensity Difference (${getIntensityUnit(unitSystem)})` : 
+                             `Intensity (${getIntensityUnit(unitSystem)})`, 
                       angle: -90, 
                       position: "insideLeft" 
                     }}
