@@ -1,24 +1,41 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { type UnitSystem, convertDepth, formatDepth } from "@/lib/unitConversions";
 
 interface StormParametersProps {
   depth: number;
   duration: number;
   timeStep: number;
+  unitSystem: UnitSystem;
   onDepthChange: (value: number) => void;
   onDurationChange: (value: number) => void;
   onTimeStepChange: (value: number) => void;
+  onUnitSystemChange: (system: UnitSystem) => void;
 }
 
 export function StormParameters({
   depth,
   duration,
   timeStep,
+  unitSystem,
   onDepthChange,
   onDurationChange,
   onTimeStepChange,
+  onUnitSystemChange,
 }: StormParametersProps) {
+  const handleUnitSystemChange = (newSystem: UnitSystem) => {
+    // Convert depth value when switching units
+    const convertedDepth = convertDepth(depth, unitSystem, newSystem);
+    onDepthChange(convertedDepth);
+    onUnitSystemChange(newSystem);
+  };
+
+  const depthConfig = unitSystem === 'USA' 
+    ? { min: 0.5, max: 10, step: 0.1 }
+    : { min: 12.7, max: 254, step: 2.54 }; // equivalent ranges in mm
+
   return (
     <Card className="shadow-card hover:shadow-hover transition-all duration-300">
       <CardHeader>
@@ -28,14 +45,29 @@ export function StormParameters({
       <CardContent className="space-y-6">
         <div className="space-y-3">
           <div className="flex justify-between items-center">
+            <Label htmlFor="unit-system">Unit System</Label>
+            <Select value={unitSystem} onValueChange={handleUnitSystemChange}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="USA">USA (inches)</SelectItem>
+                <SelectItem value="SI">SI (mm)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <div className="flex justify-between items-center">
             <Label htmlFor="depth-slider">Total Rainfall Depth</Label>
-            <span className="text-sm font-semibold text-primary">{depth.toFixed(1)} inches</span>
+            <span className="text-sm font-semibold text-primary">{formatDepth(depth, unitSystem)}</span>
           </div>
           <Slider
             id="depth-slider"
-            min={0.5}
-            max={10}
-            step={0.1}
+            min={depthConfig.min}
+            max={depthConfig.max}
+            step={depthConfig.step}
             value={[depth]}
             onValueChange={(values) => onDepthChange(values[0])}
             className="cursor-pointer"

@@ -13,6 +13,7 @@ import {
   prepareExportData,
   type PatternType,
 } from "@/lib/rainfallPatterns";
+import { type UnitSystem } from "@/lib/unitConversions";
 
 const patternNames: Record<PatternType, string> = {
   'scs1a': 'SCS Type IA',
@@ -45,6 +46,7 @@ const Index = () => {
   const [depth, setDepth] = useState(2.0);
   const [duration, setDuration] = useState(6.0);
   const [timeStep, setTimeStep] = useState(15);
+  const [unitSystem, setUnitSystem] = useState<UnitSystem>('USA');
   const [chartData, setChartData] = useState<Array<{ time: string; intensity: number }>>([]);
   const [exportData, setExportData] = useState<Array<{ time: number; intensity: number }>>([]);
 
@@ -98,21 +100,24 @@ const Index = () => {
             depth={depth}
             duration={duration}
             timeStep={timeStep}
+            unitSystem={unitSystem}
             onDepthChange={setDepth}
             onDurationChange={setDuration}
             onTimeStepChange={setTimeStep}
+            onUnitSystemChange={setUnitSystem}
           />
         </div>
 
         {/* Visualization */}
         <section>
-          <RainfallChart data={chartData} />
+          <RainfallChart data={chartData} unitSystem={unitSystem} />
           <ExportButtons
             data={exportData}
-            pattern={selectedPattern}
+            pattern={patternNames[selectedPattern]}
             totalDepth={depth}
             duration={duration}
             timeStep={timeStep}
+            unitSystem={unitSystem}
           />
         </section>
 
@@ -123,10 +128,16 @@ const Index = () => {
           totalDepth={depth}
           duration={duration}
           timeStep={timeStep}
+          unitSystem={unitSystem}
         />
 
         {/* Pattern Comparison */}
-        <PatternComparison />
+        <PatternComparison
+          depth={depth}
+          duration={duration}
+          timeStep={timeStep}
+          unitSystem={unitSystem}
+        />
       </main>
 
       {/* Footer */}
