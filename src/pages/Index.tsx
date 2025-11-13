@@ -6,6 +6,8 @@ import { ExportButtons } from "@/components/ExportButtons";
 import { ScsRegionalGuide } from "@/components/ScsRegionalGuide";
 import { PatternComparison } from "@/components/PatternComparison";
 import { SwmmFileIntegration } from "@/components/SwmmFileIntegration";
+import { UnitConversionCalculator } from "@/components/UnitConversionCalculator";
+import { UnitComparisonTable } from "@/components/UnitComparisonTable";
 import { Droplets } from "lucide-react";
 import {
   generateRainfallData,
@@ -46,9 +48,18 @@ const Index = () => {
   const [depth, setDepth] = useState(2.0);
   const [duration, setDuration] = useState(6.0);
   const [timeStep, setTimeStep] = useState(15);
-  const [unitSystem, setUnitSystem] = useState<UnitSystem>('USA');
+  const [unitSystem, setUnitSystem] = useState<UnitSystem>(() => {
+    // Load from localStorage or default to 'USA'
+    const saved = localStorage.getItem('preferredUnitSystem');
+    return (saved === 'SI' || saved === 'USA') ? saved : 'USA';
+  });
   const [chartData, setChartData] = useState<Array<{ time: string; intensity: number }>>([]);
   const [exportData, setExportData] = useState<Array<{ time: number; intensity: number }>>([]);
+
+  // Save unit system preference to localStorage
+  useEffect(() => {
+    localStorage.setItem('preferredUnitSystem', unitSystem);
+  }, [unitSystem]);
 
   useEffect(() => {
     const intensities = generateRainfallData(selectedPattern, depth, duration, timeStep);
@@ -106,6 +117,16 @@ const Index = () => {
             onTimeStepChange={setTimeStep}
             onUnitSystemChange={setUnitSystem}
           />
+        </div>
+
+        {/* Unit Tools */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <UnitComparisonTable
+            depth={depth}
+            duration={duration}
+            unitSystem={unitSystem}
+          />
+          <UnitConversionCalculator />
         </div>
 
         {/* Visualization */}
