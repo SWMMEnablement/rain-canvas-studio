@@ -2,9 +2,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useState, useRef } from "react";
-import { Upload, Download, FileText, Plus } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState, useRef, useMemo } from "react";
+import { Upload, Download, FileText, Plus, Eye, Edit, Layers } from "lucide-react";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 import { toast } from "@/hooks/use-toast";
 
@@ -16,6 +20,21 @@ interface SwmmFileIntegrationProps {
   timeStep: number;
 }
 
+const allPatterns: Array<{ id: PatternType; name: string; category: string }> = [
+  { id: 'scs1a', name: 'SCS Type IA', category: 'SCS' },
+  { id: 'scs1', name: 'SCS Type I', category: 'SCS' },
+  { id: 'scs2', name: 'SCS Type II', category: 'SCS' },
+  { id: 'scs3', name: 'SCS Type III', category: 'SCS' },
+  { id: 'huff1', name: 'Huff 1st Quartile', category: 'Huff' },
+  { id: 'huff2', name: 'Huff 2nd Quartile', category: 'Huff' },
+  { id: 'huff3', name: 'Huff 3rd Quartile', category: 'Huff' },
+  { id: 'huff4', name: 'Huff 4th Quartile', category: 'Huff' },
+  { id: 'chicago', name: 'Chicago Storm', category: 'Other' },
+  { id: 'desbordes', name: 'Desbordes', category: 'International' },
+  { id: 'arr', name: 'Australian ARR', category: 'International' },
+  { id: 'dwa', name: 'German DWA', category: 'International' },
+];
+
 export function SwmmFileIntegration({
   selectedPattern,
   patternName,
@@ -26,6 +45,14 @@ export function SwmmFileIntegration({
   const [inpFile, setInpFile] = useState<File | null>(null);
   const [inpContent, setInpContent] = useState<string>("");
   const [timeSeriesName, setTimeSeriesName] = useState<string>("");
+  const [previewData, setPreviewData] = useState<string>("");
+  const [editedData, setEditedData] = useState<string>("");
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  
+  // Batch processing state
+  const [selectedBatchPatterns, setSelectedBatchPatterns] = useState<PatternType[]>([]);
+  const [batchMode, setBatchMode] = useState(false);
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,16 +82,15 @@ export function SwmmFileIntegration({
     });
   };
 
-  const generateTimeSeriesData = (): string => {
-    const intensities = generateRainfallData(selectedPattern, totalDepth, duration, timeStep);
+  const generateTimeSeriesData = (pattern: PatternType, patternDisplayName: string, tsName: string): string => {
+    const intensities = generateRainfallData(pattern, totalDepth, duration, timeStep);
     const timeSeriesLines: string[] = [];
     
-    timeSeriesLines.push(`; Generated time series for ${patternName}`);
+    timeSeriesLines.push(`; Generated time series for ${patternDisplayName}`);
     timeSeriesLines.push(`; Total depth: ${totalDepth} in, Duration: ${duration} hrs, Time step: ${timeStep} min`);
-    timeSeriesLines.push(`${timeSeriesName}`);
+    timeSeriesLines.push(`${tsName}`);
     
     // Convert to SWMM5 time series format
-    // Format: TIME SERIES_NAME  DATE  TIME  VALUE
     const startDate = "01/01/2024";
     
     for (let i = 0; i < intensities.length; i++) {
@@ -73,16 +99,49 @@ export function SwmmFileIntegration({
       const minutes = timeMinutes % 60;
       const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
       
-      // SWMM expects rainfall in inches (for intensity, multiply by time step to get depth per interval)
       const depthIncrement = intensities[i] * (timeStep / 60);
-      
-      timeSeriesLines.push(`${timeSeriesName}  ${startDate}  ${timeStr}  ${depthIncrement.toFixed(6)}`);
+      timeSeriesLines.push(`${tsName}  ${startDate}  ${timeStr}  ${depthIncrement.toFixed(6)}`);
     }
     
     return timeSeriesLines.join('\n');
   };
 
-  const appendToInpFile = () => {
+  const generateBatchTimeSeriesData = (): string => {
+    const allTimeSeries: string[] = [];
+    
+    selectedBatchPatterns.forEach((pattern) => {
+      const patternInfo = allPatterns.find(p => p.id === pattern);
+      if (!patternInfo) return;
+      
+      const tsName = `TS_${patternInfo.name.replace(/\s+/g, '_')}`;
+      const tsData = generateTimeSeriesData(pattern, patternInfo.name, tsName);
+      allTimeSeries.push(tsData);
+    });
+    
+    return allTimeSeries.join('\n\n');
+  };
+
+  const toggleBatchPattern = (pattern: PatternType) => {
+    setSelectedBatchPatterns(prev => 
+      prev.includes(pattern) 
+        ? prev.filter(p => p !== pattern)
+        : [...prev, pattern]
+    );
+  };
+
+  const previewTimeSeriesData = () => {
+    let data: string;
+    if (batchMode && selectedBatchPatterns.length > 0) {
+      data = generateBatchTimeSeriesData();
+    } else {
+      data = generateTimeSeriesData(selectedPattern, patternName, timeSeriesName || `TS_${patternName.replace(/\s+/g, '_')}`);
+    }
+    setPreviewData(data);
+    setEditedData(data);
+    setIsPreviewOpen(true);
+  };
+
+  const appendToInpFile = (useEditedData = false) => {
     if (!inpContent) {
       toast({
         title: "No file loaded",
@@ -92,7 +151,7 @@ export function SwmmFileIntegration({
       return;
     }
 
-    if (!timeSeriesName.trim()) {
+    if (!batchMode && !timeSeriesName.trim()) {
       toast({
         title: "Missing time series name",
         description: "Please enter a name for the time series",
@@ -101,7 +160,16 @@ export function SwmmFileIntegration({
       return;
     }
 
-    const timeSeriesData = generateTimeSeriesData();
+    if (batchMode && selectedBatchPatterns.length === 0) {
+      toast({
+        title: "No patterns selected",
+        description: "Please select at least one pattern for batch processing",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const timeSeriesData = useEditedData ? editedData : (batchMode ? generateBatchTimeSeriesData() : generateTimeSeriesData(selectedPattern, patternName, timeSeriesName));
     let modifiedContent = inpContent;
 
     // Find the [TIMESERIES] section
@@ -159,12 +227,16 @@ export function SwmmFileIntegration({
 
     toast({
       title: "File generated",
-      description: `Time series "${timeSeriesName}" appended to SWMM5 file`
+      description: batchMode 
+        ? `${selectedBatchPatterns.length} time series appended to SWMM5 file`
+        : `Time series "${timeSeriesName}" appended to SWMM5 file`
     });
+    
+    setIsPreviewOpen(false);
   };
 
-  const generateNewInpFile = () => {
-    if (!timeSeriesName.trim()) {
+  const generateNewInpFile = (useEditedData = false) => {
+    if (!batchMode && !timeSeriesName.trim()) {
       toast({
         title: "Missing time series name",
         description: "Please enter a name for the time series",
@@ -173,7 +245,16 @@ export function SwmmFileIntegration({
       return;
     }
 
-    const timeSeriesData = generateTimeSeriesData();
+    if (batchMode && selectedBatchPatterns.length === 0) {
+      toast({
+        title: "No patterns selected",
+        description: "Please select at least one pattern for batch processing",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const timeSeriesData = useEditedData ? editedData : (batchMode ? generateBatchTimeSeriesData() : generateTimeSeriesData(selectedPattern, patternName, timeSeriesName));
     
     // Create a minimal SWMM5 file with just the time series
     const minimalInp = `[TITLE]
@@ -219,14 +300,20 @@ LINKS ALL
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${timeSeriesName}_timeseries.inp`;
+    link.download = batchMode 
+      ? 'batch_timeseries.inp'
+      : `${timeSeriesName}_timeseries.inp`;
     link.click();
     URL.revokeObjectURL(url);
 
     toast({
       title: "File generated",
-      description: `New SWMM5 file created with time series "${timeSeriesName}"`
+      description: batchMode
+        ? `New SWMM5 file created with ${selectedBatchPatterns.length} time series`
+        : `New SWMM5 file created with time series "${timeSeriesName}"`
     });
+    
+    setIsPreviewOpen(false);
   };
 
   return (
@@ -241,19 +328,62 @@ LINKS ALL
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Time Series Name */}
-        <div className="space-y-2">
-          <Label htmlFor="ts-name">Time Series Name</Label>
-          <Input
-            id="ts-name"
-            placeholder="e.g., TS_SCS_Type_II"
-            value={timeSeriesName}
-            onChange={(e) => setTimeSeriesName(e.target.value)}
-          />
-          <p className="text-xs text-muted-foreground">
-            Name for the time series in the SWMM5 file
-          </p>
-        </div>
+        {/* Mode Selection */}
+        <Tabs value={batchMode ? "batch" : "single"} onValueChange={(v) => setBatchMode(v === "batch")} className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="single">Single Pattern</TabsTrigger>
+            <TabsTrigger value="batch" className="flex items-center gap-1">
+              <Layers className="w-3.5 h-3.5" />
+              Batch Mode
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="single" className="space-y-4 mt-4">
+            {/* Time Series Name */}
+            <div className="space-y-2">
+              <Label htmlFor="ts-name">Time Series Name</Label>
+              <Input
+                id="ts-name"
+                placeholder="e.g., TS_SCS_Type_II"
+                value={timeSeriesName}
+                onChange={(e) => setTimeSeriesName(e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground">
+                Name for the time series in the SWMM5 file
+              </p>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="batch" className="space-y-4 mt-4">
+            {/* Batch Pattern Selection */}
+            <div className="space-y-3">
+              <Label>Select Patterns for Batch Processing</Label>
+              <div className="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto p-3 border border-border rounded-lg">
+                {allPatterns.map((pattern) => (
+                  <div
+                    key={pattern.id}
+                    className="flex items-center space-x-2 p-2 rounded-md hover:bg-accent/50 transition-colors"
+                  >
+                    <Checkbox
+                      id={`batch-${pattern.id}`}
+                      checked={selectedBatchPatterns.includes(pattern.id)}
+                      onCheckedChange={() => toggleBatchPattern(pattern.id)}
+                    />
+                    <Label
+                      htmlFor={`batch-${pattern.id}`}
+                      className="text-sm cursor-pointer flex-1"
+                    >
+                      {pattern.name}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {selectedBatchPatterns.length} pattern(s) selected. Each will generate a separate time series.
+              </p>
+            </div>
+          </TabsContent>
+        </Tabs>
 
         {/* File Upload */}
         <div className="space-y-2">
@@ -291,23 +421,82 @@ LINKS ALL
         {/* Action Buttons */}
         <div className="space-y-2">
           <Button
-            onClick={appendToInpFile}
-            disabled={!inpFile}
-            className="w-full flex items-center gap-2"
-          >
-            <Plus className="w-4 h-4" />
-            Append to Existing File
-          </Button>
-          
-          <Button
-            onClick={generateNewInpFile}
+            onClick={previewTimeSeriesData}
             variant="outline"
             className="w-full flex items-center gap-2"
           >
+            <Eye className="w-4 h-4" />
+            Preview & Edit Time Series
+          </Button>
+          
+          <Button
+            onClick={() => appendToInpFile(false)}
+            disabled={!inpFile || (!batchMode && !timeSeriesName.trim()) || (batchMode && selectedBatchPatterns.length === 0)}
+            className="w-full flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            {batchMode ? `Append ${selectedBatchPatterns.length} Series to File` : 'Append to Existing File'}
+          </Button>
+          
+          <Button
+            onClick={() => generateNewInpFile(false)}
+            variant="outline"
+            disabled={(!batchMode && !timeSeriesName.trim()) || (batchMode && selectedBatchPatterns.length === 0)}
+            className="w-full flex items-center gap-2"
+          >
             <Download className="w-4 h-4" />
-            Generate New SWMM5 File
+            {batchMode ? 'Generate Batch SWMM5 File' : 'Generate New SWMM5 File'}
           </Button>
         </div>
+
+        {/* Preview/Edit Dialog */}
+        <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+          <DialogContent className="max-w-4xl max-h-[80vh]">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Edit className="w-5 h-5" />
+                Preview & Edit SWMM5 Time Series
+              </DialogTitle>
+              <DialogDescription>
+                Review and edit the time series data before exporting. Changes will be used for the next export.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-3">
+              <Textarea
+                value={editedData}
+                onChange={(e) => setEditedData(e.target.value)}
+                className="font-mono text-xs h-96 resize-none"
+                placeholder="Time series data will appear here..."
+              />
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>Lines: {editedData.split('\n').length}</span>
+                <span>Characters: {editedData.length}</span>
+              </div>
+            </div>
+            <DialogFooter className="gap-2">
+              <Button variant="outline" onClick={() => setEditedData(previewData)}>
+                Reset Changes
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  navigator.clipboard.writeText(editedData);
+                  toast({ title: "Copied to clipboard" });
+                }}
+              >
+                Copy to Clipboard
+              </Button>
+              <Button onClick={() => appendToInpFile(true)} disabled={!inpFile}>
+                <Plus className="w-4 h-4 mr-2" />
+                Append to File
+              </Button>
+              <Button onClick={() => generateNewInpFile(true)}>
+                <Download className="w-4 h-4 mr-2" />
+                Generate New File
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {/* Info */}
         <div className="p-3 rounded-lg border border-border bg-accent/20 space-y-1">

@@ -6,6 +6,7 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { AnimationExport } from "@/components/AnimationExport";
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { Download, TrendingUp, Settings, RotateCcw, FileText, BarChart3, Activity, MapPin, Lightbulb, Gauge, Play, Pause, SkipBack } from "lucide-react";
 import {
@@ -1157,6 +1158,19 @@ export function PatternComparison() {
           <div className="text-center py-12 text-muted-foreground">
             Select at least one pattern to display the comparison chart
           </div>
+        )}
+
+        {/* Animation Export */}
+        {selectedPatterns.length > 0 && (
+          <AnimationExport
+            chartRef={chartRef}
+            isAnimating={isAnimating}
+            currentTimeIndex={currentTimeIndex}
+            totalSteps={Math.ceil((duration * 60) / timeStep)}
+            onStartAnimation={startAnimation}
+            onPauseAnimation={pauseAnimation}
+            onResetAnimation={resetAnimation}
+          />
         )}
       </CardContent>
     </Card>
