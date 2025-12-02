@@ -81,7 +81,7 @@ const Index = () => {
           </div>
           <p className="text-lg max-w-3xl mx-auto opacity-95">
             Generate and visualize synthetic rainfall patterns for stormwater modeling. 
-            Create SWMM-ready timeseries with custom parameters.
+            Create SWMM5 and ICM-ready timeseries with custom parameters.
           </p>
         </div>
       </header>
