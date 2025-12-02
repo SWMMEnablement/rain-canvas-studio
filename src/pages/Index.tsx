@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { PatternSelector } from "@/components/PatternSelector";
 import { StormParameters } from "@/components/StormParameters";
 import { RainfallChart } from "@/components/RainfallChart";
@@ -8,7 +8,9 @@ import { PatternComparison } from "@/components/PatternComparison";
 import { SwmmFileIntegration } from "@/components/SwmmFileIntegration";
 import { UnitConversionCalculator } from "@/components/UnitConversionCalculator";
 import { UnitComparisonTable } from "@/components/UnitComparisonTable";
-import { Droplets } from "lucide-react";
+import { Documentation } from "@/components/Documentation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Droplets, CloudRain, BookOpen } from "lucide-react";
 import {
   generateRainfallData,
   prepareChartData,
@@ -87,78 +89,97 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 space-y-8">
-        {/* Introduction */}
-        <section className="bg-card p-6 rounded-xl shadow-card border border-border">
-          <h2 className="text-2xl font-semibold mb-3 text-foreground">Explore Rainfall Patterns</h2>
-          <p className="text-muted-foreground leading-relaxed">
-            Rainfall Pattern Painter helps hydrologists and engineers quickly generate synthetic rainfall patterns 
-            without hunting for historical data. Adjust parameters to create custom hyetographs for your 
-            stormwater models.
-          </p>
-        </section>
+      <main className="container mx-auto px-4 py-8">
+        <Tabs defaultValue="generator" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger value="generator" className="flex items-center gap-2">
+              <CloudRain className="w-4 h-4" />
+              Pattern Generator
+            </TabsTrigger>
+            <TabsTrigger value="docs" className="flex items-center gap-2">
+              <BookOpen className="w-4 h-4" />
+              Documentation
+            </TabsTrigger>
+          </TabsList>
 
-        {/* SCS Regional Guide */}
-        <ScsRegionalGuide />
+          <TabsContent value="generator" className="space-y-8">
+            {/* Introduction */}
+            <section className="bg-card p-6 rounded-xl shadow-card border border-border">
+              <h2 className="text-2xl font-semibold mb-3 text-foreground">Explore Rainfall Patterns</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Rainfall Pattern Painter helps hydrologists and engineers quickly generate synthetic rainfall patterns 
+                without hunting for historical data. Adjust parameters to create custom hyetographs for your 
+                stormwater models.
+              </p>
+            </section>
 
-        {/* Controls */}
-        <div className="grid md:grid-cols-2 gap-6">
-          <PatternSelector
-            selectedPattern={selectedPattern}
-            onPatternChange={setSelectedPattern}
-          />
-          <StormParameters
-            depth={depth}
-            duration={duration}
-            timeStep={timeStep}
-            unitSystem={unitSystem}
-            onDepthChange={setDepth}
-            onDurationChange={setDuration}
-            onTimeStepChange={setTimeStep}
-            onUnitSystemChange={setUnitSystem}
-          />
-        </div>
+            {/* SCS Regional Guide */}
+            <ScsRegionalGuide />
 
-        {/* Unit Tools */}
-        <div className="grid md:grid-cols-2 gap-6">
-          <UnitComparisonTable
-            depth={depth}
-            duration={duration}
-            unitSystem={unitSystem}
-          />
-          <UnitConversionCalculator />
-        </div>
+            {/* Controls */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <PatternSelector
+                selectedPattern={selectedPattern}
+                onPatternChange={setSelectedPattern}
+              />
+              <StormParameters
+                depth={depth}
+                duration={duration}
+                timeStep={timeStep}
+                unitSystem={unitSystem}
+                onDepthChange={setDepth}
+                onDurationChange={setDuration}
+                onTimeStepChange={setTimeStep}
+                onUnitSystemChange={setUnitSystem}
+              />
+            </div>
 
-        {/* Visualization */}
-        <section>
-          <RainfallChart data={chartData} unitSystem={unitSystem} />
-          <ExportButtons
-            data={exportData}
-            pattern={patternNames[selectedPattern]}
-            totalDepth={depth}
-            duration={duration}
-            timeStep={timeStep}
-            unitSystem={unitSystem}
-          />
-        </section>
+            {/* Unit Tools */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <UnitComparisonTable
+                depth={depth}
+                duration={duration}
+                unitSystem={unitSystem}
+              />
+              <UnitConversionCalculator />
+            </div>
 
-        {/* SWMM5 File Integration */}
-        <SwmmFileIntegration
-          selectedPattern={selectedPattern}
-          patternName={patternNames[selectedPattern]}
-          totalDepth={depth}
-          duration={duration}
-          timeStep={timeStep}
-          unitSystem={unitSystem}
-        />
+            {/* Visualization */}
+            <section>
+              <RainfallChart data={chartData} unitSystem={unitSystem} />
+              <ExportButtons
+                data={exportData}
+                pattern={patternNames[selectedPattern]}
+                totalDepth={depth}
+                duration={duration}
+                timeStep={timeStep}
+                unitSystem={unitSystem}
+              />
+            </section>
 
-        {/* Pattern Comparison */}
-        <PatternComparison
-          depth={depth}
-          duration={duration}
-          timeStep={timeStep}
-          unitSystem={unitSystem}
-        />
+            {/* SWMM5 File Integration */}
+            <SwmmFileIntegration
+              selectedPattern={selectedPattern}
+              patternName={patternNames[selectedPattern]}
+              totalDepth={depth}
+              duration={duration}
+              timeStep={timeStep}
+              unitSystem={unitSystem}
+            />
+
+            {/* Pattern Comparison */}
+            <PatternComparison
+              depth={depth}
+              duration={duration}
+              timeStep={timeStep}
+              unitSystem={unitSystem}
+            />
+          </TabsContent>
+
+          <TabsContent value="docs">
+            <Documentation />
+          </TabsContent>
+        </Tabs>
       </main>
 
       {/* Footer */}
