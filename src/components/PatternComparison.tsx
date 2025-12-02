@@ -50,12 +50,18 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'huff2', name: 'Huff 2nd Quartile', color: '#ec4899', category: 'Huff' },
   { id: 'huff3', name: 'Huff 3rd Quartile', color: '#f43f5e', category: 'Huff' },
   { id: 'huff4', name: 'Huff 4th Quartile', color: '#ef4444', category: 'Huff' },
-  // Chicago
+  // Chicago & Block
   { id: 'chicago', name: 'Chicago Storm', color: '#14b8a6', category: 'Other' },
+  { id: 'block', name: 'Block (Uniform)', color: '#737373', category: 'Other' },
   // International
-  { id: 'desbordes', name: 'Desbordes', color: '#6366f1', category: 'International' },
+  { id: 'desbordes', name: 'Desbordes (France)', color: '#6366f1', category: 'International' },
   { id: 'arr', name: 'Australian ARR', color: '#a855f7', category: 'International' },
   { id: 'dwa', name: 'German DWA', color: '#84cc16', category: 'International' },
+  { id: 'jma', name: 'Japan JMA', color: '#0ea5e9', category: 'International' },
+  { id: 'china', name: 'Chinese P&C', color: '#dc2626', category: 'International' },
+  { id: 'sa_huff', name: 'South Africa Huff', color: '#fbbf24', category: 'International' },
+  { id: 'dutch', name: 'Dutch KNMI', color: '#f97316', category: 'International' },
+  { id: 'italian', name: 'Italian (LSPP)', color: '#059669', category: 'International' },
 ];
 
 interface PresetGroup {
@@ -76,9 +82,19 @@ const presetGroups: PresetGroup[] = [
     description: 'Compare all Huff quartiles',
   },
   {
-    name: 'International',
-    patterns: ['chicago', 'desbordes', 'arr', 'dwa'],
-    description: 'Compare international patterns',
+    name: 'All International',
+    patterns: ['desbordes', 'arr', 'dwa', 'jma', 'china', 'sa_huff', 'dutch', 'italian'],
+    description: 'Compare all international patterns',
+  },
+  {
+    name: 'Asian',
+    patterns: ['jma', 'china'],
+    description: 'Japanese and Chinese patterns',
+  },
+  {
+    name: 'European',
+    patterns: ['desbordes', 'dwa', 'dutch', 'italian'],
+    description: 'European design patterns',
   },
   {
     name: 'US Standard',
