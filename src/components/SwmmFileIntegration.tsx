@@ -5,13 +5,18 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState, useRef, useMemo } from "react";
-import { Upload, Download, FileText, Plus, Eye, Edit, Layers } from "lucide-react";
+import { useState, useRef } from "react";
+import { Upload, Download, FileText, Plus, Eye, Edit, Layers, FileInput, Droplets } from "lucide-react";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 import { toast } from "@/hooks/use-toast";
 import { type UnitSystem, convertDepth, convertIntensity, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
+
+interface ImportedTimeSeries {
+  name: string;
+  data: Array<{ date: string; time: string; value: number }>;
+}
 
 interface SwmmFileIntegrationProps {
   selectedPattern: PatternType;
@@ -32,9 +37,15 @@ const allPatterns: Array<{ id: PatternType; name: string; category: string }> = 
   { id: 'huff3', name: 'Huff 3rd Quartile', category: 'Huff' },
   { id: 'huff4', name: 'Huff 4th Quartile', category: 'Huff' },
   { id: 'chicago', name: 'Chicago Storm', category: 'Other' },
-  { id: 'desbordes', name: 'Desbordes', category: 'International' },
+  { id: 'block', name: 'Block (Uniform)', category: 'Other' },
+  { id: 'desbordes', name: 'Desbordes (France)', category: 'International' },
   { id: 'arr', name: 'Australian ARR', category: 'International' },
   { id: 'dwa', name: 'German DWA', category: 'International' },
+  { id: 'jma', name: 'Japan JMA', category: 'International' },
+  { id: 'china', name: 'Chinese P&C', category: 'International' },
+  { id: 'sa_huff', name: 'South Africa Huff', category: 'International' },
+  { id: 'dutch', name: 'Dutch KNMI', category: 'International' },
+  { id: 'italian', name: 'Italian (LSPP)', category: 'International' },
 ];
 
 export function SwmmFileIntegration({
@@ -56,7 +67,16 @@ export function SwmmFileIntegration({
   const [selectedBatchPatterns, setSelectedBatchPatterns] = useState<PatternType[]>([]);
   const [batchMode, setBatchMode] = useState(false);
   
+  // Import state
+  const [importedTimeSeries, setImportedTimeSeries] = useState<ImportedTimeSeries[]>([]);
+  const [selectedImportSeries, setSelectedImportSeries] = useState<string>("");
+  const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
+  
+  // ICM export state
+  const [icmEventName, setIcmEventName] = useState<string>("");
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const importFileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -82,6 +102,152 @@ export function SwmmFileIntegration({
     toast({
       title: "File loaded",
       description: `Loaded ${file.name}`
+    });
+    
+    // Parse existing timeseries from the file
+    parseTimeSeriesFromInp(content);
+  };
+
+  // Parse existing SWMM5 timeseries from .inp content
+  const parseTimeSeriesFromInp = (content: string) => {
+    const lines = content.split('\n');
+    const timeSeriesMap: Record<string, ImportedTimeSeries> = {};
+    let inTimeSeriesSection = false;
+    
+    for (const line of lines) {
+      const trimmed = line.trim();
+      
+      // Check for section headers
+      if (trimmed.startsWith('[')) {
+        inTimeSeriesSection = trimmed.toUpperCase() === '[TIMESERIES]';
+        continue;
+      }
+      
+      // Skip comments and empty lines
+      if (!inTimeSeriesSection || trimmed.startsWith(';') || trimmed === '') {
+        continue;
+      }
+      
+      // Parse timeseries line: Name Date Time Value
+      const parts = trimmed.split(/\s+/).filter(p => p.length > 0);
+      if (parts.length >= 4) {
+        const [name, date, time, value] = parts;
+        const numValue = parseFloat(value);
+        
+        if (!isNaN(numValue)) {
+          if (!timeSeriesMap[name]) {
+            timeSeriesMap[name] = { name, data: [] };
+          }
+          timeSeriesMap[name].data.push({ date, time, value: numValue });
+        }
+      }
+    }
+    
+    const parsed = Object.values(timeSeriesMap);
+    setImportedTimeSeries(parsed);
+    
+    if (parsed.length > 0) {
+      toast({
+        title: "Timeseries found",
+        description: `Found ${parsed.length} existing timeseries in the file`
+      });
+    }
+  };
+
+  // Import a timeseries for editing
+  const importTimeSeriesForEditing = () => {
+    const series = importedTimeSeries.find(ts => ts.name === selectedImportSeries);
+    if (!series) return;
+    
+    // Convert to editable format
+    const lines: string[] = [];
+    lines.push(`; Imported time series: ${series.name}`);
+    lines.push(`${series.name}`);
+    
+    for (const point of series.data) {
+      lines.push(`${series.name}  ${point.date}  ${point.time}  ${point.value.toFixed(6)}`);
+    }
+    
+    setEditedData(lines.join('\n'));
+    setPreviewData(lines.join('\n'));
+    setTimeSeriesName(series.name);
+    setIsImportDialogOpen(false);
+    setIsPreviewOpen(true);
+    
+    toast({
+      title: "Timeseries imported",
+      description: `Loaded "${series.name}" for editing`
+    });
+  };
+
+  // Generate ICM rainfall event format
+  const generateIcmRainfallEvent = (pattern: PatternType, patternDisplayName: string, eventName: string): string => {
+    const intensities = generateRainfallData(pattern, totalDepth, duration, timeStep);
+    const exportDepth = convertDepth(totalDepth, 'USA', unitSystem);
+    const lines: string[] = [];
+    
+    // ICM CSV-style rainfall event format
+    lines.push(`! InfoWorks ICM Rainfall Event`);
+    lines.push(`! Generated by Pattern Painter`);
+    lines.push(`! Pattern: ${patternDisplayName}`);
+    lines.push(`! Total depth: ${exportDepth.toFixed(unitSystem === 'USA' ? 2 : 1)} ${getDepthUnit(unitSystem)}, Duration: ${duration} hrs, Time step: ${timeStep} min`);
+    lines.push(`!`);
+    lines.push(`[EVENT]`);
+    lines.push(`Name=${eventName || `RF_${patternDisplayName.replace(/\s+/g, '_')}`}`);
+    lines.push(`Type=RAINFALL`);
+    lines.push(`Units=${unitSystem === 'USA' ? 'in/hr' : 'mm/hr'}`);
+    lines.push(`Timestep=${timeStep}`);
+    lines.push(`!`);
+    lines.push(`[DATA]`);
+    lines.push(`! Time(min), Intensity(${getIntensityUnit(unitSystem)})`);
+    
+    for (let i = 0; i < intensities.length; i++) {
+      const timeMinutes = i * timeStep;
+      const intensity = convertIntensity(intensities[i], 'USA', unitSystem);
+      lines.push(`${timeMinutes},${intensity.toFixed(4)}`);
+    }
+    
+    lines.push(`[END]`);
+    
+    return lines.join('\n');
+  };
+
+  // Generate batch ICM data
+  const generateBatchIcmData = (): string => {
+    const allEvents: string[] = [];
+    
+    selectedBatchPatterns.forEach((pattern) => {
+      const patternInfo = allPatterns.find(p => p.id === pattern);
+      if (!patternInfo) return;
+      
+      const eventName = `RF_${patternInfo.name.replace(/\s+/g, '_')}`;
+      const eventData = generateIcmRainfallEvent(pattern, patternInfo.name, eventName);
+      allEvents.push(eventData);
+    });
+    
+    return allEvents.join('\n\n');
+  };
+
+  // Export as ICM file
+  const exportAsIcm = () => {
+    const eventName = icmEventName || `RF_${patternName.replace(/\s+/g, '_')}`;
+    const icmData = batchMode ? generateBatchIcmData() : generateIcmRainfallEvent(selectedPattern, patternName, eventName);
+    
+    const blob = new Blob([icmData], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = batchMode 
+      ? 'batch_rainfall_events.icm'
+      : `${eventName}.icm`;
+    link.click();
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "ICM file generated",
+      description: batchMode
+        ? `Created ${selectedBatchPatterns.length} rainfall events for ICM`
+        : `Created rainfall event "${eventName}" for ICM`
     });
   };
 
@@ -325,10 +491,10 @@ LINKS ALL
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileText className="w-5 h-5" />
-          SWMM5 File Integration
+          SWMM5 & ICM Integration
         </CardTitle>
         <CardDescription>
-          Append generated rainfall time series to existing SWMM5 .inp files
+          Import, edit, and export rainfall time series for SWMM5 and InfoWorks ICM
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -345,16 +511,22 @@ LINKS ALL
           <TabsContent value="single" className="space-y-4 mt-4">
             {/* Time Series Name */}
             <div className="space-y-2">
-              <Label htmlFor="ts-name">Time Series Name</Label>
+              <Label htmlFor="ts-name">Time Series Name (SWMM5)</Label>
               <Input
                 id="ts-name"
                 placeholder="e.g., TS_SCS_Type_II"
                 value={timeSeriesName}
                 onChange={(e) => setTimeSeriesName(e.target.value)}
               />
-              <p className="text-xs text-muted-foreground">
-                Name for the time series in the SWMM5 file
-              </p>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="icm-name">Event Name (ICM)</Label>
+              <Input
+                id="icm-name"
+                placeholder="e.g., RF_Design_Storm"
+                value={icmEventName}
+                onChange={(e) => setIcmEventName(e.target.value)}
+              />
             </div>
           </TabsContent>
           
@@ -407,6 +579,7 @@ LINKS ALL
                 onClick={() => {
                   setInpFile(null);
                   setInpContent("");
+                  setImportedTimeSeries([]);
                   if (fileInputRef.current) fileInputRef.current.value = "";
                 }}
               >
@@ -422,8 +595,44 @@ LINKS ALL
           )}
         </div>
 
+        {/* Import Existing Timeseries */}
+        {importedTimeSeries.length > 0 && (
+          <div className="space-y-2 p-3 rounded-lg border border-primary/30 bg-primary/5">
+            <div className="flex items-center gap-2">
+              <FileInput className="w-4 h-4 text-primary" />
+              <Label className="text-sm font-semibold">Import Existing Timeseries</Label>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Found {importedTimeSeries.length} timeseries in the uploaded file. Select one to import and edit.
+            </p>
+            <div className="flex gap-2">
+              <Select value={selectedImportSeries} onValueChange={setSelectedImportSeries}>
+                <SelectTrigger className="flex-1">
+                  <SelectValue placeholder="Select timeseries to import" />
+                </SelectTrigger>
+                <SelectContent>
+                  {importedTimeSeries.map((ts) => (
+                    <SelectItem key={ts.name} value={ts.name}>
+                      {ts.name} ({ts.data.length} points)
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button
+                variant="outline"
+                disabled={!selectedImportSeries}
+                onClick={importTimeSeriesForEditing}
+              >
+                <Upload className="w-4 h-4 mr-2" />
+                Import
+              </Button>
+            </div>
+          </div>
+        )}
+
         {/* Action Buttons */}
         <div className="space-y-2">
+          <p className="text-xs font-semibold text-muted-foreground">SWMM5 Export</p>
           <Button
             onClick={previewTimeSeriesData}
             variant="outline"
@@ -451,6 +660,26 @@ LINKS ALL
             <Download className="w-4 h-4" />
             {batchMode ? 'Generate Batch SWMM5 File' : 'Generate New SWMM5 File'}
           </Button>
+        </div>
+
+        {/* ICM Export */}
+        <div className="space-y-2">
+          <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
+            <Droplets className="w-3 h-3" />
+            InfoWorks ICM Export
+          </p>
+          <Button
+            onClick={exportAsIcm}
+            variant="outline"
+            disabled={(!batchMode && !icmEventName.trim() && !patternName) || (batchMode && selectedBatchPatterns.length === 0)}
+            className="w-full flex items-center gap-2"
+          >
+            <Download className="w-4 h-4" />
+            {batchMode ? `Export ${selectedBatchPatterns.length} ICM Events` : 'Export ICM Rainfall Event'}
+          </Button>
+          <p className="text-xs text-muted-foreground">
+            Generates native ICM rainfall event format (.icm) with timestep data
+          </p>
         </div>
 
         {/* Preview/Edit Dialog */}
