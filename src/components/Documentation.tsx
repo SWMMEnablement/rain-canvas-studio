@@ -4,6 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge";
 import { TcCalculator } from "./TcCalculator";
 import { IdfLookup } from "./IdfLookup";
+import CurveNumberCalculator from "./CurveNumberCalculator";
 import { 
   Droplets, 
   CloudRain, 
@@ -1340,6 +1341,9 @@ export function Documentation() {
 
           {/* IDF Lookup Tool */}
           <IdfLookup />
+
+          {/* Curve Number Calculator */}
+          <CurveNumberCalculator />
         </TabsContent>
       </Tabs>
 
