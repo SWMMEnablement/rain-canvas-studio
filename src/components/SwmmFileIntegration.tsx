@@ -217,6 +217,42 @@ export function SwmmFileIntegration({
     });
   };
   
+  // Soil type presets (USDA/NRCS Hydrologic Soil Groups)
+  const soilTypePresets = {
+    A: {
+      name: 'Type A - Sand/Gravel',
+      description: 'High infiltration, low runoff potential',
+      params: { maxInfil: 5.0, minInfil: 1.2, decay: 4, dryTime: 4, sPerv: 0.30, nPerv: 0.20 }
+    },
+    B: {
+      name: 'Type B - Sandy Loam',
+      description: 'Moderate infiltration',
+      params: { maxInfil: 3.0, minInfil: 0.6, decay: 4, dryTime: 5, sPerv: 0.20, nPerv: 0.15 }
+    },
+    C: {
+      name: 'Type C - Clay Loam',
+      description: 'Low infiltration',
+      params: { maxInfil: 1.5, minInfil: 0.3, decay: 3, dryTime: 7, sPerv: 0.12, nPerv: 0.12 }
+    },
+    D: {
+      name: 'Type D - Clay',
+      description: 'Very low infiltration, high runoff potential',
+      params: { maxInfil: 0.8, minInfil: 0.1, decay: 2, dryTime: 10, sPerv: 0.08, nPerv: 0.10 }
+    }
+  };
+  
+  const applySoilTypePreset = (soilType: keyof typeof soilTypePresets) => {
+    const preset = soilTypePresets[soilType];
+    setSwmmParams(prev => ({
+      ...prev,
+      ...preset.params
+    }));
+    toast({
+      title: "Soil type applied",
+      description: `Applied "${preset.name}" infiltration parameters`
+    });
+  };
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
   const importFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -1762,7 +1798,28 @@ LINKS ALL
                 </div>
               </div>
               
-              <p className="text-xs font-semibold text-foreground pt-2">Infiltration (Horton)</p>
+              <div className="border-t border-border pt-3">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-semibold text-foreground">Infiltration (Horton)</p>
+                  <div className="flex gap-1">
+                    {Object.entries(soilTypePresets).map(([key, preset]) => (
+                      <Button
+                        key={key}
+                        variant="outline"
+                        size="sm"
+                        className="h-6 text-xs px-2"
+                        onClick={() => applySoilTypePreset(key as keyof typeof soilTypePresets)}
+                        title={preset.description}
+                      >
+                        {key}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground mb-2">
+                  Soil Type: A (Sand) → D (Clay) | Click to apply NRCS hydrologic soil group
+                </p>
+              </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                 <div className="space-y-1">
                   <Label className="text-xs">Max Rate ({unitSystem === 'USA' ? 'in/hr' : 'mm/hr'})</Label>
