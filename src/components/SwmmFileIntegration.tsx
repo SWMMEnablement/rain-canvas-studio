@@ -92,6 +92,28 @@ export function SwmmFileIntegration({
   // ICM export state
   const [icmEventName, setIcmEventName] = useState<string>("");
   
+  // EPA SWMM template customization
+  const [swmmParams, setSwmmParams] = useState({
+    subcatchArea: 10,
+    imperviousness: 50,
+    width: 500,
+    slope: 0.5,
+    nImperv: 0.01,
+    nPerv: 0.1,
+    sImperv: 0.05,
+    sPerv: 0.05,
+    pctZero: 25,
+    maxInfil: 3.0,
+    minInfil: 0.5,
+    decay: 4,
+    dryTime: 7,
+    conduitLength: 400,
+    conduitRoughness: 0.01,
+    conduitDiameter: 2,
+    junctionDepth: 4,
+  });
+  const [showSwmmParams, setShowSwmmParams] = useState(false);
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
   const importFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -801,23 +823,23 @@ RG1              INTENSITY ${timeStep.toString().padStart(2, '0')}:00    1.0    
 [SUBCATCHMENTS]
 ;;Name           Rain Gage        Outlet           Area     %Imperv  Width    %Slope   CurbLen  SnowPack
 ;;-------------- ---------------- ---------------- -------- -------- -------- -------- -------- ----------------
-S1               RG1              J1               10       50       500      0.5      0
+S1               RG1              J1               ${swmmParams.subcatchArea}       ${swmmParams.imperviousness}       ${swmmParams.width}      ${swmmParams.slope}      0
 
 [SUBAREAS]
 ;;Subcatchment   N-Imperv   N-Perv     S-Imperv   S-Perv     PctZero    RouteTo    PctRouted
 ;;-------------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
-S1               0.01       0.1        0.05       0.05       25         OUTLET
+S1               ${swmmParams.nImperv}       ${swmmParams.nPerv}        ${swmmParams.sImperv}       ${swmmParams.sPerv}       ${swmmParams.pctZero}         OUTLET
 
 [INFILTRATION]
 ;;Subcatchment   MaxRate    MinRate    Decay      DryTime    MaxInfil
 ;;-------------- ---------- ---------- ---------- ---------- ----------
-S1               3.0        0.5        4          7          0
+S1               ${swmmParams.maxInfil}        ${swmmParams.minInfil}        ${swmmParams.decay}          ${swmmParams.dryTime}          0
 
 [JUNCTIONS]
 ;;Name           Elevation  MaxDepth   InitDepth  SurDepth   Aponded
 ;;-------------- ---------- ---------- ---------- ---------- ----------
-J1               100        4          0          0          0
-J2               98         4          0          0          0
+J1               100        ${swmmParams.junctionDepth}          0          0          0
+J2               98         ${swmmParams.junctionDepth}          0          0          0
 
 [OUTFALLS]
 ;;Name           Elevation  Type       Stage Data       Gated    Route To
@@ -827,14 +849,14 @@ OUT1             96         FREE                        NO
 [CONDUITS]
 ;;Name           From Node        To Node          Length     Roughness  InOffset   OutOffset  InitFlow   MaxFlow
 ;;-------------- ---------------- ---------------- ---------- ---------- ---------- ---------- ---------- ----------
-C1               J1               J2               400        0.01       0          0          0          0
-C2               J2               OUT1             400        0.01       0          0          0          0
+C1               J1               J2               ${swmmParams.conduitLength}        ${swmmParams.conduitRoughness}       0          0          0          0
+C2               J2               OUT1             ${swmmParams.conduitLength}        ${swmmParams.conduitRoughness}       0          0          0          0
 
 [XSECTIONS]
 ;;Link           Shape        Geom1            Geom2      Geom3      Geom4      Barrels    Culvert
 ;;-------------- ------------ ---------------- ---------- ---------- ---------- ---------- ----------
-C1               CIRCULAR     2                0          0          0          1
-C2               CIRCULAR     2                0          0          0          1
+C1               CIRCULAR     ${swmmParams.conduitDiameter}                0          0          0          1
+C2               CIRCULAR     ${swmmParams.conduitDiameter}                0          0          0          1
 
 [TIMESERIES]
 ;;Name           Date       Time       Value
@@ -1514,10 +1536,196 @@ LINKS ALL
 
         {/* EPA SWMM Complete Template */}
         <div className="space-y-2">
-          <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
-            <Package className="w-3 h-3" />
-            EPA SWMM Complete Template
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
+              <Package className="w-3 h-3" />
+              EPA SWMM Complete Template
+            </p>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-6 text-xs"
+              onClick={() => setShowSwmmParams(!showSwmmParams)}
+            >
+              {showSwmmParams ? 'Hide' : 'Customize'} Parameters
+            </Button>
+          </div>
+          
+          {/* Customizable Parameters */}
+          {showSwmmParams && (
+            <div className="p-3 rounded-lg border border-border bg-accent/10 space-y-3">
+              <p className="text-xs font-semibold text-foreground">Subcatchment Parameters</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <div className="space-y-1">
+                  <Label className="text-xs">Area ({unitSystem === 'USA' ? 'acres' : 'ha'})</Label>
+                  <Input
+                    type="number"
+                    value={swmmParams.subcatchArea}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, subcatchArea: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Imperviousness (%)</Label>
+                  <Input
+                    type="number"
+                    value={swmmParams.imperviousness}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, imperviousness: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Width ({unitSystem === 'USA' ? 'ft' : 'm'})</Label>
+                  <Input
+                    type="number"
+                    value={swmmParams.width}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, width: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Slope (%)</Label>
+                  <Input
+                    type="number"
+                    step="0.1"
+                    value={swmmParams.slope}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, slope: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+              </div>
+              
+              <p className="text-xs font-semibold text-foreground pt-2">Surface Properties</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <div className="space-y-1">
+                  <Label className="text-xs">N-Imperv</Label>
+                  <Input
+                    type="number"
+                    step="0.001"
+                    value={swmmParams.nImperv}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, nImperv: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">N-Perv</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={swmmParams.nPerv}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, nPerv: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Dstore-Imperv ({unitSystem === 'USA' ? 'in' : 'mm'})</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={swmmParams.sImperv}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, sImperv: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Dstore-Perv ({unitSystem === 'USA' ? 'in' : 'mm'})</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={swmmParams.sPerv}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, sPerv: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+              </div>
+              
+              <p className="text-xs font-semibold text-foreground pt-2">Infiltration (Horton)</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <div className="space-y-1">
+                  <Label className="text-xs">Max Rate ({unitSystem === 'USA' ? 'in/hr' : 'mm/hr'})</Label>
+                  <Input
+                    type="number"
+                    step="0.1"
+                    value={swmmParams.maxInfil}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, maxInfil: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Min Rate ({unitSystem === 'USA' ? 'in/hr' : 'mm/hr'})</Label>
+                  <Input
+                    type="number"
+                    step="0.1"
+                    value={swmmParams.minInfil}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, minInfil: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Decay (1/hr)</Label>
+                  <Input
+                    type="number"
+                    value={swmmParams.decay}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, decay: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Dry Time (days)</Label>
+                  <Input
+                    type="number"
+                    value={swmmParams.dryTime}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, dryTime: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+              </div>
+              
+              <p className="text-xs font-semibold text-foreground pt-2">Conduit Properties</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <div className="space-y-1">
+                  <Label className="text-xs">Length ({unitSystem === 'USA' ? 'ft' : 'm'})</Label>
+                  <Input
+                    type="number"
+                    value={swmmParams.conduitLength}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, conduitLength: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Roughness (n)</Label>
+                  <Input
+                    type="number"
+                    step="0.001"
+                    value={swmmParams.conduitRoughness}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, conduitRoughness: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Diameter ({unitSystem === 'USA' ? 'ft' : 'm'})</Label>
+                  <Input
+                    type="number"
+                    step="0.1"
+                    value={swmmParams.conduitDiameter}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, conduitDiameter: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Junction Depth ({unitSystem === 'USA' ? 'ft' : 'm'})</Label>
+                  <Input
+                    type="number"
+                    step="0.5"
+                    value={swmmParams.junctionDepth}
+                    onChange={(e) => setSwmmParams(p => ({ ...p, junctionDepth: parseFloat(e.target.value) || 0 }))}
+                    className="h-8 text-xs"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          
           <Button
             onClick={exportEpaSwmmTemplate}
             variant="outline"
