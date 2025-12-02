@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { TcCalculator } from "./TcCalculator";
+import { IdfLookup } from "./IdfLookup";
 import { 
   Droplets, 
   CloudRain, 
@@ -1336,6 +1337,9 @@ export function Documentation() {
 
           {/* Interactive Tc Calculator */}
           <TcCalculator />
+
+          {/* IDF Lookup Tool */}
+          <IdfLookup />
         </TabsContent>
       </Tabs>
 
