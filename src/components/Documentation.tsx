@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { TcCalculator } from "./TcCalculator";
 import { IdfLookup } from "./IdfLookup";
 import CurveNumberCalculator from "./CurveNumberCalculator";
+import RunoffCalculator from "./RunoffCalculator";
 import { 
   Droplets, 
   CloudRain, 
@@ -1344,6 +1345,9 @@ export function Documentation() {
 
           {/* Curve Number Calculator */}
           <CurveNumberCalculator />
+
+          {/* Runoff Volume Calculator */}
+          <RunoffCalculator />
         </TabsContent>
       </Tabs>
 
