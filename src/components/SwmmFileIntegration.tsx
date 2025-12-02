@@ -16,6 +16,23 @@ import { type UnitSystem, convertDepth, convertIntensity, getDepthUnit, getInten
 interface ImportedTimeSeries {
   name: string;
   data: Array<{ date: string; time: string; value: number }>;
+  validation?: TimeSeriesValidation;
+}
+
+interface TimeSeriesValidation {
+  isValid: boolean;
+  warnings: string[];
+  errors: string[];
+  stats: {
+    totalPoints: number;
+    totalDepth: number;
+    maxValue: number;
+    minValue: number;
+    avgValue: number;
+    hasNegatives: boolean;
+    hasZeros: boolean;
+    durationMinutes: number;
+  };
 }
 
 interface SwmmFileIntegrationProps {
@@ -113,8 +130,11 @@ export function SwmmFileIntegration({
     const lines = content.split('\n');
     const timeSeriesMap: Record<string, ImportedTimeSeries> = {};
     let inTimeSeriesSection = false;
+    let parseErrors: string[] = [];
+    let lineNumber = 0;
     
     for (const line of lines) {
+      lineNumber++;
       const trimmed = line.trim();
       
       // Check for section headers
@@ -134,24 +154,139 @@ export function SwmmFileIntegration({
         const [name, date, time, value] = parts;
         const numValue = parseFloat(value);
         
+        // Validate date format (MM/DD/YYYY or similar)
+        const dateRegex = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/;
+        if (!dateRegex.test(date)) {
+          parseErrors.push(`Line ${lineNumber}: Invalid date format "${date}" for series "${name}"`);
+        }
+        
+        // Validate time format (HH:MM or HH:MM:SS)
+        const timeRegex = /^\d{1,2}:\d{2}(:\d{2})?$/;
+        if (!timeRegex.test(time)) {
+          parseErrors.push(`Line ${lineNumber}: Invalid time format "${time}" for series "${name}"`);
+        }
+        
         if (!isNaN(numValue)) {
           if (!timeSeriesMap[name]) {
             timeSeriesMap[name] = { name, data: [] };
           }
           timeSeriesMap[name].data.push({ date, time, value: numValue });
+        } else {
+          parseErrors.push(`Line ${lineNumber}: Invalid numeric value "${value}" for series "${name}"`);
         }
+      } else if (parts.length > 0 && parts.length < 4) {
+        parseErrors.push(`Line ${lineNumber}: Incomplete data (expected: Name Date Time Value)`);
       }
     }
     
-    const parsed = Object.values(timeSeriesMap);
+    // Validate each timeseries
+    const parsed = Object.values(timeSeriesMap).map(ts => ({
+      ...ts,
+      validation: validateTimeSeries(ts)
+    }));
+    
     setImportedTimeSeries(parsed);
     
+    if (parseErrors.length > 0) {
+      toast({
+        title: "Parse warnings",
+        description: `${parseErrors.length} issue(s) found while parsing. Some data may be incomplete.`,
+        variant: "destructive"
+      });
+      console.warn("SWMM5 Parse Errors:", parseErrors);
+    }
+    
     if (parsed.length > 0) {
+      const validCount = parsed.filter(ts => ts.validation?.isValid).length;
       toast({
         title: "Timeseries found",
-        description: `Found ${parsed.length} existing timeseries in the file`
+        description: `Found ${parsed.length} timeseries (${validCount} valid)`
       });
     }
+  };
+
+  // Validate a timeseries
+  const validateTimeSeries = (ts: ImportedTimeSeries): TimeSeriesValidation => {
+    const warnings: string[] = [];
+    const errors: string[] = [];
+    
+    const values = ts.data.map(d => d.value);
+    const totalPoints = values.length;
+    const totalDepth = values.reduce((sum, v) => sum + v, 0);
+    const maxValue = Math.max(...values);
+    const minValue = Math.min(...values);
+    const avgValue = totalDepth / totalPoints;
+    const hasNegatives = values.some(v => v < 0);
+    const hasZeros = values.some(v => v === 0);
+    
+    // Calculate duration from time values
+    let durationMinutes = 0;
+    if (ts.data.length >= 2) {
+      const parseTime = (timeStr: string): number => {
+        const parts = timeStr.split(':').map(Number);
+        return parts[0] * 60 + parts[1] + (parts[2] || 0) / 60;
+      };
+      const startMinutes = parseTime(ts.data[0].time);
+      const endMinutes = parseTime(ts.data[ts.data.length - 1].time);
+      durationMinutes = endMinutes - startMinutes;
+      if (durationMinutes < 0) durationMinutes += 24 * 60; // Handle day wrap
+    }
+    
+    // Validation checks
+    if (totalPoints === 0) {
+      errors.push("No data points found");
+    }
+    
+    if (totalPoints < 3) {
+      warnings.push(`Only ${totalPoints} data points - may be too sparse`);
+    }
+    
+    if (hasNegatives) {
+      errors.push("Contains negative values - rainfall cannot be negative");
+    }
+    
+    if (maxValue > 50) {
+      warnings.push(`Max value (${maxValue.toFixed(2)}) seems unusually high - verify units`);
+    }
+    
+    if (totalDepth > 100) {
+      warnings.push(`Total depth (${totalDepth.toFixed(2)}) seems very high - verify data`);
+    }
+    
+    if (durationMinutes > 0 && durationMinutes < 5) {
+      warnings.push("Duration less than 5 minutes - may be incomplete");
+    }
+    
+    // Check for monotonic time progression
+    let timeIssues = 0;
+    for (let i = 1; i < ts.data.length; i++) {
+      const prev = ts.data[i - 1].time;
+      const curr = ts.data[i].time;
+      if (curr <= prev) {
+        timeIssues++;
+      }
+    }
+    if (timeIssues > 0) {
+      warnings.push(`${timeIssues} non-monotonic time step(s) detected`);
+    }
+    
+    const isValid = errors.length === 0;
+    
+    return {
+      isValid,
+      warnings,
+      errors,
+      stats: {
+        totalPoints,
+        totalDepth,
+        maxValue,
+        minValue,
+        avgValue,
+        hasNegatives,
+        hasZeros,
+        durationMinutes
+      }
+    };
   };
 
   // Import a timeseries for editing
@@ -597,13 +732,13 @@ LINKS ALL
 
         {/* Import Existing Timeseries */}
         {importedTimeSeries.length > 0 && (
-          <div className="space-y-2 p-3 rounded-lg border border-primary/30 bg-primary/5">
+          <div className="space-y-3 p-3 rounded-lg border border-primary/30 bg-primary/5">
             <div className="flex items-center gap-2">
               <FileInput className="w-4 h-4 text-primary" />
               <Label className="text-sm font-semibold">Import Existing Timeseries</Label>
             </div>
             <p className="text-xs text-muted-foreground">
-              Found {importedTimeSeries.length} timeseries in the uploaded file. Select one to import and edit.
+              Found {importedTimeSeries.length} timeseries. Select one to import and edit.
             </p>
             <div className="flex gap-2">
               <Select value={selectedImportSeries} onValueChange={setSelectedImportSeries}>
@@ -613,7 +748,17 @@ LINKS ALL
                 <SelectContent>
                   {importedTimeSeries.map((ts) => (
                     <SelectItem key={ts.name} value={ts.name}>
-                      {ts.name} ({ts.data.length} points)
+                      <span className="flex items-center gap-2">
+                        {ts.validation?.isValid ? (
+                          <span className="w-2 h-2 rounded-full bg-green-500" />
+                        ) : (
+                          <span className="w-2 h-2 rounded-full bg-red-500" />
+                        )}
+                        {ts.name} ({ts.data.length} pts)
+                        {ts.validation?.warnings.length ? (
+                          <span className="text-amber-500 text-xs">⚠</span>
+                        ) : null}
+                      </span>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -627,6 +772,67 @@ LINKS ALL
                 Import
               </Button>
             </div>
+            
+            {/* Validation Results */}
+            {selectedImportSeries && (() => {
+              const selected = importedTimeSeries.find(ts => ts.name === selectedImportSeries);
+              if (!selected?.validation) return null;
+              const { validation } = selected;
+              
+              return (
+                <div className="space-y-2 pt-2 border-t border-border">
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs font-semibold ${validation.isValid ? 'text-green-600' : 'text-red-600'}`}>
+                      {validation.isValid ? '✓ Valid' : '✗ Invalid'}
+                    </span>
+                  </div>
+                  
+                  {/* Stats */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                    <div className="p-2 rounded bg-background/50">
+                      <p className="text-muted-foreground">Points</p>
+                      <p className="font-mono font-semibold">{validation.stats.totalPoints}</p>
+                    </div>
+                    <div className="p-2 rounded bg-background/50">
+                      <p className="text-muted-foreground">Total Depth</p>
+                      <p className="font-mono font-semibold">{validation.stats.totalDepth.toFixed(3)}</p>
+                    </div>
+                    <div className="p-2 rounded bg-background/50">
+                      <p className="text-muted-foreground">Max Value</p>
+                      <p className="font-mono font-semibold">{validation.stats.maxValue.toFixed(4)}</p>
+                    </div>
+                    <div className="p-2 rounded bg-background/50">
+                      <p className="text-muted-foreground">Duration</p>
+                      <p className="font-mono font-semibold">{validation.stats.durationMinutes.toFixed(0)} min</p>
+                    </div>
+                  </div>
+                  
+                  {/* Errors */}
+                  {validation.errors.length > 0 && (
+                    <div className="p-2 rounded bg-red-500/10 border border-red-500/30">
+                      <p className="text-xs font-semibold text-red-600 mb-1">Errors:</p>
+                      <ul className="text-xs text-red-600 space-y-0.5">
+                        {validation.errors.map((err, i) => (
+                          <li key={i}>• {err}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  {/* Warnings */}
+                  {validation.warnings.length > 0 && (
+                    <div className="p-2 rounded bg-amber-500/10 border border-amber-500/30">
+                      <p className="text-xs font-semibold text-amber-600 mb-1">Warnings:</p>
+                      <ul className="text-xs text-amber-600 space-y-0.5">
+                        {validation.warnings.map((warn, i) => (
+                          <li key={i}>• {warn}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
         )}
 
