@@ -114,6 +114,109 @@ export function SwmmFileIntegration({
   });
   const [showSwmmParams, setShowSwmmParams] = useState(false);
   
+  // Land use presets for SWMM parameters
+  const landUsePresets = {
+    residential_low: {
+      name: 'Low-Density Residential',
+      params: {
+        subcatchArea: 10, imperviousness: 25, width: 400, slope: 1.0,
+        nImperv: 0.011, nPerv: 0.15, sImperv: 0.06, sPerv: 0.15,
+        pctZero: 25, maxInfil: 3.0, minInfil: 0.5, decay: 4, dryTime: 7,
+        conduitLength: 400, conduitRoughness: 0.013, conduitDiameter: 1.5, junctionDepth: 4
+      }
+    },
+    residential_med: {
+      name: 'Medium-Density Residential',
+      params: {
+        subcatchArea: 5, imperviousness: 50, width: 300, slope: 0.8,
+        nImperv: 0.012, nPerv: 0.12, sImperv: 0.05, sPerv: 0.10,
+        pctZero: 30, maxInfil: 2.5, minInfil: 0.4, decay: 4, dryTime: 7,
+        conduitLength: 350, conduitRoughness: 0.013, conduitDiameter: 2.0, junctionDepth: 5
+      }
+    },
+    residential_high: {
+      name: 'High-Density Residential',
+      params: {
+        subcatchArea: 3, imperviousness: 70, width: 250, slope: 0.5,
+        nImperv: 0.012, nPerv: 0.10, sImperv: 0.05, sPerv: 0.08,
+        pctZero: 40, maxInfil: 2.0, minInfil: 0.3, decay: 4, dryTime: 7,
+        conduitLength: 300, conduitRoughness: 0.013, conduitDiameter: 2.5, junctionDepth: 6
+      }
+    },
+    commercial: {
+      name: 'Commercial',
+      params: {
+        subcatchArea: 8, imperviousness: 85, width: 500, slope: 0.5,
+        nImperv: 0.011, nPerv: 0.10, sImperv: 0.05, sPerv: 0.06,
+        pctZero: 50, maxInfil: 2.0, minInfil: 0.3, decay: 4, dryTime: 7,
+        conduitLength: 400, conduitRoughness: 0.012, conduitDiameter: 3.0, junctionDepth: 8
+      }
+    },
+    industrial: {
+      name: 'Industrial',
+      params: {
+        subcatchArea: 15, imperviousness: 90, width: 600, slope: 0.3,
+        nImperv: 0.011, nPerv: 0.08, sImperv: 0.04, sPerv: 0.05,
+        pctZero: 60, maxInfil: 1.5, minInfil: 0.2, decay: 3, dryTime: 7,
+        conduitLength: 500, conduitRoughness: 0.012, conduitDiameter: 4.0, junctionDepth: 10
+      }
+    },
+    park: {
+      name: 'Park / Open Space',
+      params: {
+        subcatchArea: 20, imperviousness: 5, width: 800, slope: 2.0,
+        nImperv: 0.02, nPerv: 0.25, sImperv: 0.10, sPerv: 0.30,
+        pctZero: 10, maxInfil: 4.5, minInfil: 1.0, decay: 4, dryTime: 5,
+        conduitLength: 500, conduitRoughness: 0.02, conduitDiameter: 1.5, junctionDepth: 3
+      }
+    },
+    agricultural: {
+      name: 'Agricultural',
+      params: {
+        subcatchArea: 50, imperviousness: 2, width: 1000, slope: 1.5,
+        nImperv: 0.02, nPerv: 0.20, sImperv: 0.10, sPerv: 0.25,
+        pctZero: 5, maxInfil: 4.0, minInfil: 0.8, decay: 4, dryTime: 5,
+        conduitLength: 600, conduitRoughness: 0.025, conduitDiameter: 1.5, junctionDepth: 3
+      }
+    },
+    parking_lot: {
+      name: 'Parking Lot',
+      params: {
+        subcatchArea: 2, imperviousness: 98, width: 200, slope: 0.5,
+        nImperv: 0.011, nPerv: 0.10, sImperv: 0.03, sPerv: 0.05,
+        pctZero: 80, maxInfil: 1.0, minInfil: 0.1, decay: 3, dryTime: 7,
+        conduitLength: 200, conduitRoughness: 0.012, conduitDiameter: 2.0, junctionDepth: 4
+      }
+    },
+    forest: {
+      name: 'Forest / Woods',
+      params: {
+        subcatchArea: 100, imperviousness: 1, width: 1500, slope: 5.0,
+        nImperv: 0.02, nPerv: 0.40, sImperv: 0.15, sPerv: 0.40,
+        pctZero: 5, maxInfil: 5.0, minInfil: 1.5, decay: 4, dryTime: 4,
+        conduitLength: 800, conduitRoughness: 0.03, conduitDiameter: 1.0, junctionDepth: 2
+      }
+    },
+    highway: {
+      name: 'Highway / Road',
+      params: {
+        subcatchArea: 5, imperviousness: 95, width: 150, slope: 2.0,
+        nImperv: 0.011, nPerv: 0.08, sImperv: 0.03, sPerv: 0.05,
+        pctZero: 70, maxInfil: 1.5, minInfil: 0.2, decay: 3, dryTime: 7,
+        conduitLength: 300, conduitRoughness: 0.012, conduitDiameter: 2.5, junctionDepth: 5
+      }
+    }
+  };
+  
+  const applyLandUsePreset = (presetKey: keyof typeof landUsePresets) => {
+    const preset = landUsePresets[presetKey];
+    setSwmmParams(preset.params);
+    toast({
+      title: "Preset applied",
+      description: `Applied "${preset.name}" parameters`
+    });
+  };
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
   const importFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -1554,7 +1657,27 @@ LINKS ALL
           {/* Customizable Parameters */}
           {showSwmmParams && (
             <div className="p-3 rounded-lg border border-border bg-accent/10 space-y-3">
-              <p className="text-xs font-semibold text-foreground">Subcatchment Parameters</p>
+              {/* Land Use Presets */}
+              <div className="space-y-2">
+                <p className="text-xs font-semibold text-foreground">Land Use Presets</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.entries(landUsePresets).map(([key, preset]) => (
+                    <Button
+                      key={key}
+                      variant="outline"
+                      size="sm"
+                      className="h-7 text-xs"
+                      onClick={() => applyLandUsePreset(key as keyof typeof landUsePresets)}
+                    >
+                      {preset.name}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="border-t border-border pt-3">
+                <p className="text-xs font-semibold text-foreground">Subcatchment Parameters</p>
+              </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                 <div className="space-y-1">
                   <Label className="text-xs">Area ({unitSystem === 'USA' ? 'acres' : 'ha'})</Label>
