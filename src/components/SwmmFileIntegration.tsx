@@ -7,8 +7,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState, useRef } from "react";
-import { Upload, Download, FileText, Plus, Eye, Edit, Layers, FileInput, Droplets, Wrench, CloudRain, FileCode, Package } from "lucide-react";
+import { useState, useRef, useMemo } from "react";
+import { Upload, Download, FileText, Plus, Eye, Edit, Layers, FileInput, Droplets, Wrench, CloudRain, FileCode, Package, AlertTriangle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 import { toast } from "@/hooks/use-toast";
 import { type UnitSystem, convertDepth, convertIntensity, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
@@ -252,6 +253,125 @@ export function SwmmFileIntegration({
       description: `Applied "${preset.name}" infiltration parameters`
     });
   };
+  
+  // Parameter validation with realistic ranges
+  const parameterValidation = useMemo(() => {
+    const warnings: Array<{ param: string; message: string; severity: 'warning' | 'error' }> = [];
+    
+    // Subcatchment Area
+    if (swmmParams.subcatchArea <= 0) {
+      warnings.push({ param: 'subcatchArea', message: 'Subcatchment area must be positive', severity: 'error' });
+    } else if (swmmParams.subcatchArea > 1000) {
+      warnings.push({ param: 'subcatchArea', message: 'Subcatchment area >1000 acres is unusually large', severity: 'warning' });
+    }
+    
+    // Imperviousness
+    if (swmmParams.imperviousness < 0 || swmmParams.imperviousness > 100) {
+      warnings.push({ param: 'imperviousness', message: 'Imperviousness must be 0-100%', severity: 'error' });
+    } else if (swmmParams.imperviousness > 98) {
+      warnings.push({ param: 'imperviousness', message: 'Imperviousness >98% is rarely realistic', severity: 'warning' });
+    }
+    
+    // Width
+    if (swmmParams.width <= 0) {
+      warnings.push({ param: 'width', message: 'Width must be positive', severity: 'error' });
+    } else if (swmmParams.width > 5000) {
+      warnings.push({ param: 'width', message: 'Width >5000 ft is unusually large', severity: 'warning' });
+    }
+    
+    // Slope
+    if (swmmParams.slope <= 0) {
+      warnings.push({ param: 'slope', message: 'Slope must be positive', severity: 'error' });
+    } else if (swmmParams.slope > 20) {
+      warnings.push({ param: 'slope', message: 'Slope >20% indicates steep terrain', severity: 'warning' });
+    } else if (swmmParams.slope < 0.1) {
+      warnings.push({ param: 'slope', message: 'Slope <0.1% may cause drainage issues', severity: 'warning' });
+    }
+    
+    // Manning's n (impervious)
+    if (swmmParams.nImperv < 0.001 || swmmParams.nImperv > 0.05) {
+      warnings.push({ param: 'nImperv', message: 'n-Imperv typically 0.01-0.02 for smooth surfaces', severity: 'warning' });
+    }
+    
+    // Manning's n (pervious)
+    if (swmmParams.nPerv < 0.01 || swmmParams.nPerv > 0.8) {
+      warnings.push({ param: 'nPerv', message: 'n-Pervious typically 0.1-0.4 for natural surfaces', severity: 'warning' });
+    }
+    
+    // Depression storage (impervious)
+    if (swmmParams.sImperv < 0) {
+      warnings.push({ param: 'sImperv', message: 'Depression storage cannot be negative', severity: 'error' });
+    } else if (swmmParams.sImperv > 0.3) {
+      warnings.push({ param: 'sImperv', message: 'S-Imperv >0.3 in is unusually high', severity: 'warning' });
+    }
+    
+    // Depression storage (pervious)
+    if (swmmParams.sPerv < 0) {
+      warnings.push({ param: 'sPerv', message: 'Depression storage cannot be negative', severity: 'error' });
+    } else if (swmmParams.sPerv > 0.5) {
+      warnings.push({ param: 'sPerv', message: 'S-Pervious >0.5 in is unusually high', severity: 'warning' });
+    }
+    
+    // Percent zero imperv
+    if (swmmParams.pctZero < 0 || swmmParams.pctZero > 100) {
+      warnings.push({ param: 'pctZero', message: '% Zero-Imperv must be 0-100%', severity: 'error' });
+    }
+    
+    // Infiltration parameters
+    if (swmmParams.maxInfil <= 0) {
+      warnings.push({ param: 'maxInfil', message: 'Max infiltration must be positive', severity: 'error' });
+    } else if (swmmParams.maxInfil > 10) {
+      warnings.push({ param: 'maxInfil', message: 'Max infiltration >10 in/hr is very high (sand/gravel)', severity: 'warning' });
+    }
+    
+    if (swmmParams.minInfil < 0) {
+      warnings.push({ param: 'minInfil', message: 'Min infiltration cannot be negative', severity: 'error' });
+    } else if (swmmParams.minInfil > swmmParams.maxInfil) {
+      warnings.push({ param: 'minInfil', message: 'Min infiltration exceeds max infiltration', severity: 'error' });
+    }
+    
+    if (swmmParams.decay <= 0) {
+      warnings.push({ param: 'decay', message: 'Decay constant must be positive', severity: 'error' });
+    } else if (swmmParams.decay > 10) {
+      warnings.push({ param: 'decay', message: 'Decay >10/hr is unusually rapid', severity: 'warning' });
+    }
+    
+    if (swmmParams.dryTime < 0) {
+      warnings.push({ param: 'dryTime', message: 'Dry time cannot be negative', severity: 'error' });
+    } else if (swmmParams.dryTime > 30) {
+      warnings.push({ param: 'dryTime', message: 'Dry time >30 days is very long', severity: 'warning' });
+    }
+    
+    // Conduit parameters
+    if (swmmParams.conduitLength <= 0) {
+      warnings.push({ param: 'conduitLength', message: 'Conduit length must be positive', severity: 'error' });
+    } else if (swmmParams.conduitLength > 2000) {
+      warnings.push({ param: 'conduitLength', message: 'Conduit length >2000 ft is unusually long', severity: 'warning' });
+    }
+    
+    if (swmmParams.conduitRoughness < 0.008 || swmmParams.conduitRoughness > 0.03) {
+      warnings.push({ param: 'conduitRoughness', message: 'Manning n typically 0.01-0.015 for pipes', severity: 'warning' });
+    }
+    
+    if (swmmParams.conduitDiameter <= 0) {
+      warnings.push({ param: 'conduitDiameter', message: 'Diameter must be positive', severity: 'error' });
+    } else if (swmmParams.conduitDiameter > 15) {
+      warnings.push({ param: 'conduitDiameter', message: 'Diameter >15 ft indicates large tunnel', severity: 'warning' });
+    } else if (swmmParams.conduitDiameter < 0.5) {
+      warnings.push({ param: 'conduitDiameter', message: 'Diameter <6 inches may clog easily', severity: 'warning' });
+    }
+    
+    if (swmmParams.junctionDepth <= 0) {
+      warnings.push({ param: 'junctionDepth', message: 'Junction depth must be positive', severity: 'error' });
+    } else if (swmmParams.junctionDepth > 30) {
+      warnings.push({ param: 'junctionDepth', message: 'Junction depth >30 ft is very deep', severity: 'warning' });
+    }
+    
+    return warnings;
+  }, [swmmParams]);
+
+  const hasValidationErrors = parameterValidation.some(w => w.severity === 'error');
+  const hasValidationWarnings = parameterValidation.length > 0;
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const importFileInputRef = useRef<HTMLInputElement>(null);
@@ -1686,6 +1806,9 @@ LINKS ALL
               className="h-6 text-xs"
               onClick={() => setShowSwmmParams(!showSwmmParams)}
             >
+              {hasValidationWarnings && !showSwmmParams && (
+                <AlertTriangle className={`w-3 h-3 mr-1 ${hasValidationErrors ? 'text-destructive' : 'text-yellow-500'}`} />
+              )}
               {showSwmmParams ? 'Hide' : 'Customize'} Parameters
             </Button>
           </div>
@@ -1710,6 +1833,28 @@ LINKS ALL
                   ))}
                 </div>
               </div>
+              
+              {/* Validation Warnings */}
+              {parameterValidation.length > 0 && (
+                <Alert variant={hasValidationErrors ? "destructive" : "default"} className="py-2">
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertDescription className="text-xs">
+                    <span className="font-semibold block mb-1">
+                      {hasValidationErrors ? 'Parameter Errors' : 'Parameter Warnings'}
+                    </span>
+                    <ul className="list-disc list-inside space-y-0.5">
+                      {parameterValidation.slice(0, 5).map((w, i) => (
+                        <li key={i} className={w.severity === 'error' ? 'text-destructive' : 'text-yellow-600 dark:text-yellow-400'}>
+                          {w.message}
+                        </li>
+                      ))}
+                      {parameterValidation.length > 5 && (
+                        <li className="text-muted-foreground">...and {parameterValidation.length - 5} more</li>
+                      )}
+                    </ul>
+                  </AlertDescription>
+                </Alert>
+              )}
               
               <div className="border-t border-border pt-3">
                 <p className="text-xs font-semibold text-foreground">Subcatchment Parameters</p>
