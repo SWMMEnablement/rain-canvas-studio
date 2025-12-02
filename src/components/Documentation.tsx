@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { TcCalculator } from "./TcCalculator";
 import { 
   Droplets, 
   CloudRain, 
@@ -1332,6 +1333,9 @@ export function Documentation() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Interactive Tc Calculator */}
+          <TcCalculator />
         </TabsContent>
       </Tabs>
 
