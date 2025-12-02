@@ -7,8 +7,9 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { AnimationExport } from "@/components/AnimationExport";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { useState, useMemo, useRef, useEffect, useCallback } from "react";
-import { Download, TrendingUp, Settings, RotateCcw, FileText, BarChart3, Activity, MapPin, Lightbulb, Gauge, Play, Pause, SkipBack } from "lucide-react";
+import { Download, TrendingUp, Settings, RotateCcw, FileText, BarChart3, Activity, MapPin, Lightbulb, Gauge, Play, Pause, SkipBack, ChevronDown, ChevronRight } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -756,37 +757,96 @@ export function PatternComparison({ depth: totalDepth, duration, timeStep, unitS
           </div>
         </div>
 
-        {/* Pattern Selection */}
-        <div className="space-y-4">
-          {Object.entries(groupedPatterns).map(([category, patterns]) => (
-            <div key={category}>
-              <h4 className="text-sm font-semibold text-foreground mb-2">{category} Patterns</h4>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {patterns.map((pattern) => (
-                  <div
-                    key={pattern.id}
-                    className="flex items-center space-x-2 p-2 rounded-md hover:bg-accent/50 transition-colors"
-                  >
-                    <Checkbox
-                      id={pattern.id}
-                      checked={selectedPatterns.includes(pattern.id)}
-                      onCheckedChange={() => togglePattern(pattern.id)}
-                    />
-                    <Label
-                      htmlFor={pattern.id}
-                      className="text-xs cursor-pointer flex items-center gap-1.5"
-                    >
-                      <div
-                        className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: pattern.color }}
-                      />
-                      {pattern.name}
-                    </Label>
-                  </div>
-                ))}
-              </div>
+        {/* Pattern Selection with Collapsible Categories */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between mb-2">
+            <h4 className="text-sm font-semibold text-foreground">Pattern Selection</h4>
+            <div className="flex gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-xs h-7"
+                onClick={() => setSelectedPatterns(comparisonPatterns.map(p => p.id))}
+              >
+                Select All
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-xs h-7"
+                onClick={() => setSelectedPatterns([])}
+              >
+                Clear All
+              </Button>
             </div>
-          ))}
+          </div>
+          
+          {Object.entries(groupedPatterns).map(([category, patterns]) => {
+            const categoryPatternIds = patterns.map(p => p.id);
+            const selectedInCategory = categoryPatternIds.filter(id => selectedPatterns.includes(id));
+            const allSelected = selectedInCategory.length === categoryPatternIds.length;
+            const someSelected = selectedInCategory.length > 0 && !allSelected;
+            
+            const toggleCategory = () => {
+              if (allSelected) {
+                setSelectedPatterns(prev => prev.filter(id => !categoryPatternIds.includes(id)));
+              } else {
+                setSelectedPatterns(prev => [...new Set([...prev, ...categoryPatternIds])]);
+              }
+            };
+            
+            return (
+              <Collapsible key={category} defaultOpen className="border border-border rounded-lg overflow-hidden">
+                <CollapsibleTrigger className="flex items-center justify-between w-full p-3 hover:bg-accent/50 transition-colors">
+                  <div className="flex items-center gap-2">
+                    <ChevronDown className="w-4 h-4 transition-transform group-data-[state=closed]:hidden" />
+                    <ChevronRight className="w-4 h-4 transition-transform group-data-[state=open]:hidden" />
+                    <span className="text-sm font-semibold text-foreground">{category}</span>
+                    <span className="text-xs text-muted-foreground">
+                      ({selectedInCategory.length}/{categoryPatternIds.length} selected)
+                    </span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-xs h-6 px-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleCategory();
+                    }}
+                  >
+                    {allSelected ? 'Deselect All' : someSelected ? 'Select Rest' : 'Select All'}
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-3 pt-0 border-t border-border bg-accent/10">
+                    {patterns.map((pattern) => (
+                      <div
+                        key={pattern.id}
+                        className="flex items-center space-x-2 p-2 rounded-md hover:bg-accent/50 transition-colors"
+                      >
+                        <Checkbox
+                          id={`compare-${pattern.id}`}
+                          checked={selectedPatterns.includes(pattern.id)}
+                          onCheckedChange={() => togglePattern(pattern.id)}
+                        />
+                        <Label
+                          htmlFor={`compare-${pattern.id}`}
+                          className="text-xs cursor-pointer flex items-center gap-1.5"
+                        >
+                          <div
+                            className="w-3 h-3 rounded-full"
+                            style={{ backgroundColor: pattern.color }}
+                          />
+                          {pattern.name}
+                        </Label>
+                      </div>
+                    ))}
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            );
+          })}
         </div>
 
         {/* Comparison Chart */}
