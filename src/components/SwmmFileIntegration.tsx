@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState, useRef } from "react";
-import { Upload, Download, FileText, Plus, Eye, Edit, Layers, FileInput, Droplets } from "lucide-react";
+import { Upload, Download, FileText, Plus, Eye, Edit, Layers, FileInput, Droplets, Wrench } from "lucide-react";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 import { toast } from "@/hooks/use-toast";
 import { type UnitSystem, convertDepth, convertIntensity, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
@@ -287,6 +287,182 @@ export function SwmmFileIntegration({
         durationMinutes
       }
     };
+  };
+
+  // Repair functions for common issues
+  const repairTimeSeries = (seriesName: string, repairType: 'negatives' | 'sort' | 'normalize' | 'all') => {
+    setImportedTimeSeries(prev => prev.map(ts => {
+      if (ts.name !== seriesName) return ts;
+      
+      let repairedData = [...ts.data];
+      let repairsApplied: string[] = [];
+      
+      // Fix negative values
+      if (repairType === 'negatives' || repairType === 'all') {
+        const negCount = repairedData.filter(d => d.value < 0).length;
+        if (negCount > 0) {
+          repairedData = repairedData.map(d => ({
+            ...d,
+            value: Math.max(0, d.value)
+          }));
+          repairsApplied.push(`Fixed ${negCount} negative value(s)`);
+        }
+      }
+      
+      // Sort by time (fix non-monotonic)
+      if (repairType === 'sort' || repairType === 'all') {
+        const parseTime = (timeStr: string): number => {
+          const parts = timeStr.split(':').map(Number);
+          return parts[0] * 3600 + parts[1] * 60 + (parts[2] || 0);
+        };
+        
+        const originalOrder = repairedData.map(d => d.time).join(',');
+        repairedData.sort((a, b) => parseTime(a.time) - parseTime(b.time));
+        const newOrder = repairedData.map(d => d.time).join(',');
+        
+        if (originalOrder !== newOrder) {
+          repairsApplied.push('Sorted data by time');
+        }
+      }
+      
+      // Normalize high values (assume mm->inches or vice versa)
+      if (repairType === 'normalize' || repairType === 'all') {
+        const maxVal = Math.max(...repairedData.map(d => d.value));
+        if (maxVal > 50) {
+          // Likely mm, convert to inches
+          repairedData = repairedData.map(d => ({
+            ...d,
+            value: d.value / 25.4
+          }));
+          repairsApplied.push('Normalized values (mm → inches)');
+        }
+      }
+      
+      if (repairsApplied.length === 0) {
+        toast({ title: "No repairs needed", description: "Data appears to be correct" });
+        return ts;
+      }
+      
+      const repairedTs: ImportedTimeSeries = {
+        name: ts.name,
+        data: repairedData
+      };
+      
+      // Re-validate
+      const newValidation = validateTimeSeries(repairedTs);
+      
+      toast({
+        title: "Repairs applied",
+        description: repairsApplied.join(', ')
+      });
+      
+      return {
+        ...repairedTs,
+        validation: newValidation
+      };
+    }));
+  };
+
+  // Remove zero values
+  const removeZeroValues = (seriesName: string) => {
+    setImportedTimeSeries(prev => prev.map(ts => {
+      if (ts.name !== seriesName) return ts;
+      
+      const originalCount = ts.data.length;
+      const filteredData = ts.data.filter(d => d.value > 0);
+      const removedCount = originalCount - filteredData.length;
+      
+      if (removedCount === 0) {
+        toast({ title: "No zeros found", description: "Data has no zero values to remove" });
+        return ts;
+      }
+      
+      const repairedTs: ImportedTimeSeries = {
+        name: ts.name,
+        data: filteredData
+      };
+      
+      toast({
+        title: "Zeros removed",
+        description: `Removed ${removedCount} zero-value data point(s)`
+      });
+      
+      return {
+        ...repairedTs,
+        validation: validateTimeSeries(repairedTs)
+      };
+    }));
+  };
+
+  // Interpolate missing timesteps
+  const interpolateMissingSteps = (seriesName: string, targetStepMinutes: number = 5) => {
+    setImportedTimeSeries(prev => prev.map(ts => {
+      if (ts.name !== seriesName) return ts;
+      
+      if (ts.data.length < 2) {
+        toast({ title: "Cannot interpolate", description: "Need at least 2 data points", variant: "destructive" });
+        return ts;
+      }
+      
+      const parseTime = (timeStr: string): number => {
+        const parts = timeStr.split(':').map(Number);
+        return parts[0] * 60 + parts[1] + (parts[2] || 0) / 60;
+      };
+      
+      const formatTime = (minutes: number): string => {
+        const h = Math.floor(minutes / 60);
+        const m = Math.floor(minutes % 60);
+        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+      };
+      
+      const startMinutes = parseTime(ts.data[0].time);
+      const endMinutes = parseTime(ts.data[ts.data.length - 1].time);
+      const baseDate = ts.data[0].date;
+      
+      const interpolatedData: typeof ts.data = [];
+      
+      for (let t = startMinutes; t <= endMinutes; t += targetStepMinutes) {
+        // Find surrounding data points
+        let before = ts.data[0];
+        let after = ts.data[ts.data.length - 1];
+        
+        for (let i = 0; i < ts.data.length - 1; i++) {
+          const t1 = parseTime(ts.data[i].time);
+          const t2 = parseTime(ts.data[i + 1].time);
+          if (t1 <= t && t2 >= t) {
+            before = ts.data[i];
+            after = ts.data[i + 1];
+            break;
+          }
+        }
+        
+        const t1 = parseTime(before.time);
+        const t2 = parseTime(after.time);
+        const ratio = t2 === t1 ? 0 : (t - t1) / (t2 - t1);
+        const interpolatedValue = before.value + ratio * (after.value - before.value);
+        
+        interpolatedData.push({
+          date: baseDate,
+          time: formatTime(t),
+          value: Math.max(0, interpolatedValue)
+        });
+      }
+      
+      const repairedTs: ImportedTimeSeries = {
+        name: ts.name,
+        data: interpolatedData
+      };
+      
+      toast({
+        title: "Interpolation complete",
+        description: `Created ${interpolatedData.length} points at ${targetStepMinutes}-min intervals`
+      });
+      
+      return {
+        ...repairedTs,
+        validation: validateTimeSeries(repairedTs)
+      };
+    }));
   };
 
   // Import a timeseries for editing
@@ -828,6 +1004,74 @@ LINKS ALL
                           <li key={i}>• {warn}</li>
                         ))}
                       </ul>
+                    </div>
+                  )}
+                  
+                  {/* Repair Tools */}
+                  {(validation.errors.length > 0 || validation.warnings.length > 0) && (
+                    <div className="p-2 rounded bg-blue-500/10 border border-blue-500/30">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Wrench className="w-3.5 h-3.5 text-blue-600" />
+                        <p className="text-xs font-semibold text-blue-600">Auto-Repair Tools</p>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {validation.stats.hasNegatives && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-7 text-xs"
+                            onClick={() => repairTimeSeries(selectedImportSeries, 'negatives')}
+                          >
+                            Fix Negatives
+                          </Button>
+                        )}
+                        {validation.warnings.some(w => w.includes('non-monotonic')) && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-7 text-xs"
+                            onClick={() => repairTimeSeries(selectedImportSeries, 'sort')}
+                          >
+                            Sort by Time
+                          </Button>
+                        )}
+                        {validation.warnings.some(w => w.includes('high')) && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-7 text-xs"
+                            onClick={() => repairTimeSeries(selectedImportSeries, 'normalize')}
+                          >
+                            Normalize (mm→in)
+                          </Button>
+                        )}
+                        {validation.stats.hasZeros && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-7 text-xs"
+                            onClick={() => removeZeroValues(selectedImportSeries)}
+                          >
+                            Remove Zeros
+                          </Button>
+                        )}
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-7 text-xs"
+                          onClick={() => interpolateMissingSteps(selectedImportSeries, 5)}
+                        >
+                          Interpolate (5-min)
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="default"
+                          className="h-7 text-xs"
+                          onClick={() => repairTimeSeries(selectedImportSeries, 'all')}
+                        >
+                          Fix All Issues
+                        </Button>
+                      </div>
                     </div>
                   )}
                 </div>
