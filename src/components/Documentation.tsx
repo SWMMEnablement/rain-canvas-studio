@@ -15,7 +15,9 @@ import {
   Beaker,
   BarChart3,
   Clock,
-  Layers
+  Layers,
+  BookOpen,
+  FlaskConical
 } from "lucide-react";
 
 export function Documentation() {
@@ -49,7 +51,7 @@ export function Documentation() {
 
       {/* Main Documentation Tabs */}
       <Tabs defaultValue="patterns" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 h-auto">
+        <TabsList className="grid w-full grid-cols-3 lg:grid-cols-7 h-auto">
           <TabsTrigger value="patterns" className="flex items-center gap-1">
             <CloudRain className="w-4 h-4" />
             <span className="hidden sm:inline">Patterns</span>
@@ -69,6 +71,14 @@ export function Documentation() {
           <TabsTrigger value="export" className="flex items-center gap-1">
             <Download className="w-4 h-4" />
             <span className="hidden sm:inline">Export</span>
+          </TabsTrigger>
+          <TabsTrigger value="glossary" className="flex items-center gap-1">
+            <BookOpen className="w-4 h-4" />
+            <span className="hidden sm:inline">Glossary</span>
+          </TabsTrigger>
+          <TabsTrigger value="examples" className="flex items-center gap-1">
+            <FlaskConical className="w-4 h-4" />
+            <span className="hidden sm:inline">Examples</span>
           </TabsTrigger>
         </TabsList>
 
@@ -808,6 +818,516 @@ export function Documentation() {
                   <li>SWMM files automatically use compatible USA units (CFS flow)</li>
                   <li>JSON includes both raw values and formatted strings</li>
                   <li>Chart images capture the current visualization settings</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Glossary Tab */}
+        <TabsContent value="glossary" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-primary" />
+                Hydrology Glossary
+              </CardTitle>
+              <CardDescription>
+                Definitions of common hydrology and stormwater modeling terms
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4">
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Hyetograph</h4>
+                  <p className="text-muted-foreground mt-1">
+                    A graph showing rainfall intensity (or depth) as a function of time during a storm event. 
+                    The x-axis represents time, and the y-axis shows rainfall intensity (typically in/hr or mm/hr) 
+                    or incremental depth. Hyetographs are fundamental inputs for rainfall-runoff modeling.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">IDF Curves (Intensity-Duration-Frequency)</h4>
+                  <p className="text-muted-foreground mt-1">
+                    Statistical relationships showing rainfall intensity for various storm durations and return periods. 
+                    For example, a 10-year, 1-hour storm represents the rainfall intensity expected to occur on average 
+                    once every 10 years for a 1-hour duration. IDF curves are derived from historical rainfall records 
+                    and are essential for design storm selection.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Time of Concentration (Tc)</h4>
+                  <p className="text-muted-foreground mt-1">
+                    The time required for runoff to travel from the hydraulically most distant point in a watershed 
+                    to the outlet. It represents when the entire watershed is contributing to flow at the outlet. 
+                    Common estimation methods include Kirpich, FAA, and TR-55 sheet/shallow/channel flow equations. 
+                    Tc is critical for selecting appropriate storm duration.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Return Period (Recurrence Interval)</h4>
+                  <p className="text-muted-foreground mt-1">
+                    The average time interval between storm events of equal or greater magnitude. A 100-year storm 
+                    has a 1% probability of occurring in any given year (not once every 100 years). Common design 
+                    return periods: 2-year (routine drainage), 10-year (minor system), 25-100 year (major system/detention).
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Runoff Coefficient (C)</h4>
+                  <p className="text-muted-foreground mt-1">
+                    The ratio of runoff to rainfall, representing the fraction of precipitation that becomes direct runoff. 
+                    Values range from 0.05-0.35 for pervious surfaces (lawns, forests) to 0.70-0.95 for impervious surfaces 
+                    (pavement, roofs). Used in the Rational Method: Q = CiA.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Curve Number (CN)</h4>
+                  <p className="text-muted-foreground mt-1">
+                    An empirical parameter (0-100) used in the SCS/NRCS method to estimate direct runoff from rainfall. 
+                    Higher CNs indicate more runoff. CN depends on soil type (Hydrologic Soil Group A-D), land cover, 
+                    and antecedent moisture conditions. CN=100 represents a completely impervious surface.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Hydrologic Soil Group (HSG)</h4>
+                  <p className="text-muted-foreground mt-1">
+                    NRCS classification of soils based on infiltration characteristics. Group A: High infiltration 
+                    (sand, gravel). Group B: Moderate infiltration (silt loam). Group C: Low infiltration (sandy clay loam). 
+                    Group D: Very low infiltration (clay). HSG affects runoff estimation and infiltration modeling.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Unit Hydrograph</h4>
+                  <p className="text-muted-foreground mt-1">
+                    The direct runoff hydrograph resulting from 1 inch (or 1 mm) of effective rainfall uniformly 
+                    distributed over a watershed for a specified duration. Based on the principle of linearity and 
+                    superposition, allowing scaling and addition of hydrographs for varying rainfall amounts.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Horton Infiltration</h4>
+                  <p className="text-muted-foreground mt-1">
+                    An empirical infiltration model where infiltration capacity decreases exponentially from an initial 
+                    maximum rate (f₀) to a minimum rate (fc) as soil becomes saturated. Formula: f(t) = fc + (f₀ - fc)e^(-kt), 
+                    where k is decay constant. Used in SWMM for continuous simulation.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Manning's n (Roughness Coefficient)</h4>
+                  <p className="text-muted-foreground mt-1">
+                    A coefficient representing surface roughness affecting flow velocity in open channels and overland flow. 
+                    Lower values (0.011-0.015) for smooth surfaces like concrete/asphalt. Higher values (0.15-0.40) for 
+                    dense vegetation. Used in Manning's equation: V = (1.49/n)R^(2/3)S^(1/2) (US) or V = (1/n)R^(2/3)S^(1/2) (SI).
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Depression Storage</h4>
+                  <p className="text-muted-foreground mt-1">
+                    The volume of rainfall stored in surface depressions (puddles, low spots) before runoff begins. 
+                    Must be filled before overland flow occurs. Typical values: 0.05-0.1 inches for impervious surfaces, 
+                    0.1-0.3 inches for pervious surfaces. Depends on surface micro-topography.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Peak Discharge (Qp)</h4>
+                  <p className="text-muted-foreground mt-1">
+                    The maximum instantaneous flow rate during a storm event, typically measured in cfs (cubic feet per second) 
+                    or cms (cubic meters per second). Critical for sizing drainage infrastructure, culverts, and channels. 
+                    Often estimated using the Rational Method (Q=CiA) for small watersheds.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Temporal Distribution</h4>
+                  <p className="text-muted-foreground mt-1">
+                    The pattern of how total rainfall depth is distributed over the storm duration. Different distributions 
+                    (SCS Type II, Huff, Chicago) produce different hydrographs even with the same total depth. 
+                    Peak position significantly affects peak runoff timing and magnitude.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Antecedent Moisture Condition (AMC)</h4>
+                  <p className="text-muted-foreground mt-1">
+                    Soil moisture level before a storm event, affecting infiltration and runoff. AMC I: Dry conditions 
+                    (lowest runoff). AMC II: Average conditions (typical design assumption). AMC III: Wet/saturated 
+                    conditions (highest runoff). Adjustments to CN values account for different AMCs.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Rational Method</h4>
+                  <p className="text-muted-foreground mt-1">
+                    A simple peak flow estimation method: Q = CiA, where Q is peak discharge, C is runoff coefficient, 
+                    i is rainfall intensity (for duration = Tc), and A is drainage area. Valid for watersheds up to 
+                    200-300 acres with relatively uniform characteristics. Does not produce a full hydrograph.
+                  </p>
+                </div>
+
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <h4 className="font-semibold text-foreground">Design Storm</h4>
+                  <p className="text-muted-foreground mt-1">
+                    A hypothetical storm event used for engineering design, defined by total depth, duration, 
+                    temporal distribution, and return period. Selected based on project requirements, local regulations, 
+                    and downstream impacts. Common examples: 10-year 24-hour SCS Type II storm.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Examples Tab */}
+        <TabsContent value="examples" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FlaskConical className="w-5 h-5 text-primary" />
+                Example Calculations
+              </CardTitle>
+              <CardDescription>
+                Step-by-step examples for determining storm parameters
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-8">
+              {/* Example 1 */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-foreground border-b pb-2">
+                  Example 1: Small Urban Development Site
+                </h3>
+                
+                <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <h4 className="font-semibold text-blue-700 dark:text-blue-300">Problem Statement</h4>
+                  <p className="text-sm text-blue-600 dark:text-blue-400 mt-2">
+                    A 15-acre commercial development in Atlanta, Georgia requires storm drainage design. 
+                    The site is relatively flat (1.5% slope) with Type B soils. Determine appropriate storm 
+                    parameters for sizing the on-site drainage system.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 1: Determine Time of Concentration</h4>
+                    <p className="text-muted-foreground mt-2">
+                      Using the FAA method for overland flow: Tc = 1.8(1.1 - C)√L / S^(1/3)
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border font-mono text-sm">
+                      <p>Flow length (L) = 800 ft</p>
+                      <p>Slope (S) = 1.5% = 0.015</p>
+                      <p>Runoff coefficient (C) = 0.85 (commercial)</p>
+                      <p className="mt-2">Tc = 1.8 × (1.1 - 0.85) × √800 / (0.015)^(1/3)</p>
+                      <p>Tc = 1.8 × 0.25 × 28.3 / 0.247</p>
+                      <p className="font-semibold">Tc ≈ 52 minutes</p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 2: Select Storm Duration</h4>
+                    <p className="text-muted-foreground mt-2">
+                      Storm duration should equal or exceed the time of concentration to ensure 
+                      the entire watershed contributes to peak flow.
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border">
+                      <p className="text-sm">Tc = 52 minutes → <strong>Use 1-hour (60-minute) storm duration</strong></p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Round up to standard duration for IDF curve lookup
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 3: Select Return Period</h4>
+                    <p className="text-muted-foreground mt-2">
+                      For commercial site minor drainage (inlets, pipes): 10-year return period<br />
+                      For detention basin/major system: 25-year or 100-year per local requirements
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border">
+                      <p className="text-sm"><strong>Selected: 10-year return period</strong> for pipe sizing</p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 4: Determine Rainfall Depth</h4>
+                    <p className="text-muted-foreground mt-2">
+                      From Atlanta IDF data (NOAA Atlas 14):
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border">
+                      <p className="text-sm">10-year, 1-hour rainfall depth for Atlanta = <strong>2.5 inches</strong></p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 5: Select Temporal Distribution</h4>
+                    <p className="text-muted-foreground mt-2">
+                      Georgia (Gulf/Atlantic region) → <strong>SCS Type III</strong> recommended for tropical influence<br />
+                      Alternative: <strong>SCS Type II</strong> for inland areas or more conservative design
+                    </p>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 6: Select Time Step</h4>
+                    <p className="text-muted-foreground mt-2">
+                      For accurate hydrograph resolution: Δt ≤ Tc/5
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border">
+                      <p className="text-sm">52 min / 5 = 10.4 min → <strong>Use 5-minute time step</strong></p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
+                  <h4 className="font-semibold text-green-700 dark:text-green-300">Final Parameters for This Tool</h4>
+                  <ul className="text-sm text-green-600 dark:text-green-400 mt-2 space-y-1">
+                    <li>• <strong>Pattern:</strong> SCS Type III</li>
+                    <li>• <strong>Total Depth:</strong> 2.5 inches</li>
+                    <li>• <strong>Duration:</strong> 1 hour (60 minutes)</li>
+                    <li>• <strong>Time Step:</strong> 5 minutes</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Example 2 */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-foreground border-b pb-2">
+                  Example 2: Regional Detention Basin
+                </h3>
+                
+                <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <h4 className="font-semibold text-blue-700 dark:text-blue-300">Problem Statement</h4>
+                  <p className="text-sm text-blue-600 dark:text-blue-400 mt-2">
+                    A 500-acre watershed in Kansas City, Missouri requires a regional detention basin. 
+                    The watershed has mixed land use with an average slope of 2.5% and primarily 
+                    Type C soils. Determine storm parameters for detention design.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 1: Determine Time of Concentration</h4>
+                    <p className="text-muted-foreground mt-2">
+                      For larger watersheds, use TR-55 segmental method (sheet + shallow + channel flow):
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border font-mono text-sm">
+                      <p>Sheet flow: 300 ft @ 2% slope, n=0.15 (grass) → Tt1 = 24 min</p>
+                      <p>Shallow concentrated: 2,500 ft @ 2.5% → Tt2 = 22 min</p>
+                      <p>Channel flow: 8,000 ft @ 1% slope → Tt3 = 75 min</p>
+                      <p className="mt-2 font-semibold">Tc = 24 + 22 + 75 = 121 min ≈ 2 hours</p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 2: Select Storm Duration</h4>
+                    <p className="text-muted-foreground mt-2">
+                      For detention design, use 24-hour storm regardless of Tc to capture full 
+                      hydrograph volume. This is standard practice for storage facility design.
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border">
+                      <p className="text-sm"><strong>Use 24-hour storm duration</strong> (standard for detention)</p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 3: Select Return Periods</h4>
+                    <p className="text-muted-foreground mt-2">
+                      Multiple return periods typically required for detention design:
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border text-sm">
+                      <p>• <strong>2-year:</strong> Channel protection volume</p>
+                      <p>• <strong>10-year:</strong> Overbank flood protection</p>
+                      <p>• <strong>100-year:</strong> Extreme flood/emergency spillway</p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 4: Determine Rainfall Depths</h4>
+                    <p className="text-muted-foreground mt-2">
+                      From Kansas City IDF data (NOAA Atlas 14), 24-hour depths:
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border text-sm">
+                      <p>• 2-year: <strong>3.2 inches</strong></p>
+                      <p>• 10-year: <strong>4.8 inches</strong></p>
+                      <p>• 100-year: <strong>7.5 inches</strong></p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 5: Select Temporal Distribution</h4>
+                    <p className="text-muted-foreground mt-2">
+                      Missouri (Midwest) → <strong>SCS Type II</strong> per TR-55 regional map
+                    </p>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 6: Select Time Step</h4>
+                    <p className="text-muted-foreground mt-2">
+                      For 24-hour storms with routing: Δt = 15-30 minutes provides adequate resolution
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border">
+                      <p className="text-sm"><strong>Use 15-minute time step</strong></p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
+                  <h4 className="font-semibold text-green-700 dark:text-green-300">Final Parameters for 100-year Design Storm</h4>
+                  <ul className="text-sm text-green-600 dark:text-green-400 mt-2 space-y-1">
+                    <li>• <strong>Pattern:</strong> SCS Type II</li>
+                    <li>• <strong>Total Depth:</strong> 7.5 inches</li>
+                    <li>• <strong>Duration:</strong> 24 hours</li>
+                    <li>• <strong>Time Step:</strong> 15 minutes</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Example 3 */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-foreground border-b pb-2">
+                  Example 3: Urban Storm Sewer Design (Chicago Method)
+                </h3>
+                
+                <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <h4 className="font-semibold text-blue-700 dark:text-blue-300">Problem Statement</h4>
+                  <p className="text-sm text-blue-600 dark:text-blue-400 mt-2">
+                    Design a storm sewer system for a 25-acre urban infill site in Chicago, Illinois. 
+                    The site will be 85% impervious with a maximum flow path of 1,200 feet. 
+                    Local code requires using the Chicago Storm method for design.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 1: Estimate Time of Concentration</h4>
+                    <p className="text-muted-foreground mt-2">
+                      For urban areas with high imperviousness, use inlet time + pipe travel time:
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border font-mono text-sm">
+                      <p>Inlet time (overland to first inlet): 5-10 min typical</p>
+                      <p>Pipe travel: L/V = 1,200 ft / (5 ft/s) = 4 min</p>
+                      <p className="font-semibold mt-2">Tc ≈ 10 + 4 = 14 minutes</p>
+                      <p className="text-muted-foreground mt-1">Use minimum of 10 min per most codes</p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 2: Select Storm Duration</h4>
+                    <p className="text-muted-foreground mt-2">
+                      For Chicago Storm method, duration is typically 2× to 3× the Tc to capture 
+                      adequate storm buildup and recession.
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border">
+                      <p className="text-sm">Tc = 14 min → <strong>Use 30-minute storm duration</strong></p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 3: Obtain IDF Parameters</h4>
+                    <p className="text-muted-foreground mt-2">
+                      Chicago IDF equation form: i = a/(t+b)^c
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border text-sm">
+                      <p>For 10-year return period (typical sewer design):</p>
+                      <p>a = 96.6, b = 17.0, c = 0.89</p>
+                      <p className="mt-2">At t = 30 min: i = 96.6/(30+17)^0.89 = <strong>3.2 in/hr</strong></p>
+                      <p>Total depth = 3.2 in/hr × 0.5 hr = <strong>1.6 inches</strong></p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 4: Chicago Storm Parameters</h4>
+                    <p className="text-muted-foreground mt-2">
+                      The advancement ratio (r) determines peak position:
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border text-sm">
+                      <p>Standard r = 0.375 (peak at 37.5% of duration)</p>
+                      <p>For 30-min storm: Peak at 0.375 × 30 = <strong>11.25 minutes</strong></p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 5: Select Time Step</h4>
+                    <p className="text-muted-foreground mt-2">
+                      For short-duration urban storms: Δt ≤ 2-3 minutes recommended
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border">
+                      <p className="text-sm"><strong>Use 2-minute time step</strong></p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
+                  <h4 className="font-semibold text-green-700 dark:text-green-300">Final Parameters for This Tool</h4>
+                  <ul className="text-sm text-green-600 dark:text-green-400 mt-2 space-y-1">
+                    <li>• <strong>Pattern:</strong> Chicago Storm</li>
+                    <li>• <strong>Total Depth:</strong> 1.6 inches</li>
+                    <li>• <strong>Duration:</strong> 30 minutes (0.5 hours)</li>
+                    <li>• <strong>Time Step:</strong> 2 minutes</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Summary Table */}
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold text-foreground border-b pb-2 mb-4">
+                  Parameter Selection Summary
+                </h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b bg-muted/50">
+                        <th className="text-left p-3 font-semibold">Parameter</th>
+                        <th className="text-left p-3 font-semibold">Selection Criteria</th>
+                        <th className="text-left p-3 font-semibold">Common Sources</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-muted-foreground">
+                      <tr className="border-b">
+                        <td className="p-3 font-medium text-foreground">Storm Duration</td>
+                        <td className="p-3">≥ Time of concentration (Tc) for peak flow; 24-hr for detention</td>
+                        <td className="p-3">Calculated from watershed geometry</td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="p-3 font-medium text-foreground">Return Period</td>
+                        <td className="p-3">Based on infrastructure type and local codes</td>
+                        <td className="p-3">Local drainage manual, state DOT</td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="p-3 font-medium text-foreground">Rainfall Depth</td>
+                        <td className="p-3">From IDF curves for selected duration and return period</td>
+                        <td className="p-3">NOAA Atlas 14, state climatologist</td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="p-3 font-medium text-foreground">Temporal Pattern</td>
+                        <td className="p-3">Regional standard (SCS type based on location)</td>
+                        <td className="p-3">TR-55, local drainage manual</td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="p-3 font-medium text-foreground">Time Step</td>
+                        <td className="p-3">≤ Tc/5 for adequate resolution; 5-15 min typical</td>
+                        <td className="p-3">Model requirements, computational needs</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="p-4 bg-yellow-50 dark:bg-yellow-950 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                <h4 className="font-semibold text-yellow-700 dark:text-yellow-300">Important Notes</h4>
+                <ul className="text-sm text-yellow-600 dark:text-yellow-400 list-disc list-inside space-y-1 mt-2">
+                  <li>Always verify parameters with local drainage criteria and regulations</li>
+                  <li>Use NOAA Atlas 14 (hdsc.nws.noaa.gov) for current precipitation frequency data</li>
+                  <li>Consider climate change factors for long-design-life infrastructure</li>
+                  <li>Document all assumptions and data sources for project records</li>
                 </ul>
               </div>
             </CardContent>
