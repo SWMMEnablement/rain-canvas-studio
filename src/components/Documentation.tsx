@@ -11,6 +11,7 @@ import RationalMethodCalculator from "./RationalMethodCalculator";
 import DetentionPondCalculator from "./DetentionPondCalculator";
 import OutletStructureCalculator from "./OutletStructureCalculator";
 import StageStorageDischarge from "./StageStorageDischarge";
+import ModifiedPulsRouting from "./ModifiedPulsRouting";
 import { 
   Droplets, 
   CloudRain, 
@@ -1378,6 +1379,9 @@ export function Documentation() {
 
           {/* Stage-Storage-Discharge Curves */}
           <StageStorageDischarge />
+
+          {/* Modified Puls Pond Routing */}
+          <ModifiedPulsRouting />
         </TabsContent>
       </Tabs>
 
