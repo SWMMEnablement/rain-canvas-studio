@@ -9,6 +9,7 @@ import CurveNumberCalculator from "./CurveNumberCalculator";
 import RunoffCalculator from "./RunoffCalculator";
 import RationalMethodCalculator from "./RationalMethodCalculator";
 import DetentionPondCalculator from "./DetentionPondCalculator";
+import OutletStructureCalculator from "./OutletStructureCalculator";
 import { 
   Droplets, 
   CloudRain, 
@@ -1370,6 +1371,9 @@ export function Documentation() {
 
           {/* Detention Pond Calculator */}
           <DetentionPondCalculator linkedRunoffVolume={linkedRunoffDepth} />
+
+          {/* Outlet Structure Calculator */}
+          <OutletStructureCalculator />
         </TabsContent>
       </Tabs>
 
