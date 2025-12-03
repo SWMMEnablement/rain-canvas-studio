@@ -10,6 +10,7 @@ import RunoffCalculator from "./RunoffCalculator";
 import RationalMethodCalculator from "./RationalMethodCalculator";
 import DetentionPondCalculator from "./DetentionPondCalculator";
 import OutletStructureCalculator from "./OutletStructureCalculator";
+import StageStorageDischarge from "./StageStorageDischarge";
 import { 
   Droplets, 
   CloudRain, 
@@ -1374,6 +1375,9 @@ export function Documentation() {
 
           {/* Outlet Structure Calculator */}
           <OutletStructureCalculator />
+
+          {/* Stage-Storage-Discharge Curves */}
+          <StageStorageDischarge />
         </TabsContent>
       </Tabs>
 
