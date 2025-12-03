@@ -10,8 +10,9 @@ import RunoffCalculator from "./RunoffCalculator";
 import RationalMethodCalculator from "./RationalMethodCalculator";
 import DetentionPondCalculator from "./DetentionPondCalculator";
 import OutletStructureCalculator from "./OutletStructureCalculator";
-import StageStorageDischarge from "./StageStorageDischarge";
-import ModifiedPulsRouting from "./ModifiedPulsRouting";
+import StageStorageDischarge, { StageStorageOutflowData } from "./StageStorageDischarge";
+import ModifiedPulsRouting, { StorageOutflowPoint, InflowPoint } from "./ModifiedPulsRouting";
+import UnitHydrographCalculator from "./UnitHydrographCalculator";
 import { 
   Droplets, 
   CloudRain, 
@@ -34,6 +35,10 @@ export function Documentation() {
   const [linkedCN, setLinkedCN] = useState<number | null>(null);
   const [linkedArea, setLinkedArea] = useState<number>(0);
   const [linkedRunoffDepth, setLinkedRunoffDepth] = useState<number>(0);
+  
+  // State for routing data transfer
+  const [routingSSOData, setRoutingSSOData] = useState<StorageOutflowPoint[] | undefined>(undefined);
+  const [routingInflowData, setRoutingInflowData] = useState<InflowPoint[] | undefined>(undefined);
 
   const handleCNChange = (cn: number | null, totalArea: number) => {
     setLinkedCN(cn);
@@ -42,6 +47,14 @@ export function Documentation() {
 
   const handleRunoffChange = (runoffDepth: number) => {
     setLinkedRunoffDepth(runoffDepth);
+  };
+
+  const handleSSOExport = (data: StageStorageOutflowData[]) => {
+    setRoutingSSOData(data);
+  };
+
+  const handleHydrographExport = (data: { time: number; flow: number }[]) => {
+    setRoutingInflowData(data.map(p => ({ time: p.time, inflow: p.flow })));
   };
 
   return (
@@ -1378,10 +1391,13 @@ export function Documentation() {
           <OutletStructureCalculator />
 
           {/* Stage-Storage-Discharge Curves */}
-          <StageStorageDischarge />
+          <StageStorageDischarge onExportData={handleSSOExport} />
+
+          {/* Unit Hydrograph Calculator */}
+          <UnitHydrographCalculator onExportHydrograph={handleHydrographExport} />
 
           {/* Modified Puls Pond Routing */}
-          <ModifiedPulsRouting />
+          <ModifiedPulsRouting importedSSOData={routingSSOData} importedInflowData={routingInflowData} />
         </TabsContent>
       </Tabs>
 
