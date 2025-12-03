@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -6,15 +6,16 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { Waves, Plus, Trash2, Download, RefreshCw } from 'lucide-react';
+import { Waves, Plus, Trash2, Download, RefreshCw, CheckCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
-interface StorageOutflowPoint {
+export interface StorageOutflowPoint {
   stage: number;
   storage: number; // cubic feet
   outflow: number; // cfs
 }
 
-interface InflowPoint {
+export interface InflowPoint {
   time: number; // hours
   inflow: number; // cfs
 }
@@ -27,7 +28,12 @@ interface RoutingResult {
   stage: number;
 }
 
-const ModifiedPulsRouting: React.FC = () => {
+interface ModifiedPulsRoutingProps {
+  importedSSOData?: StorageOutflowPoint[];
+  importedInflowData?: InflowPoint[];
+}
+
+const ModifiedPulsRouting: React.FC<ModifiedPulsRoutingProps> = ({ importedSSOData, importedInflowData }) => {
   const [timeStep, setTimeStep] = useState<number>(0.1); // hours
   
   // Stage-Storage-Outflow data
@@ -57,6 +63,22 @@ const ModifiedPulsRouting: React.FC = () => {
     { time: 5.5, inflow: 5 },
     { time: 6, inflow: 0 },
   ]);
+
+  // Import SSO data when provided
+  useEffect(() => {
+    if (importedSSOData && importedSSOData.length > 0) {
+      setSsoData(importedSSOData);
+      toast.success('Stage-Storage-Outflow data imported!', { description: `${importedSSOData.length} data points loaded from Stage-Storage-Discharge calculator` });
+    }
+  }, [importedSSOData]);
+
+  // Import inflow data when provided
+  useEffect(() => {
+    if (importedInflowData && importedInflowData.length > 0) {
+      setInflowData(importedInflowData.map(p => ({ time: p.time, inflow: p.inflow })));
+      toast.success('Inflow hydrograph imported!', { description: `${importedInflowData.length} data points loaded from Unit Hydrograph calculator` });
+    }
+  }, [importedInflowData]);
 
   // SSO table management
   const addSSORow = () => {

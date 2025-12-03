@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { TrendingUp, Plus, Trash2, Download } from 'lucide-react';
+import { TrendingUp, Plus, Trash2, Download, ArrowRight } from 'lucide-react';
 
 interface OutletConfig {
   id: number;
@@ -20,7 +20,17 @@ interface OutletConfig {
   weirCoeff?: number;
 }
 
-const StageStorageDischarge: React.FC = () => {
+export interface StageStorageOutflowData {
+  stage: number;
+  storage: number;
+  outflow: number;
+}
+
+interface StageStorageDischargeProps {
+  onExportData?: (data: StageStorageOutflowData[]) => void;
+}
+
+const StageStorageDischarge: React.FC<StageStorageDischargeProps> = ({ onExportData }) => {
   // Pond geometry inputs
   const [bottomLength, setBottomLength] = useState<number>(100);
   const [bottomWidth, setBottomWidth] = useState<number>(50);
@@ -341,7 +351,16 @@ const StageStorageDischarge: React.FC = () => {
 
           {/* Results Tab */}
           <TabsContent value="results" className="space-y-4 mt-4">
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-2">
+              {onExportData && (
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  onClick={() => onExportData(curveData.map(d => ({ stage: d.stage, storage: d.storage, outflow: d.discharge })))}
+                >
+                  <ArrowRight className="h-4 w-4 mr-1" /> Send to Pond Routing
+                </Button>
+              )}
               <Button variant="outline" size="sm" onClick={exportCSV}>
                 <Download className="h-4 w-4 mr-1" /> Export CSV
               </Button>
