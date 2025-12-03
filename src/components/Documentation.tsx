@@ -14,6 +14,7 @@ import StageStorageDischarge, { StageStorageOutflowData } from "./StageStorageDi
 import ModifiedPulsRouting, { StorageOutflowPoint, InflowPoint } from "./ModifiedPulsRouting";
 import UnitHydrographCalculator from "./UnitHydrographCalculator";
 import PrePostDevelopmentComparison from "./PrePostDevelopmentComparison";
+import LIDCalculator from "./LIDCalculator";
 import { 
   Droplets, 
   CloudRain, 
@@ -1402,6 +1403,9 @@ export function Documentation() {
 
           {/* Pre/Post Development Comparison */}
           <PrePostDevelopmentComparison />
+
+          {/* LID / Green Infrastructure Calculator */}
+          <LIDCalculator />
         </TabsContent>
       </Tabs>
 
