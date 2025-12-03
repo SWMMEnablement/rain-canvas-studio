@@ -114,7 +114,29 @@ interface BMPInstance {
 
 const COLORS = ['#22c55e', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#6366f1'];
 
-const LIDCalculator: React.FC = () => {
+// Map LID BMP types to Treatment Train BMP types
+const LID_TO_TRAIN_MAP: Record<string, string> = {
+  'bioretention': 'bioretention',
+  'permeable_pavement': 'permeable_pavement',
+  'green_roof': 'green_roof',
+  'infiltration_trench': 'infiltration_trench',
+  'dry_swale': 'bioswale',
+  'sand_filter': 'sand_filter',
+  'tree_box': 'bioretention',
+  'rain_barrel': '', // Not applicable for treatment train
+};
+
+export interface LIDBMPExport {
+  id: string;
+  bmpType: string;
+  customName: string;
+}
+
+interface LIDCalculatorProps {
+  onExportToTreatmentTrain?: (bmps: LIDBMPExport[]) => void;
+}
+
+const LIDCalculator: React.FC<LIDCalculatorProps> = ({ onExportToTreatmentTrain }) => {
   const [bmps, setBmps] = useState<BMPInstance[]>([
     {
       id: '1',
@@ -320,14 +342,36 @@ const LIDCalculator: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+  const exportToTreatmentTrain = () => {
+    if (!onExportToTreatmentTrain) return;
+    
+    const exportBmps: LIDBMPExport[] = bmps
+      .filter(bmp => LID_TO_TRAIN_MAP[bmp.type]) // Filter out non-mappable BMPs
+      .map(bmp => ({
+        id: bmp.id,
+        bmpType: LID_TO_TRAIN_MAP[bmp.type],
+        customName: bmp.name,
+      }));
+    
+    onExportToTreatmentTrain(exportBmps);
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Leaf className="w-5 h-5 text-primary" />
-          Green Infrastructure / LID Calculator
-          <Badge variant="secondary" className="ml-2">BMP Sizing</Badge>
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Leaf className="w-5 h-5 text-primary" />
+            Green Infrastructure / LID Calculator
+            <Badge variant="secondary" className="ml-2">BMP Sizing</Badge>
+          </CardTitle>
+          {onExportToTreatmentTrain && (
+            <Button onClick={exportToTreatmentTrain} size="sm" variant="outline">
+              <Droplets className="w-4 h-4 mr-2" />
+              Send to Treatment Train
+            </Button>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="site" className="w-full">

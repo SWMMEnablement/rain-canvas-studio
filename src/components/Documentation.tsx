@@ -14,8 +14,8 @@ import StageStorageDischarge, { StageStorageOutflowData } from "./StageStorageDi
 import ModifiedPulsRouting, { StorageOutflowPoint, InflowPoint } from "./ModifiedPulsRouting";
 import UnitHydrographCalculator from "./UnitHydrographCalculator";
 import PrePostDevelopmentComparison from "./PrePostDevelopmentComparison";
-import LIDCalculator from "./LIDCalculator";
-import TreatmentTrainCalculator from "./TreatmentTrainCalculator";
+import LIDCalculator, { LIDBMPExport } from "./LIDCalculator";
+import TreatmentTrainCalculator, { ImportedBMP } from "./TreatmentTrainCalculator";
 import { 
   Droplets, 
   CloudRain, 
@@ -42,6 +42,9 @@ export function Documentation() {
   // State for routing data transfer
   const [routingSSOData, setRoutingSSOData] = useState<StorageOutflowPoint[] | undefined>(undefined);
   const [routingInflowData, setRoutingInflowData] = useState<InflowPoint[] | undefined>(undefined);
+  
+  // State for LID to Treatment Train data transfer
+  const [treatmentTrainBMPs, setTreatmentTrainBMPs] = useState<ImportedBMP[] | undefined>(undefined);
 
   const handleCNChange = (cn: number | null, totalArea: number) => {
     setLinkedCN(cn);
@@ -58,6 +61,10 @@ export function Documentation() {
 
   const handleHydrographExport = (data: { time: number; flow: number }[]) => {
     setRoutingInflowData(data.map(p => ({ time: p.time, inflow: p.flow })));
+  };
+
+  const handleLIDExport = (bmps: LIDBMPExport[]) => {
+    setTreatmentTrainBMPs(bmps);
   };
 
   return (
@@ -1406,10 +1413,10 @@ export function Documentation() {
           <PrePostDevelopmentComparison />
 
           {/* LID / Green Infrastructure Calculator */}
-          <LIDCalculator />
+          <LIDCalculator onExportToTreatmentTrain={handleLIDExport} />
 
           {/* Treatment Train Calculator */}
-          <TreatmentTrainCalculator />
+          <TreatmentTrainCalculator importedBMPs={treatmentTrainBMPs} />
         </TabsContent>
       </Tabs>
 

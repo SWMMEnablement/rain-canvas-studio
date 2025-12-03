@@ -49,11 +49,37 @@ const POLLUTANT_LABELS: Record<string, string> = {
   oil: 'Oil & Grease',
 };
 
-const TreatmentTrainCalculator: React.FC = () => {
+export interface ImportedBMP {
+  id: string;
+  bmpType: string;
+  customName: string;
+}
+
+interface TreatmentTrainCalculatorProps {
+  importedBMPs?: ImportedBMP[];
+}
+
+const TreatmentTrainCalculator: React.FC<TreatmentTrainCalculatorProps> = ({ importedBMPs }) => {
   const [trainBMPs, setTrainBMPs] = useState<TrainBMP[]>([
     { id: '1', bmpType: 'grass_channel', customName: 'Pre-treatment Swale' },
     { id: '2', bmpType: 'bioretention', customName: 'Main Bioretention' },
   ]);
+  
+  // Import BMPs from LID Calculator
+  React.useEffect(() => {
+    if (importedBMPs && importedBMPs.length > 0) {
+      const validBmps = importedBMPs.filter(bmp => 
+        BMP_TYPES.some(type => type.id === bmp.bmpType)
+      );
+      if (validBmps.length > 0) {
+        setTrainBMPs(validBmps.map((bmp, index) => ({
+          id: String(index + 1),
+          bmpType: bmp.bmpType,
+          customName: bmp.customName,
+        })));
+      }
+    }
+  }, [importedBMPs]);
   const [influentConcentrations, setInfluentConcentrations] = useState({
     tss: 150,
     tn: 3.5,
