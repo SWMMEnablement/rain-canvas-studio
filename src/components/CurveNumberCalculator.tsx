@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -57,7 +57,11 @@ interface LandUseEntry {
   area: number;
 }
 
-const CurveNumberCalculator: React.FC = () => {
+interface CurveNumberCalculatorProps {
+  onCNChange?: (cn: number | null, totalArea: number) => void;
+}
+
+const CurveNumberCalculator: React.FC<CurveNumberCalculatorProps> = ({ onCNChange }) => {
   const [entries, setEntries] = useState<LandUseEntry[]>([
     { id: 1, category: '', soilGroup: 'B', area: 0 }
   ]);
@@ -102,6 +106,12 @@ const CurveNumberCalculator: React.FC = () => {
   };
 
   const result = calculateWeightedCN();
+
+  useEffect(() => {
+    if (onCNChange) {
+      onCNChange(result?.weightedCN ?? null, result?.totalArea ?? 0);
+    }
+  }, [result?.weightedCN, result?.totalArea, onCNChange]);
 
   return (
     <Card className="mt-6">
@@ -208,6 +218,9 @@ const CurveNumberCalculator: React.FC = () => {
                   <p className="text-2xl font-bold text-primary">{result.weightedCN.toFixed(1)}</p>
                 </div>
               </div>
+              <p className="text-xs text-center text-muted-foreground mt-2">
+                This CN value is automatically used in the Runoff Calculator below
+              </p>
             </CardContent>
           </Card>
         )}
