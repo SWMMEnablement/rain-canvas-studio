@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -6,6 +7,7 @@ import { TcCalculator } from "./TcCalculator";
 import { IdfLookup } from "./IdfLookup";
 import CurveNumberCalculator from "./CurveNumberCalculator";
 import RunoffCalculator from "./RunoffCalculator";
+import RationalMethodCalculator from "./RationalMethodCalculator";
 import { 
   Droplets, 
   CloudRain, 
@@ -25,6 +27,14 @@ import {
 } from "lucide-react";
 
 export function Documentation() {
+  const [linkedCN, setLinkedCN] = useState<number | null>(null);
+  const [linkedArea, setLinkedArea] = useState<number>(0);
+
+  const handleCNChange = (cn: number | null, totalArea: number) => {
+    setLinkedCN(cn);
+    setLinkedArea(totalArea);
+  };
+
   return (
     <div className="space-y-8">
       {/* Introduction */}
@@ -40,7 +50,7 @@ export function Documentation() {
         </CardHeader>
         <CardContent className="prose prose-sm max-w-none text-muted-foreground">
           <p>
-            <strong>Rainfall Pattern Painter</strong> is a professional-grade tool designed for hydrologists, 
+            <strong>Rainfall Pattern Painter</strong> is a tool designed for hydrologists, 
             civil engineers, and stormwater modelers. It generates synthetic rainfall hyetographs based on 
             standardized temporal distribution patterns used worldwide.
           </p>
@@ -1344,10 +1354,13 @@ export function Documentation() {
           <IdfLookup />
 
           {/* Curve Number Calculator */}
-          <CurveNumberCalculator />
+          <CurveNumberCalculator onCNChange={handleCNChange} />
 
           {/* Runoff Volume Calculator */}
-          <RunoffCalculator />
+          <RunoffCalculator linkedCN={linkedCN} linkedArea={linkedArea} />
+
+          {/* Rational Method Calculator */}
+          <RationalMethodCalculator />
         </TabsContent>
       </Tabs>
 
