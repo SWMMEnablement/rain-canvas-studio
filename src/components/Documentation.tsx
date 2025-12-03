@@ -8,6 +8,7 @@ import { IdfLookup } from "./IdfLookup";
 import CurveNumberCalculator from "./CurveNumberCalculator";
 import RunoffCalculator from "./RunoffCalculator";
 import RationalMethodCalculator from "./RationalMethodCalculator";
+import DetentionPondCalculator from "./DetentionPondCalculator";
 import { 
   Droplets, 
   CloudRain, 
@@ -29,10 +30,15 @@ import {
 export function Documentation() {
   const [linkedCN, setLinkedCN] = useState<number | null>(null);
   const [linkedArea, setLinkedArea] = useState<number>(0);
+  const [linkedRunoffDepth, setLinkedRunoffDepth] = useState<number>(0);
 
   const handleCNChange = (cn: number | null, totalArea: number) => {
     setLinkedCN(cn);
     setLinkedArea(totalArea);
+  };
+
+  const handleRunoffChange = (runoffDepth: number) => {
+    setLinkedRunoffDepth(runoffDepth);
   };
 
   return (
@@ -1357,10 +1363,13 @@ export function Documentation() {
           <CurveNumberCalculator onCNChange={handleCNChange} />
 
           {/* Runoff Volume Calculator */}
-          <RunoffCalculator linkedCN={linkedCN} linkedArea={linkedArea} />
+          <RunoffCalculator linkedCN={linkedCN} linkedArea={linkedArea} onRunoffChange={handleRunoffChange} />
 
           {/* Rational Method Calculator */}
           <RationalMethodCalculator />
+
+          {/* Detention Pond Calculator */}
+          <DetentionPondCalculator linkedRunoffVolume={linkedRunoffDepth} />
         </TabsContent>
       </Tabs>
 

@@ -9,9 +9,10 @@ import { Droplets, Calculator, Link } from 'lucide-react';
 interface RunoffCalculatorProps {
   linkedCN?: number | null;
   linkedArea?: number;
+  onRunoffChange?: (runoffDepth: number) => void;
 }
 
-const RunoffCalculator: React.FC<RunoffCalculatorProps> = ({ linkedCN, linkedArea }) => {
+const RunoffCalculator: React.FC<RunoffCalculatorProps> = ({ linkedCN, linkedArea, onRunoffChange }) => {
   const [curveNumber, setCurveNumber] = useState<number>(75);
   const [rainfall, setRainfall] = useState<number>(4);
   const [area, setArea] = useState<number>(100);
@@ -73,6 +74,13 @@ const RunoffCalculator: React.FC<RunoffCalculatorProps> = ({ linkedCN, linkedAre
       infiltration: rainfall - Q,
     };
   }, [curveNumber, rainfall, area, iaRatio, units]);
+
+  // Emit runoff depth changes to parent
+  useEffect(() => {
+    if (onRunoffChange && calculations) {
+      onRunoffChange(calculations.Q);
+    }
+  }, [calculations?.Q, onRunoffChange]);
 
   const depthUnit = units === 'us' ? 'in' : 'mm';
   const areaUnit = units === 'us' ? 'acres' : 'hectares';
