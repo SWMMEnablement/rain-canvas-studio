@@ -13,6 +13,7 @@ import OutletStructureCalculator from "./OutletStructureCalculator";
 import StageStorageDischarge, { StageStorageOutflowData } from "./StageStorageDischarge";
 import ModifiedPulsRouting, { StorageOutflowPoint, InflowPoint } from "./ModifiedPulsRouting";
 import UnitHydrographCalculator from "./UnitHydrographCalculator";
+import PrePostDevelopmentComparison from "./PrePostDevelopmentComparison";
 import { 
   Droplets, 
   CloudRain, 
@@ -1398,6 +1399,9 @@ export function Documentation() {
 
           {/* Modified Puls Pond Routing */}
           <ModifiedPulsRouting importedSSOData={routingSSOData} importedInflowData={routingInflowData} />
+
+          {/* Pre/Post Development Comparison */}
+          <PrePostDevelopmentComparison />
         </TabsContent>
       </Tabs>
 
