@@ -97,10 +97,14 @@ export function Documentation() {
 
       {/* Main Documentation Tabs */}
       <Tabs defaultValue="patterns" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 lg:grid-cols-7 h-auto">
+        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7 h-auto">
           <TabsTrigger value="patterns" className="flex items-center gap-1">
             <CloudRain className="w-4 h-4" />
             <span className="hidden sm:inline">Patterns</span>
+          </TabsTrigger>
+          <TabsTrigger value="calculators" className="flex items-center gap-1">
+            <FlaskConical className="w-4 h-4" />
+            <span className="hidden sm:inline">Calculators</span>
           </TabsTrigger>
           <TabsTrigger value="parameters" className="flex items-center gap-1">
             <Settings className="w-4 h-4" />
@@ -121,10 +125,6 @@ export function Documentation() {
           <TabsTrigger value="glossary" className="flex items-center gap-1">
             <BookOpen className="w-4 h-4" />
             <span className="hidden sm:inline">Glossary</span>
-          </TabsTrigger>
-          <TabsTrigger value="examples" className="flex items-center gap-1">
-            <FlaskConical className="w-4 h-4" />
-            <span className="hidden sm:inline">Examples</span>
           </TabsTrigger>
         </TabsList>
 
@@ -1034,16 +1034,16 @@ export function Documentation() {
           </Card>
         </TabsContent>
 
-        {/* Examples Tab */}
-        <TabsContent value="examples" className="space-y-6">
+        {/* Calculators Tab */}
+        <TabsContent value="calculators" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FlaskConical className="w-5 h-5 text-primary" />
-                Example Calculations
+                Hydrologic Calculators
               </CardTitle>
               <CardDescription>
-                Step-by-step examples for determining storm parameters
+                Interactive tools for stormwater calculations and design
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
