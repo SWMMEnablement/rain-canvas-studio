@@ -15,6 +15,7 @@ import ModifiedPulsRouting, { StorageOutflowPoint, InflowPoint } from "./Modifie
 import UnitHydrographCalculator from "./UnitHydrographCalculator";
 import PrePostDevelopmentComparison from "./PrePostDevelopmentComparison";
 import LIDCalculator from "./LIDCalculator";
+import TreatmentTrainCalculator from "./TreatmentTrainCalculator";
 import { 
   Droplets, 
   CloudRain, 
@@ -1406,6 +1407,9 @@ export function Documentation() {
 
           {/* LID / Green Infrastructure Calculator */}
           <LIDCalculator />
+
+          {/* Treatment Train Calculator */}
+          <TreatmentTrainCalculator />
         </TabsContent>
       </Tabs>
 
