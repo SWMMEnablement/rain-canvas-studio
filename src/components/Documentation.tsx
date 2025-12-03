@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { TcCalculator } from "./TcCalculator";
 import { IdfLookup } from "./IdfLookup";
 import CurveNumberCalculator from "./CurveNumberCalculator";
@@ -31,8 +32,26 @@ import {
   Clock,
   Layers,
   BookOpen,
-  FlaskConical
+  FlaskConical,
+  Search
 } from "lucide-react";
+
+// Calculator metadata for search/filter
+const CALCULATOR_METADATA = [
+  { id: 'tc', name: 'Time of Concentration', keywords: ['tc', 'travel time', 'kirpich', 'faa', 'nrcs', 'lag'] },
+  { id: 'idf', name: 'IDF Lookup', keywords: ['idf', 'intensity', 'duration', 'frequency', 'rainfall', 'noaa', 'atlas'] },
+  { id: 'cn', name: 'Curve Number', keywords: ['cn', 'curve number', 'scs', 'nrcs', 'soil', 'land use', 'hydrologic'] },
+  { id: 'runoff', name: 'Runoff Volume', keywords: ['runoff', 'volume', 'depth', 'scs', 'rainfall excess'] },
+  { id: 'rational', name: 'Rational Method', keywords: ['rational', 'peak flow', 'intensity', 'coefficient', 'q=cia'] },
+  { id: 'detention', name: 'Detention Pond', keywords: ['detention', 'pond', 'basin', 'storage', 'sizing'] },
+  { id: 'outlet', name: 'Outlet Structure', keywords: ['outlet', 'orifice', 'weir', 'riser', 'discharge', 'hydraulics'] },
+  { id: 'ssd', name: 'Stage-Storage-Discharge', keywords: ['stage', 'storage', 'discharge', 'elevation', 'curve', 'pond'] },
+  { id: 'hydrograph', name: 'Unit Hydrograph', keywords: ['unit hydrograph', 'nrcs', 'triangular', 'dimensionless', 'inflow'] },
+  { id: 'puls', name: 'Modified Puls Routing', keywords: ['puls', 'routing', 'pond', 'reservoir', 'attenuation', 'flood'] },
+  { id: 'prepost', name: 'Pre/Post Development', keywords: ['pre', 'post', 'development', 'comparison', 'peak', 'detention'] },
+  { id: 'lid', name: 'LID / Green Infrastructure', keywords: ['lid', 'green', 'infrastructure', 'bmp', 'bioretention', 'permeable', 'swale'] },
+  { id: 'train', name: 'Treatment Train', keywords: ['treatment', 'train', 'pollutant', 'removal', 'water quality', 'tss', 'bmp'] },
+];
 
 export function Documentation() {
   const [linkedCN, setLinkedCN] = useState<number | null>(null);
@@ -45,6 +64,22 @@ export function Documentation() {
   
   // State for LID to Treatment Train data transfer
   const [treatmentTrainBMPs, setTreatmentTrainBMPs] = useState<ImportedBMP[] | undefined>(undefined);
+  
+  // Calculator search state
+  const [calculatorSearch, setCalculatorSearch] = useState<string>('');
+
+  // Filter function for calculators
+  const isCalculatorVisible = useMemo(() => {
+    const searchLower = calculatorSearch.toLowerCase().trim();
+    if (!searchLower) return () => true;
+    
+    return (id: string) => {
+      const calc = CALCULATOR_METADATA.find(c => c.id === id);
+      if (!calc) return true;
+      return calc.name.toLowerCase().includes(searchLower) || 
+             calc.keywords.some(k => k.toLowerCase().includes(searchLower));
+    };
+  }, [calculatorSearch]);
 
   const handleCNChange = (cn: number | null, totalArea: number) => {
     setLinkedCN(cn);
@@ -1036,6 +1071,30 @@ export function Documentation() {
 
         {/* Calculators Tab */}
         <TabsContent value="calculators" className="space-y-6">
+          {/* Search/Filter */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search calculators (e.g., 'curve number', 'detention', 'BMP')..."
+              value={calculatorSearch}
+              onChange={(e) => setCalculatorSearch(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          
+          {calculatorSearch && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span>Showing calculators matching "{calculatorSearch}"</span>
+              <button 
+                onClick={() => setCalculatorSearch('')}
+                className="text-primary hover:underline"
+              >
+                Clear
+              </button>
+            </div>
+          )}
+
+          {!calculatorSearch && (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -1378,45 +1437,58 @@ export function Documentation() {
               </div>
             </CardContent>
           </Card>
+          )}
 
           {/* Interactive Tc Calculator */}
-          <TcCalculator />
+          {isCalculatorVisible('tc') && <TcCalculator />}
 
           {/* IDF Lookup Tool */}
-          <IdfLookup />
+          {isCalculatorVisible('idf') && <IdfLookup />}
 
           {/* Curve Number Calculator */}
-          <CurveNumberCalculator onCNChange={handleCNChange} />
+          {isCalculatorVisible('cn') && <CurveNumberCalculator onCNChange={handleCNChange} />}
 
           {/* Runoff Volume Calculator */}
-          <RunoffCalculator linkedCN={linkedCN} linkedArea={linkedArea} onRunoffChange={handleRunoffChange} />
+          {isCalculatorVisible('runoff') && <RunoffCalculator linkedCN={linkedCN} linkedArea={linkedArea} onRunoffChange={handleRunoffChange} />}
 
           {/* Rational Method Calculator */}
-          <RationalMethodCalculator />
+          {isCalculatorVisible('rational') && <RationalMethodCalculator />}
 
           {/* Detention Pond Calculator */}
-          <DetentionPondCalculator linkedRunoffVolume={linkedRunoffDepth} />
+          {isCalculatorVisible('detention') && <DetentionPondCalculator linkedRunoffVolume={linkedRunoffDepth} />}
 
           {/* Outlet Structure Calculator */}
-          <OutletStructureCalculator />
+          {isCalculatorVisible('outlet') && <OutletStructureCalculator />}
 
           {/* Stage-Storage-Discharge Curves */}
-          <StageStorageDischarge onExportData={handleSSOExport} />
+          {isCalculatorVisible('ssd') && <StageStorageDischarge onExportData={handleSSOExport} />}
 
           {/* Unit Hydrograph Calculator */}
-          <UnitHydrographCalculator onExportHydrograph={handleHydrographExport} />
+          {isCalculatorVisible('hydrograph') && <UnitHydrographCalculator onExportHydrograph={handleHydrographExport} />}
 
           {/* Modified Puls Pond Routing */}
-          <ModifiedPulsRouting importedSSOData={routingSSOData} importedInflowData={routingInflowData} />
+          {isCalculatorVisible('puls') && <ModifiedPulsRouting importedSSOData={routingSSOData} importedInflowData={routingInflowData} />}
 
           {/* Pre/Post Development Comparison */}
-          <PrePostDevelopmentComparison />
+          {isCalculatorVisible('prepost') && <PrePostDevelopmentComparison />}
 
           {/* LID / Green Infrastructure Calculator */}
-          <LIDCalculator onExportToTreatmentTrain={handleLIDExport} />
+          {isCalculatorVisible('lid') && <LIDCalculator onExportToTreatmentTrain={handleLIDExport} />}
 
           {/* Treatment Train Calculator */}
-          <TreatmentTrainCalculator importedBMPs={treatmentTrainBMPs} />
+          {isCalculatorVisible('train') && <TreatmentTrainCalculator importedBMPs={treatmentTrainBMPs} />}
+          
+          {calculatorSearch && !CALCULATOR_METADATA.some(c => isCalculatorVisible(c.id)) && (
+            <Card className="p-8 text-center text-muted-foreground">
+              <p>No calculators found matching "{calculatorSearch}"</p>
+              <button 
+                onClick={() => setCalculatorSearch('')}
+                className="text-primary hover:underline mt-2"
+              >
+                Clear search
+              </button>
+            </Card>
+          )}
         </TabsContent>
       </Tabs>
 
