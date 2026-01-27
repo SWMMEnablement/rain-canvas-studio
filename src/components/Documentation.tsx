@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { TcCalculator } from "./TcCalculator";
@@ -45,10 +46,10 @@ import {
 // Calculator categories
 type CalculatorCategory = 'hydrology' | 'hydraulics' | 'water-quality';
 
-const CALCULATOR_CATEGORIES: { id: CalculatorCategory; name: string; color: string; icon: LucideIcon }[] = [
-  { id: 'hydrology', name: 'Hydrology', color: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30 hover:bg-blue-500/20', icon: Droplets },
-  { id: 'hydraulics', name: 'Hydraulics', color: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30 hover:bg-amber-500/20', icon: PipetteIcon },
-  { id: 'water-quality', name: 'Water Quality', color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20', icon: Leaf },
+const CALCULATOR_CATEGORIES: { id: CalculatorCategory; name: string; color: string; icon: LucideIcon; description: string }[] = [
+  { id: 'hydrology', name: 'Hydrology', color: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30 hover:bg-blue-500/20', icon: Droplets, description: 'Rainfall analysis, runoff calculations, curve numbers, and hydrograph generation' },
+  { id: 'hydraulics', name: 'Hydraulics', color: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30 hover:bg-amber-500/20', icon: PipetteIcon, description: 'Detention ponds, outlet structures, stage-storage curves, and flow routing' },
+  { id: 'water-quality', name: 'Water Quality', color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20', icon: Leaf, description: 'LID/green infrastructure BMPs and treatment train pollutant removal' },
 ];
 
 // Calculator metadata for search/filter
@@ -1107,26 +1108,34 @@ export function Documentation() {
           {/* Category Quick Filters */}
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-sm text-muted-foreground mr-1">Filter by:</span>
-            {CALCULATOR_CATEGORIES.map((cat) => {
-              const count = CALCULATOR_METADATA.filter(c => c.category === cat.id).length;
-              const isActive = activeCategory === cat.id;
-              const IconComponent = cat.icon;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(isActive ? null : cat.id)}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
-                    isActive 
-                      ? cat.color + ' ring-2 ring-offset-2 ring-offset-background' 
-                      : 'bg-muted/50 text-muted-foreground border-transparent hover:bg-muted'
-                  }`}
-                >
-                  <IconComponent className="w-4 h-4" />
-                  {cat.name}
-                  <Badge variant="secondary" className="h-5 px-1.5 text-xs">{count}</Badge>
-                </button>
-              );
-            })}
+            <TooltipProvider delayDuration={300}>
+              {CALCULATOR_CATEGORIES.map((cat) => {
+                const count = CALCULATOR_METADATA.filter(c => c.category === cat.id).length;
+                const isActive = activeCategory === cat.id;
+                const IconComponent = cat.icon;
+                return (
+                  <Tooltip key={cat.id}>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => setActiveCategory(isActive ? null : cat.id)}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
+                          isActive 
+                            ? cat.color + ' ring-2 ring-offset-2 ring-offset-background' 
+                            : 'bg-muted/50 text-muted-foreground border-transparent hover:bg-muted'
+                        }`}
+                      >
+                        <IconComponent className="w-4 h-4" />
+                        {cat.name}
+                        <Badge variant="secondary" className="h-5 px-1.5 text-xs">{count}</Badge>
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="max-w-xs">
+                      <p>{cat.description}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              })}
+            </TooltipProvider>
             {activeCategory && (
               <button
                 onClick={() => setActiveCategory(null)}
