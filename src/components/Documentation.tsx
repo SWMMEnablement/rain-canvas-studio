@@ -39,21 +39,30 @@ import {
   List
 } from "lucide-react";
 
+// Calculator categories
+type CalculatorCategory = 'hydrology' | 'hydraulics' | 'water-quality';
+
+const CALCULATOR_CATEGORIES: { id: CalculatorCategory; name: string; color: string }[] = [
+  { id: 'hydrology', name: 'Hydrology', color: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30 hover:bg-blue-500/20' },
+  { id: 'hydraulics', name: 'Hydraulics', color: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30 hover:bg-amber-500/20' },
+  { id: 'water-quality', name: 'Water Quality', color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20' },
+];
+
 // Calculator metadata for search/filter
-const CALCULATOR_METADATA = [
-  { id: 'tc', name: 'Time of Concentration', keywords: ['tc', 'travel time', 'kirpich', 'faa', 'nrcs', 'lag'] },
-  { id: 'idf', name: 'IDF Lookup', keywords: ['idf', 'intensity', 'duration', 'frequency', 'rainfall', 'noaa', 'atlas'] },
-  { id: 'cn', name: 'Curve Number', keywords: ['cn', 'curve number', 'scs', 'nrcs', 'soil', 'land use', 'hydrologic'] },
-  { id: 'runoff', name: 'Runoff Volume', keywords: ['runoff', 'volume', 'depth', 'scs', 'rainfall excess'] },
-  { id: 'rational', name: 'Rational Method', keywords: ['rational', 'peak flow', 'intensity', 'coefficient', 'q=cia'] },
-  { id: 'detention', name: 'Detention Pond', keywords: ['detention', 'pond', 'basin', 'storage', 'sizing'] },
-  { id: 'outlet', name: 'Outlet Structure', keywords: ['outlet', 'orifice', 'weir', 'riser', 'discharge', 'hydraulics'] },
-  { id: 'ssd', name: 'Stage-Storage-Discharge', keywords: ['stage', 'storage', 'discharge', 'elevation', 'curve', 'pond'] },
-  { id: 'hydrograph', name: 'Unit Hydrograph', keywords: ['unit hydrograph', 'nrcs', 'triangular', 'dimensionless', 'inflow'] },
-  { id: 'puls', name: 'Modified Puls Routing', keywords: ['puls', 'routing', 'pond', 'reservoir', 'attenuation', 'flood'] },
-  { id: 'prepost', name: 'Pre/Post Development', keywords: ['pre', 'post', 'development', 'comparison', 'peak', 'detention'] },
-  { id: 'lid', name: 'LID / Green Infrastructure', keywords: ['lid', 'green', 'infrastructure', 'bmp', 'bioretention', 'permeable', 'swale'] },
-  { id: 'train', name: 'Treatment Train', keywords: ['treatment', 'train', 'pollutant', 'removal', 'water quality', 'tss', 'bmp'] },
+const CALCULATOR_METADATA: { id: string; name: string; keywords: string[]; category: CalculatorCategory }[] = [
+  { id: 'tc', name: 'Time of Concentration', keywords: ['tc', 'travel time', 'kirpich', 'faa', 'nrcs', 'lag'], category: 'hydrology' },
+  { id: 'idf', name: 'IDF Lookup', keywords: ['idf', 'intensity', 'duration', 'frequency', 'rainfall', 'noaa', 'atlas'], category: 'hydrology' },
+  { id: 'cn', name: 'Curve Number', keywords: ['cn', 'curve number', 'scs', 'nrcs', 'soil', 'land use', 'hydrologic'], category: 'hydrology' },
+  { id: 'runoff', name: 'Runoff Volume', keywords: ['runoff', 'volume', 'depth', 'scs', 'rainfall excess'], category: 'hydrology' },
+  { id: 'rational', name: 'Rational Method', keywords: ['rational', 'peak flow', 'intensity', 'coefficient', 'q=cia'], category: 'hydrology' },
+  { id: 'detention', name: 'Detention Pond', keywords: ['detention', 'pond', 'basin', 'storage', 'sizing'], category: 'hydraulics' },
+  { id: 'outlet', name: 'Outlet Structure', keywords: ['outlet', 'orifice', 'weir', 'riser', 'discharge', 'hydraulics'], category: 'hydraulics' },
+  { id: 'ssd', name: 'Stage-Storage-Discharge', keywords: ['stage', 'storage', 'discharge', 'elevation', 'curve', 'pond'], category: 'hydraulics' },
+  { id: 'hydrograph', name: 'Unit Hydrograph', keywords: ['unit hydrograph', 'nrcs', 'triangular', 'dimensionless', 'inflow'], category: 'hydrology' },
+  { id: 'puls', name: 'Modified Puls Routing', keywords: ['puls', 'routing', 'pond', 'reservoir', 'attenuation', 'flood'], category: 'hydraulics' },
+  { id: 'prepost', name: 'Pre/Post Development', keywords: ['pre', 'post', 'development', 'comparison', 'peak', 'detention'], category: 'hydrology' },
+  { id: 'lid', name: 'LID / Green Infrastructure', keywords: ['lid', 'green', 'infrastructure', 'bmp', 'bioretention', 'permeable', 'swale'], category: 'water-quality' },
+  { id: 'train', name: 'Treatment Train', keywords: ['treatment', 'train', 'pollutant', 'removal', 'water quality', 'tss', 'bmp'], category: 'water-quality' },
 ];
 
 export function Documentation() {
@@ -71,19 +80,25 @@ export function Documentation() {
   // Calculator search state
   const [calculatorSearch, setCalculatorSearch] = useState<string>('');
   const [indexOpen, setIndexOpen] = useState<boolean>(false);
+  const [activeCategory, setActiveCategory] = useState<CalculatorCategory | null>(null);
 
   // Filter function for calculators
   const isCalculatorVisible = useMemo(() => {
     const searchLower = calculatorSearch.toLowerCase().trim();
-    if (!searchLower) return () => true;
     
     return (id: string) => {
       const calc = CALCULATOR_METADATA.find(c => c.id === id);
       if (!calc) return true;
+      
+      // Category filter
+      if (activeCategory && calc.category !== activeCategory) return false;
+      
+      // Search filter
+      if (!searchLower) return true;
       return calc.name.toLowerCase().includes(searchLower) || 
              calc.keywords.some(k => k.toLowerCase().includes(searchLower));
     };
-  }, [calculatorSearch]);
+  }, [calculatorSearch, activeCategory]);
 
   const handleCNChange = (cn: number | null, totalArea: number) => {
     setLinkedCN(cn);
@@ -1084,6 +1099,37 @@ export function Documentation() {
               onChange={(e) => setCalculatorSearch(e.target.value)}
               className="pl-10"
             />
+          </div>
+
+          {/* Category Quick Filters */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm text-muted-foreground mr-1">Filter by:</span>
+            {CALCULATOR_CATEGORIES.map((cat) => {
+              const count = CALCULATOR_METADATA.filter(c => c.category === cat.id).length;
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(isActive ? null : cat.id)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
+                    isActive 
+                      ? cat.color + ' ring-2 ring-offset-2 ring-offset-background' 
+                      : 'bg-muted/50 text-muted-foreground border-transparent hover:bg-muted'
+                  }`}
+                >
+                  {cat.name}
+                  <Badge variant="secondary" className="h-5 px-1.5 text-xs">{count}</Badge>
+                </button>
+              );
+            })}
+            {activeCategory && (
+              <button
+                onClick={() => setActiveCategory(null)}
+                className="text-sm text-muted-foreground hover:text-foreground underline"
+              >
+                Clear filter
+              </button>
+            )}
           </div>
 
           {/* Collapsible Calculator Index */}
