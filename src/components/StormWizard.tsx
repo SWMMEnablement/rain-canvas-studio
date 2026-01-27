@@ -1,0 +1,318 @@
+import { useState, useEffect } from "react";
+import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { PatternSelector } from "@/components/PatternSelector";
+import { StormParameters } from "@/components/StormParameters";
+import { RainfallChart } from "@/components/RainfallChart";
+import { ExportButtons } from "@/components/ExportButtons";
+import { SwmmFileIntegration } from "@/components/SwmmFileIntegration";
+import { cn } from "@/lib/utils";
+import {
+  generateRainfallData,
+  prepareChartData,
+  prepareExportData,
+  type PatternType,
+} from "@/lib/rainfallPatterns";
+import { type UnitSystem } from "@/lib/unitConversions";
+
+const patternNames: Record<PatternType, string> = {
+  'scs1a': 'SCS Type IA',
+  'scs1': 'SCS Type I',
+  'scs2': 'SCS Type II',
+  'scs3': 'SCS Type III',
+  'huff1': 'Huff 1st Quartile',
+  'huff2': 'Huff 2nd Quartile',
+  'huff3': 'Huff 3rd Quartile',
+  'huff4': 'Huff 4th Quartile',
+  'chicago': 'Chicago Storm',
+  'desbordes': 'Desbordes',
+  'arr': 'Australian ARR',
+  'dwa': 'German DWA',
+  'block': 'Block',
+  'triangular': 'Triangular',
+  'double': 'Double Peak',
+  'custom': 'Custom',
+  'trapezoidal': 'Trapezoidal',
+  'fsr': 'FSR',
+  'jma': 'JMA',
+  'china': 'China',
+  'sa_huff': 'South African Huff',
+  'dutch': 'Dutch',
+  'italian': 'Italian',
+};
+
+interface WizardStep {
+  id: number;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+}
+
+const steps: WizardStep[] = [
+  { id: 1, title: "Storm Parameters", description: "Set depth, duration & units", icon: <Settings className="w-5 h-5" /> },
+  { id: 2, title: "Select Pattern", description: "Choose rainfall distribution", icon: <Layers className="w-5 h-5" /> },
+  { id: 3, title: "Review & Export", description: "Visualize and download data", icon: <Download className="w-5 h-5" /> },
+];
+
+export function StormWizard() {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [selectedPattern, setSelectedPattern] = useState<PatternType>('block');
+  const [depth, setDepth] = useState(2.0);
+  const [duration, setDuration] = useState(6.0);
+  const [timeStep, setTimeStep] = useState(15);
+  const [unitSystem, setUnitSystem] = useState<UnitSystem>(() => {
+    const saved = localStorage.getItem('preferredUnitSystem');
+    return (saved === 'SI' || saved === 'USA') ? saved : 'USA';
+  });
+  const [chartData, setChartData] = useState<Array<{ time: string; intensity: number }>>([]);
+  const [exportData, setExportData] = useState<Array<{ time: number; intensity: number }>>([]);
+
+  // Save unit system preference
+  useEffect(() => {
+    localStorage.setItem('preferredUnitSystem', unitSystem);
+  }, [unitSystem]);
+
+  // Update chart data when parameters change
+  useEffect(() => {
+    const intensities = generateRainfallData(selectedPattern, depth, duration, timeStep);
+    const formattedChartData = prepareChartData(intensities, timeStep);
+    const formattedExportData = prepareExportData(intensities, timeStep);
+    setChartData(formattedChartData);
+    setExportData(formattedExportData);
+  }, [selectedPattern, depth, duration, timeStep]);
+
+  const progress = (currentStep / steps.length) * 100;
+
+  const canProceed = () => {
+    switch (currentStep) {
+      case 1:
+        return depth > 0 && duration > 0 && timeStep > 0;
+      case 2:
+        return selectedPattern !== null;
+      default:
+        return true;
+    }
+  };
+
+  const nextStep = () => {
+    if (currentStep < steps.length && canProceed()) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const goToStep = (step: number) => {
+    if (step <= currentStep || canProceed()) {
+      setCurrentStep(step);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Progress Header */}
+      <Card className="shadow-card">
+        <CardContent className="pt-6">
+          {/* Step Indicators */}
+          <div className="flex items-center justify-between mb-4">
+            {steps.map((step, index) => (
+              <div key={step.id} className="flex items-center flex-1">
+                <button
+                  onClick={() => goToStep(step.id)}
+                  className={cn(
+                    "flex items-center gap-3 p-3 rounded-lg transition-all duration-300 w-full",
+                    currentStep === step.id 
+                      ? "bg-primary text-primary-foreground shadow-md" 
+                      : currentStep > step.id
+                        ? "bg-accent text-accent-foreground cursor-pointer hover:bg-accent/80"
+                        : "bg-muted text-muted-foreground"
+                  )}
+                  disabled={step.id > currentStep && !canProceed()}
+                >
+                  <div className={cn(
+                    "flex items-center justify-center w-8 h-8 rounded-full border-2 shrink-0",
+                    currentStep === step.id 
+                      ? "border-primary-foreground bg-primary-foreground/20" 
+                      : currentStep > step.id
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-current"
+                  )}>
+                    {currentStep > step.id ? (
+                      <Check className="w-4 h-4" />
+                    ) : (
+                      step.icon
+                    )}
+                  </div>
+                  <div className="text-left hidden md:block">
+                    <p className="font-medium text-sm">{step.title}</p>
+                    <p className="text-xs opacity-80">{step.description}</p>
+                  </div>
+                </button>
+                {index < steps.length - 1 && (
+                  <ChevronRight className="w-5 h-5 mx-2 text-muted-foreground shrink-0" />
+                )}
+              </div>
+            ))}
+          </div>
+          
+          {/* Progress Bar */}
+          <Progress value={progress} className="h-2" />
+        </CardContent>
+      </Card>
+
+      {/* Step Content */}
+      <div className="min-h-[400px]">
+        {currentStep === 1 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-foreground mb-2">Define Storm Parameters</h2>
+              <p className="text-muted-foreground">Set the characteristics of your synthetic storm event</p>
+            </div>
+            <div className="max-w-2xl mx-auto">
+              <StormParameters
+                depth={depth}
+                duration={duration}
+                timeStep={timeStep}
+                unitSystem={unitSystem}
+                onDepthChange={setDepth}
+                onDurationChange={setDuration}
+                onTimeStepChange={setTimeStep}
+                onUnitSystemChange={setUnitSystem}
+              />
+            </div>
+          </div>
+        )}
+
+        {currentStep === 2 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-foreground mb-2">Select Rainfall Pattern</h2>
+              <p className="text-muted-foreground">Choose a temporal distribution for your storm</p>
+            </div>
+            <div className="grid lg:grid-cols-2 gap-6">
+              <PatternSelector
+                selectedPattern={selectedPattern}
+                onPatternChange={setSelectedPattern}
+              />
+              <div className="space-y-4">
+                <RainfallChart data={chartData} unitSystem={unitSystem} />
+                <Card className="bg-accent/30 border-primary/20">
+                  <CardContent className="pt-4">
+                    <div className="flex items-start gap-3">
+                      <CloudRain className="w-5 h-5 text-primary mt-0.5" />
+                      <div>
+                        <p className="font-medium text-sm">Live Preview</p>
+                        <p className="text-xs text-muted-foreground">
+                          The chart updates in real-time as you select different patterns
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentStep === 3 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-foreground mb-2">Review & Export</h2>
+              <p className="text-muted-foreground">Verify your storm and download in your preferred format</p>
+            </div>
+            
+            {/* Summary Card */}
+            <Card className="bg-accent/30 border-primary/20">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Storm Summary</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center p-3 bg-background rounded-lg">
+                    <p className="text-xs text-muted-foreground mb-1">Pattern</p>
+                    <p className="font-semibold text-primary">{patternNames[selectedPattern]}</p>
+                  </div>
+                  <div className="text-center p-3 bg-background rounded-lg">
+                    <p className="text-xs text-muted-foreground mb-1">Total Depth</p>
+                    <p className="font-semibold text-primary">
+                      {unitSystem === 'USA' ? `${depth.toFixed(2)} in` : `${depth.toFixed(1)} mm`}
+                    </p>
+                  </div>
+                  <div className="text-center p-3 bg-background rounded-lg">
+                    <p className="text-xs text-muted-foreground mb-1">Duration</p>
+                    <p className="font-semibold text-primary">{duration} hours</p>
+                  </div>
+                  <div className="text-center p-3 bg-background rounded-lg">
+                    <p className="text-xs text-muted-foreground mb-1">Time Step</p>
+                    <p className="font-semibold text-primary">{timeStep} min</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Chart */}
+            <RainfallChart data={chartData} unitSystem={unitSystem} />
+
+            {/* Export Options */}
+            <ExportButtons
+              data={exportData}
+              pattern={patternNames[selectedPattern]}
+              totalDepth={depth}
+              duration={duration}
+              timeStep={timeStep}
+              unitSystem={unitSystem}
+            />
+
+            {/* SWMM Integration */}
+            <SwmmFileIntegration
+              selectedPattern={selectedPattern}
+              patternName={patternNames[selectedPattern]}
+              totalDepth={depth}
+              duration={duration}
+              timeStep={timeStep}
+              unitSystem={unitSystem}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Navigation Buttons */}
+      <div className="flex justify-between items-center pt-4 border-t">
+        <Button
+          variant="outline"
+          onClick={prevStep}
+          disabled={currentStep === 1}
+          className="gap-2"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Previous
+        </Button>
+        
+        <div className="text-sm text-muted-foreground">
+          Step {currentStep} of {steps.length}
+        </div>
+
+        {currentStep < steps.length ? (
+          <Button
+            onClick={nextStep}
+            disabled={!canProceed()}
+            className="gap-2"
+          >
+            Next
+            <ArrowRight className="w-4 h-4" />
+          </Button>
+        ) : (
+          <Button variant="secondary" onClick={() => setCurrentStep(1)} className="gap-2">
+            Start New Storm
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
