@@ -36,16 +36,19 @@ import {
   FlaskConical,
   Search,
   ChevronDown,
-  List
+  List,
+  Leaf,
+  PipetteIcon,
+  type LucideIcon
 } from "lucide-react";
 
 // Calculator categories
 type CalculatorCategory = 'hydrology' | 'hydraulics' | 'water-quality';
 
-const CALCULATOR_CATEGORIES: { id: CalculatorCategory; name: string; color: string }[] = [
-  { id: 'hydrology', name: 'Hydrology', color: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30 hover:bg-blue-500/20' },
-  { id: 'hydraulics', name: 'Hydraulics', color: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30 hover:bg-amber-500/20' },
-  { id: 'water-quality', name: 'Water Quality', color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20' },
+const CALCULATOR_CATEGORIES: { id: CalculatorCategory; name: string; color: string; icon: LucideIcon }[] = [
+  { id: 'hydrology', name: 'Hydrology', color: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30 hover:bg-blue-500/20', icon: Droplets },
+  { id: 'hydraulics', name: 'Hydraulics', color: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30 hover:bg-amber-500/20', icon: PipetteIcon },
+  { id: 'water-quality', name: 'Water Quality', color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20', icon: Leaf },
 ];
 
 // Calculator metadata for search/filter
@@ -1107,6 +1110,7 @@ export function Documentation() {
             {CALCULATOR_CATEGORIES.map((cat) => {
               const count = CALCULATOR_METADATA.filter(c => c.category === cat.id).length;
               const isActive = activeCategory === cat.id;
+              const IconComponent = cat.icon;
               return (
                 <button
                   key={cat.id}
@@ -1117,6 +1121,7 @@ export function Documentation() {
                       : 'bg-muted/50 text-muted-foreground border-transparent hover:bg-muted'
                   }`}
                 >
+                  <IconComponent className="w-4 h-4" />
                   {cat.name}
                   <Badge variant="secondary" className="h-5 px-1.5 text-xs">{count}</Badge>
                 </button>
