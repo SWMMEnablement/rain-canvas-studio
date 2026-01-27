@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { TcCalculator } from "./TcCalculator";
@@ -33,7 +34,9 @@ import {
   Layers,
   BookOpen,
   FlaskConical,
-  Search
+  Search,
+  ChevronDown,
+  List
 } from "lucide-react";
 
 // Calculator metadata for search/filter
@@ -67,6 +70,7 @@ export function Documentation() {
   
   // Calculator search state
   const [calculatorSearch, setCalculatorSearch] = useState<string>('');
+  const [indexOpen, setIndexOpen] = useState<boolean>(false);
 
   // Filter function for calculators
   const isCalculatorVisible = useMemo(() => {
@@ -1081,6 +1085,50 @@ export function Documentation() {
               className="pl-10"
             />
           </div>
+
+          {/* Collapsible Calculator Index */}
+          <Collapsible open={indexOpen} onOpenChange={setIndexOpen}>
+            <Card>
+              <CollapsibleTrigger asChild>
+                <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <List className="w-5 h-5 text-primary" />
+                      Calculator Index
+                      <Badge variant="secondary" className="ml-2">{CALCULATOR_METADATA.length} tools</Badge>
+                    </CardTitle>
+                    <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-200 ${indexOpen ? 'rotate-180' : ''}`} />
+                  </div>
+                </CardHeader>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <CardContent className="pt-0">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                    {CALCULATOR_METADATA.map((calc, index) => (
+                      <a
+                        key={calc.id}
+                        href={`#calc-${calc.id}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setCalculatorSearch('');
+                          const element = document.getElementById(`calc-${calc.id}`);
+                          if (element) {
+                            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }
+                        }}
+                        className="flex items-center gap-2 p-2 rounded-md hover:bg-muted transition-colors text-sm"
+                      >
+                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-medium">
+                          {index + 1}
+                        </span>
+                        <span className="text-foreground">{calc.name}</span>
+                      </a>
+                    ))}
+                  </div>
+                </CardContent>
+              </CollapsibleContent>
+            </Card>
+          </Collapsible>
           
           {calculatorSearch && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -1440,43 +1488,43 @@ export function Documentation() {
           )}
 
           {/* Interactive Tc Calculator */}
-          {isCalculatorVisible('tc') && <TcCalculator />}
+          {isCalculatorVisible('tc') && <div id="calc-tc"><TcCalculator /></div>}
 
           {/* IDF Lookup Tool */}
-          {isCalculatorVisible('idf') && <IdfLookup />}
+          {isCalculatorVisible('idf') && <div id="calc-idf"><IdfLookup /></div>}
 
           {/* Curve Number Calculator */}
-          {isCalculatorVisible('cn') && <CurveNumberCalculator onCNChange={handleCNChange} />}
+          {isCalculatorVisible('cn') && <div id="calc-cn"><CurveNumberCalculator onCNChange={handleCNChange} /></div>}
 
           {/* Runoff Volume Calculator */}
-          {isCalculatorVisible('runoff') && <RunoffCalculator linkedCN={linkedCN} linkedArea={linkedArea} onRunoffChange={handleRunoffChange} />}
+          {isCalculatorVisible('runoff') && <div id="calc-runoff"><RunoffCalculator linkedCN={linkedCN} linkedArea={linkedArea} onRunoffChange={handleRunoffChange} /></div>}
 
           {/* Rational Method Calculator */}
-          {isCalculatorVisible('rational') && <RationalMethodCalculator />}
+          {isCalculatorVisible('rational') && <div id="calc-rational"><RationalMethodCalculator /></div>}
 
           {/* Detention Pond Calculator */}
-          {isCalculatorVisible('detention') && <DetentionPondCalculator linkedRunoffVolume={linkedRunoffDepth} />}
+          {isCalculatorVisible('detention') && <div id="calc-detention"><DetentionPondCalculator linkedRunoffVolume={linkedRunoffDepth} /></div>}
 
           {/* Outlet Structure Calculator */}
-          {isCalculatorVisible('outlet') && <OutletStructureCalculator />}
+          {isCalculatorVisible('outlet') && <div id="calc-outlet"><OutletStructureCalculator /></div>}
 
           {/* Stage-Storage-Discharge Curves */}
-          {isCalculatorVisible('ssd') && <StageStorageDischarge onExportData={handleSSOExport} />}
+          {isCalculatorVisible('ssd') && <div id="calc-ssd"><StageStorageDischarge onExportData={handleSSOExport} /></div>}
 
           {/* Unit Hydrograph Calculator */}
-          {isCalculatorVisible('hydrograph') && <UnitHydrographCalculator onExportHydrograph={handleHydrographExport} />}
+          {isCalculatorVisible('hydrograph') && <div id="calc-hydrograph"><UnitHydrographCalculator onExportHydrograph={handleHydrographExport} /></div>}
 
           {/* Modified Puls Pond Routing */}
-          {isCalculatorVisible('puls') && <ModifiedPulsRouting importedSSOData={routingSSOData} importedInflowData={routingInflowData} />}
+          {isCalculatorVisible('puls') && <div id="calc-puls"><ModifiedPulsRouting importedSSOData={routingSSOData} importedInflowData={routingInflowData} /></div>}
 
           {/* Pre/Post Development Comparison */}
-          {isCalculatorVisible('prepost') && <PrePostDevelopmentComparison />}
+          {isCalculatorVisible('prepost') && <div id="calc-prepost"><PrePostDevelopmentComparison /></div>}
 
           {/* LID / Green Infrastructure Calculator */}
-          {isCalculatorVisible('lid') && <LIDCalculator onExportToTreatmentTrain={handleLIDExport} />}
+          {isCalculatorVisible('lid') && <div id="calc-lid"><LIDCalculator onExportToTreatmentTrain={handleLIDExport} /></div>}
 
           {/* Treatment Train Calculator */}
-          {isCalculatorVisible('train') && <TreatmentTrainCalculator importedBMPs={treatmentTrainBMPs} />}
+          {isCalculatorVisible('train') && <div id="calc-train"><TreatmentTrainCalculator importedBMPs={treatmentTrainBMPs} /></div>}
           
           {calculatorSearch && !CALCULATOR_METADATA.some(c => isCalculatorVisible(c.id)) && (
             <Card className="p-8 text-center text-muted-foreground">
