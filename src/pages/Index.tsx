@@ -1,8 +1,9 @@
 import { StormWizard } from "@/components/StormWizard";
 import { AdvancedTools } from "@/components/AdvancedTools";
 import { Documentation } from "@/components/Documentation";
+import { RealDataHub } from "@/components/RealDataHub";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Droplets, CloudRain, BookOpen, Wrench } from "lucide-react";
+import { Droplets, CloudRain, BookOpen, Wrench, Database } from "lucide-react";
 
 const Index = () => {
   return (
@@ -24,11 +25,16 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue="generator" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-4 mb-8">
             <TabsTrigger value="generator" className="flex items-center gap-2">
               <CloudRain className="w-4 h-4" />
               <span className="hidden sm:inline">Storm Generator</span>
               <span className="sm:hidden">Generator</span>
+            </TabsTrigger>
+            <TabsTrigger value="realdata" className="flex items-center gap-2">
+              <Database className="w-4 h-4" />
+              <span className="hidden sm:inline">Real Data Hub</span>
+              <span className="sm:hidden">Real Data</span>
             </TabsTrigger>
             <TabsTrigger value="advanced" className="flex items-center gap-2">
               <Wrench className="w-4 h-4" />
@@ -55,6 +61,10 @@ const Index = () => {
 
             {/* Wizard */}
             <StormWizard />
+          </TabsContent>
+
+          <TabsContent value="realdata">
+            <RealDataHub />
           </TabsContent>
 
           <TabsContent value="advanced">
