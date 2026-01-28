@@ -11,17 +11,19 @@ import {
   Download, 
   Upload,
   Eraser,
-  MousePointer2,
   Grid3X3,
   Undo2,
   Redo2,
   Mountain,
   TrendingUp,
   TrendingDown,
-  Equal
+  Equal,
+  FileDown,
+  FileUp
 } from "lucide-react";
 import { type UnitSystem, formatDepth } from "@/lib/unitConversions";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface CustomPatternEditorProps {
   duration: number;
@@ -181,6 +183,110 @@ export function CustomPatternEditor({
     setIntensities(normalized);
     saveToHistory(normalized);
   }, [intensities, numSteps, totalDepth, timeStep, saveToHistory]);
+
+  // Export custom pattern as JSON
+  const exportPattern = useCallback(() => {
+    const patternData = {
+      version: "1.0",
+      type: "custom-rainfall-pattern",
+      metadata: {
+        exportedAt: new Date().toISOString(),
+        unitSystem,
+        duration,
+        timeStep,
+        totalDepth,
+        numSteps,
+      },
+      intensities,
+      statistics: {
+        peakIntensity: Math.max(...intensities),
+        averageIntensity: intensities.reduce((a, b) => a + b, 0) / numSteps,
+        computedDepth: intensities.reduce((a, b) => a + b, 0) * (timeStep / 60),
+      }
+    };
+
+    const blob = new Blob([JSON.stringify(patternData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `custom-pattern-${duration}h-${timeStep}min.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast.success("Pattern exported successfully");
+  }, [intensities, duration, timeStep, totalDepth, unitSystem, numSteps]);
+
+  // Import custom pattern from JSON
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  const handleImportClick = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
+  const handleFileImport = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string;
+        const patternData = JSON.parse(content);
+
+        // Validate the file structure
+        if (patternData.type !== 'custom-rainfall-pattern' || !Array.isArray(patternData.intensities)) {
+          toast.error("Invalid pattern file format");
+          return;
+        }
+
+        const importedIntensities = patternData.intensities;
+        
+        // Check if the pattern matches current time steps
+        if (importedIntensities.length !== numSteps) {
+          // Resample the pattern to match current time steps
+          const resampledIntensities: number[] = [];
+          for (let i = 0; i < numSteps; i++) {
+            const sourceIndex = (i / (numSteps - 1)) * (importedIntensities.length - 1);
+            const lowerIndex = Math.floor(sourceIndex);
+            const upperIndex = Math.min(lowerIndex + 1, importedIntensities.length - 1);
+            const fraction = sourceIndex - lowerIndex;
+            const interpolated = importedIntensities[lowerIndex] * (1 - fraction) + importedIntensities[upperIndex] * fraction;
+            resampledIntensities.push(interpolated);
+          }
+          
+          // Normalize to current total depth
+          const sum = resampledIntensities.reduce((a, b) => a + b, 0) * (timeStep / 60);
+          const scale = totalDepth / sum;
+          const normalized = resampledIntensities.map(v => v * scale);
+          
+          setIntensities(normalized);
+          saveToHistory(normalized);
+          toast.success(`Pattern imported and resampled from ${importedIntensities.length} to ${numSteps} time steps`);
+        } else {
+          // Same number of steps, just normalize to current depth
+          const sum = importedIntensities.reduce((a: number, b: number) => a + b, 0) * (timeStep / 60);
+          const scale = totalDepth / sum;
+          const normalized = importedIntensities.map((v: number) => v * scale);
+          
+          setIntensities(normalized);
+          saveToHistory(normalized);
+          toast.success("Pattern imported successfully");
+        }
+      } catch (error) {
+        console.error("Error parsing pattern file:", error);
+        toast.error("Failed to parse pattern file. Please check the file format.");
+      }
+    };
+
+    reader.readAsText(file);
+    
+    // Reset the input so the same file can be imported again
+    if (event.target) {
+      event.target.value = '';
+    }
+  }, [numSteps, timeStep, totalDepth, saveToHistory]);
 
   const handleBarInteraction = useCallback((index: number, clientY: number) => {
     if (!canvasRef.current) return;
@@ -416,6 +522,48 @@ export function CustomPatternEditor({
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Reset</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+
+          {/* Import/Export */}
+          <div className="flex items-center gap-1 border-l pl-2 ml-2 border-border">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json"
+              onChange={handleFileImport}
+              className="hidden"
+            />
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={handleImportClick}
+                  >
+                    <FileUp className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Import Pattern</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={exportPattern}
+                  >
+                    <FileDown className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Export Pattern</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
