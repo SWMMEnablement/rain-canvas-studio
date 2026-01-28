@@ -1,10 +1,11 @@
 import { useState, useCallback } from "react";
-import { Database, Upload, Edit3, FolderOpen } from "lucide-react";
+import { Database, Upload, Edit3, FolderOpen, BarChart3 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RealDataImporter } from "@/components/RealDataImporter";
 import { TimeseriesEditor } from "@/components/TimeseriesEditor";
 import { StormEventLibrary, type SavedStormEvent } from "@/components/StormEventLibrary";
+import { PatternDerivationEngine } from "@/components/PatternDerivationEngine";
 import { type ParsedRainfallData, type RainfallDataPoint } from "@/lib/rainfallParsers";
 import { type UnitSystem } from "@/lib/unitConversions";
 
@@ -95,21 +96,22 @@ export function RealDataHub() {
 
       {/* Main Content */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="import" className="flex items-center gap-2">
             <Upload className="w-4 h-4" />
-            <span className="hidden sm:inline">Import Data</span>
-            <span className="sm:hidden">Import</span>
+            <span className="hidden sm:inline">Import</span>
           </TabsTrigger>
           <TabsTrigger value="edit" className="flex items-center gap-2" disabled={!currentData}>
             <Edit3 className="w-4 h-4" />
-            <span className="hidden sm:inline">Edit Timeseries</span>
-            <span className="sm:hidden">Edit</span>
+            <span className="hidden sm:inline">Edit</span>
+          </TabsTrigger>
+          <TabsTrigger value="analyze" className="flex items-center gap-2" disabled={!currentData}>
+            <BarChart3 className="w-4 h-4" />
+            <span className="hidden sm:inline">Analyze</span>
           </TabsTrigger>
           <TabsTrigger value="library" className="flex items-center gap-2">
             <FolderOpen className="w-4 h-4" />
-            <span className="hidden sm:inline">Storm Library</span>
-            <span className="sm:hidden">Library</span>
+            <span className="hidden sm:inline">Library</span>
           </TabsTrigger>
         </TabsList>
 
@@ -132,6 +134,22 @@ export function RealDataHub() {
                 <h3 className="text-lg font-medium mb-2">No Data Loaded</h3>
                 <p className="text-muted-foreground">
                   Import a rainfall data file or load from your library to begin editing
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="analyze" className="mt-6">
+          {currentData ? (
+            <PatternDerivationEngine data={currentData.data} />
+          ) : (
+            <Card>
+              <CardContent className="py-12 text-center">
+                <BarChart3 className="w-12 h-12 mx-auto mb-4 text-muted-foreground opacity-50" />
+                <h3 className="text-lg font-medium mb-2">No Data Loaded</h3>
+                <p className="text-muted-foreground">
+                  Import storm data to analyze patterns and find best-fit synthetic distributions
                 </p>
               </CardContent>
             </Card>

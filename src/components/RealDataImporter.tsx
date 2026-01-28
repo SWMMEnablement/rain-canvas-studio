@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Upload, FileText, AlertCircle, CheckCircle, Info, X, CloudRain } from "lucide-react";
+import { Upload, FileText, AlertCircle, CheckCircle, Info, X, CloudRain, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -7,6 +7,12 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { parseRainfallFile, type ParsedRainfallData } from "@/lib/rainfallParsers";
 
+const sampleFiles = {
+  csv: { path: "/sample-data/sample-rainfall.csv", name: "sample-rainfall.csv" },
+  noaa: { path: "/sample-data/sample-noaa.dat", name: "sample-noaa.dat" },
+  swmm: { path: "/sample-data/sample-swmm.inp", name: "sample-swmm.inp" },
+  hec: { path: "/sample-data/sample-hec.gage", name: "sample-hec.gage" }
+};
 interface RealDataImporterProps {
   onDataImported: (data: ParsedRainfallData) => void;
 }
@@ -106,9 +112,25 @@ export function RealDataImporter({ onDataImported }: RealDataImporterProps) {
             {Object.entries(formatDescriptions).map(([key, format]) => (
               <TabsContent key={key} value={key} className="mt-4">
                 <div className="space-y-3">
-                  <div>
-                    <h4 className="font-medium">{format.title}</h4>
-                    <p className="text-sm text-muted-foreground">{format.description}</p>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h4 className="font-medium">{format.title}</h4>
+                      <p className="text-sm text-muted-foreground">{format.description}</p>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="shrink-0"
+                      asChild
+                    >
+                      <a 
+                        href={sampleFiles[key as keyof typeof sampleFiles].path} 
+                        download={sampleFiles[key as keyof typeof sampleFiles].name}
+                      >
+                        <Download className="w-4 h-4 mr-1" />
+                        Sample
+                      </a>
+                    </Button>
                   </div>
                   <div className="flex gap-2">
                     {format.extensions.map(ext => (
