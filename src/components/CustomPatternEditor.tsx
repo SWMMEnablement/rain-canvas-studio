@@ -5,6 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Pencil, 
   RotateCcw, 
@@ -19,11 +20,13 @@ import {
   TrendingDown,
   Equal,
   FileDown,
-  FileUp
+  FileUp,
+  Table2
 } from "lucide-react";
 import { type UnitSystem, formatDepth } from "@/lib/unitConversions";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { NumericalPatternTable } from "./NumericalPatternTable";
 
 interface CustomPatternEditorProps {
   duration: number;
@@ -362,6 +365,12 @@ export function CustomPatternEditor({
   const unit = unitSystem === 'USA' ? 'in/hr' : 'mm/hr';
   const currentTotal = intensities.reduce((a, b) => a + b, 0) * (timeStep / 60);
 
+  // Handle intensities change from numerical table
+  const handleNumericalChange = useCallback((newIntensities: number[]) => {
+    setIntensities(newIntensities);
+    saveToHistory(newIntensities);
+  }, [saveToHistory]);
+
   return (
     <Card className="shadow-card hover:shadow-hover transition-all duration-300">
       <CardHeader className="pb-3">
@@ -372,7 +381,7 @@ export function CustomPatternEditor({
               Custom Pattern Editor
             </CardTitle>
             <CardDescription>
-              Draw your rainfall distribution by clicking and dragging
+              Draw or type your rainfall distribution
             </CardDescription>
           </div>
           <div className="text-right">
@@ -387,6 +396,19 @@ export function CustomPatternEditor({
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
+        <Tabs defaultValue="graphical" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-4">
+            <TabsTrigger value="graphical" className="gap-2">
+              <Pencil className="w-4 h-4" />
+              Graphical Editor
+            </TabsTrigger>
+            <TabsTrigger value="numerical" className="gap-2">
+              <Table2 className="w-4 h-4" />
+              Numerical Table
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="graphical" className="mt-0 space-y-4">
         {/* Toolbar */}
         <div className="flex flex-wrap items-center gap-2 p-2 bg-muted/50 rounded-lg">
           {/* Tools */}
@@ -664,6 +686,19 @@ export function CustomPatternEditor({
             <p className="font-semibold text-primary">{numSteps}</p>
           </div>
         </div>
+          </TabsContent>
+          
+          <TabsContent value="numerical" className="mt-0">
+            <NumericalPatternTable
+              intensities={intensities}
+              duration={duration}
+              timeStep={timeStep}
+              totalDepth={totalDepth}
+              unitSystem={unitSystem}
+              onIntensitiesChange={handleNumericalChange}
+            />
+          </TabsContent>
+        </Tabs>
       </CardContent>
     </Card>
   );

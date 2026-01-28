@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +9,7 @@ import { RainfallChart } from "@/components/RainfallChart";
 import { ExportButtons } from "@/components/ExportButtons";
 import { SwmmFileIntegration } from "@/components/SwmmFileIntegration";
 import { CustomPatternEditor } from "@/components/CustomPatternEditor";
+import { IdfComparison } from "@/components/IdfComparison";
 import { cn } from "@/lib/utils";
 import {
   generateRainfallData,
@@ -96,6 +97,12 @@ export function StormWizard() {
     setChartData(formattedChartData);
     setExportData(formattedExportData);
   }, [selectedPattern, depth, duration, timeStep, customIntensities]);
+
+  // Calculate peak intensity for IDF comparison
+  const peakIntensity = useMemo(() => {
+    if (chartData.length === 0) return 0;
+    return Math.max(...chartData.map(d => d.intensity));
+  }, [chartData]);
 
   const progress = (currentStep / steps.length) * 100;
 
@@ -336,6 +343,14 @@ export function StormWizard() {
               totalDepth={depth}
               duration={duration}
               timeStep={timeStep}
+              unitSystem={unitSystem}
+            />
+
+            {/* IDF Comparison */}
+            <IdfComparison
+              stormDepth={depth}
+              stormDuration={duration}
+              peakIntensity={peakIntensity}
               unitSystem={unitSystem}
             />
           </div>
