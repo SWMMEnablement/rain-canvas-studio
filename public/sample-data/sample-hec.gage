@@ -1,0 +1,10 @@
+Gage: TestGage001
+Start Date: 15Jul2024, 00:00
+End Date: 15Jul2024, 03:00
+Time Interval: 15 MIN
+Units: IN
+
+Data:
+0.02 0.05 0.12 0.28
+0.45 0.72 0.54 0.38
+0.24 0.15 0.08 0.04

@@ -1,0 +1,23 @@
+[TITLE]
+Sample SWMM Rainfall Data
+
+[RAINGAGES]
+;;Name           Format    Interval SCF      Source    
+RG1              INTENSITY 0:15     1.0      TIMESERIES TS1
+
+[TIMESERIES]
+;;Name           Date       Time       Value     
+TS1              07/15/2024 00:00      0.10
+TS1              07/15/2024 00:15      0.25
+TS1              07/15/2024 00:30      0.60
+TS1              07/15/2024 00:45      1.40
+TS1              07/15/2024 01:00      3.20
+TS1              07/15/2024 01:15      5.10
+TS1              07/15/2024 01:30      3.80
+TS1              07/15/2024 01:45      2.40
+TS1              07/15/2024 02:00      1.50
+TS1              07/15/2024 02:15      0.80
+TS1              07/15/2024 02:30      0.40
+TS1              07/15/2024 02:45      0.15
+
+[END]
