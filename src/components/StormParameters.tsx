@@ -1,8 +1,15 @@
+import { useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { type UnitSystem, convertDepth, formatDepth } from "@/lib/unitConversions";
+import { ValidationFeedback } from "@/components/ValidationFeedback";
+import { 
+  validateStormParameters, 
+  getIntensityClassification, 
+  estimateReturnPeriod 
+} from "@/lib/stormValidation";
 
 interface StormParametersProps {
   depth: number;
@@ -35,6 +42,22 @@ export function StormParameters({
   const depthConfig = unitSystem === 'USA' 
     ? { min: 0.5, max: 10, step: 0.1 }
     : { min: 12.7, max: 254, step: 2.54 }; // equivalent ranges in mm
+
+  // Validate storm parameters
+  const validation = useMemo(() => 
+    validateStormParameters(depth, duration, timeStep, unitSystem),
+    [depth, duration, timeStep, unitSystem]
+  );
+
+  const intensityClass = useMemo(() => 
+    getIntensityClassification(depth, duration, unitSystem),
+    [depth, duration, unitSystem]
+  );
+
+  const returnPeriod = useMemo(() => 
+    estimateReturnPeriod(depth, duration, unitSystem),
+    [depth, duration, unitSystem]
+  );
 
   return (
     <Card className="shadow-card hover:shadow-hover transition-all duration-300">
@@ -105,6 +128,14 @@ export function StormParameters({
             className="cursor-pointer"
           />
         </div>
+
+        {/* Validation Feedback */}
+        <ValidationFeedback
+          warnings={validation.warnings}
+          isValid={validation.isValid}
+          intensityClass={intensityClass}
+          estimatedReturnPeriod={returnPeriod}
+        />
       </CardContent>
     </Card>
   );
