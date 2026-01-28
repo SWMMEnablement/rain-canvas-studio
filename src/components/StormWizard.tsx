@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -8,6 +8,7 @@ import { StormParameters } from "@/components/StormParameters";
 import { RainfallChart } from "@/components/RainfallChart";
 import { ExportButtons } from "@/components/ExportButtons";
 import { SwmmFileIntegration } from "@/components/SwmmFileIntegration";
+import { CustomPatternEditor } from "@/components/CustomPatternEditor";
 import { cn } from "@/lib/utils";
 import {
   generateRainfallData,
@@ -68,20 +69,33 @@ export function StormWizard() {
   });
   const [chartData, setChartData] = useState<Array<{ time: string; intensity: number }>>([]);
   const [exportData, setExportData] = useState<Array<{ time: number; intensity: number }>>([]);
+  const [customIntensities, setCustomIntensities] = useState<number[] | null>(null);
 
   // Save unit system preference
   useEffect(() => {
     localStorage.setItem('preferredUnitSystem', unitSystem);
   }, [unitSystem]);
 
+  // Handle custom pattern changes
+  const handleCustomPatternChange = useCallback((intensities: number[]) => {
+    setCustomIntensities(intensities);
+  }, []);
+
   // Update chart data when parameters change
   useEffect(() => {
-    const intensities = generateRainfallData(selectedPattern, depth, duration, timeStep);
+    let intensities: number[];
+    
+    if (selectedPattern === 'custom' && customIntensities && customIntensities.length > 0) {
+      intensities = customIntensities;
+    } else {
+      intensities = generateRainfallData(selectedPattern, depth, duration, timeStep);
+    }
+    
     const formattedChartData = prepareChartData(intensities, timeStep);
     const formattedExportData = prepareExportData(intensities, timeStep);
     setChartData(formattedChartData);
     setExportData(formattedExportData);
-  }, [selectedPattern, depth, duration, timeStep]);
+  }, [selectedPattern, depth, duration, timeStep, customIntensities]);
 
   const progress = (currentStep / steps.length) * 100;
 
@@ -195,28 +209,74 @@ export function StormWizard() {
               <h2 className="text-2xl font-bold text-foreground mb-2">Select Rainfall Pattern</h2>
               <p className="text-muted-foreground">Choose a temporal distribution for your storm</p>
             </div>
-            <div className="grid lg:grid-cols-2 gap-6">
-              <PatternSelector
-                selectedPattern={selectedPattern}
-                onPatternChange={setSelectedPattern}
-              />
-              <div className="space-y-4">
-                <RainfallChart data={chartData} unitSystem={unitSystem} />
+            
+            {selectedPattern === 'custom' ? (
+              // Custom Pattern Editor View
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSelectedPattern('block')}
+                    className="gap-2"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    Back to Patterns
+                  </Button>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Pencil className="w-4 h-4" />
+                    Custom Pattern Mode
+                  </div>
+                </div>
+                
+                <CustomPatternEditor
+                  duration={duration}
+                  timeStep={timeStep}
+                  totalDepth={depth}
+                  unitSystem={unitSystem}
+                  onPatternChange={handleCustomPatternChange}
+                  initialPattern={customIntensities || undefined}
+                />
+                
                 <Card className="bg-accent/30 border-primary/20">
                   <CardContent className="pt-4">
                     <div className="flex items-start gap-3">
-                      <CloudRain className="w-5 h-5 text-primary mt-0.5" />
+                      <Pencil className="w-5 h-5 text-primary mt-0.5" />
                       <div>
-                        <p className="font-medium text-sm">Live Preview</p>
+                        <p className="font-medium text-sm">Draw Your Distribution</p>
                         <p className="text-xs text-muted-foreground">
-                          The chart updates in real-time as you select different patterns
+                          Click and drag on the chart to shape your rainfall pattern. Use presets as starting points, then customize.
                         </p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
               </div>
-            </div>
+            ) : (
+              // Standard Pattern Selection View
+              <div className="grid lg:grid-cols-2 gap-6">
+                <PatternSelector
+                  selectedPattern={selectedPattern}
+                  onPatternChange={setSelectedPattern}
+                />
+                <div className="space-y-4">
+                  <RainfallChart data={chartData} unitSystem={unitSystem} />
+                  <Card className="bg-accent/30 border-primary/20">
+                    <CardContent className="pt-4">
+                      <div className="flex items-start gap-3">
+                        <CloudRain className="w-5 h-5 text-primary mt-0.5" />
+                        <div>
+                          <p className="font-medium text-sm">Live Preview</p>
+                          <p className="text-xs text-muted-foreground">
+                            The chart updates in real-time as you select different patterns
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
