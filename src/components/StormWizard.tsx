@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil } from "lucide-react";
+import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { PatternSelector } from "@/components/PatternSelector";
 import { StormParameters } from "@/components/StormParameters";
 import { RainfallChart } from "@/components/RainfallChart";
@@ -11,6 +12,7 @@ import { SwmmFileIntegration } from "@/components/SwmmFileIntegration";
 import { CustomPatternEditor } from "@/components/CustomPatternEditor";
 import { IdfComparison } from "@/components/IdfComparison";
 import { IdfGuidedSelector } from "@/components/IdfGuidedSelector";
+import { PatternEquationDisplay } from "@/components/PatternEquationDisplay";
 import { cn } from "@/lib/utils";
 import {
   generateRainfallData,
@@ -65,6 +67,7 @@ export function StormWizard() {
   const [depth, setDepth] = useState(2.0);
   const [duration, setDuration] = useState(6.0);
   const [timeStep, setTimeStep] = useState(15);
+  const [showEquations, setShowEquations] = useState(false);
   const [unitSystem, setUnitSystem] = useState<UnitSystem>(() => {
     const saved = localStorage.getItem('preferredUnitSystem');
     return (saved === 'SI' || saved === 'USA') ? saved : 'USA';
@@ -272,27 +275,49 @@ export function StormWizard() {
               </div>
             ) : (
               // Standard Pattern Selection View
-              <div className="grid lg:grid-cols-2 gap-6">
-                <PatternSelector
-                  selectedPattern={selectedPattern}
-                  onPatternChange={setSelectedPattern}
-                />
-                <div className="space-y-4">
-                  <RainfallChart data={chartData} unitSystem={unitSystem} />
-                  <Card className="bg-accent/30 border-primary/20">
-                    <CardContent className="pt-4">
-                      <div className="flex items-start gap-3">
-                        <CloudRain className="w-5 h-5 text-primary mt-0.5" />
-                        <div>
-                          <p className="font-medium text-sm">Live Preview</p>
-                          <p className="text-xs text-muted-foreground">
-                            The chart updates in real-time as you select different patterns
-                          </p>
+              <div className="space-y-6">
+                <div className="grid lg:grid-cols-2 gap-6">
+                  <PatternSelector
+                    selectedPattern={selectedPattern}
+                    onPatternChange={setSelectedPattern}
+                  />
+                  <div className="space-y-4">
+                    <RainfallChart data={chartData} unitSystem={unitSystem} />
+                    <Card className="bg-accent/30 border-primary/20">
+                      <CardContent className="pt-4">
+                        <div className="flex items-start gap-3">
+                          <CloudRain className="w-5 h-5 text-primary mt-0.5" />
+                          <div>
+                            <p className="font-medium text-sm">Live Preview</p>
+                            <p className="text-xs text-muted-foreground">
+                              The chart updates in real-time as you select different patterns
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
+
+                {/* Equation Documentation Panel */}
+                <Collapsible open={showEquations} onOpenChange={setShowEquations}>
+                  <CollapsibleTrigger asChild>
+                    <Button variant="outline" className="w-full justify-between">
+                      <span className="flex items-center gap-2">
+                        <FlaskConical className="w-4 h-4" />
+                        View Mathematical Equations & Methodology
+                      </span>
+                      {showEquations ? (
+                        <ChevronUp className="w-4 h-4" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4" />
+                      )}
+                    </Button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pt-4">
+                    <PatternEquationDisplay pattern={selectedPattern} />
+                  </CollapsibleContent>
+                </Collapsible>
               </div>
             )}
           </div>
