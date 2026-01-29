@@ -10,6 +10,7 @@ import { ExportButtons } from "@/components/ExportButtons";
 import { SwmmFileIntegration } from "@/components/SwmmFileIntegration";
 import { CustomPatternEditor } from "@/components/CustomPatternEditor";
 import { IdfComparison } from "@/components/IdfComparison";
+import { IdfGuidedSelector } from "@/components/IdfGuidedSelector";
 import { cn } from "@/lib/utils";
 import {
   generateRainfallData,
@@ -195,7 +196,17 @@ export function StormWizard() {
               <h2 className="text-2xl font-bold text-foreground mb-2">Define Storm Parameters</h2>
               <p className="text-muted-foreground">Set the characteristics of your synthetic storm event</p>
             </div>
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-2xl mx-auto space-y-6">
+              {/* IDF-Guided Selection */}
+              <IdfGuidedSelector
+                unitSystem={unitSystem}
+                onApplyDesignStorm={(newDepth, newDuration) => {
+                  setDepth(newDepth);
+                  setDuration(newDuration);
+                }}
+              />
+              
+              {/* Manual Storm Parameters */}
               <StormParameters
                 depth={depth}
                 duration={duration}
