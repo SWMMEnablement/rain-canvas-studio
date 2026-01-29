@@ -315,7 +315,11 @@ export function StormWizard() {
                     </Button>
                   </CollapsibleTrigger>
                   <CollapsibleContent className="pt-4">
-                    <PatternEquationDisplay pattern={selectedPattern} />
+                    <PatternEquationDisplay 
+                      pattern={selectedPattern} 
+                      totalDepth={depth}
+                      duration={duration}
+                    />
                   </CollapsibleContent>
                 </Collapsible>
               </div>

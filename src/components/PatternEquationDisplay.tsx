@@ -1,14 +1,15 @@
-import { useEffect, useRef, memo } from "react";
+import { useEffect, useRef, memo, useState } from "react";
 import katex from "katex";
 import "katex/dist/katex.min.css";
-import { ExternalLink, BookOpen, FlaskConical, Info } from "lucide-react";
+import { ExternalLink, BookOpen, FlaskConical, Info, Calculator, ChevronDown, ChevronUp } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { type PatternType } from "@/lib/rainfallPatterns";
 import { getPatternEquation, type PatternEquation } from "@/lib/patternEquations";
-
+import { InteractiveEquationExplorer } from "./InteractiveEquationExplorer";
 interface LatexRendererProps {
   latex: string;
   displayMode?: boolean;
@@ -45,14 +46,19 @@ interface PatternEquationDisplayProps {
   pattern: PatternType;
   showReferences?: boolean;
   compact?: boolean;
+  totalDepth?: number;
+  duration?: number;
 }
 
 export function PatternEquationDisplay({ 
   pattern, 
   showReferences = true,
-  compact = false
+  compact = false,
+  totalDepth = 2.0,
+  duration = 6.0
 }: PatternEquationDisplayProps) {
   const equation = getPatternEquation(pattern);
+  const [showExplorer, setShowExplorer] = useState(false);
 
   if (!equation) {
     return (
@@ -135,6 +141,32 @@ export function PatternEquationDisplay({
             </div>
           ))}
         </div>
+
+        <Separator />
+
+        {/* Interactive Explorer Toggle */}
+        <Collapsible open={showExplorer} onOpenChange={setShowExplorer}>
+          <CollapsibleTrigger asChild>
+            <Button variant="outline" size="sm" className="w-full justify-between">
+              <span className="flex items-center gap-2">
+                <Calculator className="w-4 h-4" />
+                Interactive Equation Explorer
+              </span>
+              {showExplorer ? (
+                <ChevronUp className="w-4 h-4" />
+              ) : (
+                <ChevronDown className="w-4 h-4" />
+              )}
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pt-4">
+            <InteractiveEquationExplorer 
+              pattern={pattern} 
+              totalDepth={totalDepth}
+              duration={duration}
+            />
+          </CollapsibleContent>
+        </Collapsible>
 
         <Separator />
 
