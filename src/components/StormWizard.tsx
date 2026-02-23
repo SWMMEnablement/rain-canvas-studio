@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { PatternSelector } from "@/components/PatternSelector";
 import { StormParameters } from "@/components/StormParameters";
@@ -102,6 +104,7 @@ export function StormWizard() {
   const [duration, setDuration] = useState(6.0);
   const [timeStep, setTimeStep] = useState(15);
   const [showEquations, setShowEquations] = useState(false);
+  const [climateScenario, setClimateScenario] = useState<string>('none');
   const [unitSystem, setUnitSystem] = useState<UnitSystem>(() => {
     const saved = localStorage.getItem('preferredUnitSystem');
     return (saved === 'SI' || saved === 'USA') ? saved : 'USA';
@@ -109,6 +112,22 @@ export function StormWizard() {
   const [chartData, setChartData] = useState<Array<{ time: string; intensity: number }>>([]);
   const [exportData, setExportData] = useState<Array<{ time: number; intensity: number }>>([]);
   const [customIntensities, setCustomIntensities] = useState<number[] | null>(null);
+
+  // Singapore PUB Climate Change Adjustment Factors (PUB Code of Practice 2020)
+  const climateFactors: Record<string, { label: string; factor: number; period: string }> = {
+    'none': { label: 'Baseline (No Adjustment)', factor: 1.0, period: 'Current' },
+    '2020_2039': { label: '2020–2039 (+12%)', factor: 1.12, period: '2020–2039' },
+    '2040_2069': { label: '2040–2069 (+26%)', factor: 1.26, period: '2040–2069' },
+    '2070_2099': { label: '2070–2099 (+40%)', factor: 1.40, period: '2070–2099' },
+  };
+
+  // Effective depth with climate adjustment
+  const effectiveDepth = useMemo(() => {
+    if (selectedPattern === 'singapore_pub' && climateScenario !== 'none') {
+      return depth * climateFactors[climateScenario].factor;
+    }
+    return depth;
+  }, [depth, selectedPattern, climateScenario]);
 
   // Save unit system preference
   useEffect(() => {
@@ -127,14 +146,14 @@ export function StormWizard() {
     if (selectedPattern === 'custom' && customIntensities && customIntensities.length > 0) {
       intensities = customIntensities;
     } else {
-      intensities = generateRainfallData(selectedPattern, depth, duration, timeStep);
+      intensities = generateRainfallData(selectedPattern, effectiveDepth, duration, timeStep);
     }
     
     const formattedChartData = prepareChartData(intensities, timeStep);
     const formattedExportData = prepareExportData(intensities, timeStep);
     setChartData(formattedChartData);
     setExportData(formattedExportData);
-  }, [selectedPattern, depth, duration, timeStep, customIntensities]);
+  }, [selectedPattern, effectiveDepth, duration, timeStep, customIntensities]);
 
   // Calculate peak intensity for IDF comparison
   const peakIntensity = useMemo(() => {
@@ -333,6 +352,50 @@ export function StormWizard() {
                   </div>
                 </div>
 
+                {/* Singapore PUB Climate Change Adjustment */}
+                {selectedPattern === 'singapore_pub' && (
+                  <Card className="border-amber-500/30 bg-amber-500/5">
+                    <CardContent className="pt-4">
+                      <div className="flex items-start gap-3">
+                        <Thermometer className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" />
+                        <div className="flex-1 space-y-3">
+                          <div>
+                            <p className="font-medium text-sm">PUB Climate Change Adjustment</p>
+                            <p className="text-xs text-muted-foreground">
+                              Per PUB Code of Practice on Surface Water Drainage (2020), design rainfall shall be multiplied by climate change factors for future scenarios.
+                            </p>
+                          </div>
+                          <Select value={climateScenario} onValueChange={setClimateScenario}>
+                            <SelectTrigger className="h-9">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {Object.entries(climateFactors).map(([key, { label }]) => (
+                                <SelectItem key={key} value={key}>{label}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          {climateScenario !== 'none' && (
+                            <div className="flex items-center gap-2 text-xs">
+                              <Badge variant="outline" className="bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30">
+                                ×{climateFactors[climateScenario].factor.toFixed(2)}
+                              </Badge>
+                              <span className="text-muted-foreground">
+                                Effective depth: <strong className="text-foreground">
+                                  {unitSystem === 'USA' 
+                                    ? `${effectiveDepth.toFixed(2)} in` 
+                                    : `${effectiveDepth.toFixed(1)} mm`}
+                                </strong>
+                                {' '}(base: {unitSystem === 'USA' ? `${depth.toFixed(2)} in` : `${depth.toFixed(1)} mm`})
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
                 {/* Equation Documentation Panel */}
                 <Collapsible open={showEquations} onOpenChange={setShowEquations}>
                   <CollapsibleTrigger asChild>
@@ -382,8 +445,13 @@ export function StormWizard() {
                   <div className="text-center p-3 bg-background rounded-lg">
                     <p className="text-xs text-muted-foreground mb-1">Total Depth</p>
                     <p className="font-semibold text-primary">
-                      {unitSystem === 'USA' ? `${depth.toFixed(2)} in` : `${depth.toFixed(1)} mm`}
+                      {unitSystem === 'USA' ? `${effectiveDepth.toFixed(2)} in` : `${effectiveDepth.toFixed(1)} mm`}
                     </p>
+                    {selectedPattern === 'singapore_pub' && climateScenario !== 'none' && (
+                      <p className="text-[10px] text-amber-600 dark:text-amber-400 mt-0.5">
+                        CC ×{climateFactors[climateScenario].factor.toFixed(2)}
+                      </p>
+                    )}
                   </div>
                   <div className="text-center p-3 bg-background rounded-lg">
                     <p className="text-xs text-muted-foreground mb-1">Duration</p>
