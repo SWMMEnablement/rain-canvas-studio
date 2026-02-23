@@ -69,6 +69,21 @@ const CALCULATOR_METADATA: { id: string; name: string; keywords: string[]; categ
   { id: 'train', name: 'Treatment Train', keywords: ['treatment', 'train', 'pollutant', 'removal', 'water quality', 'tss', 'bmp'], category: 'water-quality' },
 ];
 
+// Pattern section metadata for search/filter
+const PATTERN_SECTIONS: { value: string; keywords: string[] }[] = [
+  { value: 'scs', keywords: ['scs', 'nrcs', 'usa', 'type i', 'type ii', 'type iii', 'type ia', 'tr-55', 'united states', 'america'] },
+  { value: 'huff', keywords: ['huff', 'quartile', 'illinois', 'probability', 'usa'] },
+  { value: 'chicago', keywords: ['chicago', 'keifer', 'chu', 'idf', 'synthetic', 'usa'] },
+  { value: 'international', keywords: ['alternating block', 'pmp', 'hmr', 'probable maximum', 'international', 'ven te chow'] },
+  { value: 'simple', keywords: ['uniform', 'triangular', 'simple', 'constant', 'linear'] },
+  { value: 'us_agency', keywords: ['us agency', 'fhwa', 'usace', 'fema', 'noaa', 'corps of engineers', 'highway', 'army', 'usa', 'federal'] },
+  { value: 'uk_icm', keywords: ['uk', 'united kingdom', 'fsr', 'feh', 'wallingford', 'british', 'england', 'scotland', 'icm'] },
+  { value: 'european', keywords: ['europe', 'german', 'euler', 'dvwk', 'france', 'french', 'spain', 'spanish', 'italy', 'netherlands', 'dutch', 'scandinavian', 'sweden', 'norway'] },
+  { value: 'asian', keywords: ['asia', 'japan', 'amedas', 'china', 'korea', 'india', 'imд', 'australia', 'arr', 'singapore', 'malaysia', 'msma', 'taiwan'] },
+  { value: 'middle_east', keywords: ['gcc', 'middle east', 'saudi', 'uae', 'qatar', 'oman', 'bahrain', 'kuwait', 'arid', 'gulf'] },
+  { value: 'african', keywords: ['africa', 'south africa', 'sanral', 'kenya', 'nigeria', 'egypt', 'nimet', 'kmd'] },
+  { value: 'latam', keywords: ['latin america', 'brazil', 'mexico', 'colombia', 'chile', 'ana', 'conagua', 'ideam', 'dga', 'south america'] },
+];
 export function Documentation() {
   const [linkedCN, setLinkedCN] = useState<number | null>(null);
   const [linkedArea, setLinkedArea] = useState<number>(0);
@@ -86,6 +101,17 @@ export function Documentation() {
   const [indexOpen, setIndexOpen] = useState<boolean>(false);
   const [activeCategory, setActiveCategory] = useState<CalculatorCategory | null>(null);
 
+  // Pattern search state
+  const [patternSearch, setPatternSearch] = useState<string>('');
+
+  // Filter pattern sections by search
+  const visiblePatterns = useMemo(() => {
+    const q = patternSearch.toLowerCase().trim();
+    if (!q) return null; // null = show all
+    return PATTERN_SECTIONS
+      .filter(s => s.keywords.some(k => k.includes(q)) || s.value.includes(q))
+      .map(s => s.value);
+  }, [patternSearch]);
   // Filter function for calculators
   const isCalculatorVisible = useMemo(() => {
     const searchLower = calculatorSearch.toLowerCase().trim();
@@ -198,9 +224,24 @@ export function Documentation() {
                 Detailed information on all supported temporal distribution patterns
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search patterns by name, country, or method..."
+                  value={patternSearch}
+                  onChange={(e) => setPatternSearch(e.target.value)}
+                  className="pl-9"
+                />
+              </div>
+              {visiblePatterns !== null && visiblePatterns.length === 0 && (
+                <p className="text-sm text-muted-foreground text-center py-4">
+                  No patterns match "{patternSearch}". Try a different keyword.
+                </p>
+              )}
               <Accordion type="single" collapsible className="w-full">
                 {/* SCS/NRCS Patterns */}
+                {(visiblePatterns === null || visiblePatterns.includes('scs')) && (
                 <AccordionItem value="scs">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -284,8 +325,10 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
 
                 {/* Huff Patterns */}
+                {(visiblePatterns === null || visiblePatterns.includes('huff')) && (
                 <AccordionItem value="huff">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -346,8 +389,10 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
 
                 {/* Chicago Storm */}
+                {(visiblePatterns === null || visiblePatterns.includes('chicago')) && (
                 <AccordionItem value="chicago">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -382,8 +427,10 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
 
                 {/* International Patterns */}
+                {(visiblePatterns === null || visiblePatterns.includes('international')) && (
                 <AccordionItem value="international">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -465,8 +512,10 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
 
                 {/* Simple Patterns */}
+                {(visiblePatterns === null || visiblePatterns.includes('simple')) && (
                 <AccordionItem value="simple">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -516,8 +565,10 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
 
                 {/* US Agency Patterns */}
+                {(visiblePatterns === null || visiblePatterns.includes('us_agency')) && (
                 <AccordionItem value="us_agency">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -692,8 +743,10 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
 
                 {/* UK/ICM Patterns */}
+                {(visiblePatterns === null || visiblePatterns.includes('uk_icm')) && (
                 <AccordionItem value="uk_icm">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -813,8 +866,10 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
 
                 {/* European Patterns */}
+                {(visiblePatterns === null || visiblePatterns.includes('european')) && (
                 <AccordionItem value="european">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -943,8 +998,10 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
 
                 {/* Asian Design Storms */}
+                {(visiblePatterns === null || visiblePatterns.includes('asian')) && (
                 <AccordionItem value="asian">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -1139,8 +1196,10 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
 
                 {/* GCC / Middle East Design Storms */}
+                {(visiblePatterns === null || visiblePatterns.includes('middle_east')) && (
                 <AccordionItem value="middle_east">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -1217,8 +1276,10 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
 
                 {/* African Design Storms */}
+                {(visiblePatterns === null || visiblePatterns.includes('african')) && (
                 <AccordionItem value="african">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -1343,8 +1404,10 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
 
                 {/* Latin American Design Storms */}
+                {(visiblePatterns === null || visiblePatterns.includes('latam')) && (
                 <AccordionItem value="latam">
                   <AccordionTrigger>
                     <div className="flex items-center gap-2">
@@ -1474,6 +1537,7 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+                )}
               </Accordion>
             </CardContent>
           </Card>
