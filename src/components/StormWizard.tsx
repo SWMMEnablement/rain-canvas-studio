@@ -105,7 +105,12 @@ const steps: WizardStep[] = [
   { id: 3, title: "Review & Export", description: "Visualize and download data", icon: <Download className="w-5 h-5" /> },
 ];
 
-export function StormWizard() {
+interface StormWizardProps {
+  externalStormParams?: { depth: number; duration: number } | null;
+  onExternalParamsConsumed?: () => void;
+}
+
+export function StormWizard({ externalStormParams, onExternalParamsConsumed }: StormWizardProps = {}) {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedPattern, setSelectedPattern] = useState<PatternType>('block');
   const [depth, setDepth] = useState(2.0);
@@ -117,6 +122,16 @@ export function StormWizard() {
     const saved = localStorage.getItem('preferredUnitSystem');
     return (saved === 'SI' || saved === 'USA') ? saved : 'USA';
   });
+
+  // Apply external storm params from China IDF or other tools
+  useEffect(() => {
+    if (externalStormParams) {
+      setDepth(externalStormParams.depth);
+      setDuration(externalStormParams.duration);
+      setCurrentStep(1); // Go to step 1 so user can see the values
+      onExternalParamsConsumed?.();
+    }
+  }, [externalStormParams, onExternalParamsConsumed]);
   const [chartData, setChartData] = useState<Array<{ time: string; intensity: number }>>([]);
   const [exportData, setExportData] = useState<Array<{ time: number; intensity: number }>>([]);
   const [customIntensities, setCustomIntensities] = useState<number[] | null>(null);

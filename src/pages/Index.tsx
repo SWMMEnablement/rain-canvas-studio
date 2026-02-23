@@ -1,3 +1,4 @@
+import { useState, useCallback } from "react";
 import { StormWizard } from "@/components/StormWizard";
 import { patterns } from "@/components/PatternSelector";
 import { AdvancedTools } from "@/components/AdvancedTools";
@@ -6,8 +7,18 @@ import { RealDataHub } from "@/components/RealDataHub";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Droplets, CloudRain, BookOpen, Wrench, Database } from "lucide-react";
+import { toast } from "sonner";
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState("generator");
+  const [externalStormParams, setExternalStormParams] = useState<{ depth: number; duration: number } | null>(null);
+
+  const handleSendToGenerator = useCallback((depthInches: number, durationHours: number) => {
+    setExternalStormParams({ depth: depthInches, duration: durationHours });
+    setActiveTab("generator");
+    toast.success(`Storm parameters sent: ${(depthInches * 25.4).toFixed(1)} mm / ${(durationHours * 60).toFixed(0)} min`);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -32,7 +43,7 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        <Tabs defaultValue="generator" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-4 mb-8">
             <TabsTrigger value="generator" className="flex items-center gap-2">
               <CloudRain className="w-4 h-4" />
@@ -68,7 +79,10 @@ const Index = () => {
             </section>
 
             {/* Wizard */}
-            <StormWizard />
+            <StormWizard
+              externalStormParams={externalStormParams}
+              onExternalParamsConsumed={() => setExternalStormParams(null)}
+            />
           </TabsContent>
 
           <TabsContent value="realdata">
@@ -76,7 +90,7 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="advanced">
-            <AdvancedTools />
+            <AdvancedTools onSendToGenerator={handleSendToGenerator} />
           </TabsContent>
 
           <TabsContent value="docs">
