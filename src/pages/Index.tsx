@@ -6,6 +6,7 @@ import { AdvancedTools } from "@/components/AdvancedTools";
 import { Documentation } from "@/components/Documentation";
 import { RealDataHub } from "@/components/RealDataHub";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { RainParticles } from "@/components/RainParticles";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Droplets, CloudRain, BookOpen, Wrench, Database } from "lucide-react";
 import { toast } from "sonner";
@@ -35,7 +36,8 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-gradient-rain text-white shadow-lg relative">
+      <header className="bg-gradient-rain text-white shadow-lg relative overflow-hidden">
+        <RainParticles />
         <div className="absolute top-4 right-4">
           <ThemeToggle />
         </div>
