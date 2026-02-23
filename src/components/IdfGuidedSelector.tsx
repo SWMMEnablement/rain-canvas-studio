@@ -1,11 +1,12 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, CloudRain, ExternalLink, ChevronDown, ChevronUp, Zap, Target, Info, Search, Loader2, CheckCircle, AlertTriangle, BarChart3 } from "lucide-react";
+import { MapPin, CloudRain, ExternalLink, ChevronDown, ChevronUp, Zap, Target, Info, Search, Loader2, CheckCircle, AlertTriangle, BarChart3, Download } from "lucide-react";
+import html2canvas from "html2canvas";
 import { Area, AreaChart, Line, LineChart, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, ReferenceLine, Legend } from "recharts";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -150,6 +151,21 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
   const [chartOverlayDurations, setChartOverlayDurations] = useState<string[]>([]);
   const [logScale, setLogScale] = useState(false);
   const [logScaleY, setLogScaleY] = useState(false);
+  const idfChartRef = useRef<HTMLDivElement>(null);
+
+  const exportChartAsPng = useCallback(async () => {
+    if (!idfChartRef.current) return;
+    try {
+      const canvas = await html2canvas(idfChartRef.current, { backgroundColor: '#1a1a2e', scale: 2 });
+      const link = document.createElement('a');
+      link.download = 'idf-curves.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      toast.success("Chart exported as PNG");
+    } catch {
+      toast.error("Failed to export chart");
+    }
+  }, []);
 
   const regionData = REGIONAL_IDF_DATA[selectedRegion];
 
@@ -571,7 +587,7 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
               };
 
               return (
-                <div className="space-y-3">
+                <div className="space-y-3" ref={idfChartRef}>
                   <div className="flex items-center justify-between flex-wrap gap-2">
                     <p className="text-sm font-medium flex items-center gap-2">
                       <BarChart3 className="w-4 h-4" />
@@ -600,6 +616,13 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                         title="Toggle Y-axis log scale"
                       >
                         {logScaleY ? "Y Log ✓" : "Y Log"}
+                      </button>
+                      <button
+                        onClick={exportChartAsPng}
+                        className="px-2 py-0.5 rounded text-xs font-medium border border-border text-muted-foreground hover:border-primary/40 hover:text-foreground transition-all flex items-center gap-1"
+                        title="Export chart as PNG"
+                      >
+                        <Download className="w-3 h-3" /> PNG
                       </button>
                     </div>
                   </div>
