@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -1272,6 +1272,354 @@ export function generateRainfallData(
           nextCumulative = 0.20 + 0.42 * Math.pow((nextT - 0.35) / 0.15, 0.82);
         } else if (nextT <= 0.65) {
           nextCumulative = 0.62 + 0.22 * ((nextT - 0.50) / 0.15);
+        } else if (nextT <= 0.80) {
+          nextCumulative = 0.84 + 0.10 * ((nextT - 0.65) / 0.15);
+        } else {
+          nextCumulative = 0.94 + 0.06 * ((nextT - 0.80) / 0.20);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    // ============ ASIAN DESIGN STORMS ============
+
+    case 'singapore_pub': {
+      // Singapore PUB standard - front-loaded tropical convective
+      // 70-80% of rain in first 30% of duration, very high peak
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.10) {
+          cumulativeFraction = 0.30 * Math.pow(t / 0.10, 0.65);
+        } else if (t <= 0.25) {
+          cumulativeFraction = 0.30 + 0.42 * Math.pow((t - 0.10) / 0.15, 0.75);
+        } else if (t <= 0.40) {
+          cumulativeFraction = 0.72 + 0.15 * ((t - 0.25) / 0.15);
+        } else if (t <= 0.60) {
+          cumulativeFraction = 0.87 + 0.08 * ((t - 0.40) / 0.20);
+        } else {
+          cumulativeFraction = 0.95 + 0.05 * ((t - 0.60) / 0.40);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.10) {
+          nextCumulative = 0.30 * Math.pow(nextT / 0.10, 0.65);
+        } else if (nextT <= 0.25) {
+          nextCumulative = 0.30 + 0.42 * Math.pow((nextT - 0.10) / 0.15, 0.75);
+        } else if (nextT <= 0.40) {
+          nextCumulative = 0.72 + 0.15 * ((nextT - 0.25) / 0.15);
+        } else if (nextT <= 0.60) {
+          nextCumulative = 0.87 + 0.08 * ((nextT - 0.40) / 0.20);
+        } else {
+          nextCumulative = 0.95 + 0.05 * ((nextT - 0.60) / 0.40);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'china_gb50014': {
+      // Chinese GB 50014-2021 urban drainage standard storm
+      // Short-duration high-peak pattern for urban areas (1-6hr)
+      // Based on standardized P&C formula with Beijing-type coefficients
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        // Peak at ~35-40% of duration, very sharp
+        if (t <= 0.20) {
+          cumulativeFraction = 0.12 * Math.pow(t / 0.20, 0.85);
+        } else if (t <= 0.35) {
+          cumulativeFraction = 0.12 + 0.18 * ((t - 0.20) / 0.15);
+        } else if (t <= 0.45) {
+          cumulativeFraction = 0.30 + 0.45 * Math.pow((t - 0.35) / 0.10, 0.70);
+        } else if (t <= 0.55) {
+          cumulativeFraction = 0.75 + 0.12 * ((t - 0.45) / 0.10);
+        } else if (t <= 0.75) {
+          cumulativeFraction = 0.87 + 0.08 * ((t - 0.55) / 0.20);
+        } else {
+          cumulativeFraction = 0.95 + 0.05 * ((t - 0.75) / 0.25);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.20) {
+          nextCumulative = 0.12 * Math.pow(nextT / 0.20, 0.85);
+        } else if (nextT <= 0.35) {
+          nextCumulative = 0.12 + 0.18 * ((nextT - 0.20) / 0.15);
+        } else if (nextT <= 0.45) {
+          nextCumulative = 0.30 + 0.45 * Math.pow((nextT - 0.35) / 0.10, 0.70);
+        } else if (nextT <= 0.55) {
+          nextCumulative = 0.75 + 0.12 * ((nextT - 0.45) / 0.10);
+        } else if (nextT <= 0.75) {
+          nextCumulative = 0.87 + 0.08 * ((nextT - 0.55) / 0.20);
+        } else {
+          nextCumulative = 0.95 + 0.05 * ((nextT - 0.75) / 0.25);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'china_prd': {
+      // Pearl River Delta typhoon-influenced distribution
+      // Front-loaded with extended tail from typhoon bands
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.15) {
+          cumulativeFraction = 0.25 * Math.pow(t / 0.15, 0.70);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.25 + 0.35 * Math.pow((t - 0.15) / 0.15, 0.75);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.60 + 0.18 * ((t - 0.30) / 0.20);
+        } else if (t <= 0.70) {
+          cumulativeFraction = 0.78 + 0.12 * ((t - 0.50) / 0.20);
+        } else {
+          cumulativeFraction = 0.90 + 0.10 * ((t - 0.70) / 0.30);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.15) {
+          nextCumulative = 0.25 * Math.pow(nextT / 0.15, 0.70);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.25 + 0.35 * Math.pow((nextT - 0.15) / 0.15, 0.75);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.60 + 0.18 * ((nextT - 0.30) / 0.20);
+        } else if (nextT <= 0.70) {
+          nextCumulative = 0.78 + 0.12 * ((nextT - 0.50) / 0.20);
+        } else {
+          nextCumulative = 0.90 + 0.10 * ((nextT - 0.70) / 0.30);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'india_imd': {
+      // India Meteorological Department monsoon pattern
+      // Center-peaked with gradual build-up representing monsoon conditions
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.20) {
+          cumulativeFraction = 0.08 * (t / 0.20);
+        } else if (t <= 0.40) {
+          cumulativeFraction = 0.08 + 0.22 * Math.pow((t - 0.20) / 0.20, 0.85);
+        } else if (t <= 0.55) {
+          cumulativeFraction = 0.30 + 0.40 * Math.pow((t - 0.40) / 0.15, 0.75);
+        } else if (t <= 0.70) {
+          cumulativeFraction = 0.70 + 0.18 * ((t - 0.55) / 0.15);
+        } else if (t <= 0.85) {
+          cumulativeFraction = 0.88 + 0.08 * ((t - 0.70) / 0.15);
+        } else {
+          cumulativeFraction = 0.96 + 0.04 * ((t - 0.85) / 0.15);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.20) {
+          nextCumulative = 0.08 * (nextT / 0.20);
+        } else if (nextT <= 0.40) {
+          nextCumulative = 0.08 + 0.22 * Math.pow((nextT - 0.20) / 0.20, 0.85);
+        } else if (nextT <= 0.55) {
+          nextCumulative = 0.30 + 0.40 * Math.pow((nextT - 0.40) / 0.15, 0.75);
+        } else if (nextT <= 0.70) {
+          nextCumulative = 0.70 + 0.18 * ((nextT - 0.55) / 0.15);
+        } else if (nextT <= 0.85) {
+          nextCumulative = 0.88 + 0.08 * ((nextT - 0.70) / 0.15);
+        } else {
+          nextCumulative = 0.96 + 0.04 * ((nextT - 0.85) / 0.15);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'india_coastal': {
+      // Indian coastal cyclonic storm distribution
+      // Very sharp peak (cyclonic eye passage), front-loaded
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.15) {
+          cumulativeFraction = 0.10 * (t / 0.15);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.10 + 0.50 * Math.pow((t - 0.15) / 0.15, 0.65);
+        } else if (t <= 0.45) {
+          cumulativeFraction = 0.60 + 0.22 * ((t - 0.30) / 0.15);
+        } else if (t <= 0.65) {
+          cumulativeFraction = 0.82 + 0.10 * ((t - 0.45) / 0.20);
+        } else {
+          cumulativeFraction = 0.92 + 0.08 * ((t - 0.65) / 0.35);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.15) {
+          nextCumulative = 0.10 * (nextT / 0.15);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.10 + 0.50 * Math.pow((nextT - 0.15) / 0.15, 0.65);
+        } else if (nextT <= 0.45) {
+          nextCumulative = 0.60 + 0.22 * ((nextT - 0.30) / 0.15);
+        } else if (nextT <= 0.65) {
+          nextCumulative = 0.82 + 0.10 * ((nextT - 0.45) / 0.20);
+        } else {
+          nextCumulative = 0.92 + 0.08 * ((nextT - 0.65) / 0.35);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'japan_amedas': {
+      // Japanese AMeDAS short-duration convective event
+      // Very sharp peak, rapid onset and recession (30min-3hr events)
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.15) {
+          cumulativeFraction = 0.05 * (t / 0.15);
+        } else if (t <= 0.35) {
+          cumulativeFraction = 0.05 + 0.15 * ((t - 0.15) / 0.20);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.20 + 0.55 * Math.pow((t - 0.35) / 0.15, 0.65);
+        } else if (t <= 0.65) {
+          cumulativeFraction = 0.75 + 0.15 * ((t - 0.50) / 0.15);
+        } else {
+          cumulativeFraction = 0.90 + 0.10 * ((t - 0.65) / 0.35);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.15) {
+          nextCumulative = 0.05 * (nextT / 0.15);
+        } else if (nextT <= 0.35) {
+          nextCumulative = 0.05 + 0.15 * ((nextT - 0.15) / 0.20);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.20 + 0.55 * Math.pow((nextT - 0.35) / 0.15, 0.65);
+        } else if (nextT <= 0.65) {
+          nextCumulative = 0.75 + 0.15 * ((nextT - 0.50) / 0.15);
+        } else {
+          nextCumulative = 0.90 + 0.10 * ((nextT - 0.65) / 0.35);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'japan_baiu': {
+      // Japanese Baiu (梅雨) frontal rain - extended moderate intensity
+      // Broader distribution, peak at ~45%, longer duration events
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.15) {
+          cumulativeFraction = 0.06 * (t / 0.15);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.06 + 0.14 * ((t - 0.15) / 0.15);
+        } else if (t <= 0.45) {
+          cumulativeFraction = 0.20 + 0.30 * Math.pow((t - 0.30) / 0.15, 0.80);
+        } else if (t <= 0.60) {
+          cumulativeFraction = 0.50 + 0.25 * ((t - 0.45) / 0.15);
+        } else if (t <= 0.80) {
+          cumulativeFraction = 0.75 + 0.15 * ((t - 0.60) / 0.20);
+        } else {
+          cumulativeFraction = 0.90 + 0.10 * ((t - 0.80) / 0.20);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.15) {
+          nextCumulative = 0.06 * (nextT / 0.15);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.06 + 0.14 * ((nextT - 0.15) / 0.15);
+        } else if (nextT <= 0.45) {
+          nextCumulative = 0.20 + 0.30 * Math.pow((nextT - 0.30) / 0.15, 0.80);
+        } else if (nextT <= 0.60) {
+          nextCumulative = 0.50 + 0.25 * ((nextT - 0.45) / 0.15);
+        } else if (nextT <= 0.80) {
+          nextCumulative = 0.75 + 0.15 * ((nextT - 0.60) / 0.20);
+        } else {
+          nextCumulative = 0.90 + 0.10 * ((nextT - 0.80) / 0.20);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'japan_typhoon': {
+      // Japanese typhoon pattern - double peak with eye passage
+      // Two peaks representing outer and inner rain bands
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        // Two Gaussian peaks representing outer band (0.25) and eyewall (0.65)
+        const peak1 = 1.8 * Math.exp(-Math.pow((t - 0.25) / 0.10, 2));
+        const peak2 = 2.8 * Math.exp(-Math.pow((t - 0.65) / 0.08, 2));
+        // Light continuous rain between bands
+        const base = 0.3;
+        const intensity = (totalDepth / duration) * (peak1 + peak2 + base) * 0.55;
+        data.push(Math.max(0, intensity));
+      }
+      break;
+    }
+
+    case 'korea_kma': {
+      // Korean Meteorological Administration standard
+      // Center-peaked with moderate asymmetry, accounts for monsoon + convective mix
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.15) {
+          cumulativeFraction = 0.06 * (t / 0.15);
+        } else if (t <= 0.35) {
+          cumulativeFraction = 0.06 + 0.18 * ((t - 0.15) / 0.20);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.24 + 0.40 * Math.pow((t - 0.35) / 0.15, 0.72);
+        } else if (t <= 0.65) {
+          cumulativeFraction = 0.64 + 0.20 * ((t - 0.50) / 0.15);
+        } else if (t <= 0.80) {
+          cumulativeFraction = 0.84 + 0.10 * ((t - 0.65) / 0.15);
+        } else {
+          cumulativeFraction = 0.94 + 0.06 * ((t - 0.80) / 0.20);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.15) {
+          nextCumulative = 0.06 * (nextT / 0.15);
+        } else if (nextT <= 0.35) {
+          nextCumulative = 0.06 + 0.18 * ((nextT - 0.15) / 0.20);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.24 + 0.40 * Math.pow((nextT - 0.35) / 0.15, 0.72);
+        } else if (nextT <= 0.65) {
+          nextCumulative = 0.64 + 0.20 * ((nextT - 0.50) / 0.15);
         } else if (nextT <= 0.80) {
           nextCumulative = 0.84 + 0.10 * ((nextT - 0.65) / 0.15);
         } else {

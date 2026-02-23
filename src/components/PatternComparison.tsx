@@ -64,6 +64,8 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'fdot5', name: 'FDOT Zone 5 (SW FL)', color: '#78350f', category: 'US Agency' },
   { id: 'txdot', name: 'TxDOT', color: '#be185d', category: 'US Agency' },
   { id: 'noaa_a14', name: 'NOAA Atlas 14', color: '#1d4ed8', category: 'US Agency' },
+  { id: 'udfcd', name: 'UDFCD Denver', color: '#7e22ce', category: 'US Agency' },
+  { id: 'usace_sps', name: 'USACE SPS', color: '#155e75', category: 'US Agency' },
   // International
   { id: 'desbordes', name: 'Desbordes (France)', color: '#6366f1', category: 'International' },
   { id: 'arr', name: 'Australian ARR', color: '#a855f7', category: 'International' },
@@ -74,14 +76,21 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'dutch', name: 'Dutch KNMI', color: '#f97316', category: 'International' },
   { id: 'italian', name: 'Italian (LSPP)', color: '#059669', category: 'International' },
   { id: 'canadian', name: 'Canadian CDA', color: '#e11d48', category: 'International' },
-  // US Agency (additional)
-  { id: 'udfcd', name: 'UDFCD Denver', color: '#7e22ce', category: 'US Agency' },
-  { id: 'usace_sps', name: 'USACE SPS', color: '#155e75', category: 'US Agency' },
   // European
   { id: 'euler1', name: 'Euler Type I', color: '#65a30d', category: 'European' },
   { id: 'euler2', name: 'Euler Type II', color: '#16a34a', category: 'European' },
   { id: 'feh', name: 'FEH (UK)', color: '#0369a1', category: 'European' },
   { id: 'desbordes_double', name: 'Double Triangle', color: '#9333ea', category: 'European' },
+  // Asian
+  { id: 'singapore_pub', name: 'Singapore PUB', color: '#e11d48', category: 'Asian' },
+  { id: 'china_gb50014', name: 'China GB 50014', color: '#dc2626', category: 'Asian' },
+  { id: 'china_prd', name: 'China PRD (Typhoon)', color: '#b91c1c', category: 'Asian' },
+  { id: 'india_imd', name: 'India IMD (Monsoon)', color: '#f59e0b', category: 'Asian' },
+  { id: 'india_coastal', name: 'India Coastal', color: '#d97706', category: 'Asian' },
+  { id: 'japan_amedas', name: 'Japan AMeDAS', color: '#0ea5e9', category: 'Asian' },
+  { id: 'japan_baiu', name: 'Japan Baiu (梅雨)', color: '#06b6d4', category: 'Asian' },
+  { id: 'japan_typhoon', name: 'Japan Typhoon', color: '#0284c7', category: 'Asian' },
+  { id: 'korea_kma', name: 'Korea KMA', color: '#2563eb', category: 'Asian' },
 ];
 
 interface PresetGroup {
@@ -108,8 +117,23 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'Asian',
-    patterns: ['jma', 'china'],
-    description: 'Japanese and Chinese patterns',
+    patterns: ['singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'japan_amedas', 'japan_typhoon', 'korea_kma'],
+    description: 'Asian design storm patterns',
+  },
+  {
+    name: 'Japan All',
+    patterns: ['japan_amedas', 'japan_baiu', 'japan_typhoon', 'jma'],
+    description: 'All Japanese storm patterns',
+  },
+  {
+    name: 'China All',
+    patterns: ['china', 'china_gb50014', 'china_prd'],
+    description: 'All Chinese storm patterns',
+  },
+  {
+    name: 'India All',
+    patterns: ['india_imd', 'india_coastal'],
+    description: 'Indian monsoon and cyclonic patterns',
   },
   {
     name: 'European',
@@ -135,6 +159,11 @@ const presetGroups: PresetGroup[] = [
     name: 'UK Methods',
     patterns: ['fsr', 'feh', 'triangular', 'trapezoidal'],
     description: 'UK design storm methods',
+  },
+  {
+    name: 'Typhoon/Cyclone',
+    patterns: ['japan_typhoon', 'china_prd', 'india_coastal'],
+    description: 'Tropical cyclone patterns',
   },
 ];
 

@@ -1,14 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian';
+type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma';
 
 interface PatternOption {
   id: PatternType;
   name: string;
   icon: string;
   description: string;
-  category: 'swmm' | 'icm' | 'international' | 'us_agency' | 'european';
+  category: 'swmm' | 'icm' | 'international' | 'us_agency' | 'european' | 'asian';
 }
 
 export const patterns: PatternOption[] = [
@@ -290,6 +290,70 @@ export const patterns: PatternOption[] = [
     description: 'South African adapted Huff curve. Modified 2nd quartile pattern calibrated for South African rainfall characteristics and used in regional design practices.',
     category: 'international',
   },
+  // Asian Design Storms
+  {
+    id: 'singapore_pub',
+    name: 'Singapore PUB',
+    icon: '🇸🇬',
+    description: 'PUB (Public Utilities Board) tropical convective standard. Front-loaded with 70-80% of rain in first 30 minutes. Required for all Singapore drainage design.',
+    category: 'asian',
+  },
+  {
+    id: 'china_gb50014',
+    name: 'China GB 50014',
+    icon: '🇨🇳',
+    description: 'Chinese national standard (GB 50014-2021) urban drainage design storm. Short-duration high-peak pattern derived from city-specific rainstorm intensity formulas.',
+    category: 'asian',
+  },
+  {
+    id: 'china_prd',
+    name: 'China PRD',
+    icon: '🌊',
+    description: 'Pearl River Delta typhoon-influenced distribution. Front-loaded with extended tail representing outer typhoon rain bands. Used for Guangzhou, Shenzhen, Hong Kong region.',
+    category: 'asian',
+  },
+  {
+    id: 'india_imd',
+    name: 'India IMD',
+    icon: '🇮🇳',
+    description: 'India Meteorological Department monsoon standard. Center-peaked with gradual build-up. Used for Smart Cities Mission drainage and CWC dam design across India.',
+    category: 'asian',
+  },
+  {
+    id: 'india_coastal',
+    name: 'India Coastal',
+    icon: '🌀',
+    description: 'Indian coastal cyclonic storm distribution. Very sharp early peak representing cyclone eye passage. Used for Tamil Nadu, Andhra Pradesh, Odisha coastal infrastructure.',
+    category: 'asian',
+  },
+  {
+    id: 'japan_amedas',
+    name: 'Japan AMeDAS',
+    icon: '🇯🇵',
+    description: 'Japanese AMeDAS network short-duration convective pattern. Very sharp center peak with rapid onset/recession. Based on 1,300 automated stations nationwide.',
+    category: 'asian',
+  },
+  {
+    id: 'japan_baiu',
+    name: 'Japan Baiu (梅雨)',
+    icon: '☔',
+    description: 'Japanese Baiu (plum rain) frontal distribution. Broader, moderate-intensity pattern representing June-July seasonal front. Used for extended-duration drainage design.',
+    category: 'asian',
+  },
+  {
+    id: 'japan_typhoon',
+    name: 'Japan Typhoon',
+    icon: '🌀',
+    description: 'Japanese typhoon double-band pattern. Two peaks representing outer rain band and inner eyewall passage. Used for JSCE flood control and super-levee design.',
+    category: 'asian',
+  },
+  {
+    id: 'korea_kma',
+    name: 'Korea KMA',
+    icon: '🇰🇷',
+    description: 'Korean Meteorological Administration standard. Center-peaked monsoon/convective hybrid. Required for Ministry of Environment urban flood control design.',
+    category: 'asian',
+  },
 ];
 
 interface PatternSelectorProps {
@@ -303,6 +367,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
   const usAgencyPatterns = patterns.filter(p => p.category === 'us_agency');
   const icmPatterns = patterns.filter(p => p.category === 'icm');
   const europeanPatterns = patterns.filter(p => p.category === 'european');
+  const asianPatterns = patterns.filter(p => p.category === 'asian');
   const internationalPatterns = patterns.filter(p => p.category === 'international');
 
   const PatternGrid = ({ patterns }: { patterns: PatternOption[] }) => (
@@ -337,9 +402,10 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs defaultValue="swmm" className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="swmm">SWMM</TabsTrigger>
             <TabsTrigger value="us_agency">US Agency</TabsTrigger>
+            <TabsTrigger value="asian">Asia</TabsTrigger>
             <TabsTrigger value="icm">UK/ICM</TabsTrigger>
             <TabsTrigger value="european">European</TabsTrigger>
             <TabsTrigger value="international">Int'l</TabsTrigger>
@@ -349,6 +415,9 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
           </TabsContent>
           <TabsContent value="us_agency" className="mt-4">
             <PatternGrid patterns={usAgencyPatterns} />
+          </TabsContent>
+          <TabsContent value="asian" className="mt-4">
+            <PatternGrid patterns={asianPatterns} />
           </TabsContent>
           <TabsContent value="icm" className="mt-4">
             <PatternGrid patterns={icmPatterns} />
