@@ -76,6 +76,10 @@ const patternNames: Record<PatternType, string> = {
   'philippines_pagasa': 'Philippines PAGASA',
   'vietnam_imhen': 'Vietnam IMHEN',
   'thailand_tmd': 'Thailand TMD',
+  'saudi_pme': 'Saudi Arabia PME',
+  'uae_ncms': 'UAE NCMS',
+  'qatar_kahramaa': 'Qatar Kahramaa',
+  'oman_dgman': 'Oman DGMAN',
 };
 
 interface WizardStep {

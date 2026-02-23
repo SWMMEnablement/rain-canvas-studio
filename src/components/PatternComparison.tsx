@@ -99,6 +99,11 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'philippines_pagasa', name: 'Philippines PAGASA', color: '#7c3aed', category: 'Asian' },
   { id: 'vietnam_imhen', name: 'Vietnam IMHEN', color: '#ea580c', category: 'Asian' },
   { id: 'thailand_tmd', name: 'Thailand TMD', color: '#0369a1', category: 'Asian' },
+  // Middle East / GCC
+  { id: 'saudi_pme', name: 'Saudi Arabia PME', color: '#16a34a', category: 'Middle East' },
+  { id: 'uae_ncms', name: 'UAE NCMS', color: '#dc2626', category: 'Middle East' },
+  { id: 'qatar_kahramaa', name: 'Qatar Kahramaa', color: '#7c2d12', category: 'Middle East' },
+  { id: 'oman_dgman', name: 'Oman DGMAN', color: '#b45309', category: 'Middle East' },
 ];
 
 interface PresetGroup {
@@ -177,6 +182,11 @@ const presetGroups: PresetGroup[] = [
     name: 'Typhoon/Cyclone',
     patterns: ['japan_typhoon', 'china_prd', 'india_coastal', 'philippines_pagasa'],
     description: 'Tropical cyclone patterns',
+  },
+  {
+    name: 'GCC Flash Flood',
+    patterns: ['saudi_pme', 'uae_ncms', 'qatar_kahramaa', 'oman_dgman'],
+    description: 'GCC/Middle East arid flash flood patterns',
   },
 ];
 

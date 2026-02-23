@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -1844,6 +1844,182 @@ export function generateRainfallData(
           nextCumulative = 0.83 + 0.11 * ((nextT - 0.60) / 0.20);
         } else {
           nextCumulative = 0.94 + 0.06 * ((nextT - 0.80) / 0.20);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'saudi_pme': {
+      // Saudi Arabia PME (Presidency of Meteorology and Environment)
+      // Arid flash flood: extremely front-loaded, very short intense burst
+      // Jeddah/Riyadh wadi flood pattern — most rain in first 20% of duration
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.05) {
+          cumulativeFraction = 0.12 * (t / 0.05);
+        } else if (t <= 0.15) {
+          cumulativeFraction = 0.12 + 0.40 * Math.pow((t - 0.05) / 0.10, 0.55);
+        } else if (t <= 0.25) {
+          cumulativeFraction = 0.52 + 0.22 * ((t - 0.15) / 0.10);
+        } else if (t <= 0.40) {
+          cumulativeFraction = 0.74 + 0.14 * ((t - 0.25) / 0.15);
+        } else if (t <= 0.65) {
+          cumulativeFraction = 0.88 + 0.08 * ((t - 0.40) / 0.25);
+        } else {
+          cumulativeFraction = 0.96 + 0.04 * ((t - 0.65) / 0.35);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.05) {
+          nextCumulative = 0.12 * (nextT / 0.05);
+        } else if (nextT <= 0.15) {
+          nextCumulative = 0.12 + 0.40 * Math.pow((nextT - 0.05) / 0.10, 0.55);
+        } else if (nextT <= 0.25) {
+          nextCumulative = 0.52 + 0.22 * ((nextT - 0.15) / 0.10);
+        } else if (nextT <= 0.40) {
+          nextCumulative = 0.74 + 0.14 * ((nextT - 0.25) / 0.15);
+        } else if (nextT <= 0.65) {
+          nextCumulative = 0.88 + 0.08 * ((nextT - 0.40) / 0.25);
+        } else {
+          nextCumulative = 0.96 + 0.04 * ((nextT - 0.65) / 0.35);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'uae_ncms': {
+      // UAE NCMS (National Center of Meteorology and Seismology)
+      // Dubai/Abu Dhabi flash flood: extreme burst with rapid decay
+      // Accounts for cloud seeding enhanced events
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.08) {
+          cumulativeFraction = 0.18 * (t / 0.08);
+        } else if (t <= 0.18) {
+          cumulativeFraction = 0.18 + 0.38 * Math.pow((t - 0.08) / 0.10, 0.50);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.56 + 0.20 * ((t - 0.18) / 0.12);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.76 + 0.14 * ((t - 0.30) / 0.20);
+        } else if (t <= 0.75) {
+          cumulativeFraction = 0.90 + 0.07 * ((t - 0.50) / 0.25);
+        } else {
+          cumulativeFraction = 0.97 + 0.03 * ((t - 0.75) / 0.25);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.08) {
+          nextCumulative = 0.18 * (nextT / 0.08);
+        } else if (nextT <= 0.18) {
+          nextCumulative = 0.18 + 0.38 * Math.pow((nextT - 0.08) / 0.10, 0.50);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.56 + 0.20 * ((nextT - 0.18) / 0.12);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.76 + 0.14 * ((nextT - 0.30) / 0.20);
+        } else if (nextT <= 0.75) {
+          nextCumulative = 0.90 + 0.07 * ((nextT - 0.50) / 0.25);
+        } else {
+          nextCumulative = 0.97 + 0.03 * ((nextT - 0.75) / 0.25);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'qatar_kahramaa': {
+      // Qatar Kahramaa/Ashghal drainage design standard
+      // Extremely arid flash flood — shortest burst among GCC
+      // Doha urban drainage pattern
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.06) {
+          cumulativeFraction = 0.20 * (t / 0.06);
+        } else if (t <= 0.15) {
+          cumulativeFraction = 0.20 + 0.38 * Math.pow((t - 0.06) / 0.09, 0.48);
+        } else if (t <= 0.28) {
+          cumulativeFraction = 0.58 + 0.22 * ((t - 0.15) / 0.13);
+        } else if (t <= 0.45) {
+          cumulativeFraction = 0.80 + 0.12 * ((t - 0.28) / 0.17);
+        } else if (t <= 0.70) {
+          cumulativeFraction = 0.92 + 0.05 * ((t - 0.45) / 0.25);
+        } else {
+          cumulativeFraction = 0.97 + 0.03 * ((t - 0.70) / 0.30);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.06) {
+          nextCumulative = 0.20 * (nextT / 0.06);
+        } else if (nextT <= 0.15) {
+          nextCumulative = 0.20 + 0.38 * Math.pow((nextT - 0.06) / 0.09, 0.48);
+        } else if (nextT <= 0.28) {
+          nextCumulative = 0.58 + 0.22 * ((nextT - 0.15) / 0.13);
+        } else if (nextT <= 0.45) {
+          nextCumulative = 0.80 + 0.12 * ((nextT - 0.28) / 0.17);
+        } else if (nextT <= 0.70) {
+          nextCumulative = 0.92 + 0.05 * ((nextT - 0.45) / 0.25);
+        } else {
+          nextCumulative = 0.97 + 0.03 * ((nextT - 0.70) / 0.30);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'oman_dgman': {
+      // Oman DGMAN (Directorate General of Meteorology and Air Navigation)
+      // Muscat/Salalah wadi flood pattern — Shamal wind-driven events
+      // Includes Khareef (monsoon) influence for Dhofar region
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.07) {
+          cumulativeFraction = 0.10 * (t / 0.07);
+        } else if (t <= 0.18) {
+          cumulativeFraction = 0.10 + 0.35 * Math.pow((t - 0.07) / 0.11, 0.58);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.45 + 0.25 * ((t - 0.18) / 0.12);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.70 + 0.16 * ((t - 0.30) / 0.20);
+        } else if (t <= 0.75) {
+          cumulativeFraction = 0.86 + 0.09 * ((t - 0.50) / 0.25);
+        } else {
+          cumulativeFraction = 0.95 + 0.05 * ((t - 0.75) / 0.25);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.07) {
+          nextCumulative = 0.10 * (nextT / 0.07);
+        } else if (nextT <= 0.18) {
+          nextCumulative = 0.10 + 0.35 * Math.pow((nextT - 0.07) / 0.11, 0.58);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.45 + 0.25 * ((nextT - 0.18) / 0.12);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.70 + 0.16 * ((nextT - 0.30) / 0.20);
+        } else if (nextT <= 0.75) {
+          nextCumulative = 0.86 + 0.09 * ((nextT - 0.50) / 0.25);
+        } else {
+          nextCumulative = 0.95 + 0.05 * ((nextT - 0.75) / 0.25);
         }
         
         const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
