@@ -132,7 +132,7 @@ export function Documentation() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Info className="w-6 h-6 text-primary" />
-            About Rainfall Pattern Painter
+            About World Rainfall Pattern Painter
           </CardTitle>
           <CardDescription>
             Comprehensive synthetic rainfall generation for stormwater modeling
@@ -140,7 +140,7 @@ export function Documentation() {
         </CardHeader>
         <CardContent className="prose prose-sm max-w-none text-muted-foreground">
           <p>
-            <strong>Rainfall Pattern Painter</strong> is a tool designed for hydrologists, 
+            <strong>World Rainfall Pattern Painter</strong> is a tool designed for hydrologists, 
             civil engineers, and stormwater modelers. It generates synthetic rainfall hyetographs based on 
             standardized temporal distribution patterns used worldwide.
           </p>
