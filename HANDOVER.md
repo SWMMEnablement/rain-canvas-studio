@@ -158,8 +158,8 @@ Three methods, all outputting Tc in **minutes**:
 
 | Method | Formula | Inputs |
 |--------|---------|--------|
-| **Kirpich** | `Tc = 0.0078 × L^0.77 × S^(−0.385)` | L = flow length (ft), S = slope (ft/ft) |
-| **FAA** | `Tc = (1.8 × (1.1 − C) × L^0.5) / (S^0.333)` | C = runoff coeff, L = flow length (ft), S = slope (%) |
+| **Kirpich** | `Tc = 0.0078 × L^0.77 × S^(−0.385)` | L = flow length (ft), S = slope (%, converted to ft/ft) |
+| **FAA** | `Tc = 1.8 × (1.1 − C) × √L / S^(1/3)` | C = runoff coeff, L = flow length (ft), S = slope (%, converted to ft/ft) |
 | **TR-55** | Sum of sheet flow + shallow concentrated + channel flow travel times | Sheet: n, L (≤100 ft), P₂ (in), S; Shallow: L, S, surface type; Channel: L, S, A, WP, n |
 
 **Outputs**: Tc (min), intermediate travel times per segment.
@@ -204,16 +204,18 @@ Three methods, all outputting Tc in **minutes**:
 
 ### 5. Unit Hydrograph (`UnitHydrographCalculator.tsx`)
 
-**Method**: NRCS Dimensionless Unit Hydrograph (41-point t/Tp vs q/Qp table)
+**Methods**: Triangular UH and NRCS Dimensionless UH (33-point t/Tp vs q/Qp table).
 
 | Variable | Formula |
 |----------|---------|
-| Lag time | `T_lag = L^0.8 × (S+1)^0.7 / (1900 × Y^0.5)` |
+| Lag time | `T_lag = 0.6 × Tc` |
 | Time to peak | `Tp = Δt/2 + T_lag` |
-| Peak discharge | `Qp = (484 × A × Q) / Tp` |
+| Base time | `Tb = 2.67 × Tp` (triangular method) |
+| Peak discharge | `Qp = 484 × A_mi² × Q / Tp` (A converted from acres via `÷ 640`) |
+| Runoff depth | SCS method internally: `Q = (P − 0.2S)² / (P − 0.2S + S)` |
 
-- **Inputs**: Drainage area (mi²), CN, flow length (ft), watershed slope (%), time step (hr), excess rainfall depth (in)
-- **Outputs**: Full hydrograph table (time vs flow in cfs), peak Q, time to peak, chart
+- **Inputs**: Drainage area (acres), CN, Tc (hr), rainfall depth (in), storm duration (hr), computation interval (hr)
+- **Outputs**: Full hydrograph table (time vs flow in cfs), peak Q, time to peak, base time, runoff volume (acre-ft), chart
 - **Linkable**: Exports hydrograph to Modified Puls Routing
 
 ---
