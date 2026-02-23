@@ -101,6 +101,11 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   japan_baiu: { name: 'Japan Baiu', peakPosition: 0.38, description: 'Baiu frontal rain pattern' },
   japan_typhoon: { name: 'Japan Typhoon', peakPosition: 0.65, description: 'Typhoon double-band pattern' },
   korea_kma: { name: 'Korea KMA', peakPosition: 0.42, description: 'Korean standard monsoon/convective' },
+  malaysia_msma: { name: 'Malaysia MSMA', peakPosition: 0.35, description: 'Malaysian MSMA tropical monsoon' },
+  indonesia_bmkg: { name: 'Indonesia BMKG', peakPosition: 0.18, description: 'Indonesian tropical convective' },
+  philippines_pagasa: { name: 'Philippines PAGASA', peakPosition: 0.15, description: 'Philippine typhoon/monsoon' },
+  vietnam_imhen: { name: 'Vietnam IMHEN', peakPosition: 0.35, description: 'Vietnamese monsoon/convective' },
+  thailand_tmd: { name: 'Thailand TMD', peakPosition: 0.38, description: 'Thai monsoon with urban heat island' },
 };
 
 /**

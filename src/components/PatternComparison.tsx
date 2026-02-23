@@ -94,6 +94,11 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'japan_baiu', name: 'Japan Baiu (梅雨)', color: '#06b6d4', category: 'Asian' },
   { id: 'japan_typhoon', name: 'Japan Typhoon', color: '#0284c7', category: 'Asian' },
   { id: 'korea_kma', name: 'Korea KMA', color: '#2563eb', category: 'Asian' },
+  { id: 'malaysia_msma', name: 'Malaysia MSMA', color: '#0d9488', category: 'Asian' },
+  { id: 'indonesia_bmkg', name: 'Indonesia BMKG', color: '#dc2626', category: 'Asian' },
+  { id: 'philippines_pagasa', name: 'Philippines PAGASA', color: '#7c3aed', category: 'Asian' },
+  { id: 'vietnam_imhen', name: 'Vietnam IMHEN', color: '#ea580c', category: 'Asian' },
+  { id: 'thailand_tmd', name: 'Thailand TMD', color: '#0369a1', category: 'Asian' },
 ];
 
 interface PresetGroup {
@@ -120,8 +125,13 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'Asian',
-    patterns: ['singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'india_coastal', 'japan_amedas', 'japan_baiu', 'japan_typhoon', 'korea_kma'],
-    description: 'All 9 Asian design storm patterns',
+    patterns: ['singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'india_coastal', 'japan_amedas', 'japan_baiu', 'japan_typhoon', 'korea_kma', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd'],
+    description: 'All 14 Asian design storm patterns',
+  },
+  {
+    name: 'SE Asia',
+    patterns: ['singapore_pub', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd'],
+    description: 'Southeast Asian design storms',
   },
   {
     name: 'Japan All',
@@ -165,7 +175,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'Typhoon/Cyclone',
-    patterns: ['japan_typhoon', 'china_prd', 'india_coastal'],
+    patterns: ['japan_typhoon', 'china_prd', 'india_coastal', 'philippines_pagasa'],
     description: 'Tropical cyclone patterns',
   },
 ];
