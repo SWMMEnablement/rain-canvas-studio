@@ -533,64 +533,161 @@ export function Documentation() {
                     </p>
 
                     <div className="grid gap-4">
-                      <div className="p-4 bg-muted/50 rounded-lg">
-                        <h4 className="font-semibold text-foreground">FDOT Zones 1–5 (Florida)</h4>
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">FDOT Zone 1 — Northwest Florida (Panhandle)</h4>
                         <p className="text-muted-foreground">
-                          Five zone-specific rainfall distributions required by the Florida Department of Transportation. 
-                          Zone 1 (NW FL, panhandle) through Zone 5 (SW FL). Southern zones are more front-loaded 
-                          reflecting tropical convective patterns. Required for all FDOT drainage design submittals.
+                          Covers Escambia to Jefferson counties. Reflects temperate Gulf Coast rainfall with moderate 
+                          front-loading. Peak intensity occurs at approximately 40% of storm duration. Zone 1 has the 
+                          lowest peak-to-average ratio among FDOT zones (~3.5:1 for 24-hr storms), consistent with 
+                          frontal system dominance in the panhandle region.
                         </p>
-                        <p className="text-muted-foreground mt-1">
-                          <strong>Reference:</strong> FDOT Drainage Manual (2024), Chapter 2
-                        </p>
+                        <p className="text-muted-foreground"><strong>Typical design:</strong> 24-hr storm, 25-yr or 100-yr return period</p>
+                        <p className="text-muted-foreground"><strong>Reference:</strong> FDOT Drainage Manual (2024), Chapter 2, Table 2.3.1</p>
                       </div>
 
-                      <div className="p-4 bg-muted/50 rounded-lg">
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">FDOT Zone 2 — North Central Florida</h4>
+                        <p className="text-muted-foreground">
+                          Covers the Suwannee River basin through Alachua and Putnam counties. Transitional zone 
+                          between temperate and subtropical influences. Slightly more peaked than Zone 1 with ~45% 
+                          of rainfall in the central third of the storm. Peak-to-average ratio ~4.0:1.
+                        </p>
+                        <p className="text-muted-foreground"><strong>Reference:</strong> FDOT Drainage Manual (2024), Chapter 2</p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">FDOT Zone 3 — Central Florida</h4>
+                        <p className="text-muted-foreground">
+                          Covers the I-4 corridor (Orlando, Tampa metro areas). Strong convective influence from 
+                          the sea breeze convergence zone. Peak-to-average ratio ~4.5:1. Approximately 50% of total 
+                          depth falls in the central 20% of the storm duration, making it significantly more peaked 
+                          than northern zones.
+                        </p>
+                        <p className="text-muted-foreground"><strong>Reference:</strong> FDOT Drainage Manual (2024), Chapter 2</p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">FDOT Zone 4 — Southeast Florida (Atlantic Coast)</h4>
+                        <p className="text-muted-foreground">
+                          Covers Brevard through Palm Beach counties. Tropical and subtropical convective dominance 
+                          with intense, short-duration bursts. Peak-to-average ratio ~5.0:1. The most intense zone 
+                          on the Atlantic side, heavily influenced by tropical moisture and easterly wave activity.
+                        </p>
+                        <p className="text-muted-foreground"><strong>Reference:</strong> FDOT Drainage Manual (2024), Chapter 2</p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">FDOT Zone 5 — Southwest Florida</h4>
+                        <p className="text-muted-foreground">
+                          Covers Lee, Collier, and Monroe counties (Naples, Fort Myers, Keys). The most front-loaded 
+                          FDOT distribution. Peak-to-average ratio ~5.5:1, reflecting extreme tropical convective 
+                          activity and proximity to warm Gulf waters. Over 60% of rainfall occurs in the first 40% 
+                          of storm duration. Required for Everglades restoration project drainage design.
+                        </p>
+                        <p className="text-muted-foreground"><strong>Reference:</strong> FDOT Drainage Manual (2024), Chapter 2</p>
+                      </div>
+
+                      <div className="p-4 bg-blue-50 dark:bg-blue-950/50 rounded-lg border border-blue-200 dark:border-blue-800 text-xs text-blue-600 dark:text-blue-400">
+                        <strong>FDOT Note:</strong> All five zones are mandatory for FDOT drainage submittals. Zone boundaries 
+                        are defined by county — check the FDOT Drainage Manual Figure 2.3.1 for the official map. 
+                        FDOT requires the 24-hr Nested (NRCS) design storm with zone-specific temporal distributions.
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
                         <h4 className="font-semibold text-foreground">TxDOT (Texas)</h4>
                         <p className="text-muted-foreground">
-                          Texas DOT empirical hyetograph based on USGS Texas rainfall studies (SIR 2004-5075). 
-                          Calibrated from extensive Texas recording rain gauge data. Required for all TxDOT 
-                          hydraulic design submittals.
+                          Texas DOT dimensionless hyetograph derived from USGS analysis of over 1,600 Texas 
+                          recording rain gauge stations (SIR 2004-5075, Williams-Sether et al.). The distribution 
+                          is depth-duration-frequency independent — the same dimensionless shape applies to all 
+                          return periods and durations from 0.5 to 24 hours.
                         </p>
-                        <p className="text-muted-foreground mt-1">
-                          <strong>Reference:</strong> TxDOT Hydraulic Design Manual (2023)
+                        <p className="text-muted-foreground">
+                          <strong>Characteristics:</strong> Center-peaked with ~55% of depth in the central 30% of 
+                          duration. Peak intensity ratio approximately 4.2:1. Less peaked than SCS Type II for 
+                          short durations but more peaked for durations exceeding 12 hours. Applicable statewide — 
+                          TxDOT does not use regional sub-zones.
                         </p>
+                        <p className="text-muted-foreground">
+                          <strong>Required for:</strong> All TxDOT hydraulic design submittals, including bridge 
+                          scour, culvert sizing, and roadway drainage. Supersedes SCS distributions for TxDOT projects.
+                        </p>
+                        <p className="text-muted-foreground"><strong>Reference:</strong> TxDOT Hydraulic Design Manual (2023), Chapter 4; USGS SIR 2004-5075</p>
                       </div>
 
-                      <div className="p-4 bg-muted/50 rounded-lg">
-                        <h4 className="font-semibold text-foreground">NOAA Atlas 14</h4>
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">NOAA Atlas 14 Temporal Distribution</h4>
                         <p className="text-muted-foreground">
-                          NOAA Atlas 14 temporal distribution (50th percentile). Derived from actual recording rain 
-                          gauge data analysis. Supersedes SCS types where Atlas 14 data exists. Site-specific and 
-                          statistically rigorous.
+                          Site-specific temporal distributions derived from the NOAA Precipitation Frequency Data Server 
+                          (PFDS). Unlike SCS patterns which use fixed shapes, Atlas 14 distributions are based on 
+                          statistical analysis of actual L-moment ratios from local recording gauges, providing 
+                          location-specific 10th, 25th, 50th, 75th, and 90th percentile temporal patterns.
                         </p>
-                        <p className="text-muted-foreground mt-1">
-                          <strong>Reference:</strong> NOAA Atlas 14, Volumes 1–11
+                        <p className="text-muted-foreground">
+                          <strong>Method:</strong> The tool uses the 50th percentile (median) temporal distribution. 
+                          Cumulative rainfall fractions are interpolated from NOAA's dimensionless mass curves for the 
+                          user's selected duration. This produces a balanced, site-specific hyetograph that avoids the 
+                          conservatism of SCS distributions in regions where they don't apply.
                         </p>
+                        <p className="text-muted-foreground">
+                          <strong>Coverage:</strong> CONUS (Volumes 1–11), Alaska (Vol. 7), Hawaii (Vol. 4), 
+                          selected Pacific Islands, Puerto Rico/USVI (Vol. 3). Supersedes TP-40, HYDRO-35, and 
+                          NWS Technical Memorandum NOAA TM NWS HYDRO-35.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>When to use:</strong> Preferred over SCS distributions when local Atlas 14 data is 
+                          available and the reviewing agency accepts site-specific distributions. Many state agencies 
+                          (e.g., VDOT, NCDOT) now require or prefer Atlas 14 over SCS.
+                        </p>
+                        <p className="text-muted-foreground"><strong>Reference:</strong> NOAA Atlas 14, Volumes 1–11; Bonnin et al. (2006)</p>
                       </div>
 
-                      <div className="p-4 bg-muted/50 rounded-lg">
-                        <h4 className="font-semibold text-foreground">UDFCD Denver</h4>
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">UDFCD Denver 2-Hour Storm</h4>
                         <p className="text-muted-foreground">
-                          Urban Drainage and Flood Control District (Colorado) 2-hour design storm. Front-loaded 
-                          with 60% of rain in first quarter. Required for Denver metro area projects. Designed for 
-                          Colorado's semi-arid convective storm climate.
+                          The Urban Drainage and Flood Control District (UDFCD) 2-hour design storm is the standard 
+                          for the Denver metropolitan area and surrounding Colorado Front Range communities. Developed 
+                          from analysis of Colorado's unique semi-arid convective storm climatology, where short, 
+                          intense thunderstorms dominate the rainfall regime.
                         </p>
-                        <p className="text-muted-foreground mt-1">
-                          <strong>Reference:</strong> UDFCD Urban Storm Drainage Criteria Manual (2020)
+                        <p className="text-muted-foreground">
+                          <strong>Characteristics:</strong> Strongly front-loaded — approximately 60% of total depth 
+                          falls in the first 30 minutes (first quarter). Peak 5-minute intensity can reach 6–8× the 
+                          average intensity. This extreme front-loading reflects Colorado's "cloudburst" convective 
+                          cells that form along the Front Range orographic trigger.
                         </p>
+                        <p className="text-muted-foreground">
+                          <strong>Jurisdiction:</strong> Required for all projects within UDFCD's service area 
+                          (Adams, Arapahoe, Boulder, Broomfield, Denver, Douglas, and Jefferson counties). The 
+                          UDFCD criteria manual also specifies a separate 6-hour storm for larger watersheds.
+                        </p>
+                        <p className="text-muted-foreground"><strong>Reference:</strong> UDFCD Urban Storm Drainage Criteria Manual, Vol. 1 (2020), Section 5.5</p>
                       </div>
 
-                      <div className="p-4 bg-muted/50 rounded-lg">
-                        <h4 className="font-semibold text-foreground">USACE Standard Project Storm</h4>
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">USACE Standard Project Storm (SPS)</h4>
                         <p className="text-muted-foreground">
-                          US Army Corps of Engineers Standard Project Storm. Envelope of severe storms for dam safety 
-                          and major flood control projects. Broader peak than SCS for large-area storms. Used for 
-                          critical infrastructure protection.
+                          The US Army Corps of Engineers Standard Project Storm represents an envelope of the most 
+                          severe storms observed in a region, used for dam safety evaluation and major flood control 
+                          project design. The SPS depth is typically 40–60% of the Probable Maximum Precipitation (PMP) 
+                          for the same duration and area.
                         </p>
-                        <p className="text-muted-foreground mt-1">
-                          <strong>Reference:</strong> USACE EM 1110-2-1411
+                        <p className="text-muted-foreground">
+                          <strong>Temporal distribution:</strong> Broader, flatter peak than SCS distributions, 
+                          reflecting the large-area, long-duration storms that drive dam safety analysis. The 
+                          temporal pattern follows a center-weighted distribution with approximately 40% of depth 
+                          in the central third and gradual tails extending to 72 or 96 hours for large basin studies.
                         </p>
+                        <p className="text-muted-foreground">
+                          <strong>Application:</strong> Dam safety (Inflow Design Flood), levee certification, 
+                          major reservoir spillway design, and USACE Civil Works projects. Often paired with 
+                          snowmelt for spring-season dam safety scenarios in northern states.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Note:</strong> The SPS is being phased out in favor of site-specific flood 
+                          frequency analysis and risk-informed approaches per USACE ER 1110-2-1156 (2014). However, 
+                          it remains in use for screening-level assessments and where historical precedent applies.
+                        </p>
+                        <p className="text-muted-foreground"><strong>Reference:</strong> USACE EM 1110-2-1411; EM 1110-2-1417; HMR 51/52</p>
                       </div>
                     </div>
                   </AccordionContent>
