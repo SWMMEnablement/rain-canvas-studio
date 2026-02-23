@@ -120,8 +120,8 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'Asian',
-    patterns: ['singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'japan_amedas', 'japan_typhoon', 'korea_kma'],
-    description: 'Asian design storm patterns',
+    patterns: ['singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'india_coastal', 'japan_amedas', 'japan_baiu', 'japan_typhoon', 'korea_kma'],
+    description: 'All 9 Asian design storm patterns',
   },
   {
     name: 'Japan All',
