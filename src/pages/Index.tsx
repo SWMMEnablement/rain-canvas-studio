@@ -1,4 +1,5 @@
 import { StormWizard } from "@/components/StormWizard";
+import { patterns } from "@/components/PatternSelector";
 import { AdvancedTools } from "@/components/AdvancedTools";
 import { Documentation } from "@/components/Documentation";
 import { RealDataHub } from "@/components/RealDataHub";
@@ -24,7 +25,7 @@ const Index = () => {
             Create SWMM5 and ICM-ready timeseries with custom parameters.
           </p>
           <p className="text-sm mt-2 opacity-80 font-medium tracking-wide">
-            22 Design Storm Patterns Available
+            {patterns.length} Design Storm Patterns Available
           </p>
         </div>
       </header>

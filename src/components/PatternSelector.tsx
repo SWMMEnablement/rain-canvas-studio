@@ -11,7 +11,7 @@ interface PatternOption {
   category: 'swmm' | 'icm' | 'international';
 }
 
-const patterns: PatternOption[] = [
+export const patterns: PatternOption[] = [
   {
     id: 'block',
     name: 'Block Pattern',
