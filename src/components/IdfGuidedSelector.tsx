@@ -397,9 +397,23 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                   <p className="text-xs text-muted-foreground">
                     Return periods ≥ 500 years exceed typical gauge record lengths and rely on
                     statistical extrapolation. NOAA Atlas 14 confidence intervals widen
-                    significantly at these frequencies. Use with caution for critical
-                    infrastructure — consider applying climate change adjustment factors
-                    and consulting site-specific frequency analyses.
+                    significantly at these frequencies.
+                    {(() => {
+                      const uv = liveUpper?.[selectedDuration]?.[selectedReturnPeriod];
+                      const lv = liveLower?.[selectedDuration]?.[selectedReturnPeriod];
+                      if (uv != null && lv != null) {
+                        const fmt = (v: number) =>
+                          unitSystem === 'USA' ? `${v.toFixed(2)} in` : `${convertDepth(v, 'USA', 'SI').toFixed(1)} mm`;
+                        return (
+                          <span className="block mt-1 font-medium text-warning">
+                            90% CI: {fmt(lv)} – {fmt(uv)} (±{((uv - lv) / 2 / ((uv + lv) / 2) * 100).toFixed(0)}% range)
+                          </span>
+                        );
+                      }
+                      return null;
+                    })()}
+                    {' '}Use with caution for critical infrastructure — consider applying
+                    climate change adjustment factors and consulting site-specific frequency analyses.
                   </p>
                 </div>
               </div>
