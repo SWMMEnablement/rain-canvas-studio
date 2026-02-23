@@ -56,6 +56,9 @@ const comparisonPatterns: ComparisonPattern[] = [
   // Chicago & Block
   { id: 'chicago', name: 'Chicago Storm', color: '#14b8a6', category: 'Other' },
   { id: 'block', name: 'Block (Uniform)', color: '#737373', category: 'Other' },
+  { id: 'triangular', name: 'Triangular (UK)', color: '#2dd4bf', category: 'Other' },
+  { id: 'trapezoidal', name: 'Trapezoidal (UK)', color: '#5eead4', category: 'Other' },
+  { id: 'fsr', name: 'FSR (UK)', color: '#99f6e4', category: 'Other' },
   // US Agency
   { id: 'fdot1', name: 'FDOT Zone 1 (NW FL)', color: '#f59e0b', category: 'US Agency' },
   { id: 'fdot2', name: 'FDOT Zone 2 (NE FL)', color: '#d97706', category: 'US Agency' },
