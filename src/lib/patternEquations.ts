@@ -1089,6 +1089,234 @@ export const patternEquations: PatternEquation[] = [
     },
     notes: 'Broader central peak and extended tails compared to SCS Type II. Accounts for Canadian climatic conditions including snowmelt-rain interactions.'
   },
+
+  // ============ Singapore PUB ============
+  {
+    pattern: 'singapore_pub',
+    name: 'Singapore PUB',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.30 \\cdot \\left(\\frac{t}{0.10}\\right)^{0.65} & t \\leq 0.10 \\\\ 0.30 + 0.42 \\cdot \\left(\\frac{t-0.10}{0.15}\\right)^{0.75} & 0.10 < t \\leq 0.25 \\\\ 0.72 + 0.15 \\cdot \\frac{t-0.25}{0.15} & 0.25 < t \\leq 0.40 \\\\ 0.87 + 0.08 \\cdot \\frac{t-0.40}{0.20} & 0.40 < t \\leq 0.60 \\\\ 0.95 + 0.05 \\cdot \\frac{t-0.60}{0.40} & t > 0.60 \\end{cases}',
+        description: 'Front-loaded tropical convective distribution (72% in first 25%)'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'Code of Practice on Surface Water Drainage',
+      citation: 'PUB (Public Utilities Board), Singapore',
+      year: 2018,
+      link: 'https://www.pub.gov.sg'
+    },
+    notes: 'Tropical convective events with 70-80% of rain in first 30 minutes. Very high peak intensities (>100 mm/hr). Required for all Singapore drainage design.'
+  },
+
+  // ============ China GB 50014 ============
+  {
+    pattern: 'china_gb50014',
+    name: 'China GB 50014-2021',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Rainstorm Intensity Formula',
+        latex: 'i = \\frac{A(1 + C \\log T)}{(t + b)^n}',
+        description: 'City-specific intensity formula (500+ cities)'
+      },
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.12 \\cdot \\left(\\frac{t}{0.20}\\right)^{0.85} & t \\leq 0.20 \\\\ 0.30 + 0.45 \\cdot \\left(\\frac{t-0.35}{0.10}\\right)^{0.70} & 0.35 < t \\leq 0.45 \\\\ 0.95 + 0.05 \\cdot \\frac{t-0.75}{0.25} & t > 0.75 \\end{cases}',
+        description: 'Standardized temporal distribution for urban drainage'
+      }
+    ],
+    variables: [
+      { symbol: 'i', meaning: 'Rainfall intensity (mm/min)' },
+      { symbol: 'A, C, b, n', meaning: 'City-specific empirical coefficients' },
+      { symbol: 'T', meaning: 'Return period (years)' },
+      { symbol: 't', meaning: 'Duration (minutes)' }
+    ],
+    reference: {
+      title: 'GB 50014-2021: Code for Design of Outdoor Wastewater Engineering',
+      citation: 'Ministry of Housing and Urban-Rural Development, China',
+      year: 2021
+    },
+    notes: 'National standard for all public infrastructure. City-specific coefficients for 500+ cities. Short-duration (1-6hr) with very high peaks.'
+  },
+
+  // ============ China PRD ============
+  {
+    pattern: 'china_prd',
+    name: 'China Pearl River Delta',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.25 \\cdot \\left(\\frac{t}{0.15}\\right)^{0.70} & t \\leq 0.15 \\\\ 0.25 + 0.35 \\cdot \\left(\\frac{t-0.15}{0.15}\\right)^{0.75} & 0.15 < t \\leq 0.30 \\\\ 0.60 + 0.18 \\cdot \\frac{t-0.30}{0.20} & 0.30 < t \\leq 0.50 \\\\ 0.90 + 0.10 \\cdot \\frac{t-0.70}{0.30} & t > 0.70 \\end{cases}',
+        description: 'Front-loaded typhoon-influenced distribution'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time' }
+    ],
+    reference: {
+      title: 'Pearl River Delta Rainstorm Analysis',
+      citation: 'China Meteorological Administration (CMA)',
+      year: 2019
+    },
+    notes: 'Typhoon-influenced with extended tail from outer rain bands. For Guangzhou, Shenzhen, Hong Kong, Macau region.'
+  },
+
+  // ============ India IMD ============
+  {
+    pattern: 'india_imd',
+    name: 'India IMD Monsoon',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.08 \\cdot \\frac{t}{0.20} & t \\leq 0.20 \\\\ 0.08 + 0.22 \\cdot \\left(\\frac{t-0.20}{0.20}\\right)^{0.85} & 0.20 < t \\leq 0.40 \\\\ 0.30 + 0.40 \\cdot \\left(\\frac{t-0.40}{0.15}\\right)^{0.75} & 0.40 < t \\leq 0.55 \\\\ 0.96 + 0.04 \\cdot \\frac{t-0.85}{0.15} & t > 0.85 \\end{cases}',
+        description: 'Monsoon-characteristic center-peaked distribution'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time' }
+    ],
+    reference: {
+      title: 'Rainfall Atlas of India',
+      citation: 'India Meteorological Department (IMD)',
+      year: 2020,
+      link: 'https://www.imd.gov.in'
+    },
+    notes: 'Based on 6,000+ raingauges. Center-peaked with gradual build-up. Used for Smart Cities Mission and CWC dam design.'
+  },
+
+  // ============ India Coastal ============
+  {
+    pattern: 'india_coastal',
+    name: 'India Coastal Cyclonic',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.10 \\cdot \\frac{t}{0.15} & t \\leq 0.15 \\\\ 0.10 + 0.50 \\cdot \\left(\\frac{t-0.15}{0.15}\\right)^{0.65} & 0.15 < t \\leq 0.30 \\\\ 0.60 + 0.22 \\cdot \\frac{t-0.30}{0.15} & 0.30 < t \\leq 0.45 \\\\ 0.92 + 0.08 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}',
+        description: 'Very sharp early peak from cyclone eyewall passage'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' }
+    ],
+    reference: {
+      title: 'Cyclonic Storm Design Standards',
+      citation: 'Central Water Commission (CWC), India',
+      year: 2018
+    },
+    notes: 'Sharp peak representing cyclone eye passage. For Tamil Nadu, Andhra Pradesh, Odisha, and Kerala coastal infrastructure.'
+  },
+
+  // ============ Japan AMeDAS ============
+  {
+    pattern: 'japan_amedas',
+    name: 'Japan AMeDAS Convective',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.05 \\cdot \\frac{t}{0.15} & t \\leq 0.15 \\\\ 0.20 + 0.55 \\cdot \\left(\\frac{t-0.35}{0.15}\\right)^{0.65} & 0.35 < t \\leq 0.50 \\\\ 0.90 + 0.10 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}',
+        description: 'Short-duration convective with very sharp center peak'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time' }
+    ],
+    reference: {
+      title: 'AMeDAS Rainfall Analysis Guidelines',
+      citation: 'Japan Meteorological Agency (JMA)',
+      year: 2020,
+      link: 'https://www.jma.go.jp'
+    },
+    notes: 'Based on 1,300 AMeDAS automated stations. Short-duration (30min-3hr) convective events. 55% of rain falls within 15% of duration around the peak.'
+  },
+
+  // ============ Japan Baiu ============
+  {
+    pattern: 'japan_baiu',
+    name: 'Japan Baiu (梅雨) Frontal',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.06 \\cdot \\frac{t}{0.15} & t \\leq 0.15 \\\\ 0.20 + 0.30 \\cdot \\left(\\frac{t-0.30}{0.15}\\right)^{0.80} & 0.30 < t \\leq 0.45 \\\\ 0.50 + 0.25 \\cdot \\frac{t-0.45}{0.15} & 0.45 < t \\leq 0.60 \\\\ 0.90 + 0.10 \\cdot \\frac{t-0.80}{0.20} & t > 0.80 \\end{cases}',
+        description: 'Broader moderate-intensity frontal rain distribution'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' }
+    ],
+    reference: {
+      title: 'Baiu Frontal Rainfall Characteristics',
+      citation: 'Japan Society of Civil Engineers (JSCE)',
+      year: 2017
+    },
+    notes: 'Baiu (梅雨/plum rain) season June-July. Extended moderate-intensity frontal precipitation. Used for longer-duration drainage and river basin design.'
+  },
+
+  // ============ Japan Typhoon ============
+  {
+    pattern: 'japan_typhoon',
+    name: 'Japan Typhoon',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Dual Rain Band Model',
+        latex: 'i(t) = \\frac{P}{D} \\cdot \\alpha \\left[ 1.8 \\, e^{-\\left(\\frac{t-0.25}{0.10}\\right)^2} + 2.8 \\, e^{-\\left(\\frac{t-0.65}{0.08}\\right)^2} + 0.3 \\right]',
+        description: 'Outer rain band peak at 0.25D, eyewall peak at 0.65D'
+      }
+    ],
+    variables: [
+      { symbol: 'P', meaning: 'Total storm depth' },
+      { symbol: 'D', meaning: 'Storm duration' },
+      { symbol: '\\alpha', meaning: 'Volume normalization factor (≈0.55)' },
+      { symbol: '0.25D', meaning: 'Outer rain band peak position' },
+      { symbol: '0.65D', meaning: 'Eyewall rain band peak position' }
+    ],
+    reference: {
+      title: 'Typhoon Flood Control Design Guidelines',
+      citation: 'Japan Society of Civil Engineers (JSCE)',
+      year: 2019
+    },
+    notes: 'Double-peak representing outer band and inner eyewall. Used for G-Cans flood control and super-levee design. August-September typhoon season.'
+  },
+
+  // ============ Korea KMA ============
+  {
+    pattern: 'korea_kma',
+    name: 'Korea KMA Standard',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.06 \\cdot \\frac{t}{0.15} & t \\leq 0.15 \\\\ 0.06 + 0.18 \\cdot \\frac{t-0.15}{0.20} & 0.15 < t \\leq 0.35 \\\\ 0.24 + 0.40 \\cdot \\left(\\frac{t-0.35}{0.15}\\right)^{0.72} & 0.35 < t \\leq 0.50 \\\\ 0.94 + 0.06 \\cdot \\frac{t-0.80}{0.20} & t > 0.80 \\end{cases}',
+        description: 'Center-peaked monsoon/convective hybrid distribution'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time' }
+    ],
+    reference: {
+      title: 'Urban Flood Control Design Standards',
+      citation: 'Korean Meteorological Administration (KMA) / Ministry of Environment',
+      year: 2019,
+      link: 'https://www.kma.go.kr'
+    },
+    notes: 'Center-peaked with moderate asymmetry. Accounts for monsoon + convective mix. Required for Ministry of Environment urban flood control design.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {

@@ -92,6 +92,15 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   euler2: { name: 'Euler Type II', peakPosition: 0.33, description: 'Center-peaked German Euler' },
   desbordes_double: { name: 'Double Triangle', peakPosition: 0.25, description: 'Desbordes double triangle' },
   canadian: { name: 'Canadian CDA', peakPosition: 0.45, description: 'Canadian Dam Association pattern' },
+  singapore_pub: { name: 'Singapore PUB', peakPosition: 0.15, description: 'Singapore tropical convective' },
+  china_gb50014: { name: 'China GB 50014', peakPosition: 0.40, description: 'Chinese urban drainage standard' },
+  china_prd: { name: 'China PRD', peakPosition: 0.22, description: 'Pearl River Delta typhoon' },
+  india_imd: { name: 'India IMD', peakPosition: 0.47, description: 'IMD monsoon standard' },
+  india_coastal: { name: 'India Coastal', peakPosition: 0.25, description: 'Coastal cyclonic storm' },
+  japan_amedas: { name: 'Japan AMeDAS', peakPosition: 0.42, description: 'Short-duration convective' },
+  japan_baiu: { name: 'Japan Baiu', peakPosition: 0.38, description: 'Baiu frontal rain pattern' },
+  japan_typhoon: { name: 'Japan Typhoon', peakPosition: 0.65, description: 'Typhoon double-band pattern' },
+  korea_kma: { name: 'Korea KMA', peakPosition: 0.42, description: 'Korean standard monsoon/convective' },
 };
 
 /**
@@ -291,7 +300,9 @@ export function matchPatterns(
     'desbordes', 'double', 'block',
     'balanced', 'yen_chow', 'noaa_a14',
     'fdot1', 'fdot2', 'fdot3', 'fdot4', 'fdot5', 'txdot',
-    'udfcd', 'usace_sps', 'feh', 'euler1', 'euler2', 'desbordes_double', 'canadian'
+    'udfcd', 'usace_sps', 'feh', 'euler1', 'euler2', 'desbordes_double', 'canadian',
+    'singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'india_coastal',
+    'japan_amedas', 'japan_baiu', 'japan_typhoon', 'korea_kma'
   ];
   
   // Extract intensities from data

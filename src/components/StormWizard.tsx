@@ -62,6 +62,15 @@ const patternNames: Record<PatternType, string> = {
   'euler2': 'Euler Type II',
   'desbordes_double': 'Double Triangle',
   'canadian': 'Canadian CDA',
+  'singapore_pub': 'Singapore PUB',
+  'china_gb50014': 'China GB 50014',
+  'china_prd': 'China PRD',
+  'india_imd': 'India IMD',
+  'india_coastal': 'India Coastal',
+  'japan_amedas': 'Japan AMeDAS',
+  'japan_baiu': 'Japan Baiu',
+  'japan_typhoon': 'Japan Typhoon',
+  'korea_kma': 'Korea KMA',
 };
 
 interface WizardStep {

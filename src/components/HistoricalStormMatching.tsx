@@ -61,6 +61,15 @@ const syntheticPatterns: { id: PatternType; name: string }[] = [
   { id: 'euler2', name: 'Euler Type II' },
   { id: 'desbordes_double', name: 'Double Triangle' },
   { id: 'canadian', name: 'Canadian CDA' },
+  { id: 'singapore_pub', name: 'Singapore PUB' },
+  { id: 'china_gb50014', name: 'China GB 50014' },
+  { id: 'china_prd', name: 'China PRD' },
+  { id: 'india_imd', name: 'India IMD' },
+  { id: 'india_coastal', name: 'India Coastal' },
+  { id: 'japan_amedas', name: 'Japan AMeDAS' },
+  { id: 'japan_baiu', name: 'Japan Baiu' },
+  { id: 'japan_typhoon', name: 'Japan Typhoon' },
+  { id: 'korea_kma', name: 'Korea KMA' },
 ];
 
 export function HistoricalStormMatching({ data, metadata }: HistoricalStormMatchingProps) {
