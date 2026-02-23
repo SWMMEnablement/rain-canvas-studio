@@ -59,6 +59,7 @@ const patternNames: Record<PatternType, string> = {
   'noaa_a14': 'NOAA Atlas 14',
   'udfcd': 'UDFCD Denver',
   'usace_sps': 'USACE SPS',
+  'pmp_hmr': 'PMP (HMR 51/52)',
   'feh': 'FEH (UK)',
   'euler1': 'Euler Type I',
   'euler2': 'Euler Type II',
