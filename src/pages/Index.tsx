@@ -7,7 +7,7 @@ import { Documentation } from "@/components/Documentation";
 import { RealDataHub } from "@/components/RealDataHub";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { RainParticles } from "@/components/RainParticles";
-import { HeroHyetograph } from "@/components/HeroHyetograph";
+import { HeroHyetograph, getHeroPatternLabel } from "@/components/HeroHyetograph";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Droplets, CloudRain, BookOpen, Wrench, Database } from "lucide-react";
@@ -38,6 +38,7 @@ const Index = () => {
   }, []);
   const [activeTab, setActiveTab] = useState(sharedStorm ? "generator" : "generator");
   const [externalStormParams, setExternalStormParams] = useState<{ depth: number; duration: number } | null>(null);
+  const [heroPattern, setHeroPattern] = useState<string | undefined>(undefined);
 
   const handleSendToGenerator = useCallback((depthInches: number, durationHours: number) => {
     setExternalStormParams({ depth: depthInches, duration: durationHours });
@@ -65,17 +66,22 @@ const Index = () => {
 
           {/* Hero Hyetograph Preview */}
           <div className="mt-6 mb-4">
-            <HeroHyetograph />
-            <p className="text-xs opacity-80 mt-1">SCS Type II — 24-hour design storm</p>
+            <HeroHyetograph patternName={heroPattern} />
+            <p className="text-xs opacity-80 mt-1 transition-all duration-300">{getHeroPatternLabel(heroPattern)}</p>
           </div>
 
           {/* Pattern Badges */}
           <div className="flex flex-wrap justify-center gap-2 mt-4 max-w-2xl mx-auto">
-            {PATTERN_BADGES.map((name, i) => (
+            {PATTERN_BADGES.map((name) => (
               <Badge
                 key={name}
                 variant="secondary"
-                className="bg-white/30 text-white border-white/40 hover:bg-white/40 text-xs backdrop-blur-sm"
+                className={`text-xs backdrop-blur-sm cursor-pointer transition-all duration-200 ${
+                  heroPattern === name
+                    ? "bg-white/60 text-blue-900 border-white/80 shadow-md scale-105"
+                    : "bg-white/30 text-white border-white/40 hover:bg-white/50 hover:scale-105"
+                }`}
+                onClick={() => setHeroPattern(heroPattern === name ? undefined : name)}
               >
                 {name}
               </Badge>
