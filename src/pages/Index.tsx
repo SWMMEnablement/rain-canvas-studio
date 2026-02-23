@@ -75,8 +75,7 @@ const Index = () => {
               <Badge
                 key={name}
                 variant="secondary"
-                className="bg-white/15 text-white border-white/25 hover:bg-white/25 text-xs backdrop-blur-sm animate-fade-in opacity-0"
-                style={{ animationDelay: `${i * 60}ms`, animationFillMode: 'forwards' }}
+                className="bg-white/15 text-white border-white/25 hover:bg-white/25 text-xs backdrop-blur-sm"
               >
                 {name}
               </Badge>
