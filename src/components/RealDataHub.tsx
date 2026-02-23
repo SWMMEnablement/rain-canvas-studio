@@ -1,11 +1,12 @@
 import { useState, useCallback } from "react";
-import { Database, Upload, Edit3, FolderOpen, BarChart3 } from "lucide-react";
+import { Database, Upload, Edit3, FolderOpen, BarChart3, Target } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RealDataImporter } from "@/components/RealDataImporter";
 import { TimeseriesEditor } from "@/components/TimeseriesEditor";
 import { StormEventLibrary, type SavedStormEvent } from "@/components/StormEventLibrary";
 import { PatternDerivationEngine } from "@/components/PatternDerivationEngine";
+import { HistoricalStormMatching } from "@/components/HistoricalStormMatching";
 import { type ParsedRainfallData, type RainfallDataPoint } from "@/lib/rainfallParsers";
 import { type UnitSystem } from "@/lib/unitConversions";
 
@@ -96,7 +97,7 @@ export function RealDataHub() {
 
       {/* Main Content */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="import" className="flex items-center gap-2">
             <Upload className="w-4 h-4" />
             <span className="hidden sm:inline">Import</span>
@@ -108,6 +109,10 @@ export function RealDataHub() {
           <TabsTrigger value="analyze" className="flex items-center gap-2" disabled={!currentData}>
             <BarChart3 className="w-4 h-4" />
             <span className="hidden sm:inline">Analyze</span>
+          </TabsTrigger>
+          <TabsTrigger value="match" className="flex items-center gap-2" disabled={!currentData}>
+            <Target className="w-4 h-4" />
+            <span className="hidden sm:inline">Match</span>
           </TabsTrigger>
           <TabsTrigger value="library" className="flex items-center gap-2">
             <FolderOpen className="w-4 h-4" />
@@ -150,6 +155,25 @@ export function RealDataHub() {
                 <h3 className="text-lg font-medium mb-2">No Data Loaded</h3>
                 <p className="text-muted-foreground">
                   Import storm data to analyze patterns and find best-fit synthetic distributions
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="match" className="mt-6">
+          {currentData ? (
+            <HistoricalStormMatching
+              data={currentData.data}
+              metadata={currentData.metadata}
+            />
+          ) : (
+            <Card>
+              <CardContent className="py-12 text-center">
+                <Target className="w-12 h-12 mx-auto mb-4 text-muted-foreground opacity-50" />
+                <h3 className="text-lg font-medium mb-2">No Data Loaded</h3>
+                <p className="text-muted-foreground">
+                  Import storm data to find the best-matching synthetic distribution
                 </p>
               </CardContent>
             </Card>
