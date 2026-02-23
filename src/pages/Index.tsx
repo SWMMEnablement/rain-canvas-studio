@@ -2,6 +2,7 @@ import { StormWizard } from "@/components/StormWizard";
 import { AdvancedTools } from "@/components/AdvancedTools";
 import { Documentation } from "@/components/Documentation";
 import { RealDataHub } from "@/components/RealDataHub";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Droplets, CloudRain, BookOpen, Wrench, Database } from "lucide-react";
 
@@ -9,7 +10,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-gradient-rain text-white shadow-lg">
+      <header className="bg-gradient-rain text-white shadow-lg relative">
+        <div className="absolute top-4 right-4">
+          <ThemeToggle />
+        </div>
         <div className="container mx-auto px-4 py-12 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Droplets className="w-12 h-12" />
