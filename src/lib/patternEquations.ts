@@ -952,6 +952,31 @@ export const patternEquations: PatternEquation[] = [
     notes: 'Used for dam safety and major flood control projects. Represents envelope of severe storms observed across the US.'
   },
 
+  // ============ PMP (HMR 51/52) ============
+  {
+    pattern: 'pmp_hmr',
+    name: 'Probable Maximum Precipitation (HMR 51/52)',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.04 \\cdot \\frac{t}{0.10} & t \\leq 0.10 \\\\ 0.04 + 0.08 \\cdot \\frac{t-0.10}{0.10} & 0.10 < t \\leq 0.20 \\\\ 0.12 + 0.13 \\cdot \\frac{t-0.20}{0.10} & 0.20 < t \\leq 0.30 \\\\ 0.25 + 0.30 \\cdot \\left(\\frac{t-0.30}{0.10}\\right)^{0.80} & 0.30 < t \\leq 0.40 \\\\ 0.55 + 0.18 \\cdot \\frac{t-0.40}{0.10} & 0.40 < t \\leq 0.50 \\\\ 0.73 + 0.12 \\cdot \\frac{t-0.50}{0.10} & 0.50 < t \\leq 0.60 \\\\ 0.85 + 0.07 \\cdot \\frac{t-0.60}{0.10} & 0.60 < t \\leq 0.70 \\\\ 0.92 + 0.05 \\cdot \\frac{t-0.70}{0.15} & 0.70 < t \\leq 0.85 \\\\ 0.97 + 0.03 \\cdot \\frac{t-0.85}{0.15} & t > 0.85 \\end{cases}',
+        description: 'HMR 51/52 generalized temporal distribution for PMP events'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'HMR 51: Probable Maximum Precipitation Estimates, United States East of the 105th Meridian',
+      citation: 'NOAA Hydrometeorological Report No. 51 & 52',
+      year: 1978,
+      link: 'https://www.weather.gov/owp/hdsc_pmp'
+    },
+    notes: 'Worst-case meteorological scenario used for dam safety (FERC/NRC) and nuclear facility design. The generalized 6-hour incremental blocks are arranged per the standard HMR alternating block methodology with heaviest block at ~40% of duration. HMR 52 (1982) provides application procedures for specific basins.'
+  },
+
   // ============ FEH (UK) ============
   {
     pattern: 'feh',

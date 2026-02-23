@@ -69,6 +69,7 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'noaa_a14', name: 'NOAA Atlas 14', color: '#1d4ed8', category: 'US Agency' },
   { id: 'udfcd', name: 'UDFCD Denver', color: '#7e22ce', category: 'US Agency' },
   { id: 'usace_sps', name: 'USACE SPS', color: '#155e75', category: 'US Agency' },
+  { id: 'pmp_hmr', name: 'PMP (HMR 51/52)', color: '#991b1b', category: 'US Agency' },
   // International
   { id: 'desbordes', name: 'Desbordes (France)', color: '#6366f1', category: 'International' },
   { id: 'arr', name: 'Australian ARR', color: '#a855f7', category: 'International' },

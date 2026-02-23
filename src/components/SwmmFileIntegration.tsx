@@ -67,6 +67,7 @@ const allPatterns: Array<{ id: PatternType; name: string; category: string }> = 
   { id: 'noaa_a14', name: 'NOAA Atlas 14', category: 'US Agency' },
   { id: 'udfcd', name: 'UDFCD Denver', category: 'US Agency' },
   { id: 'usace_sps', name: 'USACE SPS', category: 'US Agency' },
+  { id: 'pmp_hmr', name: 'PMP (HMR 51/52)', category: 'US Agency' },
   { id: 'desbordes', name: 'Desbordes (France)', category: 'International' },
   { id: 'arr', name: 'Australian ARR', category: 'International' },
   { id: 'dwa', name: 'German DWA', category: 'International' },

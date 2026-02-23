@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww' | 'brazil_ana' | 'mexico_conagua' | 'colombia_ideam' | 'chile_dga';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'pmp_hmr' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww' | 'brazil_ana' | 'mexico_conagua' | 'colombia_ideam' | 'chile_dga';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -2342,6 +2342,67 @@ export function generateRainfallData(
           nextCumulative = 0.94 + 0.06 * ((nextT - 0.85) / 0.15);
         }
         
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'pmp_hmr': {
+      // Probable Maximum Precipitation — HMR 51/52 generalized storm
+      // Dam safety / nuclear facility design — worst-case meteorological scenario
+      // Based on NOAA HMR 51 (1978) & HMR 52 (1982) generalized temporal distribution
+      // 72-hour PMP collapsed to dimensionless time; very broad, sustained peak
+      // centered ~40% through duration with heavy front-loading
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+
+        // HMR 51/52 generalized 6-hour incremental distribution (dimensionless)
+        // Heaviest 6-hr block placed at ~40% of duration, surrounding blocks arranged
+        // in alternating descending order per standard HMR methodology
+        if (t <= 0.10) {
+          cumulativeFraction = 0.04 * (t / 0.10);
+        } else if (t <= 0.20) {
+          cumulativeFraction = 0.04 + 0.08 * ((t - 0.10) / 0.10);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.12 + 0.13 * ((t - 0.20) / 0.10);
+        } else if (t <= 0.40) {
+          cumulativeFraction = 0.25 + 0.30 * Math.pow((t - 0.30) / 0.10, 0.80);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.55 + 0.18 * ((t - 0.40) / 0.10);
+        } else if (t <= 0.60) {
+          cumulativeFraction = 0.73 + 0.12 * ((t - 0.50) / 0.10);
+        } else if (t <= 0.70) {
+          cumulativeFraction = 0.85 + 0.07 * ((t - 0.60) / 0.10);
+        } else if (t <= 0.85) {
+          cumulativeFraction = 0.92 + 0.05 * ((t - 0.70) / 0.15);
+        } else {
+          cumulativeFraction = 0.97 + 0.03 * ((t - 0.85) / 0.15);
+        }
+
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.10) {
+          nextCumulative = 0.04 * (nextT / 0.10);
+        } else if (nextT <= 0.20) {
+          nextCumulative = 0.04 + 0.08 * ((nextT - 0.10) / 0.10);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.12 + 0.13 * ((nextT - 0.20) / 0.10);
+        } else if (nextT <= 0.40) {
+          nextCumulative = 0.25 + 0.30 * Math.pow((nextT - 0.30) / 0.10, 0.80);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.55 + 0.18 * ((nextT - 0.40) / 0.10);
+        } else if (nextT <= 0.60) {
+          nextCumulative = 0.73 + 0.12 * ((nextT - 0.50) / 0.10);
+        } else if (nextT <= 0.70) {
+          nextCumulative = 0.85 + 0.07 * ((nextT - 0.60) / 0.10);
+        } else if (nextT <= 0.85) {
+          nextCumulative = 0.92 + 0.05 * ((nextT - 0.70) / 0.15);
+        } else {
+          nextCumulative = 0.97 + 0.03 * ((nextT - 0.85) / 0.15);
+        }
+
         const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
         data.push(incrementalDepth / (timeStep / 60));
       }

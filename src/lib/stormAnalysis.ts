@@ -87,6 +87,7 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   noaa_a14: { name: 'NOAA Atlas 14', peakPosition: 0.48, description: 'Atlas 14 50th percentile temporal' },
   udfcd: { name: 'UDFCD Denver', peakPosition: 0.2, description: 'Colorado front-loaded 2-hour storm' },
   usace_sps: { name: 'USACE SPS', peakPosition: 0.45, description: 'Corps of Engineers standard project storm' },
+  pmp_hmr: { name: 'PMP (HMR 51/52)', peakPosition: 0.38, description: 'Probable Maximum Precipitation generalized storm' },
   feh: { name: 'FEH (UK)', peakPosition: 0.42, description: 'Flood Estimation Handbook temporal' },
   euler1: { name: 'Euler Type I', peakPosition: 0.167, description: 'Front-loaded German Euler' },
   euler2: { name: 'Euler Type II', peakPosition: 0.33, description: 'Center-peaked German Euler' },
@@ -317,7 +318,7 @@ export function matchPatterns(
     'desbordes', 'double', 'block',
     'balanced', 'yen_chow', 'noaa_a14',
     'fdot1', 'fdot2', 'fdot3', 'fdot4', 'fdot5', 'txdot',
-    'udfcd', 'usace_sps', 'feh', 'euler1', 'euler2', 'desbordes_double', 'canadian',
+    'udfcd', 'usace_sps', 'pmp_hmr', 'feh', 'euler1', 'euler2', 'desbordes_double', 'canadian',
     'singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'india_coastal',
     'japan_amedas', 'japan_baiu', 'japan_typhoon', 'korea_kma'
   ];
