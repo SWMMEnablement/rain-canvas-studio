@@ -1217,6 +1217,263 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+
+                {/* African Design Storms */}
+                <AccordionItem value="african">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2">
+                      <Globe className="w-4 h-4 text-orange-500" />
+                      African Design Storms
+                      <Badge variant="secondary" className="ml-2">4 Patterns</Badge>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-4 text-sm">
+                    <p className="text-muted-foreground">
+                      Design storm patterns for African nations, reflecting diverse climatic zones from Mediterranean 
+                      and arid North Africa to tropical equatorial and subtropical Southern Africa. Most African countries 
+                      lack the dense rain gauge networks of developed nations, making standardized design storms 
+                      especially important for infrastructure planning.
+                    </p>
+
+                    <div className="grid gap-4">
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">🇿🇦 South Africa SANRAL</h4>
+                        <p className="text-muted-foreground">
+                          South African National Roads Agency Limited (SANRAL) Drainage Manual design storm. A modified 
+                          Huff 2nd quartile pattern calibrated for South African conditions using data from the SA Weather 
+                          Service (SAWS) network. Features a center-peaked distribution with moderate front-loading 
+                          characteristic of summer convective storms on the Highveld.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Peak characteristics:</strong> Peak intensity at ~40% of duration. Peak-to-average ratio 
+                          approximately 3.5:1. Accounts for both convective (inland) and orographic (coastal) rainfall regimes.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Application:</strong> Required for all SANRAL national road drainage design. Also widely 
+                          adopted by municipalities and provincial roads agencies as the de facto South African standard. 
+                          Used for bridge opening sizing, culvert design, and roadway drainage.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Reference:</strong> SANRAL Drainage Manual, 6th Edition (2013); SA Technical Report TR 102 — 
+                          Design Rainfall; Smithers & Schulze (2003) — SA rainfall database
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">🇰🇪 Kenya KMD</h4>
+                        <p className="text-muted-foreground">
+                          Kenya Meteorological Department convective storm pattern for East African highland areas. 
+                          Strongly front-loaded with approximately 65% of rainfall in the first quarter. Represents 
+                          intense convective storms that form along the East African Rift and Kenya Highlands during 
+                          the long rains (March–May) and short rains (October–December).
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Peak characteristics:</strong> Very sharp early peak within the first 15–20% of duration. 
+                          Rapid decay with an extended low-intensity tail. Peak intensities in Nairobi can exceed 
+                          80 mm/hr for the 10-year return period.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Application:</strong> Urban drainage design for Nairobi, Mombasa, Kisumu, and highland 
+                          towns. Used for Kenya Urban Roads Authority (KURA) and Kenya National Highways Authority (KeNHA) 
+                          projects. Also applied in Uganda and Tanzania with local IDF modifications.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Reference:</strong> KMD Rainfall Frequency Atlas of Kenya (2010); Kenya Roads Design Manual 
+                          Part 4 — Drainage (2017)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">🇳🇬 Nigeria NiMet</h4>
+                        <p className="text-muted-foreground">
+                          Nigerian Meteorological Agency standard driven by the Intertropical Convergence Zone (ITCZ). 
+                          Center-peaked with broad shoulders representing West African monsoon convection. The ITCZ 
+                          migration drives Nigeria's distinct wet season (April–October in the south, June–September in the north).
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Peak characteristics:</strong> Moderate center peak at ~45% of duration. Peak-to-average 
+                          ratio approximately 3.0:1. The broad shoulders reflect sustained monsoon convection rather than 
+                          isolated thunderstorm cells. Lagos receives up to 1,800 mm/year with frequent urban flooding.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Application:</strong> Used for Lagos State drainage master planning, federal highway 
+                          drainage design (FERMA), and Niger Delta oil infrastructure flood protection. Also used as 
+                          a template for Ghana, Cameroon, and other Gulf of Guinea nations.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Reference:</strong> NiMet National Rainfall Atlas (2018); Federal Ministry of Works 
+                          Highway Design Manual — Drainage (2013)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">🇪🇬 Egypt HCWW</h4>
+                        <p className="text-muted-foreground">
+                          Holding Company for Water and Wastewater flash flood pattern. Extremely front-loaded arid 
+                          burst with approximately 70% of rainfall in the first 15% of storm duration. Represents rare 
+                          but devastating flash flood events in hyper-arid conditions where annual rainfall may be 
+                          less than 25 mm.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Peak characteristics:</strong> The most extreme front-loading of any African pattern. 
+                          Peak-to-average ratio can exceed 8:1. In Cairo and the Nile Delta, single storm events can 
+                          deliver an entire year's rainfall in 2–3 hours, overwhelming drainage infrastructure.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Application:</strong> Cairo and Nile Delta urban drainage, Red Sea coastal protection, 
+                          New Administrative Capital (NAC) infrastructure, and Sinai wadi flood protection. Critical for 
+                          protecting archaeological sites (Valley of the Kings flash flood protection).
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Reference:</strong> HCWW Drainage Design Code (2015); Egyptian Code of Practice for 
+                          Storm Water Drainage (ECP 102/10); Elsebaie (2012) — IDF curves for Egyptian regions
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-orange-50 dark:bg-orange-950 rounded-lg border border-orange-200 dark:border-orange-800">
+                      <h4 className="font-semibold text-orange-700 dark:text-orange-300">Important Note</h4>
+                      <p className="text-sm text-orange-600 dark:text-orange-400">
+                        African drainage design varies dramatically by climate zone. Arid regions (Egypt, northern Nigeria) 
+                        use extremely front-loaded patterns similar to GCC standards. Tropical regions (coastal Kenya, 
+                        southern Nigeria) use patterns closer to Asian tropical standards. South Africa has the most 
+                        well-developed local standards, largely based on the SANRAL Drainage Manual. Always verify 
+                        local municipal requirements and available IDF data.
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* Latin American Design Storms */}
+                <AccordionItem value="latam">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2">
+                      <Globe className="w-4 h-4 text-teal-500" />
+                      Latin American Design Storms
+                      <Badge variant="secondary" className="ml-2">4 Patterns</Badge>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-4 text-sm">
+                    <p className="text-muted-foreground">
+                      Design storm patterns from major Latin American national water agencies. These patterns reflect 
+                      tropical, subtropical, and Andean rainfall regimes, ranging from intense Amazon-influenced 
+                      convection to Pacific coast frontal systems.
+                    </p>
+
+                    <div className="grid gap-4">
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">🇧🇷 Brazil ANA</h4>
+                        <p className="text-muted-foreground">
+                          Agência Nacional de Águas (ANA) tropical convective storm based on the DAEE/Cetesb methodology 
+                          widely used in São Paulo State. Center-peaked distribution reflecting intense tropical 
+                          convective systems driven by moisture from the Amazon and Atlantic. Brazil's IDF curves are 
+                          derived from 2,700+ rain gauges in the HidroWeb database.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Peak characteristics:</strong> Center-peaked at ~45% of duration. Peak-to-average ratio 
+                          approximately 4.0:1. São Paulo's urban heat island amplifies convective intensity, with design 
+                          intensities exceeding 120 mm/hr for 10-year return periods at 15-minute durations.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Application:</strong> Urban drainage design for São Paulo, Rio de Janeiro, Belo Horizonte, 
+                          and other major cities. Used by DAEE (São Paulo water agency), municipal drainage master plans, 
+                          and federal highway drainage (DNIT). The Cetesb method uses the equation i = K·T^a / (t+b)^c 
+                          with city-specific coefficients.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Reference:</strong> ANA Manual de Hidrologia Básica para Estruturas de Drenagem (2012); 
+                          Cetesb "Drenagem Urbana" — Manual de Projeto (1986); Pfafstetter IDF methodology
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">🇲🇽 Mexico CONAGUA</h4>
+                        <p className="text-muted-foreground">
+                          Comisión Nacional del Agua design storm. Front-loaded tropical convective pattern based on 
+                          the SCT (Secretaría de Comunicaciones y Transportes) highway drainage manual. Mexico's diverse 
+                          climate zones — from arid Sonora to tropical Tabasco — require regional IDF adjustments, but 
+                          the temporal pattern remains broadly applicable nationwide.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Peak characteristics:</strong> Front-loaded with peak at ~35% of duration. Peak-to-average 
+                          ratio approximately 3.8:1. Mexico City's high altitude (2,240 m) produces distinct convective 
+                          patterns with intense afternoon storms during the rainy season (May–October).
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Application:</strong> Federal highway drainage (SCT), CONAGUA urban flood control, 
+                          municipal drainage design (Reglamento de Construcciones). Mexico City's combined sewer system 
+                          (Emisor Oriente) is designed using this pattern for the 50-year return period.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Reference:</strong> CONAGUA Manual de Agua Potable, Alcantarillado y Saneamiento (MAPAS); 
+                          SCT Manual de Proyecto Geométrico de Carreteras — Drenaje (2018)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">🇨🇴 Colombia IDEAM</h4>
+                        <p className="text-muted-foreground">
+                          Instituto de Hidrología, Meteorología y Estudios Ambientales tropical Andean convective 
+                          pattern. Center-peaked with sustained intensity reflecting the inter-Andean valley rainfall 
+                          regime. Colombia's complex topography creates highly localized rainfall patterns — Bogotá 
+                          (2,600 m) averages 800 mm/year while Quibdó (Pacific coast) receives over 8,000 mm/year.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Peak characteristics:</strong> Center-peaked at ~50% of duration. Moderate peak-to-average 
+                          ratio of 3.2:1 reflecting sustained orographic lifting in the Andes. Extended tails represent 
+                          persistent drizzle common in Bogotá's Sabana.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Application:</strong> Urban drainage design for Bogotá (EAAB), Medellín (EPM), 
+                          Cali, and Barranquilla. Used by INVIAS (national roads agency) for highway drainage. 
+                          Critical for Bogotá's Canal del Salitre flood control tunnel and Medellín's río 
+                          Aburrá flood protection system.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Reference:</strong> IDEAM Curvas IDF para Colombia (2020); INVIAS Manual de Drenaje 
+                          para Carreteras (2009); RAS-D — Reglamento Técnico del Sector de Agua Potable y Saneamiento
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                        <h4 className="font-semibold text-foreground">🇨🇱 Chile DGA</h4>
+                        <p className="text-muted-foreground">
+                          Dirección General de Aguas frontal/orographic pattern for central Chile winter storms. Broad 
+                          center peak reflecting the Pacific frontal systems that dominate Chile's rainfall regime from 
+                          Valparaíso to Temuco (30–40°S). Chile's north-south extent (4,300 km) creates dramatic rainfall 
+                          gradients — Atacama Desert receives &lt;1 mm/year while Valdivia receives 2,500+ mm/year.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Peak characteristics:</strong> Broad center peak at ~50% of duration with gradual rise 
+                          and fall. Peak-to-average ratio approximately 2.5:1 — the lowest among Latin American patterns, 
+                          reflecting frontal rather than convective rainfall dominance. Extended duration (12–48 hr) 
+                          events are common during El Niño years.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Application:</strong> Used by MOP (Ministry of Public Works) for highway drainage, 
+                          DOH (Dirección de Obras Hidráulicas) for river works, and SERVIU for urban drainage in 
+                          Santiago and other cities. Critical for Quebrada de Ramón and Mapocho River flood control.
+                        </p>
+                        <p className="text-muted-foreground">
+                          <strong>Reference:</strong> DGA Manual de Cálculo de Crecidas y Caudales Mínimos en Cuencas 
+                          sin Información Fluviométrica (1995); MOP Manual de Carreteras Vol. 3 — Drenaje (2021)
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-teal-50 dark:bg-teal-950 rounded-lg border border-teal-200 dark:border-teal-800">
+                      <h4 className="font-semibold text-teal-700 dark:text-teal-300">Important Note</h4>
+                      <p className="text-sm text-teal-600 dark:text-teal-400">
+                        Latin American design standards vary significantly by country and often by municipality. Brazil, 
+                        Mexico, and Colombia have well-established IDF databases, but many smaller nations rely on 
+                        regional extrapolation. Always verify local IDF data availability through the national 
+                        meteorological agency (ANA, CONAGUA, IDEAM, DGA) before using these temporal patterns. 
+                        El Niño/La Niña cycles significantly affect design rainfall in Pacific-coast nations (Chile, 
+                        Colombia, Ecuador, Peru).
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
               </Accordion>
             </CardContent>
           </Card>
