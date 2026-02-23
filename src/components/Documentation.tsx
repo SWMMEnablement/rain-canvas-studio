@@ -608,47 +608,109 @@ export function Documentation() {
                   <AccordionContent className="space-y-4 text-sm">
                     <p className="text-muted-foreground">
                       Design storm profiles used in UK drainage practice and compatible with Innovyze InfoWorks ICM 
-                      modeling software.
+                      modeling software. These patterns are the foundation of British flood estimation and urban 
+                      drainage design, ranging from the original 1975 Flood Studies Report through the modern 
+                      Flood Estimation Handbook methodology.
                     </p>
 
                     <div className="grid gap-4">
                       <div className="p-4 bg-muted/50 rounded-lg">
-                        <h4 className="font-semibold text-foreground">FSR Profile</h4>
+                        <h4 className="font-semibold text-foreground">FSR Profile (Flood Studies Report)</h4>
                         <p className="text-muted-foreground">
-                          Flood Studies Report (1975) rainfall profile. The original UK standard design storm with a 
-                          symmetric bell-shaped distribution. Still widely used in UK drainage design alongside the 
-                          newer FEH methods.
+                          The original UK standard design storm profile developed by the Natural Environment Research 
+                          Council (NERC) in 1975. Features a symmetric bell-shaped distribution with peak intensity 
+                          at the centre of the storm. The FSR summer profile has a sharper peak (75% of rain in 
+                          central third) while the winter profile is broader and flatter (60% in central third), 
+                          reflecting frontal vs. convective dominance.
                         </p>
                         <p className="text-muted-foreground mt-1">
-                          <strong>Reference:</strong> NERC Flood Studies Report, Volume II (1975)
+                          The FSR method uses an areal reduction factor (ARF) and a storm duration linked to the 
+                          catchment time of concentration. Despite being superseded by FEH, FSR profiles remain 
+                          widely accepted by UK water authorities and are the default in many InfoWorks ICM 
+                          project templates.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Typical application:</strong> UK greenfield and brownfield drainage design, Sewers 
+                          for Adoption assessments, Environment Agency flood risk assessments (legacy projects).
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> NERC Flood Studies Report, Volume II — Meteorological Studies (1975); 
+                          Wallingford Procedure for Design and Analysis of Urban Storm Drainage (1981)
                         </p>
                       </div>
 
                       <div className="p-4 bg-muted/50 rounded-lg">
                         <h4 className="font-semibold text-foreground">FEH (Flood Estimation Handbook)</h4>
                         <p className="text-muted-foreground">
-                          Modern successor to the FSR with improved temporal distributions. Uses updated rainfall 
-                          statistics and depth-duration-frequency relationships. Recommended for current UK flood 
-                          estimation practice.
+                          The modern successor to FSR, published by the Centre for Ecology & Hydrology (CEH) 
+                          Wallingford in 1999 with major updates in 2013 (FEH13). FEH uses updated depth-duration-frequency 
+                          (DDF) rainfall statistics derived from a much larger rain gauge network and longer record 
+                          periods than FSR.
                         </p>
                         <p className="text-muted-foreground mt-1">
-                          <strong>Reference:</strong> Flood Estimation Handbook, CEH Wallingford (1999, updated 2013)
+                          The FEH temporal profile is asymmetric with a slightly earlier peak than FSR, better 
+                          representing observed UK storm characteristics. It employs a 50% summer/winter split 
+                          profile and integrates with the FEH rainfall DDF model for site-specific design depths. 
+                          The FEH Supplementary Report No. 1 (2015) provides revised ARFs and improved small 
+                          catchment estimates.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Typical application:</strong> Current best practice for all UK flood estimation, 
+                          Environment Agency requirements, SuDS design per CIRIA C753, and all new InfoWorks ICM models.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Climate change:</strong> UK Environment Agency guidance (2022) requires +40% uplift 
+                          for the 2070s epoch (upper end) on peak rainfall for most development types.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> Flood Estimation Handbook, CEH Wallingford (1999, updated 2013); 
+                          FEH Supplementary Reports 1–3; EA Climate Change Allowances (2022)
                         </p>
                       </div>
 
                       <div className="p-4 bg-muted/50 rounded-lg">
                         <h4 className="font-semibold text-foreground">Triangular (UK Practice)</h4>
                         <p className="text-muted-foreground">
-                          Simple triangular profile with linear rise to peak and linear recession. Commonly used in 
-                          UK sewer design and InfoWorks ICM modeling for preliminary analysis.
+                          Simple triangular hyetograph with linear rise to peak and linear recession. The peak 
+                          position is typically set at one-third of the storm duration (r = 0.33), producing a 
+                          front-loaded profile consistent with short-duration convective events common in UK summers.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          The triangular profile preserves total rainfall depth while providing a realistic 
+                          intensity variation with minimal parameterisation. It is computationally efficient and 
+                          widely used for preliminary sewer network sizing in InfoWorks ICM, particularly when 
+                          detailed FSR/FEH profiles are not yet warranted.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Typical application:</strong> Preliminary drainage design, sensitivity analysis, 
+                          small catchment studies, and InfoWorks ICM quick-run scenarios.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> BS EN 752:2017 — Drain and Sewer Systems Outside Buildings; 
+                          Innovyze InfoWorks ICM Technical Reference Manual
                         </p>
                       </div>
 
                       <div className="p-4 bg-muted/50 rounded-lg">
                         <h4 className="font-semibold text-foreground">Trapezoidal</h4>
                         <p className="text-muted-foreground">
-                          Combines rising limb, sustained peak period, and falling limb. Used for design storms where 
-                          sustained high intensity is expected. Common in InfoWorks ICM modeling.
+                          Combines a rising limb, sustained peak-intensity plateau, and falling limb. The plateau 
+                          typically spans 20–40% of the total storm duration, representing sustained high-intensity 
+                          rainfall from well-developed convective systems or slow-moving frontal bands.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          The trapezoidal profile generates higher peak runoff volumes than a triangular profile 
+                          of the same total depth because the sustained plateau prevents attenuation through 
+                          storage. This makes it a conservative choice for critical infrastructure such as 
+                          pumping stations and CSO chambers where sustained inflow matters more than instantaneous peak.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Typical application:</strong> Pumping station design, CSO assessment, 
+                          InfoWorks ICM 2D overland flow studies, and scenarios requiring sustained peak loading.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> Innovyze InfoWorks ICM Help Documentation; 
+                          CIRIA Report C635 — Designing for Exceedance in Urban Drainage (2006)
                         </p>
                       </div>
                     </div>
