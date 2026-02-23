@@ -5,9 +5,10 @@ import { UnitComparisonTable } from "@/components/UnitComparisonTable";
 import { UnitConversionCalculator } from "@/components/UnitConversionCalculator";
 import { SensitivityTable } from "@/components/SensitivityTable";
 import { PatternDecisionGuide } from "@/components/PatternDecisionGuide";
+import { ChinaRainstormCalculator } from "@/components/ChinaRainstormCalculator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GitCompare, Map, Calculator, Info, BarChart3, Target } from "lucide-react";
+import { GitCompare, Map, Calculator, Info, BarChart3, Target, CloudRain } from "lucide-react";
 import {
   generateRainfallData,
   prepareChartData,
@@ -15,6 +16,7 @@ import {
   type PatternType,
 } from "@/lib/rainfallPatterns";
 import { type UnitSystem } from "@/lib/unitConversions";
+import { chinaRainstormDatabase } from "@/lib/chinaRainstormData";
 
 export function AdvancedTools() {
   const [depth, setDepth] = useState(2.0);
@@ -35,7 +37,7 @@ export function AdvancedTools() {
       </div>
 
       <Tabs defaultValue="comparison" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 mb-6">
+        <TabsList className="grid w-full grid-cols-4 sm:grid-cols-7 mb-6">
           <TabsTrigger value="comparison" className="flex items-center gap-2">
             <GitCompare className="w-4 h-4" />
             <span className="hidden sm:inline">Compare</span>
@@ -47,6 +49,10 @@ export function AdvancedTools() {
           <TabsTrigger value="guide" className="flex items-center gap-2">
             <Target className="w-4 h-4" />
             <span className="hidden sm:inline">Decision Guide</span>
+          </TabsTrigger>
+          <TabsTrigger value="china_idf" className="flex items-center gap-2">
+            <CloudRain className="w-4 h-4" />
+            <span className="hidden sm:inline">China IDF</span>
           </TabsTrigger>
           <TabsTrigger value="regional" className="flex items-center gap-2">
             <Map className="w-4 h-4" />
@@ -108,6 +114,19 @@ export function AdvancedTools() {
             </CardContent>
           </Card>
           <PatternDecisionGuide />
+        </TabsContent>
+
+        <TabsContent value="china_idf" className="space-y-6">
+          <Card className="bg-accent/30 border-primary/20">
+            <CardContent className="pt-4">
+              <p className="text-sm text-muted-foreground">
+                <strong>China Rainstorm Intensity Calculator (暴雨强度公式计算器)</strong> — Look up city-specific 
+                A₁/C/b/n coefficients per GB 50014, calculate design intensities, generate IDF curves and 
+                alternating block hyetographs for {chinaRainstormDatabase.length}+ Chinese cities.
+              </p>
+            </CardContent>
+          </Card>
+          <ChinaRainstormCalculator />
         </TabsContent>
 
         <TabsContent value="regional" className="space-y-6">
