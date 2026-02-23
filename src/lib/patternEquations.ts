@@ -646,7 +646,261 @@ export const patternEquations: PatternEquation[] = [
       year: 2024
     },
     notes: 'Draw your own distribution based on local data or specific requirements.'
-  }
+  },
+
+  // ============ Balanced Storm ============
+  {
+    pattern: 'balanced',
+    name: 'Balanced Storm (Alternating Block)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'IDF Relationship',
+        latex: 'P(d) = P_{total} \\cdot \\left(\\frac{d}{D}\\right)^{0.6}',
+        description: 'Cumulative depth from simplified IDF curve'
+      },
+      {
+        label: 'Incremental Depth',
+        latex: '\\Delta P_i = P(d_{i+1}) - P(d_i)',
+        description: 'Rainfall depth in each interval from IDF'
+      },
+      {
+        label: 'Block Arrangement',
+        latex: '\\text{Sort } \\Delta P_i \\text{ descending, alternate L-R around center}',
+        description: 'Blocks placed symmetrically around peak'
+      }
+    ],
+    variables: [
+      { symbol: 'P(d)', meaning: 'Cumulative depth for duration d' },
+      { symbol: 'P_{total}', meaning: 'Total storm depth' },
+      { symbol: 'D', meaning: 'Total storm duration' },
+      { symbol: '\\Delta P_i', meaning: 'Incremental depth for interval i' }
+    ],
+    reference: {
+      title: 'Applied Hydrology',
+      citation: 'Chow, V.T., Maidment, D.R., & Mays, L.W.',
+      year: 1988,
+      link: 'https://www.mheducation.com/highered/product/applied-hydrology-chow-maidment/M9780073397269.html'
+    },
+    notes: 'Theoretically superior to SCS types — uses site-specific IDF data. Standard textbook method. Peak always at center of storm.'
+  },
+
+  // ============ FDOT Zone 1 ============
+  {
+    pattern: 'fdot1',
+    name: 'FDOT Zone 1 (NW Florida)',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.40 \\cdot \\left(\\frac{t}{0.42}\\right)^{0.85} & t \\leq 0.42 \\\\ 0.40 + 0.38 \\cdot \\frac{t - 0.42}{0.12} & 0.42 < t \\leq 0.54 \\\\ 0.78 + 0.22 \\cdot \\frac{t - 0.54}{0.46} & t > 0.54 \\end{cases}',
+        description: 'Modified Type II — slightly front-loaded for NW Florida'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'FDOT Drainage Manual, Chapter 2',
+      citation: 'Florida Department of Transportation',
+      year: 2021,
+      link: 'https://www.fdot.gov/roadway/drainage/manualsandhandbooks.shtm'
+    },
+    notes: 'Required for all FDOT projects in the panhandle region (Zone 1). Rejects using standard SCS types.'
+  },
+
+  // ============ FDOT Zone 2 ============
+  {
+    pattern: 'fdot2',
+    name: 'FDOT Zone 2 (NE Florida)',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.38 \\cdot \\left(\\frac{t}{0.45}\\right)^{0.88} & t \\leq 0.45 \\\\ 0.38 + 0.40 \\cdot \\frac{t - 0.45}{0.10} & 0.45 < t \\leq 0.55 \\\\ 0.78 + 0.22 \\cdot \\frac{t - 0.55}{0.45} & t > 0.55 \\end{cases}',
+        description: 'Modified Type II for NE Florida'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'FDOT Drainage Manual, Chapter 2',
+      citation: 'Florida Department of Transportation',
+      year: 2021,
+      link: 'https://www.fdot.gov/roadway/drainage/manualsandhandbooks.shtm'
+    },
+    notes: 'Required for FDOT projects in northeastern Florida (Zone 2).'
+  },
+
+  // ============ FDOT Zone 3 ============
+  {
+    pattern: 'fdot3',
+    name: 'FDOT Zone 3 (Central FL)',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.30 \\cdot \\left(\\frac{t}{0.35}\\right)^{0.80} & t \\leq 0.35 \\\\ 0.30 + 0.45 \\cdot \\frac{t - 0.35}{0.15} & 0.35 < t \\leq 0.50 \\\\ 0.75 + 0.25 \\cdot \\frac{t - 0.50}{0.50} & t > 0.50 \\end{cases}',
+        description: 'Unique tropical distribution for Central FL'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'FDOT Drainage Manual, Chapter 2',
+      citation: 'Florida Department of Transportation',
+      year: 2021,
+      link: 'https://www.fdot.gov/roadway/drainage/manualsandhandbooks.shtm'
+    },
+    notes: 'Required for FDOT projects in central Florida (Zone 3). Tropical characteristics with earlier peak.'
+  },
+
+  // ============ FDOT Zone 4 ============
+  {
+    pattern: 'fdot4',
+    name: 'FDOT Zone 4 (SE Florida)',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.35 \\cdot \\left(\\frac{t}{0.25}\\right)^{0.75} & t \\leq 0.25 \\\\ 0.35 + 0.40 \\cdot \\frac{t - 0.25}{0.15} & 0.25 < t \\leq 0.40 \\\\ 0.75 + 0.25 \\cdot \\left(\\frac{t - 0.40}{0.60}\\right)^{0.7} & t > 0.40 \\end{cases}',
+        description: 'Heavily front-loaded convective pattern for SE Florida'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'FDOT Drainage Manual, Chapter 2',
+      citation: 'Florida Department of Transportation',
+      year: 2021,
+      link: 'https://www.fdot.gov/roadway/drainage/manualsandhandbooks.shtm'
+    },
+    notes: 'Required for FDOT projects in SE Florida including Miami-Dade (Zone 4). Most front-loaded of all FL zones.'
+  },
+
+  // ============ FDOT Zone 5 ============
+  {
+    pattern: 'fdot5',
+    name: 'FDOT Zone 5 (SW Florida)',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.33 \\cdot \\left(\\frac{t}{0.28}\\right)^{0.78} & t \\leq 0.28 \\\\ 0.33 + 0.40 \\cdot \\frac{t - 0.28}{0.14} & 0.28 < t \\leq 0.42 \\\\ 0.73 + 0.27 \\cdot \\left(\\frac{t - 0.42}{0.58}\\right)^{0.7} & t > 0.42 \\end{cases}',
+        description: 'Convective pattern for SW Florida, similar to Zone 4'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'FDOT Drainage Manual, Chapter 2',
+      citation: 'Florida Department of Transportation',
+      year: 2021,
+      link: 'https://www.fdot.gov/roadway/drainage/manualsandhandbooks.shtm'
+    },
+    notes: 'Required for FDOT projects in SW Florida (Zone 5). Slightly less front-loaded than Zone 4.'
+  },
+
+  // ============ TxDOT ============
+  {
+    pattern: 'txdot',
+    name: 'TxDOT Empirical',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.20 \\cdot \\left(\\frac{t}{0.30}\\right)^{0.9} & t \\leq 0.30 \\\\ 0.20 + 0.45 \\cdot \\frac{t - 0.30}{0.15} & 0.30 < t \\leq 0.45 \\\\ 0.65 + 0.20 \\cdot \\frac{t - 0.45}{0.20} & 0.45 < t \\leq 0.65 \\\\ 0.85 + 0.15 \\cdot \\frac{t - 0.65}{0.35} & t > 0.65 \\end{cases}',
+        description: 'Empirical distribution from USGS Texas rainfall studies'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'TxDOT Hydraulic Design Manual & USGS SIR 2004-5075',
+      citation: 'Texas Department of Transportation / USGS',
+      year: 2019,
+      link: 'https://www.txdot.gov/business/resources/hydraulic.html'
+    },
+    notes: 'Required for TxDOT hydraulic design submittals. Broad central peak with moderate front-loading characteristic of Texas storms.'
+  },
+
+  // ============ Yen & Chow ============
+  {
+    pattern: 'yen_chow',
+    name: 'Yen & Chow Triangular',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Intensity (Rising)',
+        latex: 'i(t) = i_{peak} \\cdot \\frac{t}{r \\cdot D}, \\quad t \\leq r \\cdot D',
+        description: 'Linear rise to peak'
+      },
+      {
+        label: 'Intensity (Falling)',
+        latex: 'i(t) = i_{peak} \\cdot \\frac{D - t}{(1-r) \\cdot D}, \\quad t > r \\cdot D',
+        description: 'Linear recession from peak'
+      },
+      {
+        label: 'Peak Intensity',
+        latex: 'i_{peak} = \\frac{2P}{D}',
+        description: 'Peak for volume conservation under triangular profile'
+      }
+    ],
+    variables: [
+      { symbol: 'r', meaning: 'Time-to-peak ratio (0.375 default, SCS-like advance)' },
+      { symbol: 'i_{peak}', meaning: 'Peak intensity' },
+      { symbol: 'P', meaning: 'Total precipitation depth' },
+      { symbol: 'D', meaning: 'Storm duration' }
+    ],
+    reference: {
+      title: 'Stormwater Runoff on Urban Surfaces',
+      citation: 'Yen, B.C. & Chow, V.T., in Urban Stormwater Hydraulics and Hydrology (Ed. B.C. Yen)',
+      year: 1980
+    },
+    notes: 'Simplest non-uniform distribution. r=0.5 (symmetric), r=0.375 (SCS-like), r=0.25 (front-loaded), r=0.75 (back-loaded). Excellent for sensitivity analysis.'
+  },
+
+  // ============ NOAA Atlas 14 ============
+  {
+    pattern: 'noaa_a14',
+    name: 'NOAA Atlas 14 Temporal',
+    category: 'cumulative',
+    equations: [
+      {
+        label: '50th Percentile Distribution',
+        latex: 'F(t) = \\sum_{k=1}^{7} a_k \\cdot H(t - t_k) \\cdot \\frac{t - t_k}{\\Delta t_k}',
+        description: 'Piecewise linear cumulative from recording gage data'
+      },
+      {
+        label: 'Increments',
+        latex: '\\Delta F = [0.04, 0.10, 0.18, 0.35, 0.18, 0.10, 0.05]',
+        description: 'Rainfall fraction in each segment'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't_k', meaning: 'Breakpoints at [0.10, 0.25, 0.40, 0.55, 0.70, 0.85, 1.0]' },
+      { symbol: '\\Delta F_k', meaning: 'Incremental fraction per segment' }
+    ],
+    reference: {
+      title: 'NOAA Atlas 14: Precipitation-Frequency Atlas, Volume 10, Chapter 6',
+      citation: 'National Oceanic and Atmospheric Administration',
+      year: 2018,
+      link: 'https://www.weather.gov/owp/hdsc_currentpf'
+    },
+    notes: 'Derived from actual measured temporal distributions at recording rain gages. Supersedes SCS types where Atlas 14 data exists. Represents the future of design storm specification.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {

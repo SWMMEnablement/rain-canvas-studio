@@ -45,6 +45,15 @@ const syntheticPatterns: { id: PatternType; name: string }[] = [
   { id: 'sa_huff', name: 'South Africa Huff' },
   { id: 'dutch', name: 'Dutch KNMI' },
   { id: 'italian', name: 'Italian (LSPP)' },
+  { id: 'balanced', name: 'Balanced Storm' },
+  { id: 'fdot1', name: 'FDOT Zone 1' },
+  { id: 'fdot2', name: 'FDOT Zone 2' },
+  { id: 'fdot3', name: 'FDOT Zone 3' },
+  { id: 'fdot4', name: 'FDOT Zone 4' },
+  { id: 'fdot5', name: 'FDOT Zone 5' },
+  { id: 'txdot', name: 'TxDOT' },
+  { id: 'yen_chow', name: 'Yen & Chow' },
+  { id: 'noaa_a14', name: 'NOAA Atlas 14' },
 ];
 
 export function HistoricalStormMatching({ data, metadata }: HistoricalStormMatchingProps) {
