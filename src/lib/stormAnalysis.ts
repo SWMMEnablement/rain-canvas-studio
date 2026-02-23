@@ -114,6 +114,10 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   kenya_kmd: { name: 'Kenya KMD', peakPosition: 0.15, description: 'East African highland convective' },
   nigeria_nimet: { name: 'Nigeria NiMet', peakPosition: 0.45, description: 'West African monsoon ITCZ pattern' },
   egypt_hcww: { name: 'Egypt HCWW', peakPosition: 0.08, description: 'Arid flash flood Nile Delta' },
+  brazil_ana: { name: 'Brazil ANA', peakPosition: 0.45, description: 'Tropical convective SE Brazil' },
+  mexico_conagua: { name: 'Mexico CONAGUA', peakPosition: 0.20, description: 'Front-loaded tropical convective' },
+  colombia_ideam: { name: 'Colombia IDEAM', peakPosition: 0.45, description: 'Andean valley convective' },
+  chile_dga: { name: 'Chile DGA', peakPosition: 0.40, description: 'Frontal/orographic central Chile' },
 };
 
 /**

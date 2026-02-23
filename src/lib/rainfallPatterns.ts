@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww' | 'brazil_ana' | 'mexico_conagua' | 'colombia_ideam' | 'chile_dga';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -2180,6 +2180,166 @@ export function generateRainfallData(
           nextCumulative = 0.88 + 0.08 * ((nextT - 0.30) / 0.25);
         } else {
           nextCumulative = 0.96 + 0.04 * ((nextT - 0.55) / 0.45);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'brazil_ana': {
+      // Brazil ANA (Agência Nacional de Águas) design storm
+      // Tropical convective with center peak — typical of SE Brazil (São Paulo, Rio)
+      // Based on Cetesb/DAEE alternating block adapted for Brazilian IDF curves
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.20) {
+          cumulativeFraction = 0.08 * Math.pow(t / 0.20, 0.90);
+        } else if (t <= 0.40) {
+          cumulativeFraction = 0.08 + 0.37 * Math.pow((t - 0.20) / 0.20, 0.80);
+        } else if (t <= 0.60) {
+          cumulativeFraction = 0.45 + 0.32 * ((t - 0.40) / 0.20);
+        } else if (t <= 0.80) {
+          cumulativeFraction = 0.77 + 0.15 * ((t - 0.60) / 0.20);
+        } else {
+          cumulativeFraction = 0.92 + 0.08 * ((t - 0.80) / 0.20);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.20) {
+          nextCumulative = 0.08 * Math.pow(nextT / 0.20, 0.90);
+        } else if (nextT <= 0.40) {
+          nextCumulative = 0.08 + 0.37 * Math.pow((nextT - 0.20) / 0.20, 0.80);
+        } else if (nextT <= 0.60) {
+          nextCumulative = 0.45 + 0.32 * ((nextT - 0.40) / 0.20);
+        } else if (nextT <= 0.80) {
+          nextCumulative = 0.77 + 0.15 * ((nextT - 0.60) / 0.20);
+        } else {
+          nextCumulative = 0.92 + 0.08 * ((nextT - 0.80) / 0.20);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'mexico_conagua': {
+      // Mexico CONAGUA (Comisión Nacional del Agua) design storm
+      // Front-loaded tropical/convective pattern for central Mexico
+      // Based on SCT highway drainage manual IDF methodology
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.10) {
+          cumulativeFraction = 0.15 * Math.pow(t / 0.10, 0.75);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.15 + 0.40 * Math.pow((t - 0.10) / 0.20, 0.70);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.55 + 0.25 * ((t - 0.30) / 0.20);
+        } else if (t <= 0.75) {
+          cumulativeFraction = 0.80 + 0.13 * ((t - 0.50) / 0.25);
+        } else {
+          cumulativeFraction = 0.93 + 0.07 * ((t - 0.75) / 0.25);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.10) {
+          nextCumulative = 0.15 * Math.pow(nextT / 0.10, 0.75);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.15 + 0.40 * Math.pow((nextT - 0.10) / 0.20, 0.70);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.55 + 0.25 * ((nextT - 0.30) / 0.20);
+        } else if (nextT <= 0.75) {
+          nextCumulative = 0.80 + 0.13 * ((nextT - 0.50) / 0.25);
+        } else {
+          nextCumulative = 0.93 + 0.07 * ((nextT - 0.75) / 0.25);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'colombia_ideam': {
+      // Colombia IDEAM (Instituto de Hidrología, Meteorología y Estudios Ambientales)
+      // Tropical Andean bimodal pattern — center-peaked with sustained intensity
+      // Represents convective storms in Bogotá/Medellín inter-Andean valleys
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.15) {
+          cumulativeFraction = 0.06 * Math.pow(t / 0.15, 0.85);
+        } else if (t <= 0.35) {
+          cumulativeFraction = 0.06 + 0.34 * Math.pow((t - 0.15) / 0.20, 0.75);
+        } else if (t <= 0.55) {
+          cumulativeFraction = 0.40 + 0.35 * ((t - 0.35) / 0.20);
+        } else if (t <= 0.75) {
+          cumulativeFraction = 0.75 + 0.17 * ((t - 0.55) / 0.20);
+        } else {
+          cumulativeFraction = 0.92 + 0.08 * ((t - 0.75) / 0.25);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.15) {
+          nextCumulative = 0.06 * Math.pow(nextT / 0.15, 0.85);
+        } else if (nextT <= 0.35) {
+          nextCumulative = 0.06 + 0.34 * Math.pow((nextT - 0.15) / 0.20, 0.75);
+        } else if (nextT <= 0.55) {
+          nextCumulative = 0.40 + 0.35 * ((nextT - 0.35) / 0.20);
+        } else if (nextT <= 0.75) {
+          nextCumulative = 0.75 + 0.17 * ((nextT - 0.55) / 0.20);
+        } else {
+          nextCumulative = 0.92 + 0.08 * ((nextT - 0.75) / 0.25);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'chile_dga': {
+      // Chile DGA (Dirección General de Aguas) design storm
+      // Frontal/orographic pattern — broad center peak typical of central Chile winter storms
+      // Based on DGA Manual de Cálculo de Crecidas methodology
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.25) {
+          cumulativeFraction = 0.12 * Math.pow(t / 0.25, 0.95);
+        } else if (t <= 0.45) {
+          cumulativeFraction = 0.12 + 0.38 * Math.pow((t - 0.25) / 0.20, 0.85);
+        } else if (t <= 0.65) {
+          cumulativeFraction = 0.50 + 0.30 * ((t - 0.45) / 0.20);
+        } else if (t <= 0.85) {
+          cumulativeFraction = 0.80 + 0.14 * ((t - 0.65) / 0.20);
+        } else {
+          cumulativeFraction = 0.94 + 0.06 * ((t - 0.85) / 0.15);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.25) {
+          nextCumulative = 0.12 * Math.pow(nextT / 0.25, 0.95);
+        } else if (nextT <= 0.45) {
+          nextCumulative = 0.12 + 0.38 * Math.pow((nextT - 0.25) / 0.20, 0.85);
+        } else if (nextT <= 0.65) {
+          nextCumulative = 0.50 + 0.30 * ((nextT - 0.45) / 0.20);
+        } else if (nextT <= 0.85) {
+          nextCumulative = 0.80 + 0.14 * ((nextT - 0.65) / 0.20);
+        } else {
+          nextCumulative = 0.94 + 0.06 * ((nextT - 0.85) / 0.15);
         }
         
         const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;

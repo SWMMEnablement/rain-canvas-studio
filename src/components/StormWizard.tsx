@@ -86,6 +86,10 @@ const patternNames: Record<PatternType, string> = {
   'kenya_kmd': 'Kenya KMD',
   'nigeria_nimet': 'Nigeria NiMet',
   'egypt_hcww': 'Egypt HCWW',
+  'brazil_ana': 'Brazil ANA',
+  'mexico_conagua': 'Mexico CONAGUA',
+  'colombia_ideam': 'Colombia IDEAM',
+  'chile_dga': 'Chile DGA',
 };
 
 interface WizardStep {

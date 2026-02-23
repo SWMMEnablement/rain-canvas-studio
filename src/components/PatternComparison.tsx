@@ -108,6 +108,10 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'kenya_kmd', name: 'Kenya KMD', color: '#10b981', category: 'African' },
   { id: 'nigeria_nimet', name: 'Nigeria NiMet', color: '#047857', category: 'African' },
   { id: 'egypt_hcww', name: 'Egypt HCWW', color: '#065f46', category: 'African' },
+  { id: 'brazil_ana', name: 'Brazil ANA', color: '#ca8a04', category: 'Latin American' },
+  { id: 'mexico_conagua', name: 'Mexico CONAGUA', color: '#a16207', category: 'Latin American' },
+  { id: 'colombia_ideam', name: 'Colombia IDEAM', color: '#854d0e', category: 'Latin American' },
+  { id: 'chile_dga', name: 'Chile DGA', color: '#713f12', category: 'Latin American' },
 ];
 
 interface PresetGroup {
@@ -196,6 +200,11 @@ const presetGroups: PresetGroup[] = [
     name: 'African',
     patterns: ['sa_sanral', 'kenya_kmd', 'nigeria_nimet', 'egypt_hcww', 'sa_huff'],
     description: 'All African design storm patterns',
+  },
+  {
+    name: 'Latin American',
+    patterns: ['brazil_ana', 'mexico_conagua', 'colombia_ideam', 'chile_dga'],
+    description: 'All Latin American design storm patterns',
   },
 ];
 

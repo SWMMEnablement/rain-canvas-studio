@@ -1,14 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww';
+type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww' | 'brazil_ana' | 'mexico_conagua' | 'colombia_ideam' | 'chile_dga';
 
 interface PatternOption {
   id: PatternType;
   name: string;
   icon: string;
   description: string;
-  category: 'swmm' | 'icm' | 'international' | 'us_agency' | 'european' | 'asian' | 'middle_east' | 'african';
+  category: 'swmm' | 'icm' | 'international' | 'us_agency' | 'european' | 'asian' | 'middle_east' | 'african' | 'latam';
 }
 
 export const patterns: PatternOption[] = [
@@ -446,6 +446,35 @@ export const patterns: PatternOption[] = [
     description: 'HCWW (Holding Company for Water & Wastewater) flash flood pattern. Extremely front-loaded arid burst with 70% in first 15% of duration. Used for Cairo and Nile Delta drainage.',
     category: 'african',
   },
+  // Latin American Design Storms
+  {
+    id: 'brazil_ana',
+    name: 'Brazil ANA',
+    icon: '🇧🇷',
+    description: 'ANA (Agência Nacional de Águas) tropical convective storm. Center-peaked pattern based on DAEE/Cetesb methodology. Used for São Paulo, Rio de Janeiro urban drainage design.',
+    category: 'latam',
+  },
+  {
+    id: 'mexico_conagua',
+    name: 'Mexico CONAGUA',
+    icon: '🇲🇽',
+    description: 'CONAGUA (Comisión Nacional del Agua) design storm. Front-loaded tropical convective pattern based on SCT highway drainage manual. Used for Mexico City and central Mexico.',
+    category: 'latam',
+  },
+  {
+    id: 'colombia_ideam',
+    name: 'Colombia IDEAM',
+    icon: '🇨🇴',
+    description: 'IDEAM tropical Andean convective pattern. Center-peaked with sustained intensity for inter-Andean valleys. Used for Bogotá and Medellín drainage design.',
+    category: 'latam',
+  },
+  {
+    id: 'chile_dga',
+    name: 'Chile DGA',
+    icon: '🇨🇱',
+    description: 'DGA (Dirección General de Aguas) frontal/orographic pattern. Broad center peak for central Chile winter storms. Based on Manual de Cálculo de Crecidas.',
+    category: 'latam',
+  },
 ];
 
 interface PatternSelectorProps {
@@ -462,6 +491,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
   const asianPatterns = patterns.filter(p => p.category === 'asian');
   const middleEastPatterns = patterns.filter(p => p.category === 'middle_east');
   const africanPatterns = patterns.filter(p => p.category === 'african');
+  const latamPatterns = patterns.filter(p => p.category === 'latam');
   const internationalPatterns = patterns.filter(p => p.category === 'international');
 
   const PatternGrid = ({ patterns }: { patterns: PatternOption[] }) => (
@@ -496,12 +526,13 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs defaultValue="swmm" className="w-full">
-          <TabsList className="grid w-full grid-cols-8">
+          <TabsList className="grid w-full grid-cols-9">
             <TabsTrigger value="swmm">SWMM</TabsTrigger>
             <TabsTrigger value="us_agency">US</TabsTrigger>
             <TabsTrigger value="asian">Asia</TabsTrigger>
             <TabsTrigger value="middle_east">GCC</TabsTrigger>
             <TabsTrigger value="african">Africa</TabsTrigger>
+            <TabsTrigger value="latam">LatAm</TabsTrigger>
             <TabsTrigger value="icm">UK/ICM</TabsTrigger>
             <TabsTrigger value="european">Europe</TabsTrigger>
             <TabsTrigger value="international">Int'l</TabsTrigger>
@@ -520,6 +551,9 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
           </TabsContent>
           <TabsContent value="african" className="mt-4">
             <PatternGrid patterns={africanPatterns} />
+          </TabsContent>
+          <TabsContent value="latam" className="mt-4">
+            <PatternGrid patterns={latamPatterns} />
           </TabsContent>
           <TabsContent value="icm" className="mt-4">
             <PatternGrid patterns={icmPatterns} />
