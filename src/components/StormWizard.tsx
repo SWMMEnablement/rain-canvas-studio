@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer } from "lucide-react";
+import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -106,20 +106,69 @@ const steps: WizardStep[] = [
   { id: 3, title: "Review & Export", description: "Visualize and download data", icon: <Download className="w-5 h-5" /> },
 ];
 
+export interface StormShareParams {
+  pattern: PatternType;
+  depth: number;
+  duration: number;
+  timeStep: number;
+  unitSystem: UnitSystem;
+  climateScenario?: string;
+}
+
+/**
+ * Encode storm parameters into a URL-safe hash string
+ */
+export function encodeStormParams(params: StormShareParams): string {
+  const obj: Record<string, string> = {
+    p: params.pattern,
+    d: params.depth.toString(),
+    dur: params.duration.toString(),
+    ts: params.timeStep.toString(),
+    u: params.unitSystem,
+  };
+  if (params.climateScenario && params.climateScenario !== 'none') {
+    obj.cc = params.climateScenario;
+  }
+  return btoa(JSON.stringify(obj));
+}
+
+/**
+ * Decode storm parameters from a URL hash string
+ */
+export function decodeStormParams(hash: string): StormShareParams | null {
+  try {
+    const obj = JSON.parse(atob(hash));
+    if (!obj.p || !obj.d || !obj.dur || !obj.ts || !obj.u) return null;
+    return {
+      pattern: obj.p as PatternType,
+      depth: parseFloat(obj.d),
+      duration: parseFloat(obj.dur),
+      timeStep: parseInt(obj.ts, 10),
+      unitSystem: obj.u as UnitSystem,
+      climateScenario: obj.cc || 'none',
+    };
+  } catch {
+    return null;
+  }
+}
+
 interface StormWizardProps {
   externalStormParams?: { depth: number; duration: number } | null;
   onExternalParamsConsumed?: () => void;
+  initialShareParams?: StormShareParams | null;
 }
 
-export function StormWizard({ externalStormParams, onExternalParamsConsumed }: StormWizardProps = {}) {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [selectedPattern, setSelectedPattern] = useState<PatternType>('block');
-  const [depth, setDepth] = useState(2.0);
-  const [duration, setDuration] = useState(6.0);
-  const [timeStep, setTimeStep] = useState(15);
+export function StormWizard({ externalStormParams, onExternalParamsConsumed, initialShareParams }: StormWizardProps = {}) {
+  const [currentStep, setCurrentStep] = useState(initialShareParams ? 3 : 1);
+  const [selectedPattern, setSelectedPattern] = useState<PatternType>(initialShareParams?.pattern || 'block');
+  const [depth, setDepth] = useState(initialShareParams?.depth || 2.0);
+  const [duration, setDuration] = useState(initialShareParams?.duration || 6.0);
+  const [timeStep, setTimeStep] = useState(initialShareParams?.timeStep || 15);
   const [showEquations, setShowEquations] = useState(false);
-  const [climateScenario, setClimateScenario] = useState<string>('none');
+  const [climateScenario, setClimateScenario] = useState<string>(initialShareParams?.climateScenario || 'none');
+  const [shareCopied, setShareCopied] = useState(false);
   const [unitSystem, setUnitSystem] = useState<UnitSystem>(() => {
+    if (initialShareParams?.unitSystem) return initialShareParams.unitSystem;
     const saved = localStorage.getItem('preferredUnitSystem');
     return (saved === 'SI' || saved === 'USA') ? saved : 'USA';
   });
@@ -532,6 +581,55 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed }: S
                     <p className="text-xs text-muted-foreground mb-1">Time Step</p>
                     <p className="font-semibold text-primary">{timeStep} min</p>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Share This Storm */}
+            <Card className="border-primary/20">
+              <CardContent className="pt-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <Share2 className="w-5 h-5 text-primary shrink-0" />
+                    <div>
+                      <p className="font-medium text-sm">Share This Storm</p>
+                      <p className="text-xs text-muted-foreground">
+                        Copy a link to share this exact configuration with colleagues
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="gap-2 shrink-0"
+                    onClick={() => {
+                      const hash = encodeStormParams({
+                        pattern: selectedPattern,
+                        depth,
+                        duration,
+                        timeStep,
+                        unitSystem,
+                        climateScenario,
+                      });
+                      const url = `${window.location.origin}${window.location.pathname}?storm=${hash}`;
+                      navigator.clipboard.writeText(url).then(() => {
+                        setShareCopied(true);
+                        setTimeout(() => setShareCopied(false), 2000);
+                      });
+                    }}
+                  >
+                    {shareCopied ? (
+                      <>
+                        <CheckCheck className="w-4 h-4" />
+                        Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4" />
+                        Copy Link
+                      </>
+                    )}
+                  </Button>
                 </div>
               </CardContent>
             </Card>

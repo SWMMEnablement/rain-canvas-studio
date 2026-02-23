@@ -1,5 +1,6 @@
-import { useState, useCallback } from "react";
-import { StormWizard } from "@/components/StormWizard";
+import { useState, useCallback, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { StormWizard, decodeStormParams } from "@/components/StormWizard";
 import { patterns } from "@/components/PatternSelector";
 import { AdvancedTools } from "@/components/AdvancedTools";
 import { Documentation } from "@/components/Documentation";
@@ -10,7 +11,19 @@ import { Droplets, CloudRain, BookOpen, Wrench, Database } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState("generator");
+  const [searchParams] = useSearchParams();
+  const sharedStorm = useMemo(() => {
+    const stormParam = searchParams.get('storm');
+    if (stormParam) {
+      const decoded = decodeStormParams(stormParam);
+      if (decoded) {
+        toast.info("Shared storm loaded! Review the configuration below.");
+        return decoded;
+      }
+    }
+    return null;
+  }, []);
+  const [activeTab, setActiveTab] = useState(sharedStorm ? "generator" : "generator");
   const [externalStormParams, setExternalStormParams] = useState<{ depth: number; duration: number } | null>(null);
 
   const handleSendToGenerator = useCallback((depthInches: number, durationHours: number) => {
@@ -82,6 +95,7 @@ const Index = () => {
             <StormWizard
               externalStormParams={externalStormParams}
               onExternalParamsConsumed={() => setExternalStormParams(null)}
+              initialShareParams={sharedStorm}
             />
           </TabsContent>
 
