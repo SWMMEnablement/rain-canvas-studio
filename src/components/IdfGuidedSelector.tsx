@@ -5,7 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, CloudRain, ExternalLink, ChevronDown, ChevronUp, Zap, Target, Info, Search, Loader2, CheckCircle, AlertTriangle } from "lucide-react";
+import { MapPin, CloudRain, ExternalLink, ChevronDown, ChevronUp, Zap, Target, Info, Search, Loader2, CheckCircle, AlertTriangle, BarChart3 } from "lucide-react";
+import { Area, AreaChart, Line, LineChart, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, ReferenceLine, Legend } from "recharts";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -519,6 +520,118 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                 </table>
               </div>
             </div>
+
+            {/* IDF Curve Chart with Confidence Interval */}
+            {(() => {
+              const chartData = RETURN_PERIODS.map(rp => {
+                const depth = activeDepths[selectedDuration]?.[rp];
+                const depthDisplay = depth
+                  ? (unitSystem === 'USA' ? depth : convertDepth(depth, 'USA', 'SI'))
+                  : null;
+
+                let upper: number | null = null;
+                let lower: number | null = null;
+                if (liveUpper && liveLower) {
+                  const uv = liveUpper[selectedDuration]?.[rp];
+                  const lv = liveLower[selectedDuration]?.[rp];
+                  if (uv != null && lv != null) {
+                    upper = unitSystem === 'USA' ? uv : convertDepth(uv, 'USA', 'SI');
+                    lower = unitSystem === 'USA' ? lv : convertDepth(lv, 'USA', 'SI');
+                  }
+                }
+
+                return {
+                  rp: `${rp}-yr`,
+                  rpNum: parseInt(rp),
+                  depth: depthDisplay,
+                  upper,
+                  lower,
+                  ciRange: upper != null && lower != null ? [lower, upper] as [number, number] : undefined,
+                  isSelected: rp === selectedReturnPeriod,
+                };
+              }).filter(d => d.depth != null);
+
+              const hasCI = chartData.some(d => d.ciRange);
+              const depthUnit = unitSystem === 'USA' ? 'in' : 'mm';
+
+              return (
+                <div className="space-y-2">
+                  <p className="text-sm font-medium flex items-center gap-2">
+                    <BarChart3 className="w-4 h-4" />
+                    IDF Curve — {selectedDuration}-hr Duration
+                    {hasCI && <Badge variant="outline" className="text-xs">90% CI</Badge>}
+                  </p>
+                  <div className="h-64 w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <ComposedChart data={chartData} margin={{ top: 10, right: 20, bottom: 20, left: 10 }}>
+                        <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                        <XAxis
+                          dataKey="rp"
+                          tick={{ fontSize: 11 }}
+                          label={{ value: "Return Period", position: "insideBottom", offset: -10, fontSize: 12 }}
+                        />
+                        <YAxis
+                          tick={{ fontSize: 11 }}
+                          label={{ value: `Depth (${depthUnit})`, angle: -90, position: "insideLeft", offset: 5, fontSize: 12 }}
+                        />
+                        <RechartsTooltip
+                          contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px', fontSize: 12 }}
+                          formatter={(value: number | number[], name: string) => {
+                            if (name === 'ciRange') {
+                              const arr = value as number[];
+                              return [`${arr[0].toFixed(unitSystem === 'USA' ? 2 : 1)} – ${arr[1].toFixed(unitSystem === 'USA' ? 2 : 1)} ${depthUnit}`, '90% CI'];
+                            }
+                            return [`${(value as number).toFixed(unitSystem === 'USA' ? 2 : 1)} ${depthUnit}`, 'Depth'];
+                          }}
+                        />
+                        {hasCI && (
+                          <Area
+                            dataKey="ciRange"
+                            fill="hsl(var(--warning) / 0.2)"
+                            stroke="hsl(var(--warning) / 0.4)"
+                            strokeDasharray="4 2"
+                            strokeWidth={1}
+                            name="ciRange"
+                            legendType="none"
+                          />
+                        )}
+                        <Line
+                          type="monotone"
+                          dataKey="depth"
+                          stroke="hsl(var(--primary))"
+                          strokeWidth={2}
+                          dot={{ r: 4, fill: 'hsl(var(--primary))' }}
+                          activeDot={{ r: 6, fill: 'hsl(var(--primary))' }}
+                          name="depth"
+                        />
+                        {selectedReturnPeriod && (
+                          <ReferenceLine
+                            x={`${selectedReturnPeriod}-yr`}
+                            stroke="hsl(var(--primary) / 0.5)"
+                            strokeDasharray="6 3"
+                            strokeWidth={1}
+                          />
+                        )}
+                        <Legend
+                          verticalAlign="top"
+                          height={28}
+                          formatter={(value: string) => {
+                            if (value === 'depth') return <span className="text-xs">Depth ({depthUnit})</span>;
+                            if (value === 'ciRange') return <span className="text-xs text-warning">90% CI Band</span>;
+                            return value;
+                          }}
+                        />
+                      </ComposedChart>
+                    </ResponsiveContainer>
+                  </div>
+                  {hasCI && (
+                    <p className="text-xs text-muted-foreground text-center">
+                      Shaded band shows the NOAA Atlas 14 90% confidence interval. Wider bands at higher return periods indicate greater statistical uncertainty.
+                    </p>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Source Info */}
             <div className="p-3 rounded-lg bg-muted/30 border border-border">
