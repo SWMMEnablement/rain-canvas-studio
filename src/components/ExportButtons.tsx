@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Download, FileJson, FileText, Droplets } from "lucide-react";
+import { Download, FileJson, FileText, Droplets, Gauge } from "lucide-react";
 import { toast } from "sonner";
 import { type UnitSystem, convertDepth, convertIntensity, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
 
@@ -151,6 +151,54 @@ export function ExportButtons({ data, pattern, totalDepth, duration, timeStep, u
     toast.success("Generated InfoWorks ICM profile");
   };
 
+  const exportHecGage = () => {
+    const now = new Date();
+    const formatDate = (d: Date) => {
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      return `${d.getDate().toString().padStart(2,'0')}${months[d.getMonth()]}${d.getFullYear()}`;
+    };
+    const endDate = new Date(now.getTime() + duration * 3600000);
+    const depthUnit = unitSystem === 'USA' ? 'IN' : 'MM';
+
+    // Convert intensities to incremental depths per time step
+    const timeStepHr = timeStep / 60;
+    const depths = data.map(d => {
+      const intensity = convertIntensity(d.intensity, 'USA', unitSystem);
+      return intensity * timeStepHr;
+    });
+
+    let gage = `Gage: DesignStorm\n`;
+    gage += `Start Date: ${formatDate(now)}, 00:00\n`;
+    gage += `End Date: ${formatDate(endDate)}, ${String(Math.floor(duration)).padStart(2,'0')}:${String(Math.round((duration % 1) * 60)).padStart(2,'0')}\n`;
+    gage += `Time Interval: ${timeStep} MIN\n`;
+    gage += `Units: ${depthUnit}\n\n`;
+    gage += `Data:\n`;
+
+    // Write 4 values per line
+    for (let i = 0; i < depths.length; i += 4) {
+      const row = depths.slice(i, i + 4).map(v => v.toFixed(4));
+      gage += row.join(' ') + '\n';
+    }
+
+    downloadFile(gage, 'rainfall.gage', 'text/plain');
+    toast.success("Exported HEC-HMS .gage file");
+  };
+
+  const exportHecMet = () => {
+    let met = `Meteorology: DesignStorm\n`;
+    met += `     Last Modified Date: ${new Date().toISOString().slice(0,10)}\n`;
+    met += `     Last Modified Time: ${new Date().toISOString().slice(11,16)}\n`;
+    met += `     Precipitation Method: Specified Hyetograph\n`;
+    met += `     Unit System: ${unitSystem === 'USA' ? 'English' : 'Metric'}\n`;
+    met += `End:\n\n`;
+    met += `Subbasin: Basin1\n`;
+    met += `     Gage: DesignStorm\n`;
+    met += `End:\n`;
+
+    downloadFile(met, 'rainfall.met', 'text/plain');
+    toast.success("Exported HEC-HMS .met file");
+  };
+
   return (
     <div className="flex flex-wrap gap-3 mt-6">
       <Button onClick={exportAsCsv} variant="secondary" className="gap-2">
@@ -168,6 +216,14 @@ export function ExportButtons({ data, pattern, totalDepth, duration, timeStep, u
       <Button onClick={generateInfoWorksScript} className="gap-2">
         <Droplets className="w-4 h-4" />
         InfoWorks ICM
+      </Button>
+      <Button onClick={exportHecGage} variant="secondary" className="gap-2">
+        <Gauge className="w-4 h-4" />
+        HEC-HMS .gage
+      </Button>
+      <Button onClick={exportHecMet} variant="outline" className="gap-2">
+        <Gauge className="w-4 h-4" />
+        HEC-HMS .met
       </Button>
     </div>
   );
