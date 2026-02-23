@@ -136,21 +136,68 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed }: S
   const [exportData, setExportData] = useState<Array<{ time: number; intensity: number }>>([]);
   const [customIntensities, setCustomIntensities] = useState<number[] | null>(null);
 
-  // Singapore PUB Climate Change Adjustment Factors (PUB Code of Practice 2020)
-  const climateFactors: Record<string, { label: string; factor: number; period: string }> = {
-    'none': { label: 'Baseline (No Adjustment)', factor: 1.0, period: 'Current' },
-    '2020_2039': { label: '2020–2039 (+12%)', factor: 1.12, period: '2020–2039' },
-    '2040_2069': { label: '2040–2069 (+26%)', factor: 1.26, period: '2040–2069' },
-    '2070_2099': { label: '2070–2099 (+40%)', factor: 1.40, period: '2070–2099' },
+  // Climate Change Adjustment Factors by pattern
+  const allClimateFactors: Record<string, { title: string; description: string; scenarios: Record<string, { label: string; factor: number }> }> = {
+    'singapore_pub': {
+      title: 'PUB Climate Change Adjustment',
+      description: 'Per PUB Code of Practice on Surface Water Drainage (2020), design rainfall shall be multiplied by climate change factors for future scenarios.',
+      scenarios: {
+        'none': { label: 'Baseline (No Adjustment)', factor: 1.0 },
+        '2020_2039': { label: '2020–2039 (+12%)', factor: 1.12 },
+        '2040_2069': { label: '2040–2069 (+26%)', factor: 1.26 },
+        '2070_2099': { label: '2070–2099 (+40%)', factor: 1.40 },
+      },
+    },
+    'feh': {
+      title: 'UK FEH Climate Change Uplift',
+      description: 'Per EA guidance on climate change allowances for Flood Risk Assessments. Upper end allowances for peak rainfall intensity.',
+      scenarios: {
+        'none': { label: 'Baseline (No Adjustment)', factor: 1.0 },
+        '2015_2039': { label: '2015–2039 (+10%)', factor: 1.10 },
+        '2040_2069': { label: '2040–2069 (+20%)', factor: 1.20 },
+        '2070_2115': { label: '2070–2115 (+40%)', factor: 1.40 },
+        'upper_2070': { label: '2070–2115 Upper End (+20%)', factor: 1.20 },
+      },
+    },
+    'arr': {
+      title: 'Australian ARR Climate Change Factor',
+      description: 'Per ARR 2019 Book 1 Chapter 6, interim climate change factors for design rainfall under RCP emission scenarios.',
+      scenarios: {
+        'none': { label: 'Baseline (No Adjustment)', factor: 1.0 },
+        'rcp45_2050': { label: 'RCP 4.5 – 2050 (+5%)', factor: 1.05 },
+        'rcp45_2090': { label: 'RCP 4.5 – 2090 (+9%)', factor: 1.09 },
+        'rcp85_2050': { label: 'RCP 8.5 – 2050 (+9%)', factor: 1.09 },
+        'rcp85_2090': { label: 'RCP 8.5 – 2090 (+16%)', factor: 1.16 },
+      },
+    },
+    'canadian': {
+      title: 'Canadian CDA Climate Change Factor',
+      description: 'Per CSA PLUS 4013 and CDA Dam Safety Guidelines, recommended climate change factors for IDF uplift in Canadian dam and stormwater design.',
+      scenarios: {
+        'none': { label: 'Baseline (No Adjustment)', factor: 1.0 },
+        '2050_moderate': { label: '2050 Moderate (+10%)', factor: 1.10 },
+        '2050_high': { label: '2050 High (+15%)', factor: 1.15 },
+        '2100_moderate': { label: '2100 Moderate (+20%)', factor: 1.20 },
+        '2100_high': { label: '2100 High (+30%)', factor: 1.30 },
+      },
+    },
   };
+
+  const activeClimateConfig = allClimateFactors[selectedPattern] || null;
 
   // Effective depth with climate adjustment
   const effectiveDepth = useMemo(() => {
-    if (selectedPattern === 'singapore_pub' && climateScenario !== 'none') {
-      return depth * climateFactors[climateScenario].factor;
+    if (activeClimateConfig && climateScenario !== 'none') {
+      const scenario = activeClimateConfig.scenarios[climateScenario];
+      if (scenario) return depth * scenario.factor;
     }
     return depth;
-  }, [depth, selectedPattern, climateScenario]);
+  }, [depth, selectedPattern, climateScenario, activeClimateConfig]);
+
+  // Reset climate scenario when pattern changes
+  useEffect(() => {
+    setClimateScenario('none');
+  }, [selectedPattern]);
 
   // Save unit system preference
   useEffect(() => {
@@ -375,17 +422,17 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed }: S
                   </div>
                 </div>
 
-                {/* Singapore PUB Climate Change Adjustment */}
-                {selectedPattern === 'singapore_pub' && (
+                {/* Climate Change Adjustment (for supported patterns) */}
+                {activeClimateConfig && (
                   <Card className="border-amber-500/30 bg-amber-500/5">
                     <CardContent className="pt-4">
                       <div className="flex items-start gap-3">
                         <Thermometer className="w-5 h-5 text-amber-500 mt-0.5 shrink-0" />
                         <div className="flex-1 space-y-3">
                           <div>
-                            <p className="font-medium text-sm">PUB Climate Change Adjustment</p>
+                            <p className="font-medium text-sm">{activeClimateConfig.title}</p>
                             <p className="text-xs text-muted-foreground">
-                              Per PUB Code of Practice on Surface Water Drainage (2020), design rainfall shall be multiplied by climate change factors for future scenarios.
+                              {activeClimateConfig.description}
                             </p>
                           </div>
                           <Select value={climateScenario} onValueChange={setClimateScenario}>
@@ -393,15 +440,15 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed }: S
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              {Object.entries(climateFactors).map(([key, { label }]) => (
+                              {Object.entries(activeClimateConfig.scenarios).map(([key, { label }]) => (
                                 <SelectItem key={key} value={key}>{label}</SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
-                          {climateScenario !== 'none' && (
+                          {climateScenario !== 'none' && activeClimateConfig.scenarios[climateScenario] && (
                             <div className="flex items-center gap-2 text-xs">
                               <Badge variant="outline" className="bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30">
-                                ×{climateFactors[climateScenario].factor.toFixed(2)}
+                                ×{activeClimateConfig.scenarios[climateScenario].factor.toFixed(2)}
                               </Badge>
                               <span className="text-muted-foreground">
                                 Effective depth: <strong className="text-foreground">
@@ -470,9 +517,9 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed }: S
                     <p className="font-semibold text-primary">
                       {unitSystem === 'USA' ? `${effectiveDepth.toFixed(2)} in` : `${effectiveDepth.toFixed(1)} mm`}
                     </p>
-                    {selectedPattern === 'singapore_pub' && climateScenario !== 'none' && (
+                    {activeClimateConfig && climateScenario !== 'none' && activeClimateConfig.scenarios[climateScenario] && (
                       <p className="text-[10px] text-amber-600 dark:text-amber-400 mt-0.5">
-                        CC ×{climateFactors[climateScenario].factor.toFixed(2)}
+                        CC ×{activeClimateConfig.scenarios[climateScenario].factor.toFixed(2)}
                       </p>
                     )}
                   </div>
