@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Download, FileJson, FileText, Droplets, Gauge } from "lucide-react";
 import { toast } from "sonner";
 import { type UnitSystem, convertDepth, convertIntensity, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
+import { PdfReportGenerator } from "@/components/PdfReportGenerator";
 
 interface RainfallDataPoint {
   time: number;
@@ -225,6 +226,14 @@ export function ExportButtons({ data, pattern, totalDepth, duration, timeStep, u
         <Gauge className="w-4 h-4" />
         HEC-HMS .met
       </Button>
+      <PdfReportGenerator
+        data={data}
+        pattern={pattern}
+        totalDepth={totalDepth}
+        duration={duration}
+        timeStep={timeStep}
+        unitSystem={unitSystem}
+      />
     </div>
   );
 }
