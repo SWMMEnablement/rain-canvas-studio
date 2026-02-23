@@ -6,9 +6,10 @@ import { UnitConversionCalculator } from "@/components/UnitConversionCalculator"
 import { SensitivityTable } from "@/components/SensitivityTable";
 import { PatternDecisionGuide } from "@/components/PatternDecisionGuide";
 import { ChinaRainstormCalculator } from "@/components/ChinaRainstormCalculator";
+import { CanadaIdfCalculator } from "@/components/CanadaIdfCalculator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GitCompare, Map, Calculator, Info, BarChart3, Target, CloudRain } from "lucide-react";
+import { GitCompare, Map, Calculator, Info, BarChart3, Target, CloudRain, Snowflake } from "lucide-react";
 import {
   generateRainfallData,
   prepareChartData,
@@ -17,6 +18,7 @@ import {
 } from "@/lib/rainfallPatterns";
 import { type UnitSystem } from "@/lib/unitConversions";
 import { chinaRainstormDatabase } from "@/lib/chinaRainstormData";
+import { canadaIdfDatabase } from "@/lib/canadaIdfData";
 
 interface AdvancedToolsProps {
   onSendToGenerator?: (depthMm: number, durationMin: number) => void;
@@ -41,7 +43,7 @@ export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
       </div>
 
       <Tabs defaultValue="comparison" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 sm:grid-cols-7 mb-6">
+        <TabsList className="grid w-full grid-cols-4 sm:grid-cols-8 mb-6">
           <TabsTrigger value="comparison" className="flex items-center gap-2">
             <GitCompare className="w-4 h-4" />
             <span className="hidden sm:inline">Compare</span>
@@ -57,6 +59,10 @@ export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
           <TabsTrigger value="china_idf" className="flex items-center gap-2">
             <CloudRain className="w-4 h-4" />
             <span className="hidden sm:inline">China IDF</span>
+          </TabsTrigger>
+          <TabsTrigger value="canada_idf" className="flex items-center gap-2">
+            <Snowflake className="w-4 h-4" />
+            <span className="hidden sm:inline">Canada IDF</span>
           </TabsTrigger>
           <TabsTrigger value="regional" className="flex items-center gap-2">
             <Map className="w-4 h-4" />
@@ -131,6 +137,19 @@ export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
             </CardContent>
           </Card>
           <ChinaRainstormCalculator onSendToGenerator={onSendToGenerator} />
+        </TabsContent>
+
+        <TabsContent value="canada_idf" className="space-y-6">
+          <Card className="bg-accent/30 border-primary/20">
+            <CardContent className="pt-4">
+              <p className="text-sm text-muted-foreground">
+                <strong>Canada IDF Calculator</strong> — Look up city-specific IDF coefficients from 
+                Environment and Climate Change Canada (ECCC), calculate design intensities, generate 
+                IDF curves and alternating block hyetographs for {canadaIdfDatabase.length}+ Canadian cities.
+              </p>
+            </CardContent>
+          </Card>
+          <CanadaIdfCalculator onSendToGenerator={onSendToGenerator} />
         </TabsContent>
 
         <TabsContent value="regional" className="space-y-6">
