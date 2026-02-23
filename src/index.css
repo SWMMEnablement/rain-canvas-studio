@@ -41,7 +41,7 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    --gradient-rain: linear-gradient(135deg, hsl(217 80% 42%), hsl(204 70% 53%), hsl(195 65% 58%));
+    --gradient-rain: linear-gradient(135deg, hsl(222 60% 22%), hsl(220 70% 35%), hsl(215 75% 48%));
     --shadow-card: 0 2px 8px hsl(204 30% 15% / 0.06);
     --shadow-hover: 0 8px 24px hsl(204 30% 15% / 0.12);
     
