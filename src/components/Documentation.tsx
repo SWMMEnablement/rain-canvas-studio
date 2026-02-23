@@ -2516,7 +2516,126 @@ export function Documentation() {
                 </div>
               </div>
 
+              {/* Example 4 — European Euler Type II */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-foreground border-b pb-2">
+                  Example 4: European Stormwater Design — Euler Type II (Metric)
+                </h3>
+
+                <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
+                  <h4 className="font-semibold text-blue-700 dark:text-blue-300">Problem Statement</h4>
+                  <p className="text-sm text-blue-600 dark:text-blue-400 mt-2">
+                    A 12-hectare mixed-use development in Munich, Germany requires a retention basin 
+                    and storm sewer design per DWA-A 118 (German Association for Water, Wastewater, and Waste). 
+                    The site has a runoff coefficient of 0.65, Type C soils, and a maximum flow path of 450 m 
+                    at 1.8% slope. Local regulations require the Euler Type II distribution for design storms.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 1: Estimate Time of Concentration</h4>
+                    <p className="text-muted-foreground mt-2">
+                      Using the Kirpich formula adapted for metric units:
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border font-mono text-sm">
+                      <p>Tc = 0.0195 × L<sup>0.77</sup> × S<sup>−0.385</sup></p>
+                      <p>L = 450 m, S = 0.018 m/m</p>
+                      <p>Tc = 0.0195 × 450<sup>0.77</sup> × 0.018<sup>−0.385</sup></p>
+                      <p className="font-semibold mt-2">Tc ≈ 18 minutes</p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 2: Select Storm Duration & Return Period</h4>
+                    <p className="text-muted-foreground mt-2">
+                      Per DWA-A 118 guidelines for urban drainage:
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border text-sm">
+                      <p>Residential/mixed-use → <strong>T = 5-year</strong> return period (sewer design)</p>
+                      <p>Retention basin verification → <strong>T = 30-year</strong> return period</p>
+                      <p>Duration should be ≥ 2× Tc for adequate peak capture</p>
+                      <p className="font-semibold mt-2">Use 1-hour storm duration (60 min ≈ 3.3 × Tc)</p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 3: Determine Rainfall Depth</h4>
+                    <p className="text-muted-foreground mt-2">
+                      From KOSTRA-DWD 2020 (German rainfall statistics) for Munich:
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border text-sm">
+                      <p>5-year, 60-min depth: <strong>25.8 mm</strong></p>
+                      <p>30-year, 60-min depth: <strong>39.2 mm</strong></p>
+                      <p className="text-muted-foreground mt-1">
+                        (KOSTRA = Koordinierte Starkniederschlagsregionalisierung und -auswertung)
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 4: Select Euler Type II Distribution</h4>
+                    <p className="text-muted-foreground mt-2">
+                      The Euler Type II pattern (DWA/DVWK standard) places the peak intensity block 
+                      at approximately 30% of the storm duration, followed by decreasing blocks arranged 
+                      in alternating order. This differs from the Euler Type I which front-loads the peak.
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border text-sm">
+                      <p><strong>Euler Type II characteristics:</strong></p>
+                      <p>• Peak at ~30% of duration (18 min into a 60-min storm)</p>
+                      <p>• Remaining blocks arranged in descending intensity, alternating left-right of peak</p>
+                      <p>• Preferred by DWA-A 118 for sewer and retention design</p>
+                      <p>• More conservative peak than uniform or symmetric distributions</p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 5: Select Time Step & Unit System</h4>
+                    <p className="text-muted-foreground mt-2">
+                      For 1-hour urban storms in Germany, 5-minute intervals are standard:
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border text-sm">
+                      <p><strong>Time step: 5 minutes</strong> (12 intervals over 60 min)</p>
+                      <p><strong>Unit system: SI (mm)</strong></p>
+                      <p className="text-muted-foreground mt-1">
+                        Produces peak intensity ≈ 65 mm/hr for the 30-year event
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-4 bg-muted/50 rounded-lg">
+                    <h4 className="font-semibold text-foreground">Step 6: Quick Retention Volume Check</h4>
+                    <p className="text-muted-foreground mt-2">
+                      Using the simplified DWA method for preliminary sizing:
+                    </p>
+                    <div className="mt-2 p-3 bg-background rounded border font-mono text-sm">
+                      <p>V = A × ψ × (h<sub>N</sub> − q<sub>dr</sub> × D)</p>
+                      <p>A = 12 ha = 120,000 m², ψ = 0.65</p>
+                      <p>h<sub>N</sub> = 39.2 mm (30-yr depth), q<sub>dr</sub> = 30 L/(s·ha) throttle</p>
+                      <p>D = 60 min = 3600 s</p>
+                      <p className="mt-2">q<sub>dr</sub> × D = 30 × 3600/10000 = 10.8 mm equivalent</p>
+                      <p className="font-semibold">V ≈ 120,000 × 0.65 × (39.2 − 10.8)/1000 ≈ <strong>2,214 m³</strong></p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
+                  <h4 className="font-semibold text-green-700 dark:text-green-300">Final Parameters for This Tool</h4>
+                  <ul className="text-sm text-green-600 dark:text-green-400 mt-2 space-y-1">
+                    <li>• <strong>Pattern:</strong> Euler Type II</li>
+                    <li>• <strong>Total Depth:</strong> 39.2 mm (30-year) or 25.8 mm (5-year)</li>
+                    <li>• <strong>Duration:</strong> 1 hour</li>
+                    <li>• <strong>Time Step:</strong> 5 minutes</li>
+                    <li>• <strong>Unit System:</strong> SI (Metric)</li>
+                  </ul>
+                  <p className="text-xs text-green-600 dark:text-green-400 mt-3">
+                    Export via SWMM Script or InfoWorks ICM for direct import into European modeling software.
+                  </p>
+                </div>
+              </div>
+
               {/* Summary Table */}
+
               <div className="mt-8">
                 <h3 className="text-lg font-semibold text-foreground border-b pb-2 mb-4">
                   Parameter Selection Summary
