@@ -389,7 +389,7 @@ export function Documentation() {
                     <div className="flex items-center gap-2">
                       <Globe className="w-4 h-4 text-orange-500" />
                       International Patterns
-                      <Badge variant="secondary" className="ml-2">8 Regions</Badge>
+                      <Badge variant="secondary" className="ml-2">9 Regions</Badge>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-4 text-sm">
@@ -513,6 +513,347 @@ export function Documentation() {
                           pre-frontal and post-frontal precipitation.
                         </p>
                       </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* US Agency Patterns */}
+                <AccordionItem value="us_agency">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-amber-500" />
+                      US Agency Patterns
+                      <Badge variant="secondary" className="ml-2">9 Types</Badge>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-4 text-sm">
+                    <p className="text-muted-foreground">
+                      State and federal agency-specific design storm patterns required for regulatory compliance 
+                      on transportation and infrastructure projects across the United States.
+                    </p>
+
+                    <div className="grid gap-4">
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">FDOT Zones 1–5 (Florida)</h4>
+                        <p className="text-muted-foreground">
+                          Five zone-specific rainfall distributions required by the Florida Department of Transportation. 
+                          Zone 1 (NW FL, panhandle) through Zone 5 (SW FL). Southern zones are more front-loaded 
+                          reflecting tropical convective patterns. Required for all FDOT drainage design submittals.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> FDOT Drainage Manual (2024), Chapter 2
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">TxDOT (Texas)</h4>
+                        <p className="text-muted-foreground">
+                          Texas DOT empirical hyetograph based on USGS Texas rainfall studies (SIR 2004-5075). 
+                          Calibrated from extensive Texas recording rain gauge data. Required for all TxDOT 
+                          hydraulic design submittals.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> TxDOT Hydraulic Design Manual (2023)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">NOAA Atlas 14</h4>
+                        <p className="text-muted-foreground">
+                          NOAA Atlas 14 temporal distribution (50th percentile). Derived from actual recording rain 
+                          gauge data analysis. Supersedes SCS types where Atlas 14 data exists. Site-specific and 
+                          statistically rigorous.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> NOAA Atlas 14, Volumes 1–11
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">UDFCD Denver</h4>
+                        <p className="text-muted-foreground">
+                          Urban Drainage and Flood Control District (Colorado) 2-hour design storm. Front-loaded 
+                          with 60% of rain in first quarter. Required for Denver metro area projects. Designed for 
+                          Colorado's semi-arid convective storm climate.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> UDFCD Urban Storm Drainage Criteria Manual (2020)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">USACE Standard Project Storm</h4>
+                        <p className="text-muted-foreground">
+                          US Army Corps of Engineers Standard Project Storm. Envelope of severe storms for dam safety 
+                          and major flood control projects. Broader peak than SCS for large-area storms. Used for 
+                          critical infrastructure protection.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> USACE EM 1110-2-1411
+                        </p>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* UK/ICM Patterns */}
+                <AccordionItem value="uk_icm">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2">
+                      <Globe className="w-4 h-4 text-indigo-500" />
+                      UK / InfoWorks ICM Patterns
+                      <Badge variant="secondary" className="ml-2">4 Types</Badge>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-4 text-sm">
+                    <p className="text-muted-foreground">
+                      Design storm profiles used in UK drainage practice and compatible with Innovyze InfoWorks ICM 
+                      modeling software.
+                    </p>
+
+                    <div className="grid gap-4">
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">FSR Profile</h4>
+                        <p className="text-muted-foreground">
+                          Flood Studies Report (1975) rainfall profile. The original UK standard design storm with a 
+                          symmetric bell-shaped distribution. Still widely used in UK drainage design alongside the 
+                          newer FEH methods.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> NERC Flood Studies Report, Volume II (1975)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">FEH (Flood Estimation Handbook)</h4>
+                        <p className="text-muted-foreground">
+                          Modern successor to the FSR with improved temporal distributions. Uses updated rainfall 
+                          statistics and depth-duration-frequency relationships. Recommended for current UK flood 
+                          estimation practice.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> Flood Estimation Handbook, CEH Wallingford (1999, updated 2013)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">Triangular (UK Practice)</h4>
+                        <p className="text-muted-foreground">
+                          Simple triangular profile with linear rise to peak and linear recession. Commonly used in 
+                          UK sewer design and InfoWorks ICM modeling for preliminary analysis.
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">Trapezoidal</h4>
+                        <p className="text-muted-foreground">
+                          Combines rising limb, sustained peak period, and falling limb. Used for design storms where 
+                          sustained high intensity is expected. Common in InfoWorks ICM modeling.
+                        </p>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* European Patterns */}
+                <AccordionItem value="european">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2">
+                      <Globe className="w-4 h-4 text-emerald-500" />
+                      European Patterns
+                      <Badge variant="secondary" className="ml-2">4 Types</Badge>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-4 text-sm">
+                    <p className="text-muted-foreground">
+                      Design storm patterns from European national standards, widely used in continental European 
+                      drainage and flood control practice.
+                    </p>
+
+                    <div className="grid gap-4">
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">Euler Type I (Front-Loaded)</h4>
+                        <p className="text-muted-foreground">
+                          Peak intensity placed in the first 1/6 of storm duration. Used for conservative sewer 
+                          design in German and European practice where maximum peak flow is critical. Produces 
+                          higher peak flows than Euler Type II.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> DWA-A 118 (German Water Association)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">Euler Type II (Center-Peaked)</h4>
+                        <p className="text-muted-foreground">
+                          Peak intensity in the second 1/6 of duration. The standard pattern for German drainage 
+                          design per DWA guidelines. More moderate than Type I with peak occurring after initial 
+                          soil wetting.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> DWA-A 531 (German Water Association)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">Double Triangle (Desbordes)</h4>
+                        <p className="text-muted-foreground">
+                          Desbordes variant with a defined valley between two peaks. Used in French and European 
+                          urban drainage for modeling complex multi-cell storm systems. More realistic than 
+                          single-peak patterns for longer duration events.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> Desbordes, M. (1978) "Urban Runoff and Design Storm"
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">Canadian CDA</h4>
+                        <p className="text-muted-foreground">
+                          Canadian Dam Association / Ontario MTO temporal pattern. Modified Type II adapted for 
+                          Canadian climate with broader central peak and extended tails to account for snowmelt 
+                          and longer-duration frontal systems.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> Canadian Dam Association Dam Safety Guidelines (2007)
+                        </p>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* Asian Design Storms */}
+                <AccordionItem value="asian">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2">
+                      <Globe className="w-4 h-4 text-rose-500" />
+                      Asian Design Storms
+                      <Badge variant="secondary" className="ml-2">9 Patterns</Badge>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-4 text-sm">
+                    <p className="text-muted-foreground">
+                      Regional design storm patterns from major Asian national standards. These patterns reflect 
+                      monsoon, typhoon, and tropical convective rainfall characteristics distinct from Western standards.
+                    </p>
+
+                    <div className="grid gap-4">
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇸🇬 Singapore PUB</h4>
+                        <p className="text-muted-foreground">
+                          Public Utilities Board tropical convective standard. Extremely front-loaded with 70-80% of 
+                          rain in first 30 minutes. Very high peak intensities exceeding 100 mm/hr. Required for all 
+                          Singapore drainage design projects.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> PUB Code of Practice on Surface Water Drainage (2018)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇨🇳 China GB 50014-2021</h4>
+                        <p className="text-muted-foreground">
+                          Chinese national standard for urban drainage design storms. Short-duration high-peak pattern 
+                          derived from city-specific rainstorm intensity formulas (i = A(1+C·log T)/(t+b)ⁿ). Coefficients 
+                          available for 500+ cities. Required for all public infrastructure projects in China.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> GB 50014-2021, Ministry of Housing and Urban-Rural Development
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🌊 China Pearl River Delta</h4>
+                        <p className="text-muted-foreground">
+                          Typhoon-influenced distribution for the Guangzhou–Shenzhen–Hong Kong region. Front-loaded 
+                          with extended tail representing outer typhoon rain bands. Accounts for both direct typhoon 
+                          impacts and pre-typhoon convective cells.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> China Meteorological Administration (CMA) PRD analysis (2019)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇮🇳 India IMD (Monsoon)</h4>
+                        <p className="text-muted-foreground">
+                          India Meteorological Department standard. Center-peaked with gradual build-up characteristic 
+                          of monsoon rainfall. Based on data from 6,000+ raingauges nationwide. Used for Smart Cities 
+                          Mission drainage design and CWC dam design across India.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> IMD Rainfall Atlas of India (2020)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🌀 India Coastal (Cyclonic)</h4>
+                        <p className="text-muted-foreground">
+                          Very sharp early peak representing cyclone eye/eyewall passage. Used for coastal 
+                          infrastructure in Tamil Nadu, Andhra Pradesh, Odisha, and Kerala. Distinct from inland 
+                          monsoon patterns due to cyclonic wind-driven rainfall.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> Central Water Commission (CWC) Cyclonic Storm Standards (2018)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇯🇵 Japan AMeDAS (Convective)</h4>
+                        <p className="text-muted-foreground">
+                          Based on Japan's 1,300 AMeDAS (Automated Meteorological Data Acquisition System) stations. 
+                          Very sharp center peak with rapid onset and recession. Represents short-duration (30min–3hr) 
+                          urban convective events common in summer.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> JMA AMeDAS Rainfall Analysis Guidelines (2020)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">☔ Japan Baiu (梅雨 / Plum Rain)</h4>
+                        <p className="text-muted-foreground">
+                          Broader, moderate-intensity pattern representing the June–July Baiu (plum rain) seasonal 
+                          front. Extended duration with less extreme peaks than convective events. Used for 
+                          longer-duration drainage and river basin design.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> Japan Society of Civil Engineers (JSCE) Guidelines (2017)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🌀 Japan Typhoon (Double-Band)</h4>
+                        <p className="text-muted-foreground">
+                          Dual-peak pattern with two Gaussian peaks: the outer rain band (~25% of duration) and 
+                          the inner eyewall (~65% of duration). Light continuous rain between bands. Used for 
+                          JSCE flood control and super-levee design (August–September typhoon season).
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> JSCE Typhoon Flood Control Design Guidelines (2019)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇰🇷 Korea KMA</h4>
+                        <p className="text-muted-foreground">
+                          Korean Meteorological Administration standard. Center-peaked monsoon/convective hybrid 
+                          with moderate asymmetry. Based on ASOS and AWS network data. Required for Ministry of 
+                          Environment urban flood control design in South Korea.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> KMA Urban Flood Control Design Standards (2019)
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-rose-50 dark:bg-rose-950 rounded-lg border border-rose-200 dark:border-rose-800">
+                      <h4 className="font-semibold text-rose-700 dark:text-rose-300">Important Note</h4>
+                      <p className="text-sm text-rose-600 dark:text-rose-400">
+                        Asian engineers generally do NOT use SCS curves or Huff distributions. Each country has 
+                        its own national standard (GB 50014 in China, IMD in India, PUB in Singapore, KMA in Korea). 
+                        Always verify which standard is required for your specific project jurisdiction.
+                      </p>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
