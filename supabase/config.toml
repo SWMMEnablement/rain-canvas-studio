@@ -1,1 +1,4 @@
 project_id = "psbaxqgkhunxkdrecknh"
+
+[functions.noaa-idf-proxy]
+verify_jwt = false
