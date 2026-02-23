@@ -592,6 +592,23 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                   {/* Duration toggle chips */}
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className="text-xs text-muted-foreground mr-1">Durations:</span>
+                    {(() => {
+                      const nonPrimary = DURATIONS.filter(d => d !== selectedDuration);
+                      const allOn = nonPrimary.every(d => chartOverlayDurations.includes(d));
+                      return (
+                        <button
+                          onClick={() => setChartOverlayDurations(allOn ? [] : nonPrimary)}
+                          className={`px-2 py-0.5 rounded-full text-xs font-medium border transition-all ${
+                            allOn
+                              ? "border-primary/60 text-primary bg-primary/10 hover:bg-primary/20"
+                              : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                          }`}
+                          title={allOn ? "Hide all overlay durations" : "Show all durations"}
+                        >
+                          All
+                        </button>
+                      );
+                    })()}
                     {DURATIONS.map(dur => {
                       const isPrimary = dur === selectedDuration;
                       const isOverlay = chartOverlayDurations.includes(dur);
