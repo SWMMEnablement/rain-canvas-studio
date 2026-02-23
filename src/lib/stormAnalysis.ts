@@ -110,6 +110,10 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   uae_ncms: { name: 'UAE NCMS', peakPosition: 0.14, description: 'Dubai/Abu Dhabi flash flood' },
   qatar_kahramaa: { name: 'Qatar Kahramaa', peakPosition: 0.12, description: 'Doha arid flash flood' },
   oman_dgman: { name: 'Oman DGMAN', peakPosition: 0.15, description: 'Muscat wadi/Khareef flood' },
+  sa_sanral: { name: 'South Africa SANRAL', peakPosition: 0.30, description: 'SANRAL road drainage design storm' },
+  kenya_kmd: { name: 'Kenya KMD', peakPosition: 0.15, description: 'East African highland convective' },
+  nigeria_nimet: { name: 'Nigeria NiMet', peakPosition: 0.45, description: 'West African monsoon ITCZ pattern' },
+  egypt_hcww: { name: 'Egypt HCWW', peakPosition: 0.08, description: 'Arid flash flood Nile Delta' },
 };
 
 /**

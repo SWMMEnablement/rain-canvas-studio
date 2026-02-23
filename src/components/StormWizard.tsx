@@ -82,6 +82,10 @@ const patternNames: Record<PatternType, string> = {
   'uae_ncms': 'UAE NCMS',
   'qatar_kahramaa': 'Qatar Kahramaa',
   'oman_dgman': 'Oman DGMAN',
+  'sa_sanral': 'South Africa SANRAL',
+  'kenya_kmd': 'Kenya KMD',
+  'nigeria_nimet': 'Nigeria NiMet',
+  'egypt_hcww': 'Egypt HCWW',
 };
 
 interface WizardStep {
