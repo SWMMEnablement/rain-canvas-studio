@@ -149,6 +149,7 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
   const [liveSource, setLiveSource] = useState("");
   const [chartOverlayDurations, setChartOverlayDurations] = useState<string[]>([]);
   const [logScale, setLogScale] = useState(false);
+  const [logScaleY, setLogScaleY] = useState(false);
 
   const regionData = REGIONAL_IDF_DATA[selectedRegion];
 
@@ -577,16 +578,30 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                       IDF Curves
                       {hasCI && <Badge variant="outline" className="text-xs">90% CI</Badge>}
                     </p>
-                    <button
-                      onClick={() => setLogScale(prev => !prev)}
-                      className={`px-2 py-0.5 rounded text-xs font-medium border transition-all ${
-                        logScale
-                          ? "border-primary/60 text-primary bg-primary/10"
-                          : "border-border text-muted-foreground hover:border-primary/40"
-                      }`}
-                    >
-                      {logScale ? "Log ✓" : "Log"}
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => setLogScale(prev => !prev)}
+                        className={`px-2 py-0.5 rounded text-xs font-medium border transition-all ${
+                          logScale
+                            ? "border-primary/60 text-primary bg-primary/10"
+                            : "border-border text-muted-foreground hover:border-primary/40"
+                        }`}
+                        title="Toggle X-axis log scale"
+                      >
+                        {logScale ? "X Log ✓" : "X Log"}
+                      </button>
+                      <button
+                        onClick={() => setLogScaleY(prev => !prev)}
+                        className={`px-2 py-0.5 rounded text-xs font-medium border transition-all ${
+                          logScaleY
+                            ? "border-primary/60 text-primary bg-primary/10"
+                            : "border-border text-muted-foreground hover:border-primary/40"
+                        }`}
+                        title="Toggle Y-axis log scale"
+                      >
+                        {logScaleY ? "Y Log ✓" : "Y Log"}
+                      </button>
+                    </div>
                   </div>
 
                   {/* Duration toggle chips */}
@@ -649,7 +664,10 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                         />
                         <YAxis
                           tick={{ fontSize: 11 }}
-                          label={{ value: `Depth (${depthUnit})`, angle: -90, position: "insideLeft", offset: 5, fontSize: 12 }}
+                          scale={logScaleY ? "log" : "auto"}
+                          domain={logScaleY ? ['auto', 'auto'] : undefined}
+                          allowDataOverflow={logScaleY}
+                          label={{ value: `Depth (${depthUnit})${logScaleY ? ' log' : ''}`, angle: -90, position: "insideLeft", offset: 5, fontSize: 12 }}
                         />
                         <RechartsTooltip
                           contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px', fontSize: 12 }}
