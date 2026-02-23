@@ -3,9 +3,11 @@ import { PatternComparison } from "@/components/PatternComparison";
 import { ScsRegionalGuide } from "@/components/ScsRegionalGuide";
 import { UnitComparisonTable } from "@/components/UnitComparisonTable";
 import { UnitConversionCalculator } from "@/components/UnitConversionCalculator";
+import { SensitivityTable } from "@/components/SensitivityTable";
+import { PatternDecisionGuide } from "@/components/PatternDecisionGuide";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GitCompare, Map, Calculator, Info } from "lucide-react";
+import { GitCompare, Map, Calculator, Info, BarChart3, Target } from "lucide-react";
 import {
   generateRainfallData,
   prepareChartData,
@@ -33,26 +35,30 @@ export function AdvancedTools() {
       </div>
 
       <Tabs defaultValue="comparison" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 mb-6">
+        <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 mb-6">
           <TabsTrigger value="comparison" className="flex items-center gap-2">
             <GitCompare className="w-4 h-4" />
-            <span className="hidden sm:inline">Pattern Comparison</span>
-            <span className="sm:hidden">Compare</span>
+            <span className="hidden sm:inline">Compare</span>
+          </TabsTrigger>
+          <TabsTrigger value="sensitivity" className="flex items-center gap-2">
+            <BarChart3 className="w-4 h-4" />
+            <span className="hidden sm:inline">Sensitivity</span>
+          </TabsTrigger>
+          <TabsTrigger value="guide" className="flex items-center gap-2">
+            <Target className="w-4 h-4" />
+            <span className="hidden sm:inline">Decision Guide</span>
           </TabsTrigger>
           <TabsTrigger value="regional" className="flex items-center gap-2">
             <Map className="w-4 h-4" />
-            <span className="hidden sm:inline">Regional Guide</span>
-            <span className="sm:hidden">Regional</span>
+            <span className="hidden sm:inline">Regional</span>
           </TabsTrigger>
           <TabsTrigger value="units" className="flex items-center gap-2">
             <Calculator className="w-4 h-4" />
-            <span className="hidden sm:inline">Unit Tools</span>
-            <span className="sm:hidden">Units</span>
+            <span className="hidden sm:inline">Units</span>
           </TabsTrigger>
           <TabsTrigger value="about" className="flex items-center gap-2">
             <Info className="w-4 h-4" />
-            <span className="hidden sm:inline">About Patterns</span>
-            <span className="sm:hidden">About</span>
+            <span className="hidden sm:inline">About</span>
           </TabsTrigger>
         </TabsList>
 
@@ -72,6 +78,36 @@ export function AdvancedTools() {
             timeStep={timeStep}
             unitSystem={unitSystem}
           />
+        </TabsContent>
+
+        <TabsContent value="sensitivity" className="space-y-6">
+          <Card className="bg-accent/30 border-primary/20">
+            <CardContent className="pt-4">
+              <p className="text-sm text-muted-foreground">
+                <strong>Sensitivity Analysis</strong> compares peak intensity across all patterns 
+                for your current storm parameters. Use this table in engineering reports to justify 
+                your pattern selection.
+              </p>
+            </CardContent>
+          </Card>
+          <SensitivityTable
+            depth={depth}
+            duration={duration}
+            timeStep={timeStep}
+            unitSystem={unitSystem}
+          />
+        </TabsContent>
+
+        <TabsContent value="guide" className="space-y-6">
+          <Card className="bg-accent/30 border-primary/20">
+            <CardContent className="pt-4">
+              <p className="text-sm text-muted-foreground">
+                <strong>Pattern Decision Guide</strong> walks you through a series of questions 
+                about your project location to recommend the most appropriate rainfall distribution.
+              </p>
+            </CardContent>
+          </Card>
+          <PatternDecisionGuide />
         </TabsContent>
 
         <TabsContent value="regional" className="space-y-6">

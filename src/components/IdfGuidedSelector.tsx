@@ -189,12 +189,12 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                   <Target className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <CardTitle className="text-base flex items-center gap-2">
+                <CardTitle className="text-base flex items-center gap-2">
                     IDF-Guided Design Storm
-                    <Badge variant="secondary" className="text-xs">NOAA Atlas 14</Badge>
+                    <Badge variant="secondary" className="text-xs">Design by Return Period</Badge>
                   </CardTitle>
                   <CardDescription className="text-sm">
-                    Select depth & duration based on regional rainfall statistics
+                    Select return period + duration → app calculates depth automatically
                   </CardDescription>
                 </div>
               </div>
