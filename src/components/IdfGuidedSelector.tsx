@@ -148,6 +148,7 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
   const [liveLoading, setLiveLoading] = useState(false);
   const [liveSource, setLiveSource] = useState("");
   const [chartOverlayDurations, setChartOverlayDurations] = useState<string[]>([]);
+  const [logScale, setLogScale] = useState(false);
 
   const regionData = REGIONAL_IDF_DATA[selectedRegion];
 
@@ -537,7 +538,8 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
               const decimals = unitSystem === 'USA' ? 2 : 1;
 
               const chartData = RETURN_PERIODS.map(rp => {
-                const entry: Record<string, unknown> = { rp: `${rp}-yr` };
+                const rpNum = parseInt(rp);
+                const entry: Record<string, unknown> = { rp: `${rp}-yr`, rpNum };
 
                 for (const dur of allDurations) {
                   const raw = activeDepths[dur]?.[rp];
@@ -575,6 +577,16 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                       IDF Curves
                       {hasCI && <Badge variant="outline" className="text-xs">90% CI</Badge>}
                     </p>
+                    <button
+                      onClick={() => setLogScale(prev => !prev)}
+                      className={`px-2 py-0.5 rounded text-xs font-medium border transition-all ${
+                        logScale
+                          ? "border-primary/60 text-primary bg-primary/10"
+                          : "border-border text-muted-foreground hover:border-primary/40"
+                      }`}
+                    >
+                      {logScale ? "Log ✓" : "Log"}
+                    </button>
                   </div>
 
                   {/* Duration toggle chips */}
@@ -609,9 +621,14 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                       <ComposedChart data={chartData} margin={{ top: 10, right: 20, bottom: 20, left: 10 }}>
                         <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                         <XAxis
-                          dataKey="rp"
+                          dataKey={logScale ? "rpNum" : "rp"}
+                          type={logScale ? "number" : "category"}
+                          scale={logScale ? "log" : "auto"}
+                          domain={logScale ? [1, 1200] : undefined}
+                          ticks={logScale ? [2, 5, 10, 25, 50, 100, 200, 500, 1000] : undefined}
+                          tickFormatter={logScale ? (v: number) => `${v}-yr` : undefined}
                           tick={{ fontSize: 11 }}
-                          label={{ value: "Return Period", position: "insideBottom", offset: -10, fontSize: 12 }}
+                          label={{ value: `Return Period${logScale ? ' (log)' : ''}`, position: "insideBottom", offset: -10, fontSize: 12 }}
                         />
                         <YAxis
                           tick={{ fontSize: 11 }}
