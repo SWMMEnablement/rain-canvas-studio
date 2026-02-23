@@ -23,6 +23,9 @@ const Index = () => {
             Generate and visualize synthetic rainfall patterns for stormwater modeling. 
             Create SWMM5 and ICM-ready timeseries with custom parameters.
           </p>
+          <p className="text-sm mt-2 opacity-80 font-medium tracking-wide">
+            22 Design Storm Patterns Available
+          </p>
         </div>
       </header>
 
