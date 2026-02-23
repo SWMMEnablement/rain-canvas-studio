@@ -150,6 +150,186 @@ Located in `public/sample-data/`:
 |-----|---------|
 | `preferredUnitSystem` | `"USA"` or `"SI"` – persists unit toggle |
 
+## Advanced Calculators – Formulas & I/O Specifications
+
+### 1. Time of Concentration (`TcCalculator.tsx`)
+
+Three methods, all outputting Tc in **minutes**:
+
+| Method | Formula | Inputs |
+|--------|---------|--------|
+| **Kirpich** | `Tc = 0.0078 × L^0.77 × S^(−0.385)` | L = flow length (ft), S = slope (ft/ft) |
+| **FAA** | `Tc = (1.8 × (1.1 − C) × L^0.5) / (S^0.333)` | C = runoff coeff, L = flow length (ft), S = slope (%) |
+| **TR-55** | Sum of sheet flow + shallow concentrated + channel flow travel times | Sheet: n, L (≤100 ft), P₂ (in), S; Shallow: L, S, surface type; Channel: L, S, A, WP, n |
+
+**Outputs**: Tc (min), intermediate travel times per segment.
+
+---
+
+### 2. SCS Curve Number (`CurveNumberCalculator.tsx`)
+
+**Purpose**: Area-weighted composite CN from multiple land uses.
+
+- **Inputs**: Land use category + HSG (A/B/C/D) + area (acres) — multiple rows
+- **Lookup table**: 31 land-use categories with CN values per HSG (from TR-55 Table 2-2a)
+- **Formula**: `CN_composite = Σ(CN_i × A_i) / Σ(A_i)`
+- **Outputs**: Composite CN, total area, per-row CN values
+
+---
+
+### 3. SCS Runoff Volume (`RunoffCalculator.tsx`)
+
+| Variable | Formula |
+|----------|---------|
+| Potential retention | US: `S = (1000/CN) − 10`; SI: `S = (25400/CN) − 254` |
+| Initial abstraction | `Ia = λ × S` (λ = 0.2 or 0.05) |
+| Runoff depth | `Q = (P − Ia)² / (P − Ia + S)` when P > Ia, else 0 |
+| Runoff volume | `V = Q × A` (acre-in or ha-mm) |
+
+- **Inputs**: CN, rainfall depth (in/mm), area (acres/ha), Ia ratio (0.2 or 0.05), unit system
+- **Outputs**: S, Ia, Q (depth), V (volume), runoff ratio
+- **Linkable**: Accepts CN from CurveNumberCalculator, exports runoff depth to DetentionPondCalculator
+
+---
+
+### 4. Rational Method (`RationalMethodCalculator.tsx`)
+
+**Formula**: `Q = C × i × A` (Q in cfs when i in in/hr and A in acres)
+
+- **Inputs**: Runoff coefficient C (0–1), rainfall intensity i (in/hr), drainage area A (acres)
+- **Lookup table**: 23 land-use categories with C ranges and typical values
+- **Outputs**: Peak discharge Q (cfs), equivalent SI values (m³/s)
+
+---
+
+### 5. Unit Hydrograph (`UnitHydrographCalculator.tsx`)
+
+**Method**: NRCS Dimensionless Unit Hydrograph (41-point t/Tp vs q/Qp table)
+
+| Variable | Formula |
+|----------|---------|
+| Lag time | `T_lag = L^0.8 × (S+1)^0.7 / (1900 × Y^0.5)` |
+| Time to peak | `Tp = Δt/2 + T_lag` |
+| Peak discharge | `Qp = (484 × A × Q) / Tp` |
+
+- **Inputs**: Drainage area (mi²), CN, flow length (ft), watershed slope (%), time step (hr), excess rainfall depth (in)
+- **Outputs**: Full hydrograph table (time vs flow in cfs), peak Q, time to peak, chart
+- **Linkable**: Exports hydrograph to Modified Puls Routing
+
+---
+
+### 6. Detention Pond Sizing (`DetentionPondCalculator.tsx`)
+
+**Formula**: `V_required = (Q_post − Q_pre) × A × safety_factor`
+
+- **Inputs**: Pre-dev runoff (in), post-dev runoff (in), pond area (acres), average depth (ft), safety factor (default 1.1), method (simple/modified)
+- **Outputs**: Required storage (acre-in, acre-ft, ft³, m³), surface area needed, depth check
+- **Linkable**: Accepts post-dev runoff from RunoffCalculator
+
+---
+
+### 7. Outlet Structure (`OutletStructureCalculator.tsx`)
+
+Three structure types with forward and reverse calculations:
+
+| Structure | Discharge Formula |
+|-----------|------------------|
+| **Orifice** | `Q = Cd × A × √(2gH)` — circular or rectangular |
+| **Rectangular Weir** | `Q = Cw × L × H^1.5` (suppressed or contracted) |
+| **V-Notch Weir** | `Q = Cw × tan(θ/2) × H^2.5` |
+
+- **Inputs**: Dimensions (in/ft), head (ft), discharge coefficients, target Q for reverse calc
+- **Outputs**: Discharge (cfs), velocity (fps), required dimensions for target Q
+
+---
+
+### 8. Stage-Storage-Discharge (`StageStorageDischarge.tsx`)
+
+**Pond geometry**: Prismoidal formula with side slopes.
+
+| Variable | Formula |
+|----------|---------|
+| Area at depth d | `A(d) = (L + 2zd)(W + 2zd)` where z = side slope (H:V) |
+| Storage at depth d | `V(d) = d/3 × [A_bot + A_top + √(A_bot × A_top)]` |
+| Composite outflow | Sum of all outlet structures (orifice + weir) active at each stage |
+
+- **Inputs**: Bottom length/width (ft), side slope (H:V), max depth (ft), depth increment, outlet configurations (multiple orifices/weirs with invert elevations)
+- **Outputs**: Stage-storage-outflow table, rating curves (chart), CSV export
+- **Linkable**: Exports SSO data to Modified Puls Routing
+
+---
+
+### 9. Modified Puls Routing (`ModifiedPulsRouting.tsx`)
+
+**Method**: Level-pool routing using the storage-indication curve `(2S/Δt + O)` vs `O`.
+
+| Step | Formula |
+|------|---------|
+| Storage indication | `(2S₂/Δt + O₂) = (2S₁/Δt − O₁) + I₁ + I₂` |
+| Interpolation | O₂ found from S-O relationship at each time step |
+
+- **Inputs**: Time step (hr), stage-storage-outflow table, inflow hydrograph (time vs Q)
+- **Outputs**: Routed outflow hydrograph, peak inflow/outflow, peak attenuation %, peak lag time, storage utilization, chart
+- **Linkable**: Imports SSO from StageStorageDischarge, imports inflow from UnitHydrographCalculator
+
+---
+
+### 10. Pre/Post Development Comparison (`PrePostDevelopmentComparison.tsx`)
+
+**Methods**: SCS or Rational (user-selectable) for multiple return periods.
+
+- **Inputs**: Pre/post area (acres), CN, Tc (min), rational C; design storms (2/10/25/100-yr rainfall depths); safety factor
+- **Outputs**: Per-storm: pre/post runoff depth, peak Q, required detention storage; summary table and chart
+
+---
+
+### 11. LID Calculator (`LIDCalculator.tsx`)
+
+**8 BMP Types**: Bioretention, permeable pavement, green roof, infiltration trench, bioswale, sand filter, rain barrel, tree box filter.
+
+| Variable | Formula |
+|----------|---------|
+| Storage volume | `V = Surface_area × Depth × Porosity` |
+| Capture volume | `V_capture = BMP_area × capture_depth` |
+| Percent managed | `V_capture / V_design_storm × 100` |
+
+- **Inputs per BMP**: Type, surface area (ft²), media depth (in), porosity, infiltration rate (in/hr)
+- **Pollutant removal**: Default TSS/TN/TP percentages per BMP type
+- **Outputs**: Total capture volume, percent of design storm managed, pollutant removal estimates, cost estimates
+- **Linkable**: Feeds selected BMPs to Treatment Train Calculator
+
+---
+
+### 12. Treatment Train Calculator (`TreatmentTrainCalculator.tsx`)
+
+**Purpose**: Cumulative pollutant removal through sequential BMPs.
+
+**Formula**: `R_cumulative = 1 − Π(1 − R_i)` for each pollutant across the BMP chain.
+
+- **12 BMP types** with removal rates for 6 pollutants: TSS, TN, TP, heavy metals, bacteria, oil & grease
+- **Inputs**: Ordered list of BMPs in the treatment train
+- **Outputs**: Per-stage and cumulative removal percentages, pollutant breakthrough chart, compliance check
+
+---
+
+### Calculator Data Flow
+
+```
+CurveNumberCalculator ──→ RunoffCalculator ──→ DetentionPondCalculator
+                                                        │
+UnitHydrographCalculator ──→ ModifiedPulsRouting ←── StageStorageDischarge
+                                                        ↑
+                                        OutletStructureCalculator
+                                        
+LIDCalculator ──→ TreatmentTrainCalculator
+
+PrePostDevelopmentComparison (standalone, uses SCS or Rational internally)
+TcCalculator (standalone, feeds Tc into UnitHydrographCalculator manually)
+RationalMethodCalculator (standalone)
+```
+
+---
+
 ## Migration Notes
 
 - **No backend dependencies** – pure client-side app
