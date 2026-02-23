@@ -1,5 +1,9 @@
 import { useState, useMemo } from "react";
 import { PatternSectionSearch } from "./PatternSectionSearch";
+import { PatternReferenceCard } from "./docs/PatternReferenceCard";
+import { PATTERN_REFERENCE_DATA } from "./docs/patternReferenceData";
+import { PatternDecisionFlowchart } from "./docs/PatternDecisionFlowchart";
+import { RegulatoryMatrix } from "./docs/RegulatoryMatrix";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -28,6 +32,7 @@ import {
   Globe, 
   Settings, 
   Download,
+  Scale,
   Info,
   MapPin,
   Beaker,
@@ -182,10 +187,18 @@ export function Documentation() {
 
       {/* Main Documentation Tabs */}
       <Tabs defaultValue="patterns" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 h-auto">
+        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-11 h-auto">
           <TabsTrigger value="patterns" className="flex items-center gap-1">
             <CloudRain className="w-4 h-4" />
             <span className="hidden sm:inline">Patterns</span>
+          </TabsTrigger>
+          <TabsTrigger value="pattern-cards" className="flex items-center gap-1">
+            <Layers className="w-4 h-4" />
+            <span className="hidden sm:inline">Reference</span>
+          </TabsTrigger>
+          <TabsTrigger value="decision" className="flex items-center gap-1">
+            <MapPin className="w-4 h-4" />
+            <span className="hidden sm:inline">Guide</span>
           </TabsTrigger>
           <TabsTrigger value="calculators" className="flex items-center gap-1">
             <FlaskConical className="w-4 h-4" />
@@ -207,6 +220,10 @@ export function Documentation() {
             <Download className="w-4 h-4" />
             <span className="hidden sm:inline">Export</span>
           </TabsTrigger>
+          <TabsTrigger value="regulatory" className="flex items-center gap-1">
+            <Scale className="w-4 h-4" />
+            <span className="hidden sm:inline">Regulatory</span>
+          </TabsTrigger>
           <TabsTrigger value="limitations" className="flex items-center gap-1">
             <Info className="w-4 h-4" />
             <span className="hidden sm:inline">Limitations</span>
@@ -216,6 +233,36 @@ export function Documentation() {
             <span className="hidden sm:inline">Glossary</span>
           </TabsTrigger>
         </TabsList>
+
+        {/* Pattern Reference Cards Tab */}
+        <TabsContent value="pattern-cards" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Layers className="w-5 h-5 text-primary" />
+                Pattern Reference Cards
+              </CardTitle>
+              <CardDescription>
+                Expand any card for full technical details, equations, regulatory acceptance, and comparisons
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {PATTERN_REFERENCE_DATA.map((pattern) => (
+                <PatternReferenceCard key={pattern.id} pattern={pattern} />
+              ))}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Decision Flowchart Tab */}
+        <TabsContent value="decision" className="space-y-4">
+          <PatternDecisionFlowchart />
+        </TabsContent>
+
+        {/* Regulatory Matrix Tab */}
+        <TabsContent value="regulatory" className="space-y-4">
+          <RegulatoryMatrix />
+        </TabsContent>
 
         {/* Rainfall Patterns Tab */}
         <TabsContent value="patterns" className="space-y-6">
