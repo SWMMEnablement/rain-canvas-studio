@@ -18,7 +18,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-12 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Droplets className="w-12 h-12" />
-            <h1 className="text-5xl font-bold">Rainfall Pattern Painter</h1>
+            <h1 className="text-5xl font-bold">World Rainfall Pattern Painter</h1>
           </div>
           <p className="text-lg max-w-3xl mx-auto opacity-95">
             Generate and visualize synthetic rainfall patterns for stormwater modeling. 
@@ -88,7 +88,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="bg-card border-t border-border mt-16">
         <div className="container mx-auto px-4 py-8 text-center text-muted-foreground">
-          <p className="font-medium mb-2">Rainfall Pattern Painter – Synthetic Rain & Patterns for Stormwater Modeling</p>
+          <p className="font-medium mb-2">World Rainfall Pattern Painter – Synthetic Rain & Patterns for Stormwater Modeling</p>
           <p className="text-sm">Designed for hydrologists and engineers worldwide</p>
         </div>
       </footer>
