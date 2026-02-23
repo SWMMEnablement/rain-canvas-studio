@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { MapPin, CloudRain, ExternalLink, ChevronDown, ChevronUp, Zap, Target, Info, Search, Loader2, CheckCircle, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { type UnitSystem, convertDepth } from "@/lib/unitConversions";
 import { lookupZip, type ZipEntry } from "@/lib/zipLookup";
 
@@ -141,6 +142,8 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
   const [zipCode, setZipCode] = useState("");
   const [zipResult, setZipResult] = useState<ZipEntry | null>(null);
   const [liveData, setLiveData] = useState<Record<string, Record<string, number>> | null>(null);
+  const [liveUpper, setLiveUpper] = useState<Record<string, Record<string, number>> | null>(null);
+  const [liveLower, setLiveLower] = useState<Record<string, Record<string, number>> | null>(null);
   const [liveLoading, setLiveLoading] = useState(false);
   const [liveSource, setLiveSource] = useState("");
 
@@ -178,6 +181,8 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
   const fetchLiveNoaa = useCallback(async (lat: number, lon: number, locationLabel: string) => {
     setLiveLoading(true);
     setLiveData(null);
+    setLiveUpper(null);
+    setLiveLower(null);
     setLiveSource("");
 
     try {
@@ -195,21 +200,28 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
 
       // Map NOAA response into our duration→returnPeriod→depth format
       const noaaRPs = data.returnPeriods.map(Number);
-      const mapped: Record<string, Record<string, number>> = {};
 
-      data.durations.forEach((durLabel: string, dIdx: number) => {
-        const hourKey = noaaDurationToHours(durLabel);
-        if (!hourKey || dIdx >= data.quantiles.length) return;
-        mapped[hourKey] = {};
-        noaaRPs.forEach((rp: number, rpIdx: number) => {
-          if (RETURN_PERIODS.includes(String(rp)) && rpIdx < data.quantiles[dIdx].length) {
-            mapped[hourKey][String(rp)] = data.quantiles[dIdx][rpIdx];
-          }
+      const mapArray = (arr: number[][]) => {
+        const mapped: Record<string, Record<string, number>> = {};
+        data.durations.forEach((durLabel: string, dIdx: number) => {
+          const hourKey = noaaDurationToHours(durLabel);
+          if (!hourKey || dIdx >= arr.length) return;
+          mapped[hourKey] = {};
+          noaaRPs.forEach((rp: number, rpIdx: number) => {
+            if (RETURN_PERIODS.includes(String(rp)) && rpIdx < arr[dIdx].length) {
+              mapped[hourKey][String(rp)] = arr[dIdx][rpIdx];
+            }
+          });
         });
-      });
+        return mapped;
+      };
+
+      const mapped = mapArray(data.quantiles);
 
       if (Object.keys(mapped).length > 0) {
         setLiveData(mapped);
+        if (data.upper?.length) setLiveUpper(mapArray(data.upper));
+        if (data.lower?.length) setLiveLower(mapArray(data.lower));
         setLiveSource(`NOAA Atlas 14 for ${locationLabel} (${lat.toFixed(2)}, ${lon.toFixed(2)})`);
         toast.success(`Live NOAA Atlas 14 data loaded for ${locationLabel}`);
       }
@@ -323,7 +335,7 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                 <MapPin className="w-4 h-4 text-muted-foreground" />
                 Climate Region {liveData ? "(overridden by live data)" : ""}
               </Label>
-              <Select value={selectedRegion} onValueChange={(v) => { setSelectedRegion(v); setLiveData(null); setLiveSource(""); setZipResult(null); }}>
+              <Select value={selectedRegion} onValueChange={(v) => { setSelectedRegion(v); setLiveData(null); setLiveUpper(null); setLiveLower(null); setLiveSource(""); setZipResult(null); }}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -402,12 +414,40 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                    <p className="text-sm text-muted-foreground mt-1">
                     {selectedReturnPeriod}-year, {selectedDuration}-hour storm
                     {liveSource && <Badge variant="outline" className="ml-2 text-xs">NOAA Atlas 14</Badge>}
-                    {parseInt(selectedReturnPeriod) >= 500 && (
-                      <Badge variant="outline" className="ml-2 text-xs border-warning/50 text-warning">
-                        <AlertTriangle className="w-3 h-3 mr-1" />
-                        High Uncertainty
-                      </Badge>
-                    )}
+                    {parseInt(selectedReturnPeriod) >= 500 && (() => {
+                      const upperVal = liveUpper?.[selectedDuration]?.[selectedReturnPeriod];
+                      const lowerVal = liveLower?.[selectedDuration]?.[selectedReturnPeriod];
+                      const hasCI = upperVal != null && lowerVal != null;
+                      const formatCI = (v: number) =>
+                        unitSystem === 'USA' ? `${v.toFixed(2)} in` : `${convertDepth(v, 'USA', 'SI').toFixed(1)} mm`;
+
+                      const badge = (
+                        <Badge variant="outline" className="ml-2 text-xs border-warning/50 text-warning cursor-default">
+                          <AlertTriangle className="w-3 h-3 mr-1" />
+                          High Uncertainty
+                        </Badge>
+                      );
+
+                      if (hasCI) {
+                        return (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              {badge}
+                            </TooltipTrigger>
+                            <TooltipContent side="bottom" className="max-w-xs text-xs space-y-1">
+                              <p className="font-semibold">NOAA Atlas 14 — 90% Confidence Interval</p>
+                              <p>Lower bound: <span className="font-mono">{formatCI(lowerVal)}</span></p>
+                              <p>Upper bound: <span className="font-mono">{formatCI(upperVal)}</span></p>
+                              <p className="text-muted-foreground pt-1">
+                                Range: ±{((upperVal - lowerVal) / 2 / ((upperVal + lowerVal) / 2) * 100).toFixed(0)}% — 
+                                wide intervals indicate high statistical uncertainty
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        );
+                      }
+                      return badge;
+                    })()}
                   </p>
                 </div>
                 <Button onClick={handleApply} className="gap-2" disabled={selectedDepth === null}>
