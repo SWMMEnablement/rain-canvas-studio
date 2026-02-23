@@ -411,9 +411,9 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                 <div>
                   <p className="text-xs text-muted-foreground uppercase tracking-wider">Design Storm Depth</p>
                   <p className="text-2xl font-bold text-primary">{formatDepth(selectedDepth)}</p>
-                   <p className="text-sm text-muted-foreground mt-1">
-                    {selectedReturnPeriod}-year, {selectedDuration}-hour storm
-                    {liveSource && <Badge variant="outline" className="ml-2 text-xs">NOAA Atlas 14</Badge>}
+                   <div className="text-sm text-muted-foreground mt-1 flex flex-wrap items-center gap-1">
+                    <span>{selectedReturnPeriod}-year, {selectedDuration}-hour storm</span>
+                    {liveSource && <Badge variant="outline" className="text-xs">NOAA Atlas 14</Badge>}
                     {parseInt(selectedReturnPeriod) >= 500 && (() => {
                       const upperVal = liveUpper?.[selectedDuration]?.[selectedReturnPeriod];
                       const lowerVal = liveLower?.[selectedDuration]?.[selectedReturnPeriod];
@@ -422,7 +422,7 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                         unitSystem === 'USA' ? `${v.toFixed(2)} in` : `${convertDepth(v, 'USA', 'SI').toFixed(1)} mm`;
 
                       const badge = (
-                        <Badge variant="outline" className="ml-2 text-xs border-warning/50 text-warning cursor-default">
+                        <Badge variant="outline" className="text-xs border-warning/50 text-warning cursor-default">
                           <AlertTriangle className="w-3 h-3 mr-1" />
                           High Uncertainty
                         </Badge>
@@ -448,7 +448,7 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                       }
                       return badge;
                     })()}
-                  </p>
+                  </div>
                 </div>
                 <Button onClick={handleApply} className="gap-2" disabled={selectedDepth === null}>
                   <Zap className="w-4 h-4" />
