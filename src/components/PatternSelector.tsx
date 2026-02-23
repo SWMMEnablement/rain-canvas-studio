@@ -518,7 +518,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
             }
           `}
         >
-          <div className="text-3xl">{pattern.icon}</div>
+          <div className="text-3xl" aria-hidden="true">{pattern.icon}</div>
           <div className="text-sm font-medium">{pattern.name}</div>
         </button>
       ))}
