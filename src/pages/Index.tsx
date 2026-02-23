@@ -71,11 +71,12 @@ const Index = () => {
 
           {/* Pattern Badges */}
           <div className="flex flex-wrap justify-center gap-2 mt-4 max-w-2xl mx-auto">
-            {PATTERN_BADGES.map((name) => (
+            {PATTERN_BADGES.map((name, i) => (
               <Badge
                 key={name}
                 variant="secondary"
-                className="bg-white/15 text-white border-white/25 hover:bg-white/25 text-xs backdrop-blur-sm"
+                className="bg-white/15 text-white border-white/25 hover:bg-white/25 text-xs backdrop-blur-sm animate-fade-in opacity-0"
+                style={{ animationDelay: `${i * 60}ms`, animationFillMode: 'forwards' }}
               >
                 {name}
               </Badge>
