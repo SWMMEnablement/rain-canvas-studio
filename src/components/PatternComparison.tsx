@@ -206,6 +206,11 @@ const presetGroups: PresetGroup[] = [
     patterns: ['brazil_ana', 'mexico_conagua', 'colombia_ideam', 'chile_dga'],
     description: 'All Latin American design storm patterns',
   },
+  {
+    name: 'Monsoon Belt',
+    patterns: ['india_imd', 'india_coastal', 'japan_baiu', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd'],
+    description: 'Monsoon-influenced patterns across South & Southeast Asia',
+  },
 ];
 
 export function PatternComparison({ depth: totalDepth, duration, timeStep, unitSystem }: PatternComparisonProps) {
