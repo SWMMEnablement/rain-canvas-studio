@@ -733,39 +733,102 @@ export function Documentation() {
                     </p>
 
                     <div className="grid gap-4">
-                      <div className="p-4 bg-muted/50 rounded-lg">
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-3">
                         <h4 className="font-semibold text-foreground">Euler Type I (Front-Loaded)</h4>
                         <p className="text-muted-foreground">
-                          Peak intensity placed in the first 1/6 of storm duration. Used for conservative sewer 
+                          Peak intensity placed in the <strong>first interval</strong> (block 1 of <em>n</em> blocks). Used for conservative sewer 
                           design in German and European practice where maximum peak flow is critical. Produces 
                           higher peak flows than Euler Type II.
                         </p>
+                        
+                        <div className="bg-background rounded-md p-3 font-mono text-xs space-y-2 border">
+                          <p className="text-muted-foreground not-italic font-sans text-[11px] font-medium">Mathematical Formulation</p>
+                          <p>Storm divided into <em>n</em> = T/Δt equal blocks</p>
+                          <p>For each block rank <em>k</em> = 1, 2, …, <em>n</em>:</p>
+                          <p className="pl-4">ΔP(k) = P(k·Δt) − P((k−1)·Δt)</p>
+                          <p className="text-muted-foreground font-sans text-[11px]">where P(t) is the IDF-derived cumulative depth for duration t</p>
+                          <p className="mt-2 font-semibold">Peak placement — Euler Type I:</p>
+                          <p className="pl-4">Block with rank 1 (highest ΔP) → position <strong>j = 1</strong> (first interval)</p>
+                          <p className="pl-4">Block with rank 2 → position j = 2</p>
+                          <p className="pl-4">Block with rank 3 → position j = 3</p>
+                          <p className="pl-4">…remaining blocks in descending order, left to right</p>
+                          <p className="mt-2">i(j) = ΔP(assigned rank) / Δt</p>
+                        </div>
+                        
+                        <p className="text-muted-foreground text-xs">
+                          <strong>Effect:</strong> Monotonically decreasing hyetograph. Maximizes peak runoff because antecedent 
+                          moisture is lowest when the highest intensity occurs.
+                        </p>
                         <p className="text-muted-foreground mt-1">
-                          <strong>Reference:</strong> DWA-A 118 (German Water Association)
+                          <strong>Reference:</strong> DWA-A 118 (2006), Euler, G. "Modellregen für die Kanalnetzberechnung" (1983)
                         </p>
                       </div>
 
-                      <div className="p-4 bg-muted/50 rounded-lg">
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-3">
                         <h4 className="font-semibold text-foreground">Euler Type II (Center-Peaked)</h4>
                         <p className="text-muted-foreground">
-                          Peak intensity in the second 1/6 of duration. The standard pattern for German drainage 
-                          design per DWA guidelines. More moderate than Type I with peak occurring after initial 
-                          soil wetting.
+                          Peak intensity in the <strong>second block</strong> (position j = 2, typically the second 1/6 to 1/3 of duration). 
+                          The standard pattern for German drainage design per DWA guidelines. More moderate than Type I, 
+                          allowing initial soil wetting before the burst.
+                        </p>
+                        
+                        <div className="bg-background rounded-md p-3 font-mono text-xs space-y-2 border">
+                          <p className="text-muted-foreground not-italic font-sans text-[11px] font-medium">Mathematical Formulation</p>
+                          <p>Same IDF-derived incremental depths ΔP(k) as Type I</p>
+                          <p className="mt-2 font-semibold">Peak placement — Euler Type II:</p>
+                          <p className="pl-4">Block with rank 1 (highest ΔP) → position <strong>j = r</strong> (peak position, typically j = 2)</p>
+                          <p className="pl-4">Ranks 2, 4, 6, … → positions j = r+1, r+2, r+3, … (right of peak)</p>
+                          <p className="pl-4">Ranks 3, 5, 7, … → positions j = r−1, r−2, r−3, … (left of peak)</p>
+                          <p className="mt-2 text-muted-foreground font-sans text-[11px]">This alternating arrangement produces a bell-shaped hyetograph centered near the front.</p>
+                          <p className="mt-1">Default peak position: r = ⌈n / 3⌉ (DWA-A 118 recommends peak in second third)</p>
+                          <p className="mt-1">When n = 6 blocks: r = 2, giving the classic "second-sixth" peak</p>
+                        </div>
+                        
+                        <p className="text-muted-foreground text-xs">
+                          <strong>Effect:</strong> Produces realistic runoff hydrographs — initial wetting period reduces immediate 
+                          peak, then the high-intensity burst generates a well-defined peak flow. Preferred for combined 
+                          sewer overflow analysis.
                         </p>
                         <p className="text-muted-foreground mt-1">
-                          <strong>Reference:</strong> DWA-A 531 (German Water Association)
+                          <strong>Reference:</strong> DWA-A 531 (2012), DWA-A 118 (2006)
                         </p>
                       </div>
 
-                      <div className="p-4 bg-muted/50 rounded-lg">
+                      <div className="p-4 bg-muted/50 rounded-lg space-y-3">
                         <h4 className="font-semibold text-foreground">Double Triangle (Desbordes)</h4>
                         <p className="text-muted-foreground">
-                          Desbordes variant with a defined valley between two peaks. Used in French and European 
+                          Two triangular bursts separated by a defined low-intensity valley. Used in French and European 
                           urban drainage for modeling complex multi-cell storm systems. More realistic than 
-                          single-peak patterns for longer duration events.
+                          single-peak patterns for longer duration events (&gt;2 hours).
+                        </p>
+                        
+                        <div className="bg-background rounded-md p-3 font-mono text-xs space-y-2 border">
+                          <p className="text-muted-foreground not-italic font-sans text-[11px] font-medium">Mathematical Formulation</p>
+                          <p>Total duration T split into two triangular events:</p>
+                          <p className="mt-1 font-semibold">Triangle 1 (intense burst):</p>
+                          <p className="pl-4">Duration: T₁ = α·T (typically α = 0.30–0.40)</p>
+                          <p className="pl-4">Depth: P₁ = β·P<sub>total</sub> (typically β = 0.60–0.70)</p>
+                          <p className="pl-4">Peak: i₁<sub>max</sub> = 2·P₁ / T₁</p>
+                          <p className="pl-4">Time-to-peak: t<sub>p1</sub> = r₁·T₁ (r₁ ≈ 0.4)</p>
+                          <p className="mt-1 font-semibold">Valley (transition):</p>
+                          <p className="pl-4">Duration: T<sub>v</sub> = γ·T (typically γ = 0.10–0.15)</p>
+                          <p className="pl-4">Intensity: i<sub>valley</sub> = i<sub>base</sub> = P<sub>valley</sub> / T<sub>v</sub></p>
+                          <p className="pl-4 text-muted-foreground font-sans text-[11px]">Valley depth is the remaining rainfall not assigned to the two triangles</p>
+                          <p className="mt-1 font-semibold">Triangle 2 (secondary burst):</p>
+                          <p className="pl-4">Duration: T₂ = T − T₁ − T<sub>v</sub></p>
+                          <p className="pl-4">Depth: P₂ = P<sub>total</sub> − P₁ − P<sub>valley</sub></p>
+                          <p className="pl-4">Peak: i₂<sub>max</sub> = 2·P₂ / T₂</p>
+                          <p className="pl-4">Time-to-peak: t<sub>p2</sub> = r₂·T₂ (r₂ ≈ 0.5)</p>
+                        </div>
+                        
+                        <p className="text-muted-foreground text-xs">
+                          <strong>Typical parameters:</strong> α = 0.35, β = 0.65, γ = 0.10, r₁ = 0.4, r₂ = 0.5. 
+                          The first triangle represents convective activity; the valley simulates a lull between 
+                          cells; the second triangle represents trailing stratiform rain.
                         </p>
                         <p className="text-muted-foreground mt-1">
-                          <strong>Reference:</strong> Desbordes, M. (1978) "Urban Runoff and Design Storm"
+                          <strong>Reference:</strong> Desbordes, M. (1978) "Urban Runoff and Design Storm Modelling", 
+                          Chocat, B. (1997) "Encyclopédie de l'Hydrologie Urbaine"
                         </p>
                       </div>
 
@@ -777,7 +840,7 @@ export function Documentation() {
                           and longer-duration frontal systems.
                         </p>
                         <p className="text-muted-foreground mt-1">
-                          <strong>Reference:</strong> Canadian Dam Association Dam Safety Guidelines (2007)
+                          <strong>Reference:</strong> Canadian Dam Association Dam Safety Guidelines (2007, revised 2013)
                         </p>
                       </div>
                     </div>
