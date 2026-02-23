@@ -182,7 +182,7 @@ export function Documentation() {
 
       {/* Main Documentation Tabs */}
       <Tabs defaultValue="patterns" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7 h-auto">
+        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 h-auto">
           <TabsTrigger value="patterns" className="flex items-center gap-1">
             <CloudRain className="w-4 h-4" />
             <span className="hidden sm:inline">Patterns</span>
@@ -206,6 +206,10 @@ export function Documentation() {
           <TabsTrigger value="export" className="flex items-center gap-1">
             <Download className="w-4 h-4" />
             <span className="hidden sm:inline">Export</span>
+          </TabsTrigger>
+          <TabsTrigger value="limitations" className="flex items-center gap-1">
+            <Info className="w-4 h-4" />
+            <span className="hidden sm:inline">Limitations</span>
           </TabsTrigger>
           <TabsTrigger value="glossary" className="flex items-center gap-1">
             <BookOpen className="w-4 h-4" />
@@ -2620,6 +2624,231 @@ export function Documentation() {
               </button>
             </Card>
           )}
+        </TabsContent>
+
+        {/* Limitations & Assumptions Tab */}
+        <TabsContent value="limitations" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Info className="w-5 h-5 text-primary" />
+                Limitations & Assumptions
+              </CardTitle>
+              <CardDescription>
+                Important disclosures for professional use — read before submitting engineering deliverables
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6 text-sm text-muted-foreground">
+              {/* Disclaimer Banner */}
+              <div className="p-4 bg-destructive/10 border border-destructive/30 rounded-lg">
+                <h4 className="font-semibold text-destructive flex items-center gap-2 mb-2">
+                  ⚠️ Professional Responsibility Disclaimer
+                </h4>
+                <p>
+                  This tool generates <strong>synthetic design storm hyetographs</strong> for preliminary engineering analysis. 
+                  All outputs must be reviewed, verified, and approved by a licensed Professional Engineer (PE) before 
+                  use in regulatory submittals, construction documents, or any design that affects public safety. 
+                  The developer assumes no liability for engineering decisions based on this tool&apos;s output.
+                </p>
+              </div>
+
+              <Accordion type="multiple" className="w-full">
+                {/* SCS Approximation */}
+                <AccordionItem value="scs-approx">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2 text-foreground">
+                      <Badge variant="outline" className="text-xs">Methodology</Badge>
+                      SCS/NRCS Pattern Approximations
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3 text-sm text-muted-foreground">
+                    <p>
+                      The SCS Type I, IA, II, and III distributions use <strong>piecewise-linear interpolation</strong> of 
+                      the published NRCS cumulative depth fractions from TR-55 (1986) and NEH Part 630:
+                    </p>
+                    <ul className="list-disc pl-6 space-y-1">
+                      <li>Interpolation between published breakpoints introduces minor smoothing of the peak region</li>
+                      <li>The original SCS distributions were developed for <strong>24-hour storms only</strong>; applying them to shorter durations is common practice but not explicitly endorsed by NRCS</li>
+                      <li>Peak intensity may differ by up to ±3% from exact NRCS tabular values depending on time step</li>
+                      <li>For critical infrastructure, compare against NRCS WinTR-55 or HEC-HMS built-in distributions</li>
+                    </ul>
+                    <div className="p-3 bg-muted/50 rounded-lg">
+                      <p className="font-medium text-foreground">Reference:</p>
+                      <p>USDA-NRCS. 1986. &quot;Urban Hydrology for Small Watersheds.&quot; Technical Release 55 (TR-55). Chapter 4.</p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* Huff Curves */}
+                <AccordionItem value="huff-curves">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2 text-foreground">
+                      <Badge variant="outline" className="text-xs">Methodology</Badge>
+                      Huff Distribution — Median vs. Percentile Curves
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3 text-sm text-muted-foreground">
+                    <p>
+                      This tool implements the <strong>median (50th percentile)</strong> Huff curves. The original Huff (1967) 
+                      research provides curves at 10th, 25th, 50th, 75th, and 90th percentiles:
+                    </p>
+                    <ul className="list-disc pl-6 space-y-1">
+                      <li>10th percentile = more intense, peaked (conservative for peak flow)</li>
+                      <li>90th percentile = flatter, uniform (conservative for volume-based design)</li>
+                      <li>Some jurisdictions specify which percentile to use — check local requirements</li>
+                      <li>Huff curves were developed from Illinois data; applicability to other regions should be evaluated</li>
+                    </ul>
+                    <div className="p-3 bg-muted/50 rounded-lg">
+                      <p className="font-medium text-foreground">Reference:</p>
+                      <p>Huff, F.A. 1967. &quot;Time Distribution of Rainfall in Heavy Storms.&quot; Water Resources Research, 3(4), 1007–1019.</p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* Data Vintage */}
+                <AccordionItem value="data-vintage">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2 text-foreground">
+                      <Badge variant="outline" className="text-xs">Data</Badge>
+                      IDF Data Sources & Vintage
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3 text-sm text-muted-foreground">
+                    <p>Bundled regional IDF reference values are representative estimates from:</p>
+                    <table className="w-full border-collapse mt-2">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left p-2 font-semibold text-foreground">Source</th>
+                          <th className="text-left p-2 font-semibold text-foreground">Coverage</th>
+                          <th className="text-left p-2 font-semibold text-foreground">Vintage</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b"><td className="p-2">NOAA Atlas 14</td><td className="p-2">Continental US</td><td className="p-2">Vols 1–12 (2004–2022)</td></tr>
+                        <tr className="border-b"><td className="p-2">UK FEH</td><td className="p-2">United Kingdom</td><td className="p-2">FEH13 (2013)</td></tr>
+                        <tr className="border-b"><td className="p-2">Australia ARR</td><td className="p-2">Australia</td><td className="p-2">ARR 2019 (4th ed.)</td></tr>
+                        <tr className="border-b"><td className="p-2">German DWA</td><td className="p-2">Germany</td><td className="p-2">KOSTRA-DWD 2020</td></tr>
+                        <tr className="border-b"><td className="p-2">Japan JMA</td><td className="p-2">Japan</td><td className="p-2">AMeDAS 1976–2020</td></tr>
+                        <tr><td className="p-2">Other regions</td><td className="p-2">Various</td><td className="p-2">National standards</td></tr>
+                      </tbody>
+                    </table>
+                    <ul className="list-disc pl-6 space-y-1 mt-3">
+                      <li>Bundled values are <strong>regional averages</strong>, not site-specific Atlas 14 point estimates</li>
+                      <li>Use the <strong>Live NOAA Lookup</strong> for site-specific US data</li>
+                      <li>200-yr, 500-yr, 1000-yr return periods use extrapolation and carry higher uncertainty</li>
+                      <li>Climate change may render historical IDF data non-conservative for long-lived infrastructure</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* Regulatory Acceptance */}
+                <AccordionItem value="regulatory">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2 text-foreground">
+                      <Badge variant="outline" className="text-xs">Regulatory</Badge>
+                      Regulatory Acceptance & Jurisdictional Requirements
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3 text-sm text-muted-foreground">
+                    <p>Acceptance of synthetic design storms varies by jurisdiction. Before submitting, confirm:</p>
+                    <ul className="list-disc pl-6 space-y-1">
+                      <li><strong>Pattern selection:</strong> Many agencies specify which distribution to use (e.g., FDOT zone-specific, TxDOT hyetograph)</li>
+                      <li><strong>Return period:</strong> Check ARI vs AEP and partial-duration vs annual-maximum series</li>
+                      <li><strong>Rainfall depth source:</strong> Most US agencies require NOAA Atlas 14; some states maintain their own IDF curves</li>
+                      <li><strong>Time step:</strong> Some agencies mandate ≤6 min for small urban catchments</li>
+                      <li><strong>Duration:</strong> Confirm 24-hour vs critical-duration requirements</li>
+                      <li><strong>Climate adjustment:</strong> Increasing jurisdictions require climate change factors on historical IDF data</li>
+                    </ul>
+                    <div className="p-3 bg-muted/50 rounded-lg">
+                      <p className="font-medium text-foreground">Tip:</p>
+                      <p>Include the exported PDF engineering report with submittals — it documents pattern, depth, duration, and source for traceability.</p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* Tool Scope */}
+                <AccordionItem value="scope">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2 text-foreground">
+                      <Badge variant="outline" className="text-xs">Scope</Badge>
+                      What This Tool Does NOT Do
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3 text-sm text-muted-foreground">
+                    <p>Rain Canvas Studio is a <strong>synthetic design storm generator</strong>. It is NOT intended for:</p>
+                    <div className="grid gap-2">
+                      {[
+                        ["Continuous simulation", "Produces single-event storms only. Use SWMM continuous simulation or EPA BASINS for long-term modeling."],
+                        ["PMP / dam safety", "PMP patterns are included but a full Probable Maximum Precipitation study requires site-specific analysis per FERC/state guidelines."],
+                        ["Spatial rainfall distribution", "All storms are spatially uniform (point rainfall). For watersheds >10 mi², apply areal reduction factors externally."],
+                        ["Real-time forecasting", "This is a design tool, not a nowcasting system. It does not ingest real-time radar or gauge data."],
+                        ["Snowmelt / mixed precipitation", "Generates liquid rainfall only. Snow, rain-on-snow, and temperature-index melt are outside scope."],
+                        ["Frequency analysis", "The Real Data Hub imports observed storms but does not perform statistical fitting (Log-Pearson III, GEV, etc.)."],
+                      ].map(([title, desc]) => (
+                        <div key={title} className="flex items-start gap-2 p-2 bg-muted/50 rounded">
+                          <span className="text-destructive font-bold shrink-0">✗</span>
+                          <div><strong>{title}</strong> — {desc}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* Export Notes */}
+                <AccordionItem value="export-limits">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2 text-foreground">
+                      <Badge variant="outline" className="text-xs">Export</Badge>
+                      Export Format Assumptions
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3 text-sm text-muted-foreground">
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li><strong>HEC-HMS .gage:</strong> Uses incremental depth format. Verify your model&apos;s gage settings match. Tested with HEC-HMS 4.9–4.12.</li>
+                      <li><strong>SWMM5 .dat:</strong> Intensity in selected unit system. Verify SWMM rain gage units match.</li>
+                      <li><strong>InfoWorks ICM:</strong> Always exports in mm/hr per ICM convention, regardless of selected units.</li>
+                      <li><strong>HydroCAD .hcr:</strong> Two-column format (time, incremental depth). Compatible with HydroCAD 10.x.</li>
+                      <li><strong>PDF Report:</strong> Chart captured as raster PNG. For vector graphics, use SVG export separately.</li>
+                      <li><strong>Mass balance:</strong> Floating-point arithmetic may cause ±0.001 in (±0.025 mm) difference vs specified depth. The PDF verification section flags this.</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+
+                {/* Climate Change */}
+                <AccordionItem value="climate">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2 text-foreground">
+                      <Badge variant="outline" className="text-xs">Climate</Badge>
+                      Climate Change Considerations
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-3 text-sm text-muted-foreground">
+                    <p>Historical IDF data assumes <strong>stationarity</strong>. This is increasingly challenged:</p>
+                    <ul className="list-disc pl-6 space-y-1">
+                      <li>Clausius-Clapeyron: ~7% increase in extreme precipitation per °C of warming</li>
+                      <li>Many US cities show statistically significant increases in extreme rainfall</li>
+                      <li>NOAA Atlas 14 does not include climate change projections</li>
+                      <li>The climate scenario slider (±10–30%) provides a simple sensitivity check, not a substitute for downscaled GCM projections</li>
+                      <li>For infrastructure with design life &gt;30 years, consult CMIP6 projections or state-specific climate guidelines</li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
+              {/* Version Info */}
+              <div className="p-4 border rounded-lg bg-muted/30">
+                <h4 className="font-semibold text-foreground mb-2">Tool Version & Data Currency</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                  <div><strong>Application:</strong> Rain Canvas Studio v1.0</div>
+                  <div><strong>Pattern Library:</strong> 66 distributions</div>
+                  <div><strong>Bundled IDF Data:</strong> Regional estimates (see Data Vintage)</div>
+                  <div><strong>Live IDF Source:</strong> NOAA Atlas 14 PFDS API (real-time)</div>
+                  <div><strong>Last Pattern Update:</strong> 2025</div>
+                  <div><strong>Export Formats:</strong> CSV, JSON, SWMM5, ICM, HEC-HMS, HydroCAD, PDF</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
 
