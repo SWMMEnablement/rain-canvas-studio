@@ -1,14 +1,15 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, CloudRain, ExternalLink, ChevronDown, ChevronUp, Zap, Target, Info } from "lucide-react";
+import { MapPin, CloudRain, ExternalLink, ChevronDown, ChevronUp, Zap, Target, Info, Search, Loader2, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { type UnitSystem, convertDepth } from "@/lib/unitConversions";
+import { lookupZip, type ZipEntry } from "@/lib/zipLookup";
 
 // Regional IDF lookup tables (depth in inches for various return periods and durations)
 // Based on representative NOAA Atlas 14 data for major US climate regions
@@ -119,6 +120,14 @@ const REGIONAL_IDF_DATA: Record<string, {
 const RETURN_PERIODS = ["2", "5", "10", "25", "50", "100"];
 const DURATIONS = ["1", "2", "6", "12", "24"];
 
+// Map NOAA duration labels to our duration keys (hours)
+function noaaDurationToHours(label: string): string | null {
+  const map: Record<string, string> = {
+    "60-min": "1", "2-hr": "2", "6-hr": "6", "12-hr": "12", "24-hr": "24",
+  };
+  return map[label] || null;
+}
+
 interface IdfGuidedSelectorProps {
   unitSystem: UnitSystem;
   onApplyDesignStorm: (depth: number, duration: number) => void;
@@ -129,45 +138,98 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
   const [selectedRegion, setSelectedRegion] = useState<string>("southeast");
   const [selectedReturnPeriod, setSelectedReturnPeriod] = useState<string>("10");
   const [selectedDuration, setSelectedDuration] = useState<string>("6");
-  const [latitude, setLatitude] = useState<string>("");
-  const [longitude, setLongitude] = useState<string>("");
+  const [zipCode, setZipCode] = useState("");
+  const [zipResult, setZipResult] = useState<ZipEntry | null>(null);
+  const [liveData, setLiveData] = useState<Record<string, Record<string, number>> | null>(null);
+  const [liveLoading, setLiveLoading] = useState(false);
+  const [liveSource, setLiveSource] = useState("");
 
   const regionData = REGIONAL_IDF_DATA[selectedRegion];
 
+  // Use live data if available, otherwise fall back to bundled regional data
+  const activeDepths = liveData || (regionData?.depths ?? {});
+
   const selectedDepth = useMemo(() => {
-    if (!regionData) return null;
-    const depthInches = regionData.depths[selectedDuration]?.[selectedReturnPeriod];
+    const depthInches = activeDepths[selectedDuration]?.[selectedReturnPeriod];
     if (!depthInches) return null;
     return unitSystem === 'USA' ? depthInches : convertDepth(depthInches, 'USA', 'SI');
-  }, [selectedRegion, selectedReturnPeriod, selectedDuration, unitSystem, regionData]);
+  }, [activeDepths, selectedReturnPeriod, selectedDuration, unitSystem]);
 
-  const noaaPfdsUrl = useMemo(() => {
-    const lat = parseFloat(latitude);
-    const lon = parseFloat(longitude);
-    if (isNaN(lat) || isNaN(lon)) return null;
-    return `https://hdsc.nws.noaa.gov/pfds/pfds_map_cont.html?bkmrk=ga&lat=${lat}&lon=${lon}&data=depth&units=english&series=pds`;
-  }, [latitude, longitude]);
-
-  const handleGetCurrentLocation = () => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLatitude(position.coords.latitude.toFixed(4));
-          setLongitude(position.coords.longitude.toFixed(4));
-          toast.success("Location retrieved - open NOAA PFDS for exact values");
-        },
-        (error) => {
-          toast.error("Could not get location: " + error.message);
-        }
-      );
-    } else {
-      toast.error("Geolocation is not supported by your browser");
+  const handleZipLookup = useCallback(() => {
+    const clean = zipCode.replace(/\D/g, "");
+    if (clean.length < 5) {
+      toast.error("Please enter a valid 5-digit US zip code");
+      return;
     }
-  };
+
+    const entry = lookupZip(clean);
+    if (entry) {
+      setZipResult(entry);
+      setSelectedRegion(entry.region);
+      toast.success(`Found: ${entry.city}, ${entry.state} → ${REGIONAL_IDF_DATA[entry.region]?.name}`);
+      // Auto-fetch live NOAA data for this location
+      fetchLiveNoaa(entry.lat, entry.lon, `${entry.city}, ${entry.state}`);
+    } else {
+      setZipResult(null);
+      toast.error("Zip code not in bundled dataset. Try the live NOAA lookup in Advanced Tools → IDF Lookup.");
+    }
+  }, [zipCode]);
+
+  const fetchLiveNoaa = useCallback(async (lat: number, lon: number, locationLabel: string) => {
+    setLiveLoading(true);
+    setLiveData(null);
+    setLiveSource("");
+
+    try {
+      const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+      const url = `https://${projectId}.supabase.co/functions/v1/noaa-idf-proxy?lat=${lat}&lon=${lon}&data=depth&units=english&series=pds`;
+
+      const response = await fetch(url, {
+        headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const data = await response.json();
+      if (data.error || !data.quantiles?.length) throw new Error(data.error || "No data");
+
+      // Map NOAA response into our duration→returnPeriod→depth format
+      const noaaRPs = data.returnPeriods.map(Number);
+      const mapped: Record<string, Record<string, number>> = {};
+
+      data.durations.forEach((durLabel: string, dIdx: number) => {
+        const hourKey = noaaDurationToHours(durLabel);
+        if (!hourKey || dIdx >= data.quantiles.length) return;
+        mapped[hourKey] = {};
+        noaaRPs.forEach((rp: number, rpIdx: number) => {
+          if (RETURN_PERIODS.includes(String(rp)) && rpIdx < data.quantiles[dIdx].length) {
+            mapped[hourKey][String(rp)] = data.quantiles[dIdx][rpIdx];
+          }
+        });
+      });
+
+      if (Object.keys(mapped).length > 0) {
+        setLiveData(mapped);
+        setLiveSource(`NOAA Atlas 14 for ${locationLabel} (${lat.toFixed(2)}, ${lon.toFixed(2)})`);
+        toast.success(`Live NOAA Atlas 14 data loaded for ${locationLabel}`);
+      }
+    } catch {
+      // Silently fall back to bundled data — it's still useful
+      console.warn("Live NOAA fetch failed, using bundled regional data");
+    } finally {
+      setLiveLoading(false);
+    }
+  }, []);
 
   const handleApply = () => {
     if (selectedDepth !== null) {
-      onApplyDesignStorm(selectedDepth, parseFloat(selectedDuration));
+      const depthInches = liveData
+        ? (activeDepths[selectedDuration]?.[selectedReturnPeriod] ?? selectedDepth)
+        : (unitSystem === 'USA' ? selectedDepth : convertDepth(selectedDepth, 'SI', 'USA'));
+      onApplyDesignStorm(
+        unitSystem === 'USA' ? depthInches : convertDepth(depthInches, 'USA', 'SI'),
+        parseFloat(selectedDuration)
+      );
       toast.success(`Applied ${selectedReturnPeriod}-year, ${selectedDuration}-hour design storm`);
       setIsOpen(false);
     }
@@ -189,12 +251,12 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                   <Target className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                <CardTitle className="text-base flex items-center gap-2">
+                  <CardTitle className="text-base flex items-center gap-2">
                     IDF-Guided Design Storm
                     <Badge variant="secondary" className="text-xs">Design by Return Period</Badge>
                   </CardTitle>
                   <CardDescription className="text-sm">
-                    Select return period + duration → app calculates depth automatically
+                    Enter zip code or select region → pick return period + duration → depth auto-fills
                   </CardDescription>
                 </div>
               </div>
@@ -209,13 +271,59 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
 
         <CollapsibleContent>
           <CardContent className="space-y-6 pt-0">
-            {/* Region Selection */}
+            {/* Zip Code Quick Lookup */}
+            <div className="space-y-3">
+              <Label className="flex items-center gap-2">
+                <Search className="w-4 h-4 text-muted-foreground" />
+                Quick Lookup by US Zip Code
+              </Label>
+              <div className="flex gap-2">
+                <Input
+                  value={zipCode}
+                  onChange={(e) => setZipCode(e.target.value.replace(/\D/g, "").slice(0, 5))}
+                  onKeyDown={(e) => e.key === "Enter" && handleZipLookup()}
+                  placeholder="e.g., 77001"
+                  className="w-32"
+                  maxLength={5}
+                />
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={handleZipLookup}
+                  disabled={zipCode.length < 5 || liveLoading}
+                >
+                  {liveLoading ? (
+                    <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                  ) : (
+                    <Zap className="w-4 h-4 mr-1" />
+                  )}
+                  {liveLoading ? "Fetching..." : "Look Up"}
+                </Button>
+              </div>
+
+              {zipResult && (
+                <div className="flex items-center gap-2 text-sm">
+                  <CheckCircle className="w-4 h-4 text-primary" />
+                  <span className="font-medium">{zipResult.city}, {zipResult.state}</span>
+                  <span className="text-muted-foreground">→ {REGIONAL_IDF_DATA[zipResult.region]?.name}</span>
+                </div>
+              )}
+
+              {liveSource && (
+                <div className="flex items-center gap-2 p-2 rounded-md bg-accent/50 border border-primary/20">
+                  <Badge variant="default" className="text-xs">Live</Badge>
+                  <span className="text-xs text-muted-foreground">{liveSource}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Region Selection (manual fallback) */}
             <div className="space-y-3">
               <Label className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-muted-foreground" />
-                Climate Region
+                Climate Region {liveData ? "(overridden by live data)" : ""}
               </Label>
-              <Select value={selectedRegion} onValueChange={setSelectedRegion}>
+              <Select value={selectedRegion} onValueChange={(v) => { setSelectedRegion(v); setLiveData(null); setLiveSource(""); setZipResult(null); }}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -227,7 +335,7 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                   ))}
                 </SelectContent>
               </Select>
-              {regionData && (
+              {regionData && !liveData && (
                 <p className="text-xs text-muted-foreground">
                   {regionData.description}. Recommended: <strong>{regionData.recommendedScsType}</strong>
                 </p>
@@ -272,6 +380,7 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                   <p className="text-2xl font-bold text-primary">{formatDepth(selectedDepth)}</p>
                   <p className="text-sm text-muted-foreground mt-1">
                     {selectedReturnPeriod}-year, {selectedDuration}-hour storm
+                    {liveSource && <Badge variant="outline" className="ml-2 text-xs">NOAA Atlas 14</Badge>}
                   </p>
                 </div>
                 <Button onClick={handleApply} className="gap-2" disabled={selectedDepth === null}>
@@ -282,92 +391,73 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
             </div>
 
             {/* IDF Reference Table */}
-            {regionData && (
-              <div className="space-y-2">
-                <p className="text-sm font-medium flex items-center gap-2">
-                  <CloudRain className="w-4 h-4" />
-                  Regional IDF Reference ({unitSystem === 'USA' ? 'inches' : 'mm'})
-                </p>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-xs border-collapse">
-                    <thead>
-                      <tr className="bg-muted/50">
-                        <th className="text-left p-2 border">Duration</th>
-                        {RETURN_PERIODS.map(rp => (
-                          <th key={rp} className="text-center p-2 border">{rp}-yr</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {DURATIONS.map(dur => (
-                        <tr key={dur} className={dur === selectedDuration ? "bg-primary/10" : "hover:bg-muted/30"}>
-                          <td className="p-2 border font-medium">{dur}-hr</td>
-                          {RETURN_PERIODS.map(rp => {
-                            const depth = regionData.depths[dur]?.[rp];
-                            const displayDepth = depth 
-                              ? (unitSystem === 'USA' ? depth.toFixed(2) : convertDepth(depth, 'USA', 'SI').toFixed(1))
-                              : "—";
-                            const isSelected = dur === selectedDuration && rp === selectedReturnPeriod;
-                            return (
-                              <td 
-                                key={rp} 
-                                className={`p-2 border text-center cursor-pointer transition-colors ${
-                                  isSelected ? "bg-primary text-primary-foreground font-bold" : "hover:bg-accent"
-                                }`}
-                                onClick={() => {
-                                  setSelectedDuration(dur);
-                                  setSelectedReturnPeriod(rp);
-                                }}
-                              >
-                                {displayDepth}
-                              </td>
-                            );
-                          })}
-                        </tr>
+            <div className="space-y-2">
+              <p className="text-sm font-medium flex items-center gap-2">
+                <CloudRain className="w-4 h-4" />
+                {liveData ? "NOAA Atlas 14" : "Regional"} IDF Reference ({unitSystem === 'USA' ? 'inches' : 'mm'})
+                {liveData && <Badge variant="default" className="text-xs">Live Data</Badge>}
+              </p>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-muted/50">
+                      <th className="text-left p-2 border">Duration</th>
+                      {RETURN_PERIODS.map(rp => (
+                        <th key={rp} className="text-center p-2 border">{rp}-yr</th>
                       ))}
-                    </tbody>
-                  </table>
-                </div>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {DURATIONS.map(dur => (
+                      <tr key={dur} className={dur === selectedDuration ? "bg-primary/10" : "hover:bg-muted/30"}>
+                        <td className="p-2 border font-medium">{dur}-hr</td>
+                        {RETURN_PERIODS.map(rp => {
+                          const depth = activeDepths[dur]?.[rp];
+                          const displayDepth = depth
+                            ? (unitSystem === 'USA' ? depth.toFixed(2) : convertDepth(depth, 'USA', 'SI').toFixed(1))
+                            : "—";
+                          const isSelected = dur === selectedDuration && rp === selectedReturnPeriod;
+                          return (
+                            <td
+                              key={rp}
+                              className={`p-2 border text-center cursor-pointer transition-colors ${
+                                isSelected ? "bg-primary text-primary-foreground font-bold" : "hover:bg-accent"
+                              }`}
+                              onClick={() => {
+                                setSelectedDuration(dur);
+                                setSelectedReturnPeriod(rp);
+                              }}
+                            >
+                              {displayDepth}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            )}
+            </div>
 
-            {/* NOAA Link */}
-            <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800">
+            {/* Source Info */}
+            <div className="p-3 rounded-lg bg-muted/30 border border-border">
               <div className="flex items-start gap-3">
-                <Info className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5" />
-                <div className="flex-1 space-y-2">
-                  <p className="text-xs text-blue-700 dark:text-blue-300">
-                    For site-specific values, use the official NOAA Precipitation Frequency Data Server.
+                <Info className="w-4 h-4 text-muted-foreground mt-0.5" />
+                <div className="flex-1 space-y-1">
+                  <p className="text-xs text-muted-foreground">
+                    {liveData
+                      ? `Site-specific data from ${liveSource}. Values are precipitation depths for the partial duration series (PDS).`
+                      : "Regional representative values based on NOAA Atlas 14. For site-specific data, enter a zip code above or use Advanced Tools → IDF Lookup."
+                    }
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    <Button variant="outline" size="sm" className="h-7 text-xs" onClick={handleGetCurrentLocation}>
-                      <MapPin className="w-3 h-3 mr-1" />
-                      Get Location
+                  {!liveData && (
+                    <Button variant="link" size="sm" className="h-auto p-0 text-xs" asChild>
+                      <a href="https://hdsc.nws.noaa.gov/pfds/" target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="w-3 h-3 mr-1" />
+                        Open NOAA PFDS directly
+                      </a>
                     </Button>
-                    {noaaPfdsUrl ? (
-                      <Button variant="outline" size="sm" className="h-7 text-xs" asChild>
-                        <a href={noaaPfdsUrl} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="w-3 h-3 mr-1" />
-                          Open NOAA PFDS
-                        </a>
-                      </Button>
-                    ) : (
-                      <div className="flex gap-1">
-                        <Input 
-                          placeholder="Lat" 
-                          className="h-7 w-20 text-xs" 
-                          value={latitude}
-                          onChange={(e) => setLatitude(e.target.value)}
-                        />
-                        <Input 
-                          placeholder="Lon" 
-                          className="h-7 w-20 text-xs" 
-                          value={longitude}
-                          onChange={(e) => setLongitude(e.target.value)}
-                        />
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
