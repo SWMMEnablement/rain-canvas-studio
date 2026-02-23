@@ -73,6 +73,15 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'sa_huff', name: 'South Africa Huff', color: '#fbbf24', category: 'International' },
   { id: 'dutch', name: 'Dutch KNMI', color: '#f97316', category: 'International' },
   { id: 'italian', name: 'Italian (LSPP)', color: '#059669', category: 'International' },
+  { id: 'canadian', name: 'Canadian CDA', color: '#e11d48', category: 'International' },
+  // US Agency (additional)
+  { id: 'udfcd', name: 'UDFCD Denver', color: '#7e22ce', category: 'US Agency' },
+  { id: 'usace_sps', name: 'USACE SPS', color: '#155e75', category: 'US Agency' },
+  // European
+  { id: 'euler1', name: 'Euler Type I', color: '#65a30d', category: 'European' },
+  { id: 'euler2', name: 'Euler Type II', color: '#16a34a', category: 'European' },
+  { id: 'feh', name: 'FEH (UK)', color: '#0369a1', category: 'European' },
+  { id: 'desbordes_double', name: 'Double Triangle', color: '#9333ea', category: 'European' },
 ];
 
 interface PresetGroup {
@@ -94,7 +103,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'All International',
-    patterns: ['desbordes', 'arr', 'dwa', 'jma', 'china', 'sa_huff', 'dutch', 'italian'],
+    patterns: ['desbordes', 'arr', 'dwa', 'jma', 'china', 'sa_huff', 'dutch', 'italian', 'canadian'],
     description: 'Compare all international patterns',
   },
   {
@@ -104,7 +113,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'European',
-    patterns: ['desbordes', 'dwa', 'dutch', 'italian'],
+    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double'],
     description: 'European design patterns',
   },
   {
@@ -116,6 +125,16 @@ const presetGroups: PresetGroup[] = [
     name: 'Florida FDOT',
     patterns: ['fdot1', 'fdot2', 'fdot3', 'fdot4', 'fdot5'],
     description: 'All FDOT rainfall zones',
+  },
+  {
+    name: 'Euler Types',
+    patterns: ['euler1', 'euler2', 'dwa'],
+    description: 'German Euler distributions',
+  },
+  {
+    name: 'UK Methods',
+    patterns: ['fsr', 'feh', 'triangular', 'trapezoidal'],
+    description: 'UK design storm methods',
   },
 ];
 

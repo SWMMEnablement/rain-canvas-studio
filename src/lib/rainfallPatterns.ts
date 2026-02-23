@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -998,6 +998,284 @@ export function generateRainfallData(
           nextCumulative = 0.85 + 0.10 * ((nextT - 0.70) / 0.15);
         } else {
           nextCumulative = 0.95 + 0.05 * ((nextT - 0.85) / 0.15);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'udfcd': {
+      // UDFCD Denver 2-hour design storm
+      // Urban Drainage and Flood Control District (Colorado)
+      // Front-loaded pattern with 60% of rain in first 1/3 of storm
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.08) {
+          cumulativeFraction = 0.04 * (t / 0.08);
+        } else if (t <= 0.25) {
+          cumulativeFraction = 0.04 + 0.56 * Math.pow((t - 0.08) / 0.17, 0.75);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.60 + 0.25 * ((t - 0.25) / 0.25);
+        } else {
+          cumulativeFraction = 0.85 + 0.15 * ((t - 0.50) / 0.50);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.08) {
+          nextCumulative = 0.04 * (nextT / 0.08);
+        } else if (nextT <= 0.25) {
+          nextCumulative = 0.04 + 0.56 * Math.pow((nextT - 0.08) / 0.17, 0.75);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.60 + 0.25 * ((nextT - 0.25) / 0.25);
+        } else {
+          nextCumulative = 0.85 + 0.15 * ((nextT - 0.50) / 0.50);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'usace_sps': {
+      // USACE Standard Project Storm
+      // US Army Corps of Engineers - envelope of severe storms
+      // Broader peak than SCS, representing large-area storms
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.20) {
+          cumulativeFraction = 0.08 * (t / 0.20);
+        } else if (t <= 0.35) {
+          cumulativeFraction = 0.08 + 0.15 * ((t - 0.20) / 0.15);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.23 + 0.40 * Math.pow((t - 0.35) / 0.15, 0.85);
+        } else if (t <= 0.65) {
+          cumulativeFraction = 0.63 + 0.22 * ((t - 0.50) / 0.15);
+        } else if (t <= 0.80) {
+          cumulativeFraction = 0.85 + 0.10 * ((t - 0.65) / 0.15);
+        } else {
+          cumulativeFraction = 0.95 + 0.05 * ((t - 0.80) / 0.20);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.20) {
+          nextCumulative = 0.08 * (nextT / 0.20);
+        } else if (nextT <= 0.35) {
+          nextCumulative = 0.08 + 0.15 * ((nextT - 0.20) / 0.15);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.23 + 0.40 * Math.pow((nextT - 0.35) / 0.15, 0.85);
+        } else if (nextT <= 0.65) {
+          nextCumulative = 0.63 + 0.22 * ((nextT - 0.50) / 0.15);
+        } else if (nextT <= 0.80) {
+          nextCumulative = 0.85 + 0.10 * ((nextT - 0.65) / 0.15);
+        } else {
+          nextCumulative = 0.95 + 0.05 * ((nextT - 0.80) / 0.20);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'feh': {
+      // FEH (Flood Estimation Handbook) UK
+      // Updated successor to FSR with improved temporal profiles
+      // Summer profile with peak around 42% of duration
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.15) {
+          cumulativeFraction = 0.06 * (t / 0.15);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.06 + 0.14 * ((t - 0.15) / 0.15);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.20 + 0.45 * Math.pow((t - 0.30) / 0.20, 0.85);
+        } else if (t <= 0.70) {
+          cumulativeFraction = 0.65 + 0.22 * ((t - 0.50) / 0.20);
+        } else {
+          cumulativeFraction = 0.87 + 0.13 * ((t - 0.70) / 0.30);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.15) {
+          nextCumulative = 0.06 * (nextT / 0.15);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.06 + 0.14 * ((nextT - 0.15) / 0.15);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.20 + 0.45 * Math.pow((nextT - 0.30) / 0.20, 0.85);
+        } else if (nextT <= 0.70) {
+          nextCumulative = 0.65 + 0.22 * ((nextT - 0.50) / 0.20);
+        } else {
+          nextCumulative = 0.87 + 0.13 * ((nextT - 0.70) / 0.30);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'euler1': {
+      // Euler Type I - front-loaded variant
+      // Peak at 1/6 of duration, used in German practice
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.167) {
+          cumulativeFraction = 0.42 * Math.pow(t / 0.167, 0.8);
+        } else if (t <= 0.333) {
+          cumulativeFraction = 0.42 + 0.23 * ((t - 0.167) / 0.167);
+        } else if (t <= 0.5) {
+          cumulativeFraction = 0.65 + 0.15 * ((t - 0.333) / 0.167);
+        } else if (t <= 0.667) {
+          cumulativeFraction = 0.80 + 0.10 * ((t - 0.5) / 0.167);
+        } else if (t <= 0.833) {
+          cumulativeFraction = 0.90 + 0.06 * ((t - 0.667) / 0.167);
+        } else {
+          cumulativeFraction = 0.96 + 0.04 * ((t - 0.833) / 0.167);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.167) {
+          nextCumulative = 0.42 * Math.pow(nextT / 0.167, 0.8);
+        } else if (nextT <= 0.333) {
+          nextCumulative = 0.42 + 0.23 * ((nextT - 0.167) / 0.167);
+        } else if (nextT <= 0.5) {
+          nextCumulative = 0.65 + 0.15 * ((nextT - 0.333) / 0.167);
+        } else if (nextT <= 0.667) {
+          nextCumulative = 0.80 + 0.10 * ((nextT - 0.5) / 0.167);
+        } else if (nextT <= 0.833) {
+          nextCumulative = 0.90 + 0.06 * ((nextT - 0.667) / 0.167);
+        } else {
+          nextCumulative = 0.96 + 0.04 * ((nextT - 0.833) / 0.167);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'euler2': {
+      // Euler Type II - center-peaked variant (same as DWA but standalone)
+      // Peak at 1/3 of duration, German standard
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.167) {
+          cumulativeFraction = 0.09 * (t / 0.167);
+        } else if (t <= 0.333) {
+          cumulativeFraction = 0.09 + 0.42 * Math.pow((t - 0.167) / 0.167, 0.85);
+        } else if (t <= 0.5) {
+          cumulativeFraction = 0.51 + 0.23 * ((t - 0.333) / 0.167);
+        } else if (t <= 0.667) {
+          cumulativeFraction = 0.74 + 0.13 * ((t - 0.5) / 0.167);
+        } else if (t <= 0.833) {
+          cumulativeFraction = 0.87 + 0.08 * ((t - 0.667) / 0.167);
+        } else {
+          cumulativeFraction = 0.95 + 0.05 * ((t - 0.833) / 0.167);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.167) {
+          nextCumulative = 0.09 * (nextT / 0.167);
+        } else if (nextT <= 0.333) {
+          nextCumulative = 0.09 + 0.42 * Math.pow((nextT - 0.167) / 0.167, 0.85);
+        } else if (nextT <= 0.5) {
+          nextCumulative = 0.51 + 0.23 * ((nextT - 0.333) / 0.167);
+        } else if (nextT <= 0.667) {
+          nextCumulative = 0.74 + 0.13 * ((nextT - 0.5) / 0.167);
+        } else if (nextT <= 0.833) {
+          nextCumulative = 0.87 + 0.08 * ((nextT - 0.667) / 0.167);
+        } else {
+          nextCumulative = 0.95 + 0.05 * ((nextT - 0.833) / 0.167);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'desbordes_double': {
+      // Double Triangle Desbordes (distinct from the existing single desbordes)
+      // Symmetric double triangle with defined valley
+      const t1 = 0.25; // first peak
+      const tv = 0.45; // valley
+      const t2 = 0.65; // second peak
+      const i1 = (2.5 * totalDepth) / duration;
+      const i2 = (2.0 * totalDepth) / duration;
+      const iValley = 0.3 * i1;
+      
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let intensity: number;
+        
+        if (t <= t1) {
+          intensity = i1 * (t / t1);
+        } else if (t <= tv) {
+          intensity = i1 - (i1 - iValley) * ((t - t1) / (tv - t1));
+        } else if (t <= t2) {
+          intensity = iValley + (i2 - iValley) * ((t - tv) / (t2 - tv));
+        } else {
+          intensity = i2 * (1 - (t - t2) / (1 - t2));
+        }
+        
+        data.push(Math.max(0, intensity));
+      }
+      break;
+    }
+
+    case 'canadian': {
+      // Canadian CDA (Canadian Dam Association) / Ontario MTO pattern
+      // Modified Type II adapted for Canadian climate with broader peak
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.15) {
+          cumulativeFraction = 0.05 * (t / 0.15);
+        } else if (t <= 0.35) {
+          cumulativeFraction = 0.05 + 0.15 * ((t - 0.15) / 0.20);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.20 + 0.42 * Math.pow((t - 0.35) / 0.15, 0.82);
+        } else if (t <= 0.65) {
+          cumulativeFraction = 0.62 + 0.22 * ((t - 0.50) / 0.15);
+        } else if (t <= 0.80) {
+          cumulativeFraction = 0.84 + 0.10 * ((t - 0.65) / 0.15);
+        } else {
+          cumulativeFraction = 0.94 + 0.06 * ((t - 0.80) / 0.20);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.15) {
+          nextCumulative = 0.05 * (nextT / 0.15);
+        } else if (nextT <= 0.35) {
+          nextCumulative = 0.05 + 0.15 * ((nextT - 0.15) / 0.20);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.20 + 0.42 * Math.pow((nextT - 0.35) / 0.15, 0.82);
+        } else if (nextT <= 0.65) {
+          nextCumulative = 0.62 + 0.22 * ((nextT - 0.50) / 0.15);
+        } else if (nextT <= 0.80) {
+          nextCumulative = 0.84 + 0.10 * ((nextT - 0.65) / 0.15);
+        } else {
+          nextCumulative = 0.94 + 0.06 * ((nextT - 0.80) / 0.20);
         }
         
         const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
