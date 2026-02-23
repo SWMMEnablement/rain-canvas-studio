@@ -18,7 +18,11 @@ import {
 import { type UnitSystem } from "@/lib/unitConversions";
 import { chinaRainstormDatabase } from "@/lib/chinaRainstormData";
 
-export function AdvancedTools() {
+interface AdvancedToolsProps {
+  onSendToGenerator?: (depthMm: number, durationMin: number) => void;
+}
+
+export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
   const [depth, setDepth] = useState(2.0);
   const [duration, setDuration] = useState(6.0);
   const [timeStep, setTimeStep] = useState(15);
@@ -126,7 +130,7 @@ export function AdvancedTools() {
               </p>
             </CardContent>
           </Card>
-          <ChinaRainstormCalculator />
+          <ChinaRainstormCalculator onSendToGenerator={onSendToGenerator} />
         </TabsContent>
 
         <TabsContent value="regional" className="space-y-6">

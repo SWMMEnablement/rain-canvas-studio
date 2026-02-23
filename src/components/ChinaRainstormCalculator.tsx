@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Search, MapPin, Download, BarChart3, Table as TableIcon, Zap, GitCompareArrows } from "lucide-react";
+import { Search, MapPin, Download, BarChart3, Table as TableIcon, Zap, GitCompareArrows, Send } from "lucide-react";
 import { ChinaCityComparison } from "./ChinaCityComparison";
 import {
   chinaRainstormDatabase,
@@ -23,7 +23,11 @@ import {
 } from "@/lib/chinaRainstormData";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line, Legend } from "recharts";
 
-export function ChinaRainstormCalculator() {
+interface ChinaRainstormCalculatorProps {
+  onSendToGenerator?: (depthMm: number, durationMin: number) => void;
+}
+
+export function ChinaRainstormCalculator({ onSendToGenerator }: ChinaRainstormCalculatorProps = {}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCity, setSelectedCity] = useState<CityRainstormParams | null>(null);
   const [selectedProvince, setSelectedProvince] = useState<string>("all");
@@ -286,28 +290,45 @@ export function ChinaRainstormCalculator() {
 
                   {/* Results */}
                   {intensity && (
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      <div className="bg-primary/10 rounded-lg p-3 text-center">
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Intensity</p>
-                        <p className="text-xl font-bold text-primary">{intensity.lsHa.toFixed(1)}</p>
-                        <p className="text-xs text-muted-foreground">L/(s·ha)</p>
+                    <>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div className="bg-primary/10 rounded-lg p-3 text-center">
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Intensity</p>
+                          <p className="text-xl font-bold text-primary">{intensity.lsHa.toFixed(1)}</p>
+                          <p className="text-xs text-muted-foreground">L/(s·ha)</p>
+                        </div>
+                        <div className="bg-primary/10 rounded-lg p-3 text-center">
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Intensity</p>
+                          <p className="text-xl font-bold text-primary">{intensity.mmHr.toFixed(1)}</p>
+                          <p className="text-xs text-muted-foreground">mm/hr</p>
+                        </div>
+                        <div className="bg-primary/10 rounded-lg p-3 text-center">
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Intensity</p>
+                          <p className="text-xl font-bold text-primary">{intensity.inHr.toFixed(2)}</p>
+                          <p className="text-xs text-muted-foreground">in/hr</p>
+                        </div>
+                        <div className="bg-primary/10 rounded-lg p-3 text-center">
+                          <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Total Depth</p>
+                          <p className="text-xl font-bold text-primary">{intensity.depthMm.toFixed(1)}</p>
+                          <p className="text-xs text-muted-foreground">mm</p>
+                        </div>
                       </div>
-                      <div className="bg-primary/10 rounded-lg p-3 text-center">
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Intensity</p>
-                        <p className="text-xl font-bold text-primary">{intensity.mmHr.toFixed(1)}</p>
-                        <p className="text-xs text-muted-foreground">mm/hr</p>
-                      </div>
-                      <div className="bg-primary/10 rounded-lg p-3 text-center">
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Intensity</p>
-                        <p className="text-xl font-bold text-primary">{intensity.inHr.toFixed(2)}</p>
-                        <p className="text-xs text-muted-foreground">in/hr</p>
-                      </div>
-                      <div className="bg-primary/10 rounded-lg p-3 text-center">
-                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Total Depth</p>
-                        <p className="text-xl font-bold text-primary">{intensity.depthMm.toFixed(1)}</p>
-                        <p className="text-xs text-muted-foreground">mm</p>
-                      </div>
-                    </div>
+                      {onSendToGenerator && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full gap-2 border-primary/30 text-primary hover:bg-primary/10"
+                          onClick={() => {
+                            const depthInches = intensity.depthMm / 25.4;
+                            const durationHours = duration / 60;
+                            onSendToGenerator(depthInches, durationHours);
+                          }}
+                        >
+                          <Send className="w-3.5 h-3.5" />
+                          Send to Storm Generator ({intensity.depthMm.toFixed(1)} mm / {duration} min)
+                        </Button>
+                      )}
+                    </>
                   )}
                 </TabsContent>
 
