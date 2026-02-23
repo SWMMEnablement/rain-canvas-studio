@@ -728,7 +728,7 @@ export function Documentation() {
                     <div className="flex items-center gap-2">
                       <Globe className="w-4 h-4 text-rose-500" />
                       Asian Design Storms
-                      <Badge variant="secondary" className="ml-2">9 Patterns</Badge>
+                      <Badge variant="secondary" className="ml-2">14 Patterns</Badge>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-4 text-sm">
@@ -843,6 +843,66 @@ export function Documentation() {
                         </p>
                         <p className="text-muted-foreground mt-1">
                           <strong>Reference:</strong> KMA Urban Flood Control Design Standards (2019)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇲🇾 Malaysia MSMA</h4>
+                        <p className="text-muted-foreground">
+                          Manual Saliran Mesra Alam (MSMA) 2nd Edition (2012) standard from the Department of 
+                          Irrigation and Drainage (DID). Tropical monsoon + convective pattern optimized for 
+                          Peninsular Malaysia and the Klang Valley urban heat island. Required for all DID drainage projects.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> MSMA 2nd Edition, DID Malaysia (2012)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇮🇩 Indonesia BMKG</h4>
+                        <p className="text-muted-foreground">
+                          Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) tropical convective pattern. 
+                          Very front-loaded Jakarta-style distribution representing wet season (Nov–Mar) events. 
+                          Based on 3,000+ rainfall stations. Used for Jakarta's massive flood control projects.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> BMKG National Rainfall Database Standards (2020)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇵🇭 Philippines PAGASA</h4>
+                        <p className="text-muted-foreground">
+                          Philippine Atmospheric, Geophysical and Astronomical Services Administration typhoon/monsoon 
+                          distribution. Very front-loaded with extended tail for typhoon events. Accounts for 
+                          super-typhoon class events (&gt;220 kph, Haiyan/Yolanda class). Used for Metro Manila flood control.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> PAGASA Rainfall Intensity-Duration-Frequency Atlas (2019)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇻🇳 Vietnam IMHEN</h4>
+                        <p className="text-muted-foreground">
+                          Institute of Meteorology, Hydrology and Climate Change (IMHEN) monsoon/convective hybrid. 
+                          Ho Chi Minh City-style moderate front-loading. Central coast variant is more typhoon-influenced 
+                          (Da Nang, Hue). Used for Vietnamese Smart City drainage design.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> IMHEN National Rainfall Database and Design Standards (2018)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇹🇭 Thailand TMD</h4>
+                        <p className="text-muted-foreground">
+                          Thai Meteorological Department Bangkok Metropolitan Administration (BMA) pattern. 
+                          Southwest monsoon (May–Oct) with urban heat island intensification. Very high intensity 
+                          due to Bangkok's urban microclimate. Required for all BMA drainage projects.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> TMD/BMA Urban Drainage Design Manual (2019)
                         </p>
                       </div>
                     </div>

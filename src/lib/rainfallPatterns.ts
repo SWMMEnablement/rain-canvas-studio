@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -1622,6 +1622,226 @@ export function generateRainfallData(
           nextCumulative = 0.64 + 0.20 * ((nextT - 0.50) / 0.15);
         } else if (nextT <= 0.80) {
           nextCumulative = 0.84 + 0.10 * ((nextT - 0.65) / 0.15);
+        } else {
+          nextCumulative = 0.94 + 0.06 * ((nextT - 0.80) / 0.20);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'malaysia_msma': {
+      // Malaysian MSMA (Manual Saliran Mesra Alam) 2nd Edition
+      // Tropical monsoon + convective pattern, moderate front-loading
+      // KL/Klang Valley: high intensity due to urban heat island
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.10) {
+          cumulativeFraction = 0.04 * (t / 0.10);
+        } else if (t <= 0.25) {
+          cumulativeFraction = 0.04 + 0.22 * ((t - 0.10) / 0.15);
+        } else if (t <= 0.40) {
+          cumulativeFraction = 0.26 + 0.38 * Math.pow((t - 0.25) / 0.15, 0.75);
+        } else if (t <= 0.55) {
+          cumulativeFraction = 0.64 + 0.20 * ((t - 0.40) / 0.15);
+        } else if (t <= 0.75) {
+          cumulativeFraction = 0.84 + 0.10 * ((t - 0.55) / 0.20);
+        } else {
+          cumulativeFraction = 0.94 + 0.06 * ((t - 0.75) / 0.25);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.10) {
+          nextCumulative = 0.04 * (nextT / 0.10);
+        } else if (nextT <= 0.25) {
+          nextCumulative = 0.04 + 0.22 * ((nextT - 0.10) / 0.15);
+        } else if (nextT <= 0.40) {
+          nextCumulative = 0.26 + 0.38 * Math.pow((nextT - 0.25) / 0.15, 0.75);
+        } else if (nextT <= 0.55) {
+          nextCumulative = 0.64 + 0.20 * ((nextT - 0.40) / 0.15);
+        } else if (nextT <= 0.75) {
+          nextCumulative = 0.84 + 0.10 * ((nextT - 0.55) / 0.20);
+        } else {
+          nextCumulative = 0.94 + 0.06 * ((nextT - 0.75) / 0.25);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'indonesia_bmkg': {
+      // Indonesian BMKG (Badan Meteorologi, Klimatologi, dan Geofisika)
+      // Jakarta-style tropical convective: very front-loaded, rapid onset
+      // Wet season (Nov-Mar) pattern with extreme short-duration peaks
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.08) {
+          cumulativeFraction = 0.15 * (t / 0.08);
+        } else if (t <= 0.20) {
+          cumulativeFraction = 0.15 + 0.35 * Math.pow((t - 0.08) / 0.12, 0.65);
+        } else if (t <= 0.35) {
+          cumulativeFraction = 0.50 + 0.25 * ((t - 0.20) / 0.15);
+        } else if (t <= 0.55) {
+          cumulativeFraction = 0.75 + 0.15 * ((t - 0.35) / 0.20);
+        } else if (t <= 0.80) {
+          cumulativeFraction = 0.90 + 0.07 * ((t - 0.55) / 0.25);
+        } else {
+          cumulativeFraction = 0.97 + 0.03 * ((t - 0.80) / 0.20);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.08) {
+          nextCumulative = 0.15 * (nextT / 0.08);
+        } else if (nextT <= 0.20) {
+          nextCumulative = 0.15 + 0.35 * Math.pow((nextT - 0.08) / 0.12, 0.65);
+        } else if (nextT <= 0.35) {
+          nextCumulative = 0.50 + 0.25 * ((nextT - 0.20) / 0.15);
+        } else if (nextT <= 0.55) {
+          nextCumulative = 0.75 + 0.15 * ((nextT - 0.35) / 0.20);
+        } else if (nextT <= 0.80) {
+          nextCumulative = 0.90 + 0.07 * ((nextT - 0.55) / 0.25);
+        } else {
+          nextCumulative = 0.97 + 0.03 * ((nextT - 0.80) / 0.20);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'philippines_pagasa': {
+      // Philippine PAGASA typhoon/monsoon distribution
+      // Very front-loaded for typhoon events, sharp peak then extended tail
+      // Accounts for super-typhoon class events (>220 kph)
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.05) {
+          cumulativeFraction = 0.08 * (t / 0.05);
+        } else if (t <= 0.15) {
+          cumulativeFraction = 0.08 + 0.32 * Math.pow((t - 0.05) / 0.10, 0.60);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.40 + 0.28 * ((t - 0.15) / 0.15);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.68 + 0.17 * ((t - 0.30) / 0.20);
+        } else if (t <= 0.75) {
+          cumulativeFraction = 0.85 + 0.10 * ((t - 0.50) / 0.25);
+        } else {
+          cumulativeFraction = 0.95 + 0.05 * ((t - 0.75) / 0.25);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.05) {
+          nextCumulative = 0.08 * (nextT / 0.05);
+        } else if (nextT <= 0.15) {
+          nextCumulative = 0.08 + 0.32 * Math.pow((nextT - 0.05) / 0.10, 0.60);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.40 + 0.28 * ((nextT - 0.15) / 0.15);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.68 + 0.17 * ((nextT - 0.30) / 0.20);
+        } else if (nextT <= 0.75) {
+          nextCumulative = 0.85 + 0.10 * ((nextT - 0.50) / 0.25);
+        } else {
+          nextCumulative = 0.95 + 0.05 * ((nextT - 0.75) / 0.25);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'vietnam_imhen': {
+      // Vietnamese IMHEN (Institute of Meteorology, Hydrology and Climate Change)
+      // HCMC-style: convective + monsoon hybrid, moderate front-loading
+      // Central coast variant would be more typhoon-influenced
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.10) {
+          cumulativeFraction = 0.05 * (t / 0.10);
+        } else if (t <= 0.25) {
+          cumulativeFraction = 0.05 + 0.20 * ((t - 0.10) / 0.15);
+        } else if (t <= 0.40) {
+          cumulativeFraction = 0.25 + 0.35 * Math.pow((t - 0.25) / 0.15, 0.70);
+        } else if (t <= 0.55) {
+          cumulativeFraction = 0.60 + 0.22 * ((t - 0.40) / 0.15);
+        } else if (t <= 0.75) {
+          cumulativeFraction = 0.82 + 0.12 * ((t - 0.55) / 0.20);
+        } else {
+          cumulativeFraction = 0.94 + 0.06 * ((t - 0.75) / 0.25);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.10) {
+          nextCumulative = 0.05 * (nextT / 0.10);
+        } else if (nextT <= 0.25) {
+          nextCumulative = 0.05 + 0.20 * ((nextT - 0.10) / 0.15);
+        } else if (nextT <= 0.40) {
+          nextCumulative = 0.25 + 0.35 * Math.pow((nextT - 0.25) / 0.15, 0.70);
+        } else if (nextT <= 0.55) {
+          nextCumulative = 0.60 + 0.22 * ((nextT - 0.40) / 0.15);
+        } else if (nextT <= 0.75) {
+          nextCumulative = 0.82 + 0.12 * ((nextT - 0.55) / 0.20);
+        } else {
+          nextCumulative = 0.94 + 0.06 * ((nextT - 0.75) / 0.25);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'thailand_tmd': {
+      // Thai Meteorological Department (TMD)
+      // Bangkok BMA pattern: monsoon with urban heat island intensification
+      // Southwest monsoon (May-Oct) dominant pattern
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.12) {
+          cumulativeFraction = 0.05 * (t / 0.12);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.05 + 0.25 * ((t - 0.12) / 0.18);
+        } else if (t <= 0.45) {
+          cumulativeFraction = 0.30 + 0.35 * Math.pow((t - 0.30) / 0.15, 0.72);
+        } else if (t <= 0.60) {
+          cumulativeFraction = 0.65 + 0.18 * ((t - 0.45) / 0.15);
+        } else if (t <= 0.80) {
+          cumulativeFraction = 0.83 + 0.11 * ((t - 0.60) / 0.20);
+        } else {
+          cumulativeFraction = 0.94 + 0.06 * ((t - 0.80) / 0.20);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.12) {
+          nextCumulative = 0.05 * (nextT / 0.12);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.05 + 0.25 * ((nextT - 0.12) / 0.18);
+        } else if (nextT <= 0.45) {
+          nextCumulative = 0.30 + 0.35 * Math.pow((nextT - 0.30) / 0.15, 0.72);
+        } else if (nextT <= 0.60) {
+          nextCumulative = 0.65 + 0.18 * ((nextT - 0.45) / 0.15);
+        } else if (nextT <= 0.80) {
+          nextCumulative = 0.83 + 0.11 * ((nextT - 0.60) / 0.20);
         } else {
           nextCumulative = 0.94 + 0.06 * ((nextT - 0.80) / 0.20);
         }
