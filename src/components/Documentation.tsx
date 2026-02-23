@@ -917,6 +917,84 @@ export function Documentation() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+
+                {/* GCC / Middle East Design Storms */}
+                <AccordionItem value="middle_east">
+                  <AccordionTrigger>
+                    <div className="flex items-center gap-2">
+                      <Globe className="w-4 h-4 text-amber-500" />
+                      GCC / Middle East Design Storms
+                      <Badge variant="secondary" className="ml-2">4 Patterns</Badge>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="space-y-4 text-sm">
+                    <p className="text-muted-foreground">
+                      Arid flash flood and wadi flooding patterns for the Gulf Cooperation Council (GCC) region. 
+                      These patterns are extremely front-loaded compared to tropical or temperate standards, reflecting 
+                      the intense, short-duration convective events typical of arid climates.
+                    </p>
+
+                    <div className="grid gap-4">
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇸🇦 Saudi Arabia PME</h4>
+                        <p className="text-muted-foreground">
+                          Presidency of Meteorology and Environment (now NCEC) arid flash flood pattern. Extremely 
+                          front-loaded Jeddah/Riyadh wadi flood distribution — most rainfall occurs in the first 20% 
+                          of the storm duration. Required for MOMRA municipal drainage and Ministry of Transport wadi crossing projects.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> MOMRA Storm Drainage Design Manual; Saudi Building Code SBC 801 (2018)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇦🇪 UAE NCMS</h4>
+                        <p className="text-muted-foreground">
+                          National Center of Meteorology and Seismology flash flood pattern for Dubai/Abu Dhabi. 
+                          Extreme burst intensity with rapid decay. Accounts for cloud seeding enhanced rainfall events 
+                          that have become increasingly significant since the UAE Rain Enhancement Program.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> Abu Dhabi UPC Storm Drainage Manual; Dubai Municipality Drainage Design Guide (2020)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇶🇦 Qatar Kahramaa</h4>
+                        <p className="text-muted-foreground">
+                          Kahramaa/Ashghal drainage design standard for Doha urban infrastructure. Extremely arid 
+                          flash flood — the shortest, most intense burst among GCC patterns. Developed for Qatar's 
+                          World Cup 2022 infrastructure and Lusail City drainage networks.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> Ashghal Qatar Sewerage & Drainage Design Manual (QCS 2014)
+                        </p>
+                      </div>
+
+                      <div className="p-4 bg-muted/50 rounded-lg">
+                        <h4 className="font-semibold text-foreground">🇴🇲 Oman DGMAN</h4>
+                        <p className="text-muted-foreground">
+                          Directorate General of Meteorology and Air Navigation wadi flood pattern. Covers both 
+                          Muscat Shamal wind-driven events and the Salalah Khareef (monsoon) influence in Dhofar 
+                          region. Slightly less front-loaded than other GCC patterns due to Khareef orographic effects.
+                        </p>
+                        <p className="text-muted-foreground mt-1">
+                          <strong>Reference:</strong> Oman Wadi Flood Protection Design Standards; MRMWR (2017)
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-amber-50 dark:bg-amber-950 rounded-lg border border-amber-200 dark:border-amber-800">
+                      <h4 className="font-semibold text-amber-700 dark:text-amber-300">Important Note</h4>
+                      <p className="text-sm text-amber-600 dark:text-amber-400">
+                        GCC flash flood patterns are significantly more front-loaded than any other region. Peak intensities 
+                        occur within the first 10-20% of the storm. Wadi flooding can occur with as little as 10-15 mm of 
+                        rainfall due to extremely low infiltration rates. Always use local IDF curves from the relevant 
+                        national meteorological authority.
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
               </Accordion>
             </CardContent>
           </Card>
