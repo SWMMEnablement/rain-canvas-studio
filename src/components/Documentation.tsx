@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { PatternSectionSearch } from "./PatternSectionSearch";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -250,7 +251,7 @@ export function Documentation() {
                       <Badge variant="secondary" className="ml-2">4 Types</Badge>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       The NRCS (formerly SCS) rainfall distributions are the most widely used design storm 
                       patterns in the United States. Developed by the Natural Resources Conservation Service, 
@@ -323,7 +324,7 @@ export function Documentation() {
                         USDA-NRCS TR-55 "Urban Hydrology for Small Watersheds" (1986)
                       </p>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
 
@@ -337,7 +338,7 @@ export function Documentation() {
                       <Badge variant="secondary" className="ml-2">4 Quartiles</Badge>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       Huff distributions, developed by Floyd Huff at the Illinois State Water Survey (1967), 
                       classify storms based on when the peak intensity occurs within the storm duration. 
@@ -387,7 +388,7 @@ export function Documentation() {
                         typically used for design purposes.
                       </p>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
 
@@ -400,7 +401,7 @@ export function Documentation() {
                       Chicago Storm (Keifer & Chu)
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       The Chicago Storm method, developed by Keifer and Chu (1957), creates a synthetic 
                       hyetograph directly from IDF (Intensity-Duration-Frequency) curves. It is widely 
@@ -425,7 +426,7 @@ export function Documentation() {
                         maintains consistency with the IDF curve at every duration.
                       </p>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
 
@@ -439,7 +440,7 @@ export function Documentation() {
                       <Badge variant="secondary" className="ml-2">9 Regions</Badge>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       Regional rainfall patterns developed by national agencies worldwide to reflect 
                       local precipitation characteristics.
@@ -510,7 +511,7 @@ export function Documentation() {
                         </p>
                       </div>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
 
@@ -524,7 +525,7 @@ export function Documentation() {
                       <Badge variant="secondary" className="ml-2">4 Types</Badge>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       Basic geometric shapes useful for sensitivity analysis, simple design calculations, 
                       or when detailed temporal patterns are not required.
@@ -563,7 +564,7 @@ export function Documentation() {
                         </p>
                       </div>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
 
@@ -577,7 +578,7 @@ export function Documentation() {
                       <Badge variant="secondary" className="ml-2">9 Types</Badge>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       State and federal agency-specific design storm patterns required for regulatory compliance 
                       on transportation and infrastructure projects across the United States.
@@ -741,7 +742,7 @@ export function Documentation() {
                         <p className="text-muted-foreground"><strong>Reference:</strong> USACE EM 1110-2-1411; EM 1110-2-1417; HMR 51/52</p>
                       </div>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
 
@@ -755,7 +756,7 @@ export function Documentation() {
                       <Badge variant="secondary" className="ml-2">4 Types</Badge>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       Design storm profiles used in UK drainage practice and compatible with Innovyze InfoWorks ICM 
                       modeling software. These patterns are the foundation of British flood estimation and urban 
@@ -864,7 +865,7 @@ export function Documentation() {
                         </p>
                       </div>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
 
@@ -878,7 +879,7 @@ export function Documentation() {
                       <Badge variant="secondary" className="ml-2">4 Types</Badge>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       Design storm patterns from European national standards, widely used in continental European 
                       drainage and flood control practice.
@@ -996,7 +997,7 @@ export function Documentation() {
                         </p>
                       </div>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
 
@@ -1010,7 +1011,7 @@ export function Documentation() {
                       <Badge variant="secondary" className="ml-2">14 Patterns</Badge>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       Regional design storm patterns from major Asian national standards. These patterns reflect 
                       monsoon, typhoon, and tropical convective rainfall characteristics distinct from Western standards.
@@ -1194,7 +1195,7 @@ export function Documentation() {
                         Always verify which standard is required for your specific project jurisdiction.
                       </p>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
 
@@ -1208,7 +1209,7 @@ export function Documentation() {
                       <Badge variant="secondary" className="ml-2">4 Patterns</Badge>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       Arid flash flood and wadi flooding patterns for the Gulf Cooperation Council (GCC) region. 
                       These patterns are extremely front-loaded compared to tropical or temperate standards, reflecting 
@@ -1274,7 +1275,7 @@ export function Documentation() {
                         national meteorological authority.
                       </p>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
 
@@ -1288,7 +1289,7 @@ export function Documentation() {
                       <Badge variant="secondary" className="ml-2">4 Patterns</Badge>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       Design storm patterns for African nations, reflecting diverse climatic zones from Mediterranean 
                       and arid North Africa to tropical equatorial and subtropical Southern Africa. Most African countries 
@@ -1402,7 +1403,7 @@ export function Documentation() {
                         local municipal requirements and available IDF data.
                       </p>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
 
@@ -1416,7 +1417,7 @@ export function Documentation() {
                       <Badge variant="secondary" className="ml-2">4 Patterns</Badge>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="space-y-4 text-sm">
+                  <AccordionContent className="space-y-4 text-sm"><PatternSectionSearch>
                     <p className="text-muted-foreground">
                       Design storm patterns from major Latin American national water agencies. These patterns reflect 
                       tropical, subtropical, and Andean rainfall regimes, ranging from intense Amazon-influenced 
@@ -1535,7 +1536,7 @@ export function Documentation() {
                         Colombia, Ecuador, Peru).
                       </p>
                     </div>
-                  </AccordionContent>
+                  </PatternSectionSearch></AccordionContent>
                 </AccordionItem>
                 )}
               </Accordion>
