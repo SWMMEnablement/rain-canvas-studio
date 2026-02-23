@@ -46,6 +46,15 @@ const patternNames: Record<PatternType, string> = {
   'sa_huff': 'South African Huff',
   'dutch': 'Dutch',
   'italian': 'Italian',
+  'balanced': 'Balanced Storm',
+  'fdot1': 'FDOT Zone 1',
+  'fdot2': 'FDOT Zone 2',
+  'fdot3': 'FDOT Zone 3',
+  'fdot4': 'FDOT Zone 4',
+  'fdot5': 'FDOT Zone 5',
+  'txdot': 'TxDOT',
+  'yen_chow': 'Yen & Chow',
+  'noaa_a14': 'NOAA Atlas 14',
 };
 
 interface WizardStep {

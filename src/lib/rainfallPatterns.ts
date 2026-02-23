@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -704,6 +704,304 @@ export function generateRainfallData(
         intensity = peakIntensity * Math.exp(-Math.pow((t - peakPosition) / sigma, 2));
         
         data.push(intensity);
+      }
+      break;
+    }
+
+    case 'balanced': {
+      // Balanced Storm / Alternating Block Method
+      // Derived from simplified IDF curve: i = a / (d + b)^c
+      // Arranges incremental depths in alternating blocks around center peak
+      const blocks: number[] = [];
+      
+      for (let i = 0; i < numSteps; i++) {
+        const d1 = ((i) * timeStep) / 60;     // duration in hours
+        const d2 = ((i + 1) * timeStep) / 60;
+        // Cumulative depth from IDF: P(d) = totalDepth * (d/D)^0.6
+        const cumDepth1 = i === 0 ? 0 : totalDepth * Math.pow(d1 / duration, 0.6);
+        const cumDepth2 = totalDepth * Math.pow(d2 / duration, 0.6);
+        blocks.push(cumDepth2 - cumDepth1);
+      }
+      
+      // Sort descending
+      blocks.sort((a, b) => b - a);
+      
+      // Place in alternating block arrangement around center
+      const centerIdx = Math.floor(numSteps / 2);
+      const result: number[] = new Array(numSteps).fill(0);
+      result[centerIdx] = blocks[0] / (timeStep / 60);
+      
+      let left = centerIdx - 1;
+      let right = centerIdx + 1;
+      
+      for (let i = 1; i < blocks.length; i++) {
+        const intensity = blocks[i] / (timeStep / 60);
+        if (i % 2 === 1 && right < numSteps) {
+          result[right] = intensity;
+          right++;
+        } else if (left >= 0) {
+          result[left] = intensity;
+          left--;
+        } else if (right < numSteps) {
+          result[right] = intensity;
+          right++;
+        }
+      }
+      
+      return result;
+    }
+
+    case 'fdot1': {
+      // FDOT Zone 1 (NW Florida) - Modified Type II, slightly front-loaded
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.42) {
+          cumulativeFraction = 0.40 * Math.pow(t / 0.42, 0.85);
+        } else if (t <= 0.54) {
+          cumulativeFraction = 0.40 + 0.38 * ((t - 0.42) / 0.12);
+        } else {
+          cumulativeFraction = 0.78 + 0.22 * ((t - 0.54) / 0.46);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.42) {
+          nextCumulative = 0.40 * Math.pow(nextT / 0.42, 0.85);
+        } else if (nextT <= 0.54) {
+          nextCumulative = 0.40 + 0.38 * ((nextT - 0.42) / 0.12);
+        } else {
+          nextCumulative = 0.78 + 0.22 * ((nextT - 0.54) / 0.46);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'fdot2': {
+      // FDOT Zone 2 (NE Florida) - Modified Type II
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.45) {
+          cumulativeFraction = 0.38 * Math.pow(t / 0.45, 0.88);
+        } else if (t <= 0.55) {
+          cumulativeFraction = 0.38 + 0.40 * ((t - 0.45) / 0.10);
+        } else {
+          cumulativeFraction = 0.78 + 0.22 * ((t - 0.55) / 0.45);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.45) {
+          nextCumulative = 0.38 * Math.pow(nextT / 0.45, 0.88);
+        } else if (nextT <= 0.55) {
+          nextCumulative = 0.38 + 0.40 * ((nextT - 0.45) / 0.10);
+        } else {
+          nextCumulative = 0.78 + 0.22 * ((nextT - 0.55) / 0.45);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'fdot3': {
+      // FDOT Zone 3 (Central FL) - Unique tropical distribution
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.35) {
+          cumulativeFraction = 0.30 * Math.pow(t / 0.35, 0.80);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.30 + 0.45 * ((t - 0.35) / 0.15);
+        } else {
+          cumulativeFraction = 0.75 + 0.25 * ((t - 0.50) / 0.50);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.35) {
+          nextCumulative = 0.30 * Math.pow(nextT / 0.35, 0.80);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.30 + 0.45 * ((nextT - 0.35) / 0.15);
+        } else {
+          nextCumulative = 0.75 + 0.25 * ((nextT - 0.50) / 0.50);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'fdot4': {
+      // FDOT Zone 4 (SE Florida) - Heavily front-loaded, convective
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.25) {
+          cumulativeFraction = 0.35 * Math.pow(t / 0.25, 0.75);
+        } else if (t <= 0.40) {
+          cumulativeFraction = 0.35 + 0.40 * ((t - 0.25) / 0.15);
+        } else {
+          cumulativeFraction = 0.75 + 0.25 * Math.pow((t - 0.40) / 0.60, 0.7);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.25) {
+          nextCumulative = 0.35 * Math.pow(nextT / 0.25, 0.75);
+        } else if (nextT <= 0.40) {
+          nextCumulative = 0.35 + 0.40 * ((nextT - 0.25) / 0.15);
+        } else {
+          nextCumulative = 0.75 + 0.25 * Math.pow((nextT - 0.40) / 0.60, 0.7);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'fdot5': {
+      // FDOT Zone 5 (SW Florida) - Similar to Zone 4, slightly less front-loaded
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.28) {
+          cumulativeFraction = 0.33 * Math.pow(t / 0.28, 0.78);
+        } else if (t <= 0.42) {
+          cumulativeFraction = 0.33 + 0.40 * ((t - 0.28) / 0.14);
+        } else {
+          cumulativeFraction = 0.73 + 0.27 * Math.pow((t - 0.42) / 0.58, 0.7);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.28) {
+          nextCumulative = 0.33 * Math.pow(nextT / 0.28, 0.78);
+        } else if (nextT <= 0.42) {
+          nextCumulative = 0.33 + 0.40 * ((nextT - 0.28) / 0.14);
+        } else {
+          nextCumulative = 0.73 + 0.27 * Math.pow((nextT - 0.42) / 0.58, 0.7);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'txdot': {
+      // TxDOT empirical Texas hyetograph
+      // Based on USGS Texas rainfall studies (SIR 2004-5075)
+      // Characterized by a broad central peak with moderate front-loading
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.30) {
+          cumulativeFraction = 0.20 * Math.pow(t / 0.30, 0.9);
+        } else if (t <= 0.45) {
+          cumulativeFraction = 0.20 + 0.45 * ((t - 0.30) / 0.15);
+        } else if (t <= 0.65) {
+          cumulativeFraction = 0.65 + 0.20 * ((t - 0.45) / 0.20);
+        } else {
+          cumulativeFraction = 0.85 + 0.15 * ((t - 0.65) / 0.35);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.30) {
+          nextCumulative = 0.20 * Math.pow(nextT / 0.30, 0.9);
+        } else if (nextT <= 0.45) {
+          nextCumulative = 0.20 + 0.45 * ((nextT - 0.30) / 0.15);
+        } else if (nextT <= 0.65) {
+          nextCumulative = 0.65 + 0.20 * ((nextT - 0.45) / 0.20);
+        } else {
+          nextCumulative = 0.85 + 0.15 * ((nextT - 0.65) / 0.35);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'yen_chow': {
+      // Yen & Chow Triangular Hyetograph
+      // Variable time-to-peak ratio r (default r=0.375 for SCS-like advance)
+      const r = 0.375; // time-to-peak as fraction of duration
+      const peakIntensity = (2 * totalDepth) / duration;
+      
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let intensity: number;
+        
+        if (t <= r) {
+          intensity = peakIntensity * (t / r);
+        } else {
+          intensity = peakIntensity * (1 - t) / (1 - r);
+        }
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'noaa_a14': {
+      // NOAA Atlas 14 Temporal Distribution (50th percentile)
+      // Representative distribution derived from recording rain gage data
+      // Based on Atlas 14 Volume 10 temporal patterns for 6-24hr storms
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        // NOAA Atlas 14 50th percentile cumulative distribution
+        if (t <= 0.10) {
+          cumulativeFraction = 0.04 * (t / 0.10);
+        } else if (t <= 0.25) {
+          cumulativeFraction = 0.04 + 0.10 * ((t - 0.10) / 0.15);
+        } else if (t <= 0.40) {
+          cumulativeFraction = 0.14 + 0.18 * ((t - 0.25) / 0.15);
+        } else if (t <= 0.55) {
+          cumulativeFraction = 0.32 + 0.35 * Math.pow((t - 0.40) / 0.15, 0.8);
+        } else if (t <= 0.70) {
+          cumulativeFraction = 0.67 + 0.18 * ((t - 0.55) / 0.15);
+        } else if (t <= 0.85) {
+          cumulativeFraction = 0.85 + 0.10 * ((t - 0.70) / 0.15);
+        } else {
+          cumulativeFraction = 0.95 + 0.05 * ((t - 0.85) / 0.15);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.10) {
+          nextCumulative = 0.04 * (nextT / 0.10);
+        } else if (nextT <= 0.25) {
+          nextCumulative = 0.04 + 0.10 * ((nextT - 0.10) / 0.15);
+        } else if (nextT <= 0.40) {
+          nextCumulative = 0.14 + 0.18 * ((nextT - 0.25) / 0.15);
+        } else if (nextT <= 0.55) {
+          nextCumulative = 0.32 + 0.35 * Math.pow((nextT - 0.40) / 0.15, 0.8);
+        } else if (nextT <= 0.70) {
+          nextCumulative = 0.67 + 0.18 * ((nextT - 0.55) / 0.15);
+        } else if (nextT <= 0.85) {
+          nextCumulative = 0.85 + 0.10 * ((nextT - 0.70) / 0.15);
+        } else {
+          nextCumulative = 0.95 + 0.05 * ((nextT - 0.85) / 0.15);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
       }
       break;
     }

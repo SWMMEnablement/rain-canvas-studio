@@ -75,7 +75,16 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   sa_huff: { name: 'SA Huff', peakPosition: 0.35, description: 'South African adapted Huff' },
   dwa: { name: 'DWA (Germany)', peakPosition: 0.5, description: 'German Euler Type II' },
   dutch: { name: 'Dutch STOWA', peakPosition: 0.35, description: 'Netherlands polder regions' },
-  italian: { name: 'Italian Mediterranean', peakPosition: 0.45, description: 'Intense convective storms' }
+  italian: { name: 'Italian Mediterranean', peakPosition: 0.45, description: 'Intense convective storms' },
+  balanced: { name: 'Balanced Storm', peakPosition: 0.5, description: 'IDF-derived alternating block' },
+  fdot1: { name: 'FDOT Zone 1', peakPosition: 0.42, description: 'NW Florida modified Type II' },
+  fdot2: { name: 'FDOT Zone 2', peakPosition: 0.45, description: 'NE Florida modified Type II' },
+  fdot3: { name: 'FDOT Zone 3', peakPosition: 0.35, description: 'Central FL tropical distribution' },
+  fdot4: { name: 'FDOT Zone 4', peakPosition: 0.25, description: 'SE Florida convective front-loaded' },
+  fdot5: { name: 'FDOT Zone 5', peakPosition: 0.28, description: 'SW Florida convective' },
+  txdot: { name: 'TxDOT', peakPosition: 0.38, description: 'Texas DOT empirical hyetograph' },
+  yen_chow: { name: 'Yen & Chow', peakPosition: 0.375, description: 'Variable triangular hyetograph' },
+  noaa_a14: { name: 'NOAA Atlas 14', peakPosition: 0.48, description: 'Atlas 14 50th percentile temporal' },
 };
 
 /**

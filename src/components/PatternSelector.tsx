@@ -1,14 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian';
+type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14';
 
 interface PatternOption {
   id: PatternType;
   name: string;
   icon: string;
   description: string;
-  category: 'swmm' | 'icm' | 'international';
+  category: 'swmm' | 'icm' | 'international' | 'us_agency';
 }
 
 export const patterns: PatternOption[] = [
@@ -48,6 +48,20 @@ export const patterns: PatternOption[] = [
     category: 'swmm',
   },
   {
+    id: 'balanced',
+    name: 'Balanced Storm',
+    icon: '⚖',
+    description: 'Alternating block method derived from IDF curves. Theoretically superior because it uses site-specific IDF data. Widely accepted by agencies nationwide.',
+    category: 'swmm',
+  },
+  {
+    id: 'yen_chow',
+    name: 'Yen & Chow',
+    icon: '△',
+    description: 'Triangular hyetograph with variable time-to-peak ratio (r=0.375). Simplest non-uniform distribution. Excellent for sensitivity analysis and developing regions.',
+    category: 'swmm',
+  },
+  {
     id: 'double',
     name: 'Double Peak',
     icon: '⩗',
@@ -61,6 +75,57 @@ export const patterns: PatternOption[] = [
     description: 'Draw your own rainfall distribution using the interactive chart. Click and drag to adjust intensities.',
     category: 'swmm',
   },
+  // US Agency patterns
+  {
+    id: 'fdot1',
+    name: 'FDOT Zone 1',
+    icon: '🌴',
+    description: 'Florida DOT Zone 1 (NW Florida). Modified Type II, slightly front-loaded. Required for all FDOT projects in the panhandle region.',
+    category: 'us_agency',
+  },
+  {
+    id: 'fdot2',
+    name: 'FDOT Zone 2',
+    icon: '🌴',
+    description: 'Florida DOT Zone 2 (NE Florida). Modified Type II distribution. Required for FDOT projects in northeastern Florida.',
+    category: 'us_agency',
+  },
+  {
+    id: 'fdot3',
+    name: 'FDOT Zone 3',
+    icon: '🌴',
+    description: 'Florida DOT Zone 3 (Central FL). Unique tropical distribution with earlier, more intense peak. Required for FDOT projects in central Florida.',
+    category: 'us_agency',
+  },
+  {
+    id: 'fdot4',
+    name: 'FDOT Zone 4',
+    icon: '🌴',
+    description: 'Florida DOT Zone 4 (SE Florida). Heavily front-loaded convective pattern. Required for FDOT projects in southeast Florida including Miami-Dade.',
+    category: 'us_agency',
+  },
+  {
+    id: 'fdot5',
+    name: 'FDOT Zone 5',
+    icon: '🌴',
+    description: 'Florida DOT Zone 5 (SW Florida). Similar to Zone 4 with slightly less front-loading. Required for FDOT projects in southwest Florida.',
+    category: 'us_agency',
+  },
+  {
+    id: 'txdot',
+    name: 'TxDOT',
+    icon: '⛰',
+    description: 'Texas DOT empirical hyetograph based on USGS Texas rainfall studies (SIR 2004-5075). Required for TxDOT hydraulic design submittals.',
+    category: 'us_agency',
+  },
+  {
+    id: 'noaa_a14',
+    name: 'NOAA Atlas 14',
+    icon: '📡',
+    description: 'NOAA Atlas 14 temporal distribution (50th percentile). Derived from actual recording rain gage data. Supersedes SCS types where Atlas 14 data exists.',
+    category: 'us_agency',
+  },
+  // InfoWorks patterns
   {
     id: 'triangular',
     name: 'Triangular',
@@ -82,6 +147,7 @@ export const patterns: PatternOption[] = [
     description: 'Flood Studies Report (FSR) rainfall profile. Standard design storm profile used in UK drainage design with InfoWorks.',
     category: 'icm',
   },
+  // International patterns
   {
     id: 'chicago',
     name: 'Chicago Storm',
@@ -183,6 +249,7 @@ interface PatternSelectorProps {
 export function PatternSelector({ selectedPattern, onPatternChange }: PatternSelectorProps) {
   const selectedPatternInfo = patterns.find(p => p.id === selectedPattern);
   const swmmPatterns = patterns.filter(p => p.category === 'swmm');
+  const usAgencyPatterns = patterns.filter(p => p.category === 'us_agency');
   const icmPatterns = patterns.filter(p => p.category === 'icm');
   const internationalPatterns = patterns.filter(p => p.category === 'international');
 
@@ -218,13 +285,17 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs defaultValue="swmm" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="swmm">SWMM</TabsTrigger>
+            <TabsTrigger value="us_agency">US Agency</TabsTrigger>
             <TabsTrigger value="icm">InfoWorks</TabsTrigger>
-            <TabsTrigger value="international">International</TabsTrigger>
+            <TabsTrigger value="international">Int'l</TabsTrigger>
           </TabsList>
           <TabsContent value="swmm" className="mt-4">
             <PatternGrid patterns={swmmPatterns} />
+          </TabsContent>
+          <TabsContent value="us_agency" className="mt-4">
+            <PatternGrid patterns={usAgencyPatterns} />
           </TabsContent>
           <TabsContent value="icm" className="mt-4">
             <PatternGrid patterns={icmPatterns} />
