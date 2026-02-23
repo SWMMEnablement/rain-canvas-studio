@@ -116,7 +116,7 @@ export function StormParameters({
           </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div className="flex justify-between items-center">
             <Label htmlFor="depth-slider">Total Rainfall Depth</Label>
             <span className="text-sm font-semibold text-primary">{formatDepth(depth, unitSystem)}</span>
@@ -130,9 +130,14 @@ export function StormParameters({
             onValueChange={(values) => onDepthChange(values[0])}
             className="cursor-pointer"
           />
+          <div className="flex justify-between text-[10px] text-muted-foreground">
+            <span>{formatDepth(depthConfig.min, unitSystem)}</span>
+            <span className="italic">Typical: {unitSystem === 'USA' ? '1–6 in for urban design' : '25–150 mm for urban design'}</span>
+            <span>{formatDepth(depthConfig.max, unitSystem)}</span>
+          </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div className="flex justify-between items-center">
             <Label htmlFor="duration-slider">Storm Duration</Label>
             <span className="text-sm font-semibold text-primary">{duration.toFixed(1)} hours</span>
@@ -146,9 +151,14 @@ export function StormParameters({
             onValueChange={(values) => onDurationChange(values[0])}
             className="cursor-pointer"
           />
+          <div className="flex justify-between text-[10px] text-muted-foreground">
+            <span>1 hr</span>
+            <span className="italic">1–6 hr urban · 12–24 hr rural/floodplain</span>
+            <span>24 hr</span>
+          </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div className="flex justify-between items-center">
             <Label htmlFor="timestep-slider">Time Step</Label>
             <span className="text-sm font-semibold text-primary">{timeStep} minutes</span>
@@ -162,6 +172,11 @@ export function StormParameters({
             onValueChange={(values) => onTimeStepChange(values[0])}
             className="cursor-pointer"
           />
+          <div className="flex justify-between text-[10px] text-muted-foreground">
+            <span>5 min</span>
+            <span className="italic">5–10 min small catchments · 15 min recommended for SWMM</span>
+            <span>60 min</span>
+          </div>
         </div>
 
         {/* Validation Feedback */}
