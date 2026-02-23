@@ -7,9 +7,17 @@ import { Documentation } from "@/components/Documentation";
 import { RealDataHub } from "@/components/RealDataHub";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { RainParticles } from "@/components/RainParticles";
+import { HeroHyetograph } from "@/components/HeroHyetograph";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Droplets, CloudRain, BookOpen, Wrench, Database } from "lucide-react";
 import { toast } from "sonner";
+
+const PATTERN_BADGES = [
+  "SCS Type I/IA/II/III", "Huff Quartiles", "Chicago Storm",
+  "Alternating Block", "PMP (HMR 51/52)", "UK FSR/FEH",
+  "Japan AMeDAS", "Custom",
+];
 
 const Index = () => {
   const [searchParams] = useSearchParams();
@@ -38,10 +46,10 @@ const Index = () => {
       {/* Header */}
       <header className="bg-gradient-rain text-white shadow-lg relative overflow-hidden">
         <RainParticles />
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-4 right-4 z-10">
           <ThemeToggle />
         </div>
-        <div className="container mx-auto px-4 py-12 text-center">
+        <div className="container mx-auto px-4 py-12 text-center relative z-10">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Droplets className="w-12 h-12" />
             <h1 className="text-5xl font-bold">World Rainfall Pattern Painter</h1>
@@ -50,8 +58,33 @@ const Index = () => {
             Generate and visualize synthetic rainfall patterns for stormwater modeling. 
             Create SWMM5 and ICM-ready timeseries with custom parameters.
           </p>
-          <p className="text-sm mt-2 opacity-80 font-medium tracking-wide">
+
+          {/* Hero Hyetograph Preview */}
+          <div className="mt-6 mb-4">
+            <HeroHyetograph />
+            <p className="text-xs opacity-60 mt-1">SCS Type II — 24-hour design storm</p>
+          </div>
+
+          {/* Pattern Badges */}
+          <div className="flex flex-wrap justify-center gap-2 mt-4 max-w-2xl mx-auto">
+            {PATTERN_BADGES.map((name) => (
+              <Badge
+                key={name}
+                variant="secondary"
+                className="bg-white/15 text-white border-white/25 hover:bg-white/25 text-xs backdrop-blur-sm"
+              >
+                {name}
+              </Badge>
+            ))}
+          </div>
+
+          <p className="text-sm mt-4 opacity-80 font-medium tracking-wide">
             {patterns.length} Design Storm Patterns Available
+          </p>
+
+          {/* Social Proof / Compatibility */}
+          <p className="text-xs mt-3 opacity-60">
+            Compatible with EPA SWMM · HEC-HMS · InfoWorks ICM · PCSWMM · XP-SWMM · HydroCAD
           </p>
         </div>
       </header>
