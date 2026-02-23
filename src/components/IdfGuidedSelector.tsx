@@ -147,6 +147,7 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
   const [liveLower, setLiveLower] = useState<Record<string, Record<string, number>> | null>(null);
   const [liveLoading, setLiveLoading] = useState(false);
   const [liveSource, setLiveSource] = useState("");
+  const [chartOverlayDurations, setChartOverlayDurations] = useState<string[]>([]);
 
   const regionData = REGIONAL_IDF_DATA[selectedRegion];
 
@@ -521,47 +522,89 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
               </div>
             </div>
 
-            {/* IDF Curve Chart with Confidence Interval */}
+            {/* IDF Curve Chart with Confidence Interval & Multi-Duration Overlay */}
             {(() => {
-              const chartData = RETURN_PERIODS.map(rp => {
-                const depth = activeDepths[selectedDuration]?.[rp];
-                const depthDisplay = depth
-                  ? (unitSystem === 'USA' ? depth : convertDepth(depth, 'USA', 'SI'))
-                  : null;
+              const DURATION_COLORS: Record<string, string> = {
+                "1": "hsl(200, 80%, 55%)",
+                "2": "hsl(160, 70%, 45%)",
+                "6": "hsl(var(--primary))",
+                "12": "hsl(280, 60%, 55%)",
+                "24": "hsl(350, 70%, 55%)",
+              };
 
-                let upper: number | null = null;
-                let lower: number | null = null;
+              const allDurations = [selectedDuration, ...chartOverlayDurations.filter(d => d !== selectedDuration)];
+              const depthUnit = unitSystem === 'USA' ? 'in' : 'mm';
+              const decimals = unitSystem === 'USA' ? 2 : 1;
+
+              const chartData = RETURN_PERIODS.map(rp => {
+                const entry: Record<string, unknown> = { rp: `${rp}-yr` };
+
+                for (const dur of allDurations) {
+                  const raw = activeDepths[dur]?.[rp];
+                  entry[`d${dur}`] = raw ? (unitSystem === 'USA' ? raw : convertDepth(raw, 'USA', 'SI')) : null;
+                }
+
+                // CI band for primary duration only
                 if (liveUpper && liveLower) {
                   const uv = liveUpper[selectedDuration]?.[rp];
                   const lv = liveLower[selectedDuration]?.[rp];
                   if (uv != null && lv != null) {
-                    upper = unitSystem === 'USA' ? uv : convertDepth(uv, 'USA', 'SI');
-                    lower = unitSystem === 'USA' ? lv : convertDepth(lv, 'USA', 'SI');
+                    const upper = unitSystem === 'USA' ? uv : convertDepth(uv, 'USA', 'SI');
+                    const lower = unitSystem === 'USA' ? lv : convertDepth(lv, 'USA', 'SI');
+                    entry.ciRange = [lower, upper];
                   }
                 }
 
-                return {
-                  rp: `${rp}-yr`,
-                  rpNum: parseInt(rp),
-                  depth: depthDisplay,
-                  upper,
-                  lower,
-                  ciRange: upper != null && lower != null ? [lower, upper] as [number, number] : undefined,
-                  isSelected: rp === selectedReturnPeriod,
-                };
-              }).filter(d => d.depth != null);
+                return entry;
+              });
 
               const hasCI = chartData.some(d => d.ciRange);
-              const depthUnit = unitSystem === 'USA' ? 'in' : 'mm';
+
+              const toggleOverlay = (dur: string) => {
+                if (dur === selectedDuration) return;
+                setChartOverlayDurations(prev =>
+                  prev.includes(dur) ? prev.filter(d => d !== dur) : [...prev, dur]
+                );
+              };
 
               return (
-                <div className="space-y-2">
-                  <p className="text-sm font-medium flex items-center gap-2">
-                    <BarChart3 className="w-4 h-4" />
-                    IDF Curve — {selectedDuration}-hr Duration
-                    {hasCI && <Badge variant="outline" className="text-xs">90% CI</Badge>}
-                  </p>
-                  <div className="h-64 w-full">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <p className="text-sm font-medium flex items-center gap-2">
+                      <BarChart3 className="w-4 h-4" />
+                      IDF Curves
+                      {hasCI && <Badge variant="outline" className="text-xs">90% CI</Badge>}
+                    </p>
+                  </div>
+
+                  {/* Duration toggle chips */}
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-xs text-muted-foreground mr-1">Durations:</span>
+                    {DURATIONS.map(dur => {
+                      const isPrimary = dur === selectedDuration;
+                      const isOverlay = chartOverlayDurations.includes(dur);
+                      const isActive = isPrimary || isOverlay;
+                      return (
+                        <button
+                          key={dur}
+                          onClick={() => toggleOverlay(dur)}
+                          className={`px-2 py-0.5 rounded-full text-xs font-medium border transition-all ${
+                            isPrimary
+                              ? "bg-primary text-primary-foreground border-primary cursor-default"
+                              : isOverlay
+                                ? "border-primary/60 text-primary bg-primary/10 hover:bg-primary/20"
+                                : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                          }`}
+                          title={isPrimary ? "Primary duration (change via dropdown above)" : isOverlay ? `Remove ${dur}-hr overlay` : `Add ${dur}-hr overlay`}
+                        >
+                          {dur}-hr
+                          {isPrimary && <span className="ml-1 opacity-60">●</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <div className="h-72 w-full">
                     <ResponsiveContainer width="100%" height="100%">
                       <ComposedChart data={chartData} margin={{ top: 10, right: 20, bottom: 20, left: 10 }}>
                         <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
@@ -576,33 +619,51 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                         />
                         <RechartsTooltip
                           contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px', fontSize: 12 }}
-                          formatter={(value: number | number[], name: string) => {
+                          formatter={(value: unknown, name: string) => {
                             if (name === 'ciRange') {
                               const arr = value as number[];
-                              return [`${arr[0].toFixed(unitSystem === 'USA' ? 2 : 1)} – ${arr[1].toFixed(unitSystem === 'USA' ? 2 : 1)} ${depthUnit}`, '90% CI'];
+                              return [`${arr[0].toFixed(decimals)} – ${arr[1].toFixed(decimals)} ${depthUnit}`, '90% CI'];
                             }
-                            return [`${(value as number).toFixed(unitSystem === 'USA' ? 2 : 1)} ${depthUnit}`, 'Depth'];
+                            const durKey = name.replace('d', '');
+                            return [`${(value as number).toFixed(decimals)} ${depthUnit}`, `${durKey}-hr`];
                           }}
                         />
                         {hasCI && (
                           <Area
                             dataKey="ciRange"
-                            fill="hsl(var(--warning) / 0.2)"
-                            stroke="hsl(var(--warning) / 0.4)"
+                            fill="hsl(var(--warning) / 0.15)"
+                            stroke="hsl(var(--warning) / 0.35)"
                             strokeDasharray="4 2"
                             strokeWidth={1}
                             name="ciRange"
                             legendType="none"
                           />
                         )}
+                        {/* Overlay durations (behind primary) */}
+                        {chartOverlayDurations.filter(d => d !== selectedDuration).map(dur => (
+                          <Line
+                            key={dur}
+                            type="monotone"
+                            dataKey={`d${dur}`}
+                            stroke={DURATION_COLORS[dur] || "hsl(var(--muted-foreground))"}
+                            strokeWidth={1.5}
+                            strokeDasharray="6 3"
+                            dot={{ r: 3, fill: DURATION_COLORS[dur] || "hsl(var(--muted-foreground))" }}
+                            activeDot={{ r: 5 }}
+                            name={`d${dur}`}
+                            connectNulls
+                          />
+                        ))}
+                        {/* Primary duration */}
                         <Line
                           type="monotone"
-                          dataKey="depth"
-                          stroke="hsl(var(--primary))"
-                          strokeWidth={2}
-                          dot={{ r: 4, fill: 'hsl(var(--primary))' }}
-                          activeDot={{ r: 6, fill: 'hsl(var(--primary))' }}
-                          name="depth"
+                          dataKey={`d${selectedDuration}`}
+                          stroke={DURATION_COLORS[selectedDuration] || "hsl(var(--primary))"}
+                          strokeWidth={2.5}
+                          dot={{ r: 4, fill: DURATION_COLORS[selectedDuration] || "hsl(var(--primary))" }}
+                          activeDot={{ r: 6 }}
+                          name={`d${selectedDuration}`}
+                          connectNulls
                         />
                         {selectedReturnPeriod && (
                           <ReferenceLine
@@ -616,9 +677,14 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                           verticalAlign="top"
                           height={28}
                           formatter={(value: string) => {
-                            if (value === 'depth') return <span className="text-xs">Depth ({depthUnit})</span>;
-                            if (value === 'ciRange') return <span className="text-xs text-warning">90% CI Band</span>;
-                            return value;
+                            if (value === 'ciRange') return <span className="text-xs text-warning">90% CI</span>;
+                            const durKey = value.replace('d', '');
+                            const isPrimary = durKey === selectedDuration;
+                            return (
+                              <span className="text-xs" style={{ color: DURATION_COLORS[durKey], fontWeight: isPrimary ? 600 : 400 }}>
+                                {durKey}-hr{isPrimary ? ' ●' : ''}
+                              </span>
+                            );
                           }}
                         />
                       </ComposedChart>
@@ -626,7 +692,12 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                   </div>
                   {hasCI && (
                     <p className="text-xs text-muted-foreground text-center">
-                      Shaded band shows the NOAA Atlas 14 90% confidence interval. Wider bands at higher return periods indicate greater statistical uncertainty.
+                      Shaded band shows the 90% CI for the primary ({selectedDuration}-hr) duration. Click other durations above to overlay for comparison.
+                    </p>
+                  )}
+                  {!hasCI && chartOverlayDurations.length === 0 && (
+                    <p className="text-xs text-muted-foreground text-center">
+                      Click duration chips above to overlay multiple curves for comparison.
                     </p>
                   )}
                 </div>
