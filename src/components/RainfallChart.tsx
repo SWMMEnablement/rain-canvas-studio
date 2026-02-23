@@ -54,7 +54,7 @@ export function RainfallChart({ data, unitSystem }: RainfallChartProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="h-[400px] w-full">
+        <div className="h-[400px] w-full" role="img" aria-label={`Rainfall hyetograph chart showing intensity in ${intensityUnit} over time in hours${showCumulative ? ', with cumulative depth curve' : ''}`}>
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={convertedData} margin={{ top: 20, right: showCumulative ? 60 : 30, left: 20, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />

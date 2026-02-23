@@ -66,7 +66,7 @@ const Index = () => {
           {/* Hero Hyetograph Preview */}
           <div className="mt-6 mb-4">
             <HeroHyetograph />
-            <p className="text-xs opacity-60 mt-1">SCS Type II — 24-hour design storm</p>
+            <p className="text-xs opacity-80 mt-1">SCS Type II — 24-hour design storm</p>
           </div>
 
           {/* Pattern Badges */}
@@ -75,19 +75,19 @@ const Index = () => {
               <Badge
                 key={name}
                 variant="secondary"
-                className="bg-white/15 text-white border-white/25 hover:bg-white/25 text-xs backdrop-blur-sm"
+                className="bg-white/30 text-white border-white/40 hover:bg-white/40 text-xs backdrop-blur-sm"
               >
                 {name}
               </Badge>
             ))}
           </div>
 
-          <p className="text-sm mt-4 opacity-80 font-medium tracking-wide">
+          <p className="text-sm mt-4 opacity-90 font-medium tracking-wide">
             {patterns.length} Design Storm Patterns Available
           </p>
 
           {/* Social Proof / Compatibility */}
-          <p className="text-xs mt-3 opacity-60">
+          <p className="text-xs mt-3 opacity-80">
             Compatible with EPA SWMM · HEC-HMS · InfoWorks ICM · PCSWMM · XP-SWMM · HydroCAD
           </p>
         </div>

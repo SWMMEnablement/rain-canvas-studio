@@ -130,7 +130,7 @@ export function StormParameters({
             onValueChange={(values) => onDepthChange(values[0])}
             className="cursor-pointer"
           />
-          <div className="flex justify-between text-[10px] text-muted-foreground">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>{formatDepth(depthConfig.min, unitSystem)}</span>
             <span className="italic">Typical: {unitSystem === 'USA' ? '1–6 in for urban design' : '25–150 mm for urban design'}</span>
             <span>{formatDepth(depthConfig.max, unitSystem)}</span>
@@ -151,7 +151,7 @@ export function StormParameters({
             onValueChange={(values) => onDurationChange(values[0])}
             className="cursor-pointer"
           />
-          <div className="flex justify-between text-[10px] text-muted-foreground">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>1 hr</span>
             <span className="italic">1–6 hr urban · 12–24 hr rural/floodplain</span>
             <span>24 hr</span>
@@ -172,7 +172,7 @@ export function StormParameters({
             onValueChange={(values) => onTimeStepChange(values[0])}
             className="cursor-pointer"
           />
-          <div className="flex justify-between text-[10px] text-muted-foreground">
+          <div className="flex justify-between text-xs text-muted-foreground">
             <span>5 min</span>
             <span className="italic">5–10 min small catchments · 15 min recommended for SWMM</span>
             <span>60 min</span>
