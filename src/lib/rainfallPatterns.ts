@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -2020,6 +2020,166 @@ export function generateRainfallData(
           nextCumulative = 0.86 + 0.09 * ((nextT - 0.50) / 0.25);
         } else {
           nextCumulative = 0.95 + 0.05 * ((nextT - 0.75) / 0.25);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'sa_sanral': {
+      // South Africa SANRAL drainage design storm
+      // Modified Huff 2nd quartile calibrated for South African conditions
+      // Moderate front-loading with sustained mid-storm intensity
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.15) {
+          cumulativeFraction = 0.12 * Math.pow(t / 0.15, 0.85);
+        } else if (t <= 0.35) {
+          cumulativeFraction = 0.12 + 0.38 * Math.pow((t - 0.15) / 0.20, 0.75);
+        } else if (t <= 0.55) {
+          cumulativeFraction = 0.50 + 0.28 * ((t - 0.35) / 0.20);
+        } else if (t <= 0.75) {
+          cumulativeFraction = 0.78 + 0.14 * ((t - 0.55) / 0.20);
+        } else {
+          cumulativeFraction = 0.92 + 0.08 * ((t - 0.75) / 0.25);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.15) {
+          nextCumulative = 0.12 * Math.pow(nextT / 0.15, 0.85);
+        } else if (nextT <= 0.35) {
+          nextCumulative = 0.12 + 0.38 * Math.pow((nextT - 0.15) / 0.20, 0.75);
+        } else if (nextT <= 0.55) {
+          nextCumulative = 0.50 + 0.28 * ((nextT - 0.35) / 0.20);
+        } else if (nextT <= 0.75) {
+          nextCumulative = 0.78 + 0.14 * ((nextT - 0.55) / 0.20);
+        } else {
+          nextCumulative = 0.92 + 0.08 * ((nextT - 0.75) / 0.25);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'kenya_kmd': {
+      // Kenya Meteorological Department convective storm
+      // Short-duration intense burst typical of East African highlands
+      // Very front-loaded with rapid decay — 65% in first 25% of duration
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.08) {
+          cumulativeFraction = 0.20 * Math.pow(t / 0.08, 0.70);
+        } else if (t <= 0.25) {
+          cumulativeFraction = 0.20 + 0.45 * Math.pow((t - 0.08) / 0.17, 0.65);
+        } else if (t <= 0.45) {
+          cumulativeFraction = 0.65 + 0.20 * ((t - 0.25) / 0.20);
+        } else if (t <= 0.70) {
+          cumulativeFraction = 0.85 + 0.10 * ((t - 0.45) / 0.25);
+        } else {
+          cumulativeFraction = 0.95 + 0.05 * ((t - 0.70) / 0.30);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.08) {
+          nextCumulative = 0.20 * Math.pow(nextT / 0.08, 0.70);
+        } else if (nextT <= 0.25) {
+          nextCumulative = 0.20 + 0.45 * Math.pow((nextT - 0.08) / 0.17, 0.65);
+        } else if (nextT <= 0.45) {
+          nextCumulative = 0.65 + 0.20 * ((nextT - 0.25) / 0.20);
+        } else if (nextT <= 0.70) {
+          nextCumulative = 0.85 + 0.10 * ((nextT - 0.45) / 0.25);
+        } else {
+          nextCumulative = 0.95 + 0.05 * ((nextT - 0.70) / 0.30);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'nigeria_nimet': {
+      // Nigeria NiMet tropical convective pattern
+      // West African monsoon — center-peaked with broad shoulders
+      // Represents ITCZ-driven rainfall with sustained intensity
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.20) {
+          cumulativeFraction = 0.10 * Math.pow(t / 0.20, 0.90);
+        } else if (t <= 0.40) {
+          cumulativeFraction = 0.10 + 0.35 * Math.pow((t - 0.20) / 0.20, 0.80);
+        } else if (t <= 0.60) {
+          cumulativeFraction = 0.45 + 0.30 * ((t - 0.40) / 0.20);
+        } else if (t <= 0.80) {
+          cumulativeFraction = 0.75 + 0.17 * ((t - 0.60) / 0.20);
+        } else {
+          cumulativeFraction = 0.92 + 0.08 * ((t - 0.80) / 0.20);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.20) {
+          nextCumulative = 0.10 * Math.pow(nextT / 0.20, 0.90);
+        } else if (nextT <= 0.40) {
+          nextCumulative = 0.10 + 0.35 * Math.pow((nextT - 0.20) / 0.20, 0.80);
+        } else if (nextT <= 0.60) {
+          nextCumulative = 0.45 + 0.30 * ((nextT - 0.40) / 0.20);
+        } else if (nextT <= 0.80) {
+          nextCumulative = 0.75 + 0.17 * ((nextT - 0.60) / 0.20);
+        } else {
+          nextCumulative = 0.92 + 0.08 * ((nextT - 0.80) / 0.20);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'egypt_hcww': {
+      // Egypt HCWW (Holding Company for Water & Wastewater) flash flood pattern
+      // Extremely arid flash flood — nearly all rain in first 15% of duration
+      // Represents rare but intense Mediterranean/Red Sea convergence events
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.05) {
+          cumulativeFraction = 0.25 * Math.pow(t / 0.05, 0.60);
+        } else if (t <= 0.15) {
+          cumulativeFraction = 0.25 + 0.45 * Math.pow((t - 0.05) / 0.10, 0.55);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.70 + 0.18 * ((t - 0.15) / 0.15);
+        } else if (t <= 0.55) {
+          cumulativeFraction = 0.88 + 0.08 * ((t - 0.30) / 0.25);
+        } else {
+          cumulativeFraction = 0.96 + 0.04 * ((t - 0.55) / 0.45);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.05) {
+          nextCumulative = 0.25 * Math.pow(nextT / 0.05, 0.60);
+        } else if (nextT <= 0.15) {
+          nextCumulative = 0.25 + 0.45 * Math.pow((nextT - 0.05) / 0.10, 0.55);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.70 + 0.18 * ((nextT - 0.15) / 0.15);
+        } else if (nextT <= 0.55) {
+          nextCumulative = 0.88 + 0.08 * ((nextT - 0.30) / 0.25);
+        } else {
+          nextCumulative = 0.96 + 0.04 * ((nextT - 0.55) / 0.45);
         }
         
         const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;

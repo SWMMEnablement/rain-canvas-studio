@@ -104,6 +104,10 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'uae_ncms', name: 'UAE NCMS', color: '#dc2626', category: 'Middle East' },
   { id: 'qatar_kahramaa', name: 'Qatar Kahramaa', color: '#7c2d12', category: 'Middle East' },
   { id: 'oman_dgman', name: 'Oman DGMAN', color: '#b45309', category: 'Middle East' },
+  { id: 'sa_sanral', name: 'SA SANRAL', color: '#059669', category: 'African' },
+  { id: 'kenya_kmd', name: 'Kenya KMD', color: '#10b981', category: 'African' },
+  { id: 'nigeria_nimet', name: 'Nigeria NiMet', color: '#047857', category: 'African' },
+  { id: 'egypt_hcww', name: 'Egypt HCWW', color: '#065f46', category: 'African' },
 ];
 
 interface PresetGroup {
@@ -187,6 +191,11 @@ const presetGroups: PresetGroup[] = [
     name: 'GCC Flash Flood',
     patterns: ['saudi_pme', 'uae_ncms', 'qatar_kahramaa', 'oman_dgman'],
     description: 'GCC/Middle East arid flash flood patterns',
+  },
+  {
+    name: 'African',
+    patterns: ['sa_sanral', 'kenya_kmd', 'nigeria_nimet', 'egypt_hcww', 'sa_huff'],
+    description: 'All African design storm patterns',
   },
 ];
 

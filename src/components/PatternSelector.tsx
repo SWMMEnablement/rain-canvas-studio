@@ -1,14 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman';
+type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww';
 
 interface PatternOption {
   id: PatternType;
   name: string;
   icon: string;
   description: string;
-  category: 'swmm' | 'icm' | 'international' | 'us_agency' | 'european' | 'asian' | 'middle_east';
+  category: 'swmm' | 'icm' | 'international' | 'us_agency' | 'european' | 'asian' | 'middle_east' | 'african';
 }
 
 export const patterns: PatternOption[] = [
@@ -417,6 +417,35 @@ export const patterns: PatternOption[] = [
     description: 'DGMAN Muscat/Salalah wadi flood pattern. Includes Shamal wind-driven and Khareef (monsoon) influence for Dhofar region.',
     category: 'middle_east',
   },
+  // African Design Storms
+  {
+    id: 'sa_sanral',
+    name: 'South Africa SANRAL',
+    icon: '🇿🇦',
+    description: 'SANRAL Drainage Manual design storm. Modified Huff 2nd quartile calibrated for South African conditions. Required for national road drainage design.',
+    category: 'african',
+  },
+  {
+    id: 'kenya_kmd',
+    name: 'Kenya KMD',
+    icon: '🇰🇪',
+    description: 'Kenya Meteorological Department convective storm. Front-loaded East African highland pattern with 65% of rain in first quarter. Used for Nairobi and highland drainage.',
+    category: 'african',
+  },
+  {
+    id: 'nigeria_nimet',
+    name: 'Nigeria NiMet',
+    icon: '🇳🇬',
+    description: 'Nigerian Meteorological Agency ITCZ-driven pattern. Center-peaked with broad shoulders representing West African monsoon convection. Used for Lagos and southern Nigeria.',
+    category: 'african',
+  },
+  {
+    id: 'egypt_hcww',
+    name: 'Egypt HCWW',
+    icon: '🇪🇬',
+    description: 'HCWW (Holding Company for Water & Wastewater) flash flood pattern. Extremely front-loaded arid burst with 70% in first 15% of duration. Used for Cairo and Nile Delta drainage.',
+    category: 'african',
+  },
 ];
 
 interface PatternSelectorProps {
@@ -432,6 +461,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
   const europeanPatterns = patterns.filter(p => p.category === 'european');
   const asianPatterns = patterns.filter(p => p.category === 'asian');
   const middleEastPatterns = patterns.filter(p => p.category === 'middle_east');
+  const africanPatterns = patterns.filter(p => p.category === 'african');
   const internationalPatterns = patterns.filter(p => p.category === 'international');
 
   const PatternGrid = ({ patterns }: { patterns: PatternOption[] }) => (
@@ -466,11 +496,12 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs defaultValue="swmm" className="w-full">
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className="grid w-full grid-cols-8">
             <TabsTrigger value="swmm">SWMM</TabsTrigger>
             <TabsTrigger value="us_agency">US</TabsTrigger>
             <TabsTrigger value="asian">Asia</TabsTrigger>
             <TabsTrigger value="middle_east">GCC</TabsTrigger>
+            <TabsTrigger value="african">Africa</TabsTrigger>
             <TabsTrigger value="icm">UK/ICM</TabsTrigger>
             <TabsTrigger value="european">Europe</TabsTrigger>
             <TabsTrigger value="international">Int'l</TabsTrigger>
@@ -486,6 +517,9 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
           </TabsContent>
           <TabsContent value="middle_east" className="mt-4">
             <PatternGrid patterns={middleEastPatterns} />
+          </TabsContent>
+          <TabsContent value="african" className="mt-4">
+            <PatternGrid patterns={africanPatterns} />
           </TabsContent>
           <TabsContent value="icm" className="mt-4">
             <PatternGrid patterns={icmPatterns} />
