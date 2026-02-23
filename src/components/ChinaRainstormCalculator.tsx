@@ -384,6 +384,22 @@ export function ChinaRainstormCalculator({ onSendToGenerator }: ChinaRainstormCa
                   <p className="text-xs text-muted-foreground text-center">
                     Alternating Block Method (交替块法) — Peak centered at mid-duration
                   </p>
+
+                  {onSendToGenerator && intensity && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full gap-2 border-primary/30 text-primary hover:bg-primary/10"
+                      onClick={() => {
+                        const depthInches = intensity.depthMm / 25.4;
+                        const durationHours = duration / 60;
+                        onSendToGenerator(depthInches, durationHours);
+                      }}
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      Send to Storm Generator ({intensity.depthMm.toFixed(1)} mm / {duration} min)
+                    </Button>
+                  )}
                 </TabsContent>
 
                 {/* IDF Tab */}
