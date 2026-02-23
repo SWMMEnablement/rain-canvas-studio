@@ -332,6 +332,124 @@ RationalMethodCalculator (standalone)
 
 ---
 
+## IDF Lookup & Guided Selection
+
+### NOAA Atlas 14 IDF Lookup (`IdfLookup.tsx`)
+
+**Purpose**: Manual entry and reference table for site-specific precipitation frequency data.
+
+- **Inputs**: Latitude, longitude (manual or browser geolocation), location name
+- **Grid dimensions**: 10 durations × 6 return periods
+  - **Durations**: 5-min, 10-min, 15-min, 30-min, 1-hr, 2-hr, 3-hr, 6-hr, 12-hr, 24-hr
+  - **Return periods**: 2, 5, 10, 25, 50, 100 years
+- **Data entry**: User manually enters precipitation depths (in) from NOAA PFDS website
+- **Computed output**: Intensity table (in/hr) via `i = depth / (duration_min / 60)`
+- **Features**: Deep-link to NOAA PFDS for the entered lat/lon, 8 quick-select US cities, copy table to clipboard
+- **External URL pattern**: `https://hdsc.nws.noaa.gov/pfds/pfds_map_cont.html?lat={lat}&lon={lon}&data=depth&units=english&series=pds`
+
+### IDF-Guided Design Storm Selector (`IdfGuidedSelector.tsx`)
+
+**Purpose**: Auto-populate storm depth and duration from built-in regional lookup tables.
+
+- **8 US Climate Regions** with representative NOAA Atlas 14 data:
+
+| Region Key | Representative Cities | Recommended SCS Type |
+|------------|----------------------|---------------------|
+| `southeast` | Atlanta, Charlotte | Type II or III |
+| `gulfCoast` | Houston, New Orleans | Type III |
+| `northeast` | New York, Boston | Type II |
+| `midwest` | Chicago, St. Louis | Type II |
+| `southwest` | Phoenix, Las Vegas | Type II |
+| `pacificNorthwest` | Seattle, Portland | Type IA |
+| `california` | San Francisco, LA | Type I |
+| `mountainWest` | Denver, Salt Lake | Type II |
+
+- **Lookup table structure**: `depths[duration_hr][return_period_yr] → depth (inches)`
+  - Durations: 1, 2, 6, 12, 24 hours
+  - Return periods: 2, 5, 10, 25, 50, 100 years
+- **Outputs**: Selected depth (converted to SI if needed), recommended SCS type
+- **Action**: "Apply to Storm" populates StormParameters with depth + duration
+
+---
+
+## SWMM File Integration (`SwmmFileIntegration.tsx`)
+
+### Overview
+
+2,130-line component providing full EPA SWMM5 `.inp` file read/write capabilities with batch processing, import/repair, and template generation.
+
+### Export Formats
+
+| Format | Target Software | Details |
+|--------|----------------|---------|
+| **SWMM5 Time Series** | EPA SWMM5 | `[TIMESERIES]` section, format: `Name Date Time Value` |
+| **ICM Event** | Innovyze InfoWorks ICM | SWMM5-compatible format with ICM-specific naming |
+| **XP-SWMM / PCSWMM** | XP Solutions / CHI | Standard SWMM5 format (compatible) |
+| **HEC-HMS .gage** | HEC-HMS | HEC-DSS gauge format for HMS import |
+| **Full SWMM Model** | EPA SWMM5 | Complete `.inp` with subcatchment, conduits, junctions, infiltration |
+
+### SWMM5 Time Series Format
+
+```
+[TIMESERIES]
+;Name           Date       Time       Value
+TS_SCS_Type_II  01/01/2024 00:00      0.012
+TS_SCS_Type_II  01/01/2024 00:15      0.018
+...
+```
+
+### Import & Validation
+
+- **Reads**: Existing `.inp` files, parses `[TIMESERIES]` section
+- **Parse format**: `Name Date(MM/DD/YYYY) Time(HH:MM[:SS]) Value(float)`
+- **Validation checks**:
+  - Numeric validity of all values
+  - No negative rainfall values
+  - Monotonic time progression
+  - Reasonable value ranges (max < 50, total < 100)
+  - Minimum data point count (≥ 3)
+- **Auto-repair tools**:
+  - Fix negative values (clamp to 0)
+  - Sort non-monotonic timestamps
+  - Normalize units (mm → in when max > 50)
+  - Remove zero-value entries
+  - Interpolate missing timesteps (default 5-min)
+
+### Batch Processing
+
+- Select multiple patterns from all 22 available
+- Generates one `[TIMESERIES]` block per pattern
+- Naming convention: `TS_{PatternName}` (spaces replaced with underscores)
+
+### EPA SWMM Model Template
+
+Generates a complete `.inp` file with customizable parameters:
+
+**10 Land-Use Presets**: Low/Med/High-Density Residential, Commercial, Industrial, Park, Agricultural, Parking Lot, Forest, Highway
+
+**4 Soil-Type Presets** (USDA/NRCS HSG):
+
+| Soil Group | Name | Max Infil (in/hr) | Min Infil (in/hr) |
+|------------|------|-------------------|--------------------|
+| A | Sand/Gravel | 5.0 | 1.2 |
+| B | Sandy Loam | 3.0 | 0.6 |
+| C | Clay Loam | 1.5 | 0.3 |
+| D | Clay | 0.8 | 0.1 |
+
+**Customizable SWMM Parameters**:
+
+| Category | Parameters |
+|----------|-----------|
+| Subcatchment | Area (acres), imperviousness (%), width (ft), slope (%) |
+| Surface | n-Imperv, n-Perv, S-Imperv (in), S-Perv (in), %Zero-Imperv |
+| Infiltration (Horton) | Max rate (in/hr), min rate (in/hr), decay (1/hr), dry time (days) |
+| Conduit | Length (ft), Manning's n, diameter (ft) |
+| Junction | Depth (ft) |
+
+All parameters include built-in validation with realistic range checks and warning/error severity levels.
+
+---
+
 ## Migration Notes
 
 - **No backend dependencies** – pure client-side app
