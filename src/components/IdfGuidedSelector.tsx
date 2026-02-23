@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, CloudRain, ExternalLink, ChevronDown, ChevronUp, Zap, Target, Info, Search, Loader2, CheckCircle } from "lucide-react";
+import { MapPin, CloudRain, ExternalLink, ChevronDown, ChevronUp, Zap, Target, Info, Search, Loader2, CheckCircle, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { type UnitSystem, convertDepth } from "@/lib/unitConversions";
@@ -352,7 +352,9 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
                   </SelectTrigger>
                   <SelectContent>
                     {RETURN_PERIODS.map(rp => (
-                      <SelectItem key={rp} value={rp}>{rp}-year</SelectItem>
+                      <SelectItem key={rp} value={rp}>
+                        {rp}-year{parseInt(rp) >= 500 ? " ⚠️" : ""}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -372,15 +374,40 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
               </div>
             </div>
 
+            {/* High-Uncertainty Warning for Extreme Return Periods */}
+            {parseInt(selectedReturnPeriod) >= 500 && (
+              <div className="flex items-start gap-3 p-3 rounded-lg border border-warning/50 bg-warning/10">
+                <AlertTriangle className="w-5 h-5 text-warning shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <p className="text-sm font-semibold text-warning">
+                    High-Uncertainty Extreme Event ({selectedReturnPeriod}-year)
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Return periods ≥ 500 years exceed typical gauge record lengths and rely on
+                    statistical extrapolation. NOAA Atlas 14 confidence intervals widen
+                    significantly at these frequencies. Use with caution for critical
+                    infrastructure — consider applying climate change adjustment factors
+                    and consulting site-specific frequency analyses.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Result Preview */}
             <div className="p-4 rounded-lg bg-accent/50 border border-primary/20">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs text-muted-foreground uppercase tracking-wider">Design Storm Depth</p>
                   <p className="text-2xl font-bold text-primary">{formatDepth(selectedDepth)}</p>
-                  <p className="text-sm text-muted-foreground mt-1">
+                   <p className="text-sm text-muted-foreground mt-1">
                     {selectedReturnPeriod}-year, {selectedDuration}-hour storm
                     {liveSource && <Badge variant="outline" className="ml-2 text-xs">NOAA Atlas 14</Badge>}
+                    {parseInt(selectedReturnPeriod) >= 500 && (
+                      <Badge variant="outline" className="ml-2 text-xs border-warning/50 text-warning">
+                        <AlertTriangle className="w-3 h-3 mr-1" />
+                        High Uncertainty
+                      </Badge>
+                    )}
                   </p>
                 </div>
                 <Button onClick={handleApply} className="gap-2" disabled={selectedDepth === null}>
