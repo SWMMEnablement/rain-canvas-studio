@@ -46,6 +46,8 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'scs1', name: 'SCS Type I', color: '#06b6d4', category: 'SCS' },
   { id: 'scs2', name: 'SCS Type II', color: '#10b981', category: 'SCS' },
   { id: 'scs3', name: 'SCS Type III', color: '#f97316', category: 'SCS' },
+  { id: 'balanced', name: 'Balanced Storm', color: '#0d9488', category: 'SCS' },
+  { id: 'yen_chow', name: 'Yen & Chow', color: '#7c3aed', category: 'SCS' },
   // Huff Patterns
   { id: 'huff1', name: 'Huff 1st Quartile', color: '#8b5cf6', category: 'Huff' },
   { id: 'huff2', name: 'Huff 2nd Quartile', color: '#ec4899', category: 'Huff' },
@@ -54,6 +56,14 @@ const comparisonPatterns: ComparisonPattern[] = [
   // Chicago & Block
   { id: 'chicago', name: 'Chicago Storm', color: '#14b8a6', category: 'Other' },
   { id: 'block', name: 'Block (Uniform)', color: '#737373', category: 'Other' },
+  // US Agency
+  { id: 'fdot1', name: 'FDOT Zone 1 (NW FL)', color: '#f59e0b', category: 'US Agency' },
+  { id: 'fdot2', name: 'FDOT Zone 2 (NE FL)', color: '#d97706', category: 'US Agency' },
+  { id: 'fdot3', name: 'FDOT Zone 3 (Central FL)', color: '#b45309', category: 'US Agency' },
+  { id: 'fdot4', name: 'FDOT Zone 4 (SE FL)', color: '#92400e', category: 'US Agency' },
+  { id: 'fdot5', name: 'FDOT Zone 5 (SW FL)', color: '#78350f', category: 'US Agency' },
+  { id: 'txdot', name: 'TxDOT', color: '#be185d', category: 'US Agency' },
+  { id: 'noaa_a14', name: 'NOAA Atlas 14', color: '#1d4ed8', category: 'US Agency' },
   // International
   { id: 'desbordes', name: 'Desbordes (France)', color: '#6366f1', category: 'International' },
   { id: 'arr', name: 'Australian ARR', color: '#a855f7', category: 'International' },
@@ -74,8 +84,8 @@ interface PresetGroup {
 const presetGroups: PresetGroup[] = [
   {
     name: 'All SCS',
-    patterns: ['scs1a', 'scs1', 'scs2', 'scs3'],
-    description: 'Compare all NRCS (SCS) patterns',
+    patterns: ['scs1a', 'scs1', 'scs2', 'scs3', 'balanced', 'yen_chow'],
+    description: 'Compare all NRCS (SCS) and universal patterns',
   },
   {
     name: 'All Huff',
@@ -99,8 +109,13 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'US Standard',
-    patterns: ['scs2', 'chicago', 'huff2'],
+    patterns: ['scs2', 'balanced', 'chicago', 'noaa_a14', 'huff2'],
     description: 'Common US design storms',
+  },
+  {
+    name: 'Florida FDOT',
+    patterns: ['fdot1', 'fdot2', 'fdot3', 'fdot4', 'fdot5'],
+    description: 'All FDOT rainfall zones',
   },
 ];
 
