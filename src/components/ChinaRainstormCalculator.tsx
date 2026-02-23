@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Search, MapPin, Download, BarChart3, Table as TableIcon, Zap } from "lucide-react";
+import { Search, MapPin, Download, BarChart3, Table as TableIcon, Zap, GitCompareArrows } from "lucide-react";
+import { ChinaCityComparison } from "./ChinaCityComparison";
 import {
   chinaRainstormDatabase,
   searchCities,
@@ -197,15 +198,15 @@ export function ChinaRainstormCalculator() {
             )}
           </CardHeader>
           <CardContent>
-            {!selectedCity ? (
+            {!selectedCity && activeTab !== "compare" ? (
               <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
                 <MapPin className="w-12 h-12 mb-4 opacity-50" />
                 <p className="text-lg font-medium">No city selected</p>
-                <p className="text-sm">Search or browse the city list on the left</p>
+                <p className="text-sm">Search or browse the city list, or use the <button onClick={() => setActiveTab("compare")} className="text-primary underline">Compare</button> tab</p>
               </div>
             ) : (
               <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="grid w-full grid-cols-3">
+                <TabsList className="grid w-full grid-cols-4">
                   <TabsTrigger value="formula" className="flex items-center gap-1.5">
                     <Zap className="w-3.5 h-3.5" />
                     Formula
@@ -217,6 +218,10 @@ export function ChinaRainstormCalculator() {
                   <TabsTrigger value="idf" className="flex items-center gap-1.5">
                     <TableIcon className="w-3.5 h-3.5" />
                     IDF Curves
+                  </TabsTrigger>
+                  <TabsTrigger value="compare" className="flex items-center gap-1.5">
+                    <GitCompareArrows className="w-3.5 h-3.5" />
+                    Compare
                   </TabsTrigger>
                 </TabsList>
 
@@ -432,6 +437,10 @@ export function ChinaRainstormCalculator() {
                       All values in mm/hr
                     </p>
                   </div>
+                </TabsContent>
+                {/* Compare Tab */}
+                <TabsContent value="compare" className="mt-4">
+                  <ChinaCityComparison />
                 </TabsContent>
               </Tabs>
             )}
