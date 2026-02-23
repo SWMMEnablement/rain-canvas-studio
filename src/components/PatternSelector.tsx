@@ -1,14 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14';
+type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian';
 
 interface PatternOption {
   id: PatternType;
   name: string;
   icon: string;
   description: string;
-  category: 'swmm' | 'icm' | 'international' | 'us_agency';
+  category: 'swmm' | 'icm' | 'international' | 'us_agency' | 'european';
 }
 
 export const patterns: PatternOption[] = [
@@ -125,7 +125,22 @@ export const patterns: PatternOption[] = [
     description: 'NOAA Atlas 14 temporal distribution (50th percentile). Derived from actual recording rain gage data. Supersedes SCS types where Atlas 14 data exists.',
     category: 'us_agency',
   },
-  // InfoWorks patterns
+  // US Agency - additional
+  {
+    id: 'udfcd',
+    name: 'UDFCD Denver',
+    icon: '🏔',
+    description: 'Urban Drainage and Flood Control District (Colorado) 2-hour design storm. Front-loaded with 60% of rain in first quarter. Required for Denver metro area projects.',
+    category: 'us_agency',
+  },
+  {
+    id: 'usace_sps',
+    name: 'USACE SPS',
+    icon: '🏛',
+    description: 'US Army Corps of Engineers Standard Project Storm. Envelope of severe storms for dam safety and major flood control. Broader peak than SCS for large-area storms.',
+    category: 'us_agency',
+  },
+  // InfoWorks / UK patterns
   {
     id: 'triangular',
     name: 'Triangular',
@@ -147,7 +162,43 @@ export const patterns: PatternOption[] = [
     description: 'Flood Studies Report (FSR) rainfall profile. Standard design storm profile used in UK drainage design with InfoWorks.',
     category: 'icm',
   },
+  {
+    id: 'feh',
+    name: 'FEH (UK)',
+    icon: '🇬🇧',
+    description: 'Flood Estimation Handbook (FEH) temporal profile. Modern successor to FSR with improved temporal distributions for UK flood estimation.',
+    category: 'icm',
+  },
+  // European patterns
+  {
+    id: 'euler1',
+    name: 'Euler Type I',
+    icon: '⟨',
+    description: 'Euler Type I front-loaded distribution. Peak in first 1/6 of duration. Used in German/European practice for conservative sewer design.',
+    category: 'european',
+  },
+  {
+    id: 'euler2',
+    name: 'Euler Type II',
+    icon: '⟩',
+    description: 'Euler Type II center-peaked distribution. Peak in second 1/6 of duration. Standard for German drainage design per DWA guidelines.',
+    category: 'european',
+  },
+  {
+    id: 'desbordes_double',
+    name: 'Double Triangle',
+    icon: '⩗',
+    description: 'Desbordes Double Triangle with defined valley between two peaks. Used in French and European urban drainage for complex storm modeling.',
+    category: 'european',
+  },
   // International patterns
+  {
+    id: 'canadian',
+    name: 'Canadian CDA',
+    icon: '🇨🇦',
+    description: 'Canadian Dam Association / Ontario MTO temporal pattern. Modified Type II adapted for Canadian climate with broader central peak and extended tails.',
+    category: 'international',
+  },
   {
     id: 'chicago',
     name: 'Chicago Storm',
@@ -251,6 +302,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
   const swmmPatterns = patterns.filter(p => p.category === 'swmm');
   const usAgencyPatterns = patterns.filter(p => p.category === 'us_agency');
   const icmPatterns = patterns.filter(p => p.category === 'icm');
+  const europeanPatterns = patterns.filter(p => p.category === 'european');
   const internationalPatterns = patterns.filter(p => p.category === 'international');
 
   const PatternGrid = ({ patterns }: { patterns: PatternOption[] }) => (
@@ -285,10 +337,11 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs defaultValue="swmm" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="swmm">SWMM</TabsTrigger>
             <TabsTrigger value="us_agency">US Agency</TabsTrigger>
-            <TabsTrigger value="icm">InfoWorks</TabsTrigger>
+            <TabsTrigger value="icm">UK/ICM</TabsTrigger>
+            <TabsTrigger value="european">European</TabsTrigger>
             <TabsTrigger value="international">Int'l</TabsTrigger>
           </TabsList>
           <TabsContent value="swmm" className="mt-4">
@@ -299,6 +352,9 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
           </TabsContent>
           <TabsContent value="icm" className="mt-4">
             <PatternGrid patterns={icmPatterns} />
+          </TabsContent>
+          <TabsContent value="european" className="mt-4">
+            <PatternGrid patterns={europeanPatterns} />
           </TabsContent>
           <TabsContent value="international" className="mt-4">
             <PatternGrid patterns={internationalPatterns} />

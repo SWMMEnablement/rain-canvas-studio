@@ -901,6 +901,194 @@ export const patternEquations: PatternEquation[] = [
     },
     notes: 'Derived from actual measured temporal distributions at recording rain gages. Supersedes SCS types where Atlas 14 data exists. Represents the future of design storm specification.'
   },
+
+  // ============ UDFCD Denver ============
+  {
+    pattern: 'udfcd',
+    name: 'UDFCD Denver',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.04 \\cdot \\frac{t}{0.08} & t \\leq 0.08 \\\\ 0.04 + 0.56 \\cdot \\left(\\frac{t-0.08}{0.17}\\right)^{0.75} & 0.08 < t \\leq 0.25 \\\\ 0.60 + 0.25 \\cdot \\frac{t-0.25}{0.25} & 0.25 < t \\leq 0.50 \\\\ 0.85 + 0.15 \\cdot \\frac{t-0.50}{0.50} & t > 0.50 \\end{cases}',
+        description: 'Front-loaded distribution with 60% of rainfall in first quarter'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'Urban Storm Drainage Criteria Manual, Volume 1',
+      citation: 'Urban Drainage and Flood Control District (UDFCD), Denver, CO',
+      year: 2016,
+      link: 'https://udfcd.org/criteria-manual'
+    },
+    notes: 'Required for all projects in Denver metropolitan area. Front-loaded pattern characteristic of Rocky Mountain thunderstorms.'
+  },
+
+  // ============ USACE SPS ============
+  {
+    pattern: 'usace_sps',
+    name: 'USACE Standard Project Storm',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.08 \\cdot \\frac{t}{0.20} & t \\leq 0.20 \\\\ 0.08 + 0.15 \\cdot \\frac{t-0.20}{0.15} & 0.20 < t \\leq 0.35 \\\\ 0.23 + 0.40 \\cdot \\left(\\frac{t-0.35}{0.15}\\right)^{0.85} & 0.35 < t \\leq 0.50 \\\\ 0.63 + 0.22 \\cdot \\frac{t-0.50}{0.15} & 0.50 < t \\leq 0.65 \\\\ 0.85 + 0.10 \\cdot \\frac{t-0.65}{0.15} & 0.65 < t \\leq 0.80 \\\\ 0.95 + 0.05 \\cdot \\frac{t-0.80}{0.20} & t > 0.80 \\end{cases}',
+        description: 'Envelope distribution from severe historical storms'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'EM 1110-2-1411: Standard Project Flood Determinations',
+      citation: 'US Army Corps of Engineers',
+      year: 1965,
+      link: 'https://www.publications.usace.army.mil/'
+    },
+    notes: 'Used for dam safety and major flood control projects. Represents envelope of severe storms observed across the US.'
+  },
+
+  // ============ FEH (UK) ============
+  {
+    pattern: 'feh',
+    name: 'FEH Temporal Profile',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Summer Profile',
+        latex: 'F(t) = \\begin{cases} 0.06 \\cdot \\frac{t}{0.15} & t \\leq 0.15 \\\\ 0.06 + 0.14 \\cdot \\frac{t-0.15}{0.15} & 0.15 < t \\leq 0.30 \\\\ 0.20 + 0.45 \\cdot \\left(\\frac{t-0.30}{0.20}\\right)^{0.85} & 0.30 < t \\leq 0.50 \\\\ 0.65 + 0.22 \\cdot \\frac{t-0.50}{0.20} & 0.50 < t \\leq 0.70 \\\\ 0.87 + 0.13 \\cdot \\frac{t-0.70}{0.30} & t > 0.70 \\end{cases}',
+        description: 'Modern UK temporal profile superseding FSR'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'Flood Estimation Handbook (FEH)',
+      citation: 'Centre for Ecology & Hydrology, UK',
+      year: 2013,
+      link: 'https://www.ceh.ac.uk/services/flood-estimation-handbook'
+    },
+    notes: 'Modern successor to FSR. Improved temporal distributions based on updated UK rainfall analysis. Standard for current UK flood estimation.'
+  },
+
+  // ============ Euler Type I ============
+  {
+    pattern: 'euler1',
+    name: 'Euler Type I',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Front-Loaded Distribution',
+        latex: 'F(t) = \\begin{cases} 0.42 \\cdot \\left(\\frac{t}{D/6}\\right)^{0.8} & t \\leq D/6 \\\\ 0.42 + 0.23 \\cdot \\frac{t - D/6}{D/6} & D/6 < t \\leq 2D/6 \\\\ 0.65 + 0.15 \\cdot \\frac{t - 2D/6}{D/6} & 2D/6 < t \\leq 3D/6 \\\\ \\text{etc.} & \\end{cases}',
+        description: 'Peak intensity in first 1/6 interval — maximum stress design'
+      },
+      {
+        label: 'Increments',
+        latex: '\\Delta F = [0.42, 0.23, 0.15, 0.10, 0.06, 0.04]',
+        description: 'Rainfall fraction per 1/6 interval (front-loaded)'
+      }
+    ],
+    variables: [
+      { symbol: 'D', meaning: 'Total storm duration' },
+      { symbol: '\\Delta F', meaning: 'Incremental fraction per 1/6 interval' }
+    ],
+    reference: {
+      title: 'DWA-A 118: Hydraulische Bemessung und Nachweis',
+      citation: 'Deutsche Vereinigung für Wasserwirtschaft',
+      year: 2006,
+      link: 'https://www.dwa.de'
+    },
+    notes: 'Conservative front-loaded pattern for maximum sewer stress. Peak at start. Used alongside Euler Type II for sensitivity analysis.'
+  },
+
+  // ============ Euler Type II ============
+  {
+    pattern: 'euler2',
+    name: 'Euler Type II',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Center-Front Distribution',
+        latex: 'F(t) = \\begin{cases} 0.09 \\cdot \\frac{t}{D/6} & t \\leq D/6 \\\\ 0.09 + 0.42 \\cdot \\left(\\frac{t - D/6}{D/6}\\right)^{0.85} & D/6 < t \\leq 2D/6 \\\\ 0.51 + 0.23 \\cdot \\frac{t - 2D/6}{D/6} & 2D/6 < t \\leq 3D/6 \\\\ \\text{etc.} & \\end{cases}',
+        description: 'Peak in second 1/6 interval — standard German design storm'
+      },
+      {
+        label: 'Increments',
+        latex: '\\Delta F = [0.09, 0.42, 0.23, 0.13, 0.08, 0.05]',
+        description: 'Rainfall fraction per 1/6 interval'
+      }
+    ],
+    variables: [
+      { symbol: 'D', meaning: 'Total storm duration' },
+      { symbol: '\\Delta F', meaning: 'Incremental fraction per 1/6 interval' }
+    ],
+    reference: {
+      title: 'DWA-A 118: Hydraulische Bemessung und Nachweis',
+      citation: 'Deutsche Vereinigung für Wasserwirtschaft',
+      year: 2006,
+      link: 'https://www.dwa.de'
+    },
+    notes: 'Standard German design storm. Peak early but not at start. More realistic than Type I for drainage verification.'
+  },
+
+  // ============ Double Triangle Desbordes ============
+  {
+    pattern: 'desbordes_double',
+    name: 'Desbordes Double Triangle',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Double Triangle',
+        latex: 'i(t) = \\begin{cases} i_1 \\cdot \\frac{t}{t_1} & t \\leq t_1 \\\\ i_1 - (i_1 - i_v) \\cdot \\frac{t - t_1}{t_v - t_1} & t_1 < t \\leq t_v \\\\ i_v + (i_2 - i_v) \\cdot \\frac{t - t_v}{t_2 - t_v} & t_v < t \\leq t_2 \\\\ i_2 \\cdot \\frac{D - t}{D - t_2} & t > t_2 \\end{cases}',
+        description: 'Two triangular peaks with explicit valley between them'
+      }
+    ],
+    variables: [
+      { symbol: 't_1', meaning: 'First peak time (0.25D)' },
+      { symbol: 't_v', meaning: 'Valley time (0.45D)' },
+      { symbol: 't_2', meaning: 'Second peak time (0.65D)' },
+      { symbol: 'i_1', meaning: 'First peak intensity (2.5P/D)' },
+      { symbol: 'i_2', meaning: 'Second peak intensity (2.0P/D)' },
+      { symbol: 'i_v', meaning: 'Valley intensity (0.3 × i₁)' }
+    ],
+    reference: {
+      title: 'Réseaux d\'assainissement: Calcul, modélisation, conception',
+      citation: 'Desbordes, M., Lavoisier',
+      year: 1984
+    },
+    notes: 'Explicit double-triangle with defined valley. Represents complex multi-cell storms. Used in French and European drainage design.'
+  },
+
+  // ============ Canadian CDA ============
+  {
+    pattern: 'canadian',
+    name: 'Canadian CDA/MTO',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.05 \\cdot \\frac{t}{0.15} & t \\leq 0.15 \\\\ 0.05 + 0.15 \\cdot \\frac{t-0.15}{0.20} & 0.15 < t \\leq 0.35 \\\\ 0.20 + 0.42 \\cdot \\left(\\frac{t-0.35}{0.15}\\right)^{0.82} & 0.35 < t \\leq 0.50 \\\\ 0.62 + 0.22 \\cdot \\frac{t-0.50}{0.15} & 0.50 < t \\leq 0.65 \\\\ 0.84 + 0.10 \\cdot \\frac{t-0.65}{0.15} & 0.65 < t \\leq 0.80 \\\\ 0.94 + 0.06 \\cdot \\frac{t-0.80}{0.20} & t > 0.80 \\end{cases}',
+        description: 'Modified Type II adapted for Canadian climate'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'Dam Safety Guidelines',
+      citation: 'Canadian Dam Association (CDA)',
+      year: 2013,
+      link: 'https://www.cda.ca/EN/Publications_Pages/dam-safety-guidelines.aspx'
+    },
+    notes: 'Broader central peak and extended tails compared to SCS Type II. Accounts for Canadian climatic conditions including snowmelt-rain interactions.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {

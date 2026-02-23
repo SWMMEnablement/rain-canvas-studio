@@ -73,6 +73,13 @@ const allPatterns: Array<{ id: PatternType; name: string; category: string }> = 
   { id: 'sa_huff', name: 'South Africa Huff', category: 'International' },
   { id: 'dutch', name: 'Dutch KNMI', category: 'International' },
   { id: 'italian', name: 'Italian (LSPP)', category: 'International' },
+  { id: 'udfcd', name: 'UDFCD Denver', category: 'US Agency' },
+  { id: 'usace_sps', name: 'USACE SPS', category: 'US Agency' },
+  { id: 'feh', name: 'FEH (UK)', category: 'European' },
+  { id: 'euler1', name: 'Euler Type I', category: 'European' },
+  { id: 'euler2', name: 'Euler Type II', category: 'European' },
+  { id: 'desbordes_double', name: 'Double Triangle', category: 'European' },
+  { id: 'canadian', name: 'Canadian CDA', category: 'International' },
 ];
 
 export function SwmmFileIntegration({

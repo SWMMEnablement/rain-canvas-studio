@@ -55,6 +55,13 @@ const patternNames: Record<PatternType, string> = {
   'txdot': 'TxDOT',
   'yen_chow': 'Yen & Chow',
   'noaa_a14': 'NOAA Atlas 14',
+  'udfcd': 'UDFCD Denver',
+  'usace_sps': 'USACE SPS',
+  'feh': 'FEH (UK)',
+  'euler1': 'Euler Type I',
+  'euler2': 'Euler Type II',
+  'desbordes_double': 'Double Triangle',
+  'canadian': 'Canadian CDA',
 };
 
 interface WizardStep {

@@ -85,6 +85,13 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   txdot: { name: 'TxDOT', peakPosition: 0.38, description: 'Texas DOT empirical hyetograph' },
   yen_chow: { name: 'Yen & Chow', peakPosition: 0.375, description: 'Variable triangular hyetograph' },
   noaa_a14: { name: 'NOAA Atlas 14', peakPosition: 0.48, description: 'Atlas 14 50th percentile temporal' },
+  udfcd: { name: 'UDFCD Denver', peakPosition: 0.2, description: 'Colorado front-loaded 2-hour storm' },
+  usace_sps: { name: 'USACE SPS', peakPosition: 0.45, description: 'Corps of Engineers standard project storm' },
+  feh: { name: 'FEH (UK)', peakPosition: 0.42, description: 'Flood Estimation Handbook temporal' },
+  euler1: { name: 'Euler Type I', peakPosition: 0.167, description: 'Front-loaded German Euler' },
+  euler2: { name: 'Euler Type II', peakPosition: 0.33, description: 'Center-peaked German Euler' },
+  desbordes_double: { name: 'Double Triangle', peakPosition: 0.25, description: 'Desbordes double triangle' },
+  canadian: { name: 'Canadian CDA', peakPosition: 0.45, description: 'Canadian Dam Association pattern' },
 };
 
 /**
@@ -281,7 +288,10 @@ export function matchPatterns(
     'huff1', 'huff2', 'huff3', 'huff4',
     'chicago', 'fsr', 'triangular', 'trapezoidal',
     'arr', 'jma', 'china', 'sa_huff', 'dwa', 'dutch', 'italian',
-    'desbordes', 'double', 'block'
+    'desbordes', 'double', 'block',
+    'balanced', 'yen_chow', 'noaa_a14',
+    'fdot1', 'fdot2', 'fdot3', 'fdot4', 'fdot5', 'txdot',
+    'udfcd', 'usace_sps', 'feh', 'euler1', 'euler2', 'desbordes_double', 'canadian'
   ];
   
   // Extract intensities from data

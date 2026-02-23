@@ -54,6 +54,13 @@ const syntheticPatterns: { id: PatternType; name: string }[] = [
   { id: 'txdot', name: 'TxDOT' },
   { id: 'yen_chow', name: 'Yen & Chow' },
   { id: 'noaa_a14', name: 'NOAA Atlas 14' },
+  { id: 'udfcd', name: 'UDFCD Denver' },
+  { id: 'usace_sps', name: 'USACE SPS' },
+  { id: 'feh', name: 'FEH (UK)' },
+  { id: 'euler1', name: 'Euler Type I' },
+  { id: 'euler2', name: 'Euler Type II' },
+  { id: 'desbordes_double', name: 'Double Triangle' },
+  { id: 'canadian', name: 'Canadian CDA' },
 ];
 
 export function HistoricalStormMatching({ data, metadata }: HistoricalStormMatchingProps) {
