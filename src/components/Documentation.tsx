@@ -24,6 +24,9 @@ import UnitHydrographCalculator from "./UnitHydrographCalculator";
 import PrePostDevelopmentComparison from "./PrePostDevelopmentComparison";
 import LIDCalculator, { LIDBMPExport } from "./LIDCalculator";
 import TreatmentTrainCalculator, { ImportedBMP } from "./TreatmentTrainCalculator";
+import { Button } from "@/components/ui/button";
+import { downloadMarkdown } from "@/lib/markdownExport";
+import { toast } from "sonner";
 import { 
   Droplets, 
   CloudRain, 
@@ -182,6 +185,20 @@ export function Documentation() {
             Australia, and Africa. Generated data can be exported in formats compatible with 
             SWMM5, InfoWorks ICM, and other hydraulic modeling software.
           </p>
+          <div className="not-prose mt-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              onClick={() => {
+                downloadMarkdown();
+                toast.success("Exported all equations to Markdown");
+              }}
+            >
+              <Download className="w-4 h-4" />
+              Export All Equations to Markdown
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
