@@ -183,12 +183,29 @@ export function StormChatbot({ stormContext }: StormChatbotProps) {
           {/* Messages */}
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-3 space-y-3">
             {messages.length === 0 && (
-              <div className="text-center text-muted-foreground text-sm py-8 px-4">
+              <div className="text-center text-muted-foreground text-sm py-6 px-4">
                 <p className="font-medium mb-2">👋 Hi! I'm your Storm Assistant.</p>
-                <p className="text-xs leading-relaxed">
+                <p className="text-xs leading-relaxed mb-4">
                   Ask me about your rainfall pattern, peak intensity, runoff calculations, 
                   or how to use the output in SWMM, HEC-HMS, or ICM.
                 </p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {[
+                    "Explain my peak intensity",
+                    "Compare with SCS Type III",
+                    "How to export for SWMM?",
+                    "What is peakedness ratio?",
+                    "Suggest a pattern for my region",
+                  ].map((q) => (
+                    <button
+                      key={q}
+                      onClick={() => { setInput(q); }}
+                      className="text-xs px-3 py-1.5 rounded-full border border-border bg-card hover:bg-accent text-foreground transition-colors"
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
             {messages.map((msg, i) => (
