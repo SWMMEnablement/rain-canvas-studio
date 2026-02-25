@@ -120,6 +120,8 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   colombia_ideam: { name: 'Colombia IDEAM', peakPosition: 0.45, description: 'Andean valley convective' },
   chile_dga: { name: 'Chile DGA', peakPosition: 0.40, description: 'Frontal/orographic central Chile' },
   nz_tp108: { name: 'Auckland TP108', peakPosition: 0.40, description: 'Auckland Council TP108 maritime convective' },
+  nz_wellington: { name: 'Wellington Regional', peakPosition: 0.35, description: 'Wellington frontal/orographic maritime' },
+  nz_christchurch: { name: 'Christchurch Canterbury', peakPosition: 0.45, description: 'Canterbury rain-shadow plains' },
 };
 
 /**

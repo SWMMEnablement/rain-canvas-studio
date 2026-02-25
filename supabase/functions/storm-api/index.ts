@@ -17,7 +17,8 @@ const VALID_PATTERNS = [
   'japan_baiu','japan_typhoon','korea_kma','malaysia_msma','indonesia_bmkg',
   'philippines_pagasa','vietnam_imhen','thailand_tmd','saudi_pme','uae_ncms',
   'qatar_kahramaa','oman_dgman','sa_sanral','kenya_kmd','nigeria_nimet',
-  'egypt_hcww','brazil_ana','mexico_conagua','colombia_ideam','chile_dga','nz_tp108',
+  'egypt_hcww','brazil_ana','mexico_conagua','colombia_ideam','chile_dga',
+  'nz_tp108','nz_wellington','nz_christchurch',
 ] as const;
 
 type PatternType = typeof VALID_PATTERNS[number];
@@ -89,6 +90,8 @@ const patternMeta: Record<string, { name: string; region: string; description: s
   colombia_ideam:    { name: "Colombia IDEAM",             region: "Colombia",         description: "IDEAM tropical Andean pattern" },
   chile_dga:         { name: "Chile DGA",                  region: "Chile",            description: "Dirección General de Aguas standard" },
   nz_tp108:          { name: "Auckland TP108",              region: "New Zealand",      description: "Auckland Council TP108 design storm (3-month to 500-yr ARI)" },
+  nz_wellington:     { name: "Wellington Regional",         region: "New Zealand",      description: "Wellington Regional Council frontal/orographic design storm" },
+  nz_christchurch:   { name: "Christchurch Canterbury",     region: "New Zealand",      description: "Canterbury rain-shadow plains design storm" },
 };
 
 // ── Lightweight hyetograph generator (server-side) ──────────────────────
