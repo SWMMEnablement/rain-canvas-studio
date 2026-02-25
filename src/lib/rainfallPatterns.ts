@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'pmp_hmr' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww' | 'brazil_ana' | 'mexico_conagua' | 'colombia_ideam' | 'chile_dga';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'pmp_hmr' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww' | 'brazil_ana' | 'mexico_conagua' | 'colombia_ideam' | 'chile_dga' | 'nz_tp108';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -2340,6 +2340,50 @@ export function generateRainfallData(
           nextCumulative = 0.80 + 0.14 * ((nextT - 0.65) / 0.20);
         } else {
           nextCumulative = 0.94 + 0.06 * ((nextT - 0.85) / 0.15);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'nz_tp108': {
+      // Auckland TP108 — Auckland Council Technical Publication 108
+      // Provides rainfall depths for design storms from 3-month to 500-year ARI
+      // Peak at ~40% of duration, moderate front-loading typical of NZ maritime convective storms
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.20) {
+          cumulativeFraction = 0.10 * Math.pow(t / 0.20, 0.90);
+        } else if (t <= 0.35) {
+          cumulativeFraction = 0.10 + 0.20 * ((t - 0.20) / 0.15);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.30 + 0.40 * Math.pow((t - 0.35) / 0.15, 0.80);
+        } else if (t <= 0.65) {
+          cumulativeFraction = 0.70 + 0.16 * ((t - 0.50) / 0.15);
+        } else if (t <= 0.80) {
+          cumulativeFraction = 0.86 + 0.09 * ((t - 0.65) / 0.15);
+        } else {
+          cumulativeFraction = 0.95 + 0.05 * ((t - 0.80) / 0.20);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.20) {
+          nextCumulative = 0.10 * Math.pow(nextT / 0.20, 0.90);
+        } else if (nextT <= 0.35) {
+          nextCumulative = 0.10 + 0.20 * ((nextT - 0.20) / 0.15);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.30 + 0.40 * Math.pow((nextT - 0.35) / 0.15, 0.80);
+        } else if (nextT <= 0.65) {
+          nextCumulative = 0.70 + 0.16 * ((nextT - 0.50) / 0.15);
+        } else if (nextT <= 0.80) {
+          nextCumulative = 0.86 + 0.09 * ((nextT - 0.65) / 0.15);
+        } else {
+          nextCumulative = 0.95 + 0.05 * ((nextT - 0.80) / 0.20);
         }
         
         const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
