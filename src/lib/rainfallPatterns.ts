@@ -1,4 +1,93 @@
-export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'pmp_hmr' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww' | 'brazil_ana' | 'mexico_conagua' | 'colombia_ideam' | 'chile_dga' | 'nz_tp108' | 'nz_wellington' | 'nz_christchurch';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'pmp_hmr' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww' | 'brazil_ana' | 'mexico_conagua' | 'colombia_ideam' | 'chile_dga' | 'nz_tp108' | 'nz_wellington' | 'nz_christchurch'
+  // New patterns from Design Storm Equations Reference
+  | 'sifalda' | 'danish_svk' | 'swedish_smhi' | 'norwegian_nve' | 'finnish_fmi' | 'swiss_idf'
+  | 'spanish_cedex' | 'belgian_irm' | 'pilgrim_cordery' | 'watts_curve'
+  | 'hong_kong_hko' | 'taiwan_cwa' | 'bangladesh_bmd' | 'pakistan_pmd' | 'sri_lanka' | 'fiji_fms'
+  | 'argentina_smn' | 'peru_senamhi' | 'ecuador_inamhi' | 'venezuela_inameh' | 'puerto_rico'
+  | 'morocco_dmn' | 'ethiopia_nma' | 'ghana_gmet' | 'tanzania_tma' | 'mozambique_inam'
+  | 'hirds_nz' | 'arid_flash_flood';
+
+// ─── Helper functions for pattern generation ───
+
+/** Linear interpolation on a piecewise table */
+function interpolateTable(xArr: number[], yArr: number[], x: number): number {
+  if (x <= xArr[0]) return yArr[0];
+  if (x >= xArr[xArr.length - 1]) return yArr[yArr.length - 1];
+  for (let i = 1; i < xArr.length; i++) {
+    if (x <= xArr[i]) {
+      const frac = (x - xArr[i - 1]) / (xArr[i] - xArr[i - 1]);
+      return yArr[i - 1] + frac * (yArr[i] - yArr[i - 1]);
+    }
+  }
+  return yArr[yArr.length - 1];
+}
+
+/** Apply a dimensionless mass curve to produce a hyetograph */
+function applyDimensionlessCurve(
+  timeFractions: number[], depthFractions: number[],
+  totalDepth: number, numSteps: number, timeStep: number
+): number[] {
+  const data: number[] = [];
+  for (let i = 0; i < numSteps; i++) {
+    const tFrac1 = i / numSteps;
+    const tFrac2 = (i + 1) / numSteps;
+    const dFrac1 = interpolateTable(timeFractions, depthFractions, tFrac1);
+    const dFrac2 = interpolateTable(timeFractions, depthFractions, tFrac2);
+    const incrementalDepth = (dFrac2 - dFrac1) * totalDepth;
+    data.push(incrementalDepth / (timeStep / 60));
+  }
+  return data;
+}
+
+/** Chicago-type (Keifer-Chu) storm with advancement coefficient r */
+function chicagoVariant(
+  totalDepth: number, numSteps: number, timeStep: number, duration: number,
+  r: number
+): number[] {
+  const peakPosition = Math.floor(numSteps * r);
+  const blocks: Array<{ intensity: number }> = [];
+  for (let i = 0; i < numSteps; i++) {
+    const durationHrs = ((i + 1) * timeStep) / 60;
+    const intensity = totalDepth / (duration * Math.pow(durationHrs / duration, 0.6));
+    blocks.push({ intensity });
+  }
+  blocks.sort((a, b) => b.intensity - a.intensity);
+  const orderedData: number[] = new Array(numSteps).fill(0);
+  orderedData[peakPosition] = blocks[0].intensity;
+  let leftIdx = peakPosition - 1;
+  let rightIdx = peakPosition + 1;
+  for (let i = 1; i < blocks.length; i++) {
+    if (i % 2 === 1 && leftIdx >= 0) {
+      orderedData[leftIdx] = blocks[i].intensity;
+      leftIdx--;
+    } else if (rightIdx < numSteps) {
+      orderedData[rightIdx] = blocks[i].intensity;
+      rightIdx++;
+    } else if (leftIdx >= 0) {
+      orderedData[leftIdx] = blocks[i].intensity;
+      leftIdx--;
+    }
+  }
+  return orderedData;
+}
+
+/** Beta-distribution shaped storm for monsoon/tropical patterns */
+function betaStorm(
+  totalDepth: number, numSteps: number, timeStep: number,
+  peakFrac: number
+): number[] {
+  const alpha = peakFrac * 5;
+  const beta = (1 - peakFrac) * 5;
+  const raw: number[] = [];
+  let totalRaw = 0;
+  for (let i = 0; i < numSteps; i++) {
+    const x = (i + 0.5) / numSteps;
+    const v = Math.pow(x, alpha - 1) * Math.pow(1 - x, beta - 1);
+    raw.push(v);
+    totalRaw += v;
+  }
+  return raw.map(v => (v / totalRaw) * totalDepth / (timeStep / 60));
+}
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -2538,6 +2627,156 @@ export function generateRainfallData(
         const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
         data.push(incrementalDepth / (timeStep / 60));
       }
+      break;
+    }
+
+    // ─── New patterns from Design Storm Equations Reference ───
+
+    case 'sifalda': {
+      // Sifalda (Czech Republic) — three uniform intensity blocks
+      // Part 1: 0–34% receives 14% of depth, Part 2: 34–51% receives 56%, Part 3: 51–100% receives 30%
+      const t1End = 0.34, t2End = 0.51;
+      for (let i = 0; i < numSteps; i++) {
+        const t = (i + 0.5) / numSteps;
+        let intensity: number;
+        if (t <= t1End) intensity = (0.14 * totalDepth) / (t1End * duration);
+        else if (t <= t2End) intensity = (0.56 * totalDepth) / ((t2End - t1End) * duration);
+        else intensity = (0.30 * totalDepth) / ((1 - t2End) * duration);
+        data.push(intensity);
+      }
+      break;
+    }
+
+    case 'danish_svk':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.375);
+
+    case 'swedish_smhi':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.35);
+
+    case 'norwegian_nve':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.33);
+
+    case 'finnish_fmi':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.35);
+
+    case 'swiss_idf':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.40);
+
+    case 'spanish_cedex':
+      // Alternating block with center peak (similar to balanced storm)
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.50);
+
+    case 'belgian_irm':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.50);
+
+    case 'pilgrim_cordery': {
+      // Pilgrim-Cordery (Australia historical) — empirical dimensionless ordinates
+      const pcTime = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+      const pcDepth = [0, 0.04, 0.10, 0.19, 0.42, 0.66, 0.80, 0.88, 0.93, 0.97, 1.00];
+      return applyDimensionlessCurve(pcTime, pcDepth, totalDepth, numSteps, timeStep);
+    }
+
+    case 'watts_curve': {
+      // Watt's Curve (UK historical) — beta distribution α=β=2.5
+      const alpha = 2.5, betaP = 2.5;
+      let totalRaw = 0;
+      const rawVals: number[] = [];
+      for (let i = 0; i < numSteps; i++) {
+        const x = (i + 0.5) / numSteps;
+        const v = Math.pow(x, alpha - 1) * Math.pow(1 - x, betaP - 1);
+        rawVals.push(v);
+        totalRaw += v;
+      }
+      for (const v of rawVals) data.push((v / totalRaw) * totalDepth / (timeStep / 60));
+      break;
+    }
+
+    case 'hong_kong_hko': {
+      // Hong Kong HKO — front-loaded typhoon mass curve
+      const hkoTime = [0, 0.042, 0.083, 0.125, 0.167, 0.25, 0.333, 0.417, 0.5, 0.583, 0.667, 0.75, 0.833, 0.917, 1.0];
+      const hkoDepth = [0, 0.08, 0.18, 0.29, 0.39, 0.54, 0.65, 0.74, 0.81, 0.86, 0.90, 0.93, 0.96, 0.98, 1.0];
+      return applyDimensionlessCurve(hkoTime, hkoDepth, totalDepth, numSteps, timeStep);
+    }
+
+    case 'taiwan_cwa':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.45);
+
+    case 'bangladesh_bmd': {
+      // Bangladesh BMD — monsoon rear-loaded mass curve
+      const bdTime = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+      const bdDepth = [0, 0.03, 0.08, 0.15, 0.24, 0.36, 0.50, 0.65, 0.79, 0.91, 1.0];
+      return applyDimensionlessCurve(bdTime, bdDepth, totalDepth, numSteps, timeStep);
+    }
+
+    case 'pakistan_pmd':
+      return betaStorm(totalDepth, numSteps, timeStep, 0.45);
+
+    case 'sri_lanka':
+      return betaStorm(totalDepth, numSteps, timeStep, 0.40);
+
+    case 'fiji_fms': {
+      // Fiji FMS — tropical cyclone front-loaded
+      const fjTime = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+      const fjDepth = [0, 0.12, 0.28, 0.45, 0.60, 0.72, 0.82, 0.89, 0.94, 0.97, 1.0];
+      return applyDimensionlessCurve(fjTime, fjDepth, totalDepth, numSteps, timeStep);
+    }
+
+    case 'argentina_smn':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.33);
+
+    case 'peru_senamhi':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.40);
+
+    case 'ecuador_inamhi':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.40);
+
+    case 'venezuela_inameh':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.40);
+
+    case 'puerto_rico':
+      // Modified SCS Type II with tropical adjustment — peak shifted to 48%
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.48);
+
+    case 'morocco_dmn':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.38);
+
+    case 'ethiopia_nma':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.42);
+
+    case 'ghana_gmet':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.32);
+
+    case 'tanzania_tma':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.44);
+
+    case 'mozambique_inam':
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.40);
+
+    case 'hirds_nz': {
+      // HIRDS NZ — asymmetric hyperbolic tangent (North-NI default)
+      const a = 1.0, b = 3.5, c = 0.55;
+      for (let i = 0; i < numSteps; i++) {
+        const t1 = i / numSteps;
+        const t2 = (i + 1) / numSteps;
+        const F1 = 0.5 * (1 + a * Math.tanh(b * (t1 - c)));
+        const F2 = 0.5 * (1 + a * Math.tanh(b * (t2 - c)));
+        const depth = (F2 - F1) * totalDepth;
+        data.push(depth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'arid_flash_flood': {
+      // Arid zone flash flood — exponential decay, 70% in first 30%
+      let totalRawArid = 0;
+      const rawArid: number[] = [];
+      for (let i = 0; i < numSteps; i++) {
+        const x = (i + 0.5) / numSteps;
+        const v = Math.exp(-3 * x);
+        rawArid.push(v);
+        totalRawArid += v;
+      }
+      for (const v of rawArid) data.push((v / totalRawArid) * totalDepth / (timeStep / 60));
       break;
     }
   }
