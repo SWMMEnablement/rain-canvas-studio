@@ -41,6 +41,7 @@ const PATTERN_BADGES = [
   "Hong Kong HKO", "Taiwan CWA", "Bangladesh BMD", "Pakistan PMD", "Sri Lanka",
   // Middle East
   "Saudi Arabia PME", "UAE NCMS", "Qatar Kahramaa", "Oman DGMAN", "Arid Flash Flood",
+  "Dubai Municipality", "Abu Dhabi ADM",
   // African
   "South Africa SANRAL", "Kenya KMD", "Nigeria NiMet", "Egypt HCWW",
   "Morocco DMN", "Ethiopia NMA", "Ghana GMet", "Tanzania TMA", "Mozambique INAM",
@@ -48,9 +49,12 @@ const PATTERN_BADGES = [
   "Brazil ANA", "Mexico CONAGUA", "Colombia IDEAM", "Chile DGA",
   // Americas
   "Argentina SMN", "Peru SENAMHI", "Ecuador INAMHI", "Venezuela INAMEH", "Puerto Rico",
+  "UPM Río de la Plata",
   // Oceania
   "Auckland TP108", "Wellington Regional", "Christchurch Canterbury",
-  "HIRDS NZ", "Pilgrim-Cordery", "Fiji FMS",
+  "HIRDS NZ", "Pilgrim-Cordery", "Fiji FMS", "ARR 2019 Ensemble",
+  // Additional International
+  "AES Canada 30%", "AES Canada 40%", "KOSTRA-DWD", "Montana/Caquot (FR)", "M5-60 (UK/Ireland)",
 ];
 
 const Index = () => {

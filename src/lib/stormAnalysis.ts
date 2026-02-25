@@ -151,6 +151,15 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   mozambique_inam: { name: 'Mozambique INAM', peakPosition: 0.40, description: 'SE African coastal' },
   hirds_nz: { name: 'HIRDS NZ', peakPosition: 0.55, description: 'NZ hyperbolic tangent' },
   arid_flash_flood: { name: 'Arid Flash Flood', peakPosition: 0.15, description: 'Exponential decay burst' },
+  aes_30: { name: 'AES Canada 30%', peakPosition: 0.30, description: 'Ontario/ECCC 30% distribution' },
+  aes_40: { name: 'AES Canada 40%', peakPosition: 0.40, description: 'BC/prairies 40% distribution' },
+  kostra_dwd: { name: 'KOSTRA-DWD', peakPosition: 0.45, description: 'German regionalized heavy precip' },
+  dubai_dm: { name: 'Dubai Municipality', peakPosition: 0.25, description: 'DM modified median storm' },
+  abu_dhabi_adm: { name: 'Abu Dhabi ADM', peakPosition: 0.28, description: 'ADM drainage manual' },
+  montana_caquot: { name: 'Montana/Caquot', peakPosition: 0.10, description: 'French power-law IT77' },
+  m5_60_fsr: { name: 'M5-60 FSR', peakPosition: 0.45, description: 'UK short-duration FSR' },
+  arr2019: { name: 'ARR 2019', peakPosition: 0.45, description: 'Australian ensemble median' },
+  upm_plata: { name: 'UPM Plata', peakPosition: 0.35, description: 'Uruguay/Paraguay basin' },
 };
 
 /**
