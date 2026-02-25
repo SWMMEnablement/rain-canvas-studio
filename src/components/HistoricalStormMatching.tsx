@@ -10,6 +10,7 @@ import { Target, TrendingUp, Award, AlertCircle, Scissors, CloudRain } from "luc
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 import { type RainfallDataPoint } from "@/lib/rainfallParsers";
 import { extractStormEvents, type StormEvent } from "@/lib/stormEventExtractor";
+import { EventHyetograph } from "@/components/EventHyetograph";
 
 interface HistoricalStormMatchingProps {
   data: RainfallDataPoint[];
@@ -288,6 +289,14 @@ export function HistoricalStormMatching({ data, metadata }: HistoricalStormMatch
                 </>
               )}
             </div>
+
+            {/* Hyetograph preview */}
+            {selectedEvent && selectedEvent.dataPoints.length > 0 && (
+              <div>
+                <p className="text-xs text-muted-foreground mb-2">Event Hyetograph Preview</p>
+                <EventHyetograph data={selectedEvent.dataPoints} height={140} />
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
