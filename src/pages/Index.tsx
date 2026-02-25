@@ -16,11 +16,12 @@ import { toast } from "sonner";
 const PATTERN_BADGES = [
   "SCS Type I/IA/II/III", "Huff Quartiles", "Chicago Storm",
   "Alternating Block", "PMP (HMR 51/52)", "UK FSR/FEH",
-  "Japan AMeDAS", "Euler Type I/II", "FHWA/USACE",
-  "Korea MOLIT", "India IMD", "Australia ARR",
-  "Singapore PUB", "Malaysia MSMA", "GCC Arid",
-  "South Africa SANRAL", "Brazil ANA", "Mexico CONAGUA",
-  "Scandinavian SVK", "Netherlands RIONED", "Custom",
+  "Japan AMeDAS", "Euler Type I/II", "Desbordes (IT77)",
+  "FHWA/USACE", "Korea MOLIT", "India IMD",
+  "Australia ARR", "Singapore PUB", "Malaysia MSMA",
+  "GCC Arid", "South Africa SANRAL", "Brazil ANA",
+  "Mexico CONAGUA", "Scandinavian SVK", "Netherlands RIONED",
+  "Custom",
 ];
 
 const Index = () => {
