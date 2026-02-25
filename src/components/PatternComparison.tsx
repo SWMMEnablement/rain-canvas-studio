@@ -134,7 +134,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'All International',
-    patterns: ['desbordes', 'arr', 'dwa', 'jma', 'china', 'sa_huff', 'dutch', 'italian', 'canadian'],
+    patterns: ['desbordes', 'arr', 'dwa', 'jma', 'china', 'sa_huff', 'dutch', 'italian', 'canadian', 'nz_tp108', 'nz_wellington', 'nz_christchurch'],
     description: 'Compare all international patterns',
   },
   {
