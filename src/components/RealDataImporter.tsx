@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Upload, FileText, AlertCircle, CheckCircle, Info, X, CloudRain, Download } from "lucide-react";
+import { Upload, FileText, AlertCircle, CheckCircle, Info, X, CloudRain, Download, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -85,6 +85,29 @@ export function RealDataImporter({ onDataImported }: RealDataImporterProps) {
     const file = e.target.files?.[0];
     if (file) handleFile(file);
   }, [handleFile]);
+
+  const loadSample = useCallback(async (path: string, filename: string) => {
+    setIsLoading(true);
+    setParseResult(null);
+    try {
+      const response = await fetch(path);
+      const content = await response.text();
+      const result = parseRainfallFile(content, filename);
+      setParseResult(result);
+      if (result.data.length > 0 && result.errors.length === 0) {
+        onDataImported(result);
+      }
+    } catch (error) {
+      setParseResult({
+        data: [],
+        metadata: { source: 'csv', filename },
+        warnings: [],
+        errors: [`Failed to load sample: ${error instanceof Error ? error.message : 'Unknown error'}`]
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }, [onDataImported]);
 
   const clearResult = () => setParseResult(null);
 
@@ -200,6 +223,27 @@ export function RealDataImporter({ onDataImported }: RealDataImporterProps) {
                 />
               </label>
             </Button>
+            <div className="flex items-center gap-2 mt-4">
+              <span className="text-xs text-muted-foreground">Or try a sample:</span>
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled={isLoading}
+                onClick={() => loadSample('/sample-data/sample-rainfall.csv', 'sample-rainfall.csv')}
+              >
+                <Zap className="w-3 h-3 mr-1" />
+                Single Storm
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled={isLoading}
+                onClick={() => loadSample('/sample-data/sample-month.csv', 'sample-month.csv')}
+              >
+                <Zap className="w-3 h-3 mr-1" />
+                Multi-Day Record
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
