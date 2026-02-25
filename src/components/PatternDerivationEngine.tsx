@@ -15,6 +15,7 @@ import { type RainfallDataPoint } from "@/lib/rainfallParsers";
 import { analyzeStormComplete, type AnalysisResult, type PatternMatch } from "@/lib/stormAnalysis";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 import { extractStormEvents, type StormEvent } from "@/lib/stormEventExtractor";
+import { EventHyetograph } from "@/components/EventHyetograph";
 
 interface PatternDerivationEngineProps {
   data: RainfallDataPoint[];
@@ -259,6 +260,14 @@ export function PatternDerivationEngine({ data, onPatternSelect }: PatternDeriva
                 </>
               )}
             </div>
+
+            {/* Hyetograph preview */}
+            {selectedEvent && selectedEvent.dataPoints.length > 0 && (
+              <div>
+                <p className="text-xs text-muted-foreground mb-2">Event Hyetograph Preview</p>
+                <EventHyetograph data={selectedEvent.dataPoints} height={140} />
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
