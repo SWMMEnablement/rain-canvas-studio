@@ -158,9 +158,10 @@ interface StormWizardProps {
   externalStormParams?: { depth: number; duration: number } | null;
   onExternalParamsConsumed?: () => void;
   initialShareParams?: StormShareParams | null;
+  onStormContextChange?: (context: string) => void;
 }
 
-export function StormWizard({ externalStormParams, onExternalParamsConsumed, initialShareParams }: StormWizardProps = {}) {
+export function StormWizard({ externalStormParams, onExternalParamsConsumed, initialShareParams, onStormContextChange }: StormWizardProps = {}) {
   const [currentStep, setCurrentStep] = useState(initialShareParams ? 3 : 1);
   const [selectedPattern, setSelectedPattern] = useState<PatternType>(initialShareParams?.pattern || 'block');
   const [depth, setDepth] = useState(initialShareParams?.depth || 2.0);
@@ -275,7 +276,17 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
     const formattedExportData = prepareExportData(intensities, timeStep);
     setChartData(formattedChartData);
     setExportData(formattedExportData);
-  }, [selectedPattern, effectiveDepth, duration, timeStep, customIntensities]);
+
+    // Update storm context for chatbot
+    const peak = Math.max(...intensities);
+    const peakIdx = intensities.indexOf(peak);
+    const peakTime = ((peakIdx + 1) * timeStep).toFixed(0);
+    const depthUnit = unitSystem === 'SI' ? 'mm' : 'in';
+    const intensityUnit = unitSystem === 'SI' ? 'mm/hr' : 'in/hr';
+    const patternLabel = patternNames[selectedPattern] || selectedPattern;
+    const ctx = `Pattern: ${patternLabel}\nTotal Depth: ${effectiveDepth.toFixed(2)} ${depthUnit}\nDuration: ${duration.toFixed(1)} hr\nTime Step: ${timeStep} min\nUnit System: ${unitSystem}\nPeak Intensity: ${peak.toFixed(2)} ${intensityUnit} at t=${peakTime} min\nNumber of intervals: ${intensities.length}`;
+    onStormContextChange?.(ctx);
+  }, [selectedPattern, effectiveDepth, duration, timeStep, customIntensities, unitSystem, onStormContextChange]);
 
   // Calculate peak intensity for IDF comparison
   const peakIntensity = useMemo(() => {

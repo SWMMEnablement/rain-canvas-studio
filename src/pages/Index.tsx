@@ -8,6 +8,7 @@ import { RealDataHub } from "@/components/RealDataHub";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { RainParticles } from "@/components/RainParticles";
 import { HeroHyetograph, getHeroPatternLabel } from "@/components/HeroHyetograph";
+import { StormChatbot } from "@/components/StormChatbot";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Droplets, CloudRain, BookOpen, Wrench, Database } from "lucide-react";
@@ -57,6 +58,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState(sharedStorm ? "generator" : "generator");
   const [externalStormParams, setExternalStormParams] = useState<{ depth: number; duration: number } | null>(null);
   const [heroPattern, setHeroPattern] = useState<string | undefined>(undefined);
+  const [stormContext, setStormContext] = useState<string>("");
 
   const handleSendToGenerator = useCallback((depthInches: number, durationHours: number) => {
     setExternalStormParams({ depth: depthInches, duration: durationHours });
@@ -159,6 +161,7 @@ const Index = () => {
               externalStormParams={externalStormParams}
               onExternalParamsConsumed={() => setExternalStormParams(null)}
               initialShareParams={sharedStorm}
+              onStormContextChange={setStormContext}
             />
           </TabsContent>
 
@@ -183,6 +186,9 @@ const Index = () => {
           <p className="text-sm">Designed for hydrologists and engineers worldwide</p>
         </div>
       </footer>
+
+      {/* AI Storm Assistant */}
+      <StormChatbot stormContext={stormContext} />
     </div>
   );
 };
