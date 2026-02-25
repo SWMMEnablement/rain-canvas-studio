@@ -134,13 +134,13 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'All International',
-    patterns: ['desbordes', 'arr', 'dwa', 'jma', 'china', 'sa_huff', 'dutch', 'italian', 'canadian', 'nz_tp108', 'nz_wellington', 'nz_christchurch'],
+    patterns: ['desbordes', 'arr', 'dwa', 'jma', 'china', 'sa_huff', 'dutch', 'italian', 'canadian', 'nz_tp108', 'nz_wellington', 'nz_christchurch', 'hirds_nz', 'sifalda', 'pilgrim_cordery', 'watts_curve', 'hong_kong_hko', 'taiwan_cwa', 'fiji_fms'],
     description: 'Compare all international patterns',
   },
   {
     name: 'Asian',
-    patterns: ['singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'india_coastal', 'japan_amedas', 'japan_baiu', 'japan_typhoon', 'korea_kma', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd'],
-    description: 'All 14 Asian design storm patterns',
+    patterns: ['singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'india_coastal', 'japan_amedas', 'japan_baiu', 'japan_typhoon', 'korea_kma', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd', 'hong_kong_hko', 'taiwan_cwa', 'bangladesh_bmd', 'pakistan_pmd', 'sri_lanka'],
+    description: 'All Asian design storm patterns',
   },
   {
     name: 'SE Asia',
@@ -164,8 +164,13 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'European',
-    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double'],
+    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double', 'sifalda', 'swiss_idf', 'spanish_cedex', 'belgian_irm', 'watts_curve'],
     description: 'European design patterns',
+  },
+  {
+    name: 'Nordic',
+    patterns: ['danish_svk', 'swedish_smhi', 'norwegian_nve', 'finnish_fmi'],
+    description: 'Scandinavian Chicago-variant patterns (r=0.33–0.375)',
   },
   {
     name: 'US Standard',
@@ -184,38 +189,48 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'UK Methods',
-    patterns: ['fsr', 'feh', 'triangular', 'trapezoidal'],
+    patterns: ['fsr', 'feh', 'triangular', 'trapezoidal', 'watts_curve'],
     description: 'UK design storm methods',
   },
   {
     name: 'Typhoon/Cyclone',
-    patterns: ['japan_typhoon', 'china_prd', 'india_coastal', 'philippines_pagasa'],
+    patterns: ['japan_typhoon', 'china_prd', 'india_coastal', 'philippines_pagasa', 'hong_kong_hko', 'taiwan_cwa', 'fiji_fms'],
     description: 'Tropical cyclone patterns',
   },
   {
+    name: 'Monsoon Extended',
+    patterns: ['india_imd', 'india_coastal', 'bangladesh_bmd', 'pakistan_pmd', 'sri_lanka', 'japan_baiu', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd'],
+    description: 'All monsoon-influenced patterns across South & Southeast Asia',
+  },
+  {
     name: 'GCC Flash Flood',
-    patterns: ['saudi_pme', 'uae_ncms', 'qatar_kahramaa', 'oman_dgman'],
+    patterns: ['saudi_pme', 'uae_ncms', 'qatar_kahramaa', 'oman_dgman', 'arid_flash_flood'],
     description: 'GCC/Middle East arid flash flood patterns',
   },
   {
     name: 'African',
-    patterns: ['sa_sanral', 'kenya_kmd', 'nigeria_nimet', 'egypt_hcww', 'sa_huff'],
+    patterns: ['sa_sanral', 'kenya_kmd', 'nigeria_nimet', 'egypt_hcww', 'sa_huff', 'morocco_dmn', 'ethiopia_nma', 'ghana_gmet', 'tanzania_tma', 'mozambique_inam'],
     description: 'All African design storm patterns',
   },
   {
     name: 'Latin American',
-    patterns: ['brazil_ana', 'mexico_conagua', 'colombia_ideam', 'chile_dga'],
+    patterns: ['brazil_ana', 'mexico_conagua', 'colombia_ideam', 'chile_dga', 'argentina_smn', 'peru_senamhi', 'ecuador_inamhi', 'venezuela_inameh', 'puerto_rico'],
     description: 'All Latin American design storm patterns',
   },
   {
-    name: 'Monsoon Belt',
-    patterns: ['india_imd', 'india_coastal', 'japan_baiu', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd'],
-    description: 'Monsoon-influenced patterns across South & Southeast Asia',
+    name: 'Andean',
+    patterns: ['peru_senamhi', 'ecuador_inamhi', 'colombia_ideam', 'venezuela_inameh', 'chile_dga'],
+    description: 'Andean orographic patterns (r≈0.40)',
   },
   {
     name: 'New Zealand',
-    patterns: ['nz_tp108', 'nz_wellington', 'nz_christchurch'],
-    description: 'All three NZ regional design storms (Auckland, Wellington, Christchurch)',
+    patterns: ['nz_tp108', 'nz_wellington', 'nz_christchurch', 'hirds_nz'],
+    description: 'All NZ design storms including HIRDS national standard',
+  },
+  {
+    name: 'Oceania',
+    patterns: ['nz_tp108', 'nz_wellington', 'nz_christchurch', 'hirds_nz', 'arr', 'pilgrim_cordery', 'fiji_fms'],
+    description: 'Australia, New Zealand, and Pacific Island patterns',
   },
 ];
 
