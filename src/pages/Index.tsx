@@ -14,14 +14,31 @@ import { Droplets, CloudRain, BookOpen, Wrench, Database } from "lucide-react";
 import { toast } from "sonner";
 
 const PATTERN_BADGES = [
-  "SCS Type I/IA/II/III", "Huff Quartiles", "Chicago Storm",
-  "Alternating Block", "PMP (HMR 51/52)", "UK FSR/FEH",
-  "Japan AMeDAS", "Euler Type I/II", "Desbordes (IT77)",
-  "FHWA/USACE", "Korea MOLIT", "India IMD",
-  "Australia ARR", "Singapore PUB", "Malaysia MSMA",
-  "GCC Arid", "South Africa SANRAL", "Brazil ANA",
-  "Mexico CONAGUA", "Scandinavian SVK", "Netherlands RIONED",
-  "Custom",
+  // SWMM / Core
+  "Block Pattern", "SCS Type I", "SCS Type IA", "SCS Type II", "SCS Type III",
+  "Balanced Storm", "Yen & Chow", "Double Peak", "Custom",
+  // US Agency
+  "FDOT Zone 1", "FDOT Zone 2", "FDOT Zone 3", "FDOT Zone 4", "FDOT Zone 5",
+  "TxDOT", "NOAA Atlas 14", "UDFCD Denver", "USACE SPS", "PMP (HMR 51/52)",
+  // UK/ICM
+  "Triangular", "Trapezoidal", "FSR Profile", "FEH (UK)",
+  // European
+  "Euler Type I", "Euler Type II", "Double Triangle",
+  // International
+  "Canadian CDA", "Chicago Storm", "Huff 1st Quartile", "Huff 2nd Quartile",
+  "Huff 3rd Quartile", "Huff 4th Quartile", "Desbordes", "German DWA",
+  "Dutch NEERSLAG", "Italian Pattern", "Australian ARR", "Japan JMA",
+  "China Design Storm", "South African Huff",
+  // Asian
+  "Singapore PUB", "China GB 50014", "China PRD", "India IMD", "India Coastal",
+  "Japan AMeDAS", "Japan Baiu", "Japan Typhoon", "Korea KMA", "Malaysia MSMA",
+  "Indonesia BMKG", "Philippines PAGASA", "Vietnam IMHEN", "Thailand TMD",
+  // Middle East
+  "Saudi Arabia PME", "UAE NCMS", "Qatar Kahramaa", "Oman DGMAN",
+  // African
+  "South Africa SANRAL", "Kenya KMD", "Nigeria NiMet", "Egypt HCWW",
+  // Latin America
+  "Brazil ANA", "Mexico CONAGUA", "Colombia IDEAM", "Chile DGA",
 ];
 
 const Index = () => {
