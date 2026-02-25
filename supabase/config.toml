@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.storm-chat]
 verify_jwt = false
+
+[functions.storm-api]
+verify_jwt = false
