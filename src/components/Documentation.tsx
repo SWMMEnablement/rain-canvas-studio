@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { PatternSectionSearch } from "./PatternSectionSearch";
 import { PatternReferenceCard } from "./docs/PatternReferenceCard";
+import { PatternReferenceList } from "./docs/PatternReferenceList";
 import { PATTERN_REFERENCE_DATA } from "./docs/patternReferenceData";
 import { PatternDecisionFlowchart } from "./docs/PatternDecisionFlowchart";
 import { RegulatoryMatrix } from "./docs/RegulatoryMatrix";
@@ -264,9 +265,7 @@ export function Documentation() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              {PATTERN_REFERENCE_DATA.map((pattern) => (
-                <PatternReferenceCard key={pattern.id} pattern={pattern} />
-              ))}
+              <PatternReferenceList />
             </CardContent>
           </Card>
         </TabsContent>
