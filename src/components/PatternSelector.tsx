@@ -554,7 +554,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs defaultValue="swmm" className="w-full">
-          <TabsList className="grid w-full grid-cols-9">
+          <TabsList className="flex w-full flex-wrap h-auto gap-1">
             <TabsTrigger value="swmm">SWMM</TabsTrigger>
             <TabsTrigger value="us_agency">US</TabsTrigger>
             <TabsTrigger value="asian">Asia</TabsTrigger>
