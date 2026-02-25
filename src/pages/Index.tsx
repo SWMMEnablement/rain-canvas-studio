@@ -11,7 +11,8 @@ import { HeroHyetograph, getHeroPatternLabel } from "@/components/HeroHyetograph
 import { StormChatbot } from "@/components/StormChatbot";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Droplets, CloudRain, BookOpen, Wrench, Database } from "lucide-react";
+import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2 } from "lucide-react";
+import { ApiPlayground } from "@/components/ApiPlayground";
 import { toast } from "sonner";
 
 const PATTERN_BADGES = [
@@ -122,7 +123,7 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
+        <TabsList className="grid w-full grid-cols-5 mb-8">
             <TabsTrigger value="generator" className="flex items-center gap-2">
               <CloudRain className="w-4 h-4" />
               <span className="hidden sm:inline">Storm Generator</span>
@@ -137,6 +138,11 @@ const Index = () => {
               <Wrench className="w-4 h-4" />
               <span className="hidden sm:inline">Advanced Tools</span>
               <span className="sm:hidden">Advanced</span>
+            </TabsTrigger>
+            <TabsTrigger value="api" className="flex items-center gap-2">
+              <Code2 className="w-4 h-4" />
+              <span className="hidden sm:inline">API Playground</span>
+              <span className="sm:hidden">API</span>
             </TabsTrigger>
             <TabsTrigger value="docs" className="flex items-center gap-2">
               <BookOpen className="w-4 h-4" />
@@ -171,6 +177,10 @@ const Index = () => {
 
           <TabsContent value="advanced">
             <AdvancedTools onSendToGenerator={handleSendToGenerator} />
+          </TabsContent>
+
+          <TabsContent value="api">
+            <ApiPlayground />
           </TabsContent>
 
           <TabsContent value="docs">
