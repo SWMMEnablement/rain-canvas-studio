@@ -376,6 +376,16 @@ const PATTERN_SHAPES: Record<string, { label: string; ratios: number[] }> = {
   "M5-60 (UK/Ireland)": { label: "M5-60 FSR — UK short-duration", ratios: centerPeaked(48, 1.8, 0.45) },
   "ARR 2019 Ensemble": { label: "ARR 2019 — Australian median ensemble", ratios: centerPeaked(48, 1.3, 0.45) },
   "UPM Río de la Plata": { label: "UPM — Uruguay/Paraguay basin", ratios: centerPeaked(48, 1.5, 0.35) },
+  // v3 patterns
+  "FEH22/ReFH2": { label: "FEH22/ReFH2 — UK current DDF + design hyetograph", ratios: gaussianPeaked(48, 0.50, 9) },
+  "NOAA Atlas 15": { label: "NOAA Atlas 15 — next-gen US precip frequency", ratios: centerPeaked(48, 1.3, 0.50) },
+  "ECCC IDF": { label: "ECCC — Canadian engineering climate IDF", ratios: centerPeaked(48, 1.2, 0.50) },
+  "SHYREG (FR)": { label: "SHYREG — French stochastic rainfall generator", ratios: gaussianPeaked(48, 0.40, 5) },
+  "Ireland Met Éireann": { label: "Met Éireann — Irish rainfall return periods", ratios: gaussianPeaked(48, 0.45, 6) },
+  "ARR87 Legacy": { label: "ARR87 — legacy Australian IFD (pre-2016)", ratios: centerPeaked(48, 1.2, 0.45) },
+  "HK DSD 2018": { label: "HK DSD — Stormwater Drainage Manual 5th ed.", ratios: frontLoaded(48, 3.5) },
+  "Malaysia HP1": { label: "Malaysia HP1 — Hydrological Procedure No.1 (2015)", ratios: centerPeaked(48, 1.4, 0.40) },
+  "Austria ÖKOSTRA": { label: "ÖKOSTRA — Austrian design rainfall", ratios: centerPeaked(48, 1.4, 0.33) },
 };
 
 const DEFAULT_KEY = "SCS Type II";

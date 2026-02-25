@@ -133,6 +133,16 @@ const patternNames: Record<PatternType, string> = {
   'm5_60_fsr': 'M5-60 (UK/Ireland)',
   'arr2019': 'ARR 2019 Ensemble',
   'upm_plata': 'UPM Río de la Plata',
+  // v3 patterns
+  'feh22_refh2': 'FEH22/ReFH2',
+  'noaa_a15': 'NOAA Atlas 15',
+  'eccc_idf': 'ECCC IDF',
+  'shyreg_fr': 'SHYREG (FR)',
+  'ireland_met': 'Ireland Met Éireann',
+  'arr87_legacy': 'ARR87 Legacy',
+  'hk_dsd_2018': 'HK DSD 2018',
+  'malaysia_hp1': 'Malaysia HP1',
+  'austria_okostra': 'Austria ÖKOSTRA',
 };
 
 interface WizardStep {

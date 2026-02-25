@@ -160,6 +160,16 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   m5_60_fsr: { name: 'M5-60 FSR', peakPosition: 0.45, description: 'UK short-duration FSR' },
   arr2019: { name: 'ARR 2019', peakPosition: 0.45, description: 'Australian ensemble median' },
   upm_plata: { name: 'UPM Plata', peakPosition: 0.35, description: 'Uruguay/Paraguay basin' },
+  // v3 patterns
+  feh22_refh2: { name: 'FEH22/ReFH2', peakPosition: 0.50, description: 'UK FEH22 DDF + ReFH2 design hyetograph' },
+  noaa_a15: { name: 'NOAA Atlas 15', peakPosition: 0.50, description: 'NOAA Atlas 15 pilot temporal' },
+  eccc_idf: { name: 'ECCC IDF', peakPosition: 0.50, description: 'Environment Canada engineering IDF' },
+  shyreg_fr: { name: 'SHYREG', peakPosition: 0.40, description: 'French stochastic rainfall generator' },
+  ireland_met: { name: 'Ireland Met Éireann', peakPosition: 0.45, description: 'Irish return-period IDF' },
+  arr87_legacy: { name: 'ARR87 Legacy', peakPosition: 0.45, description: 'Legacy Australian IFD (pre-2016)' },
+  hk_dsd_2018: { name: 'HK DSD 2018', peakPosition: 0.25, description: 'HK Stormwater Drainage Manual 5th ed.' },
+  malaysia_hp1: { name: 'Malaysia HP1', peakPosition: 0.40, description: 'Hydrological Procedure No.1 (2015)' },
+  austria_okostra: { name: 'Austria ÖKOSTRA', peakPosition: 0.33, description: 'Austrian ÖKOSTRA design rainfall' },
 };
 
 /**

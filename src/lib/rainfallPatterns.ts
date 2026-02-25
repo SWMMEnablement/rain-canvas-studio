@@ -8,7 +8,10 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   | 'hirds_nz' | 'arid_flash_flood'
   // New patterns (v2)
   | 'aes_30' | 'aes_40' | 'kostra_dwd' | 'dubai_dm' | 'abu_dhabi_adm'
-  | 'montana_caquot' | 'm5_60_fsr' | 'arr2019' | 'upm_plata';
+  | 'montana_caquot' | 'm5_60_fsr' | 'arr2019' | 'upm_plata'
+  // New patterns (v3)
+  | 'feh22_refh2' | 'noaa_a15' | 'eccc_idf' | 'shyreg_fr' | 'ireland_met'
+  | 'arr87_legacy' | 'hk_dsd_2018' | 'malaysia_hp1' | 'austria_okostra';
 
 // ─── Helper functions for pattern generation ───
 
@@ -2884,6 +2887,78 @@ export function generateRainfallData(
       const upmT = [0, 0.05, 0.10, 0.20, 0.30, 0.35, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
       const upmD = [0, 0.03, 0.08, 0.18, 0.38, 0.58, 0.72, 0.83, 0.90, 0.94, 0.97, 0.99, 1.0];
       return applyDimensionlessCurve(upmT, upmD, totalDepth, numSteps, timeStep);
+    }
+
+    // ─── v3 patterns ───
+
+    case 'feh22_refh2': {
+      // FEH22/ReFH2 — UK current DDF model + ReFH2 design hyetograph
+      // Tighter symmetric peak than older FEH, per CEH FEH22 guidance
+      const fehT = [0, 0.10, 0.20, 0.30, 0.40, 0.45, 0.50, 0.55, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const fehD = [0, 0.02, 0.06, 0.12, 0.22, 0.35, 0.55, 0.72, 0.82, 0.90, 0.95, 0.98, 1.0];
+      return applyDimensionlessCurve(fehT, fehD, totalDepth, numSteps, timeStep);
+    }
+
+    case 'noaa_a15': {
+      // NOAA Atlas 15 — next-gen US precipitation frequency (pilot release)
+      // Similar to Atlas 14 temporal with updated statistical treatment
+      const a15T = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.55, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const a15D = [0, 0.03, 0.08, 0.15, 0.28, 0.50, 0.65, 0.76, 0.86, 0.93, 0.97, 1.0];
+      return applyDimensionlessCurve(a15T, a15D, totalDepth, numSteps, timeStep);
+    }
+
+    case 'eccc_idf': {
+      // ECCC Engineering Climate Datasets IDF — Environment Canada
+      // Center-peaked, similar to Canadian CDA but with official IDF source
+      const ecccT = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const ecccD = [0, 0.04, 0.10, 0.18, 0.30, 0.52, 0.70, 0.82, 0.91, 0.96, 1.0];
+      return applyDimensionlessCurve(ecccT, ecccD, totalDepth, numSteps, timeStep);
+    }
+
+    case 'shyreg_fr': {
+      // SHYREG — French stochastic rainfall generator (IRSTEA/INRAE)
+      // Moderate front-loading with broader peak than Desbordes
+      const shyT = [0, 0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 1.0];
+      const shyD = [0, 0.02, 0.08, 0.22, 0.45, 0.65, 0.78, 0.87, 0.93, 0.97, 1.0];
+      return applyDimensionlessCurve(shyT, shyD, totalDepth, numSteps, timeStep);
+    }
+
+    case 'ireland_met': {
+      // Ireland Met Éireann — Irish rainfall return-period IDF service
+      // Similar to UK FEH but calibrated to Irish Atlantic climate
+      const irT = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const irD = [0, 0.03, 0.08, 0.16, 0.28, 0.50, 0.68, 0.80, 0.90, 0.96, 1.0];
+      return applyDimensionlessCurve(irT, irD, totalDepth, numSteps, timeStep);
+    }
+
+    case 'arr87_legacy': {
+      // ARR87 — legacy Australian IFD design rainfalls (BoM, pre-2016)
+      // Broader peak than modern ARR2019 ensemble
+      const arr87T = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const arr87D = [0, 0.04, 0.10, 0.18, 0.30, 0.50, 0.68, 0.80, 0.90, 0.96, 1.0];
+      return applyDimensionlessCurve(arr87T, arr87D, totalDepth, numSteps, timeStep);
+    }
+
+    case 'hk_dsd_2018': {
+      // Hong Kong DSD Stormwater Drainage Manual (5th ed., 2018)
+      // Front-loaded design rainstorm aligned to DSD IDF
+      const dsdT = [0, 0.05, 0.10, 0.15, 0.20, 0.30, 0.40, 0.50, 0.60, 0.75, 1.0];
+      const dsdD = [0, 0.10, 0.25, 0.40, 0.55, 0.72, 0.82, 0.89, 0.94, 0.98, 1.0];
+      return applyDimensionlessCurve(dsdT, dsdD, totalDepth, numSteps, timeStep);
+    }
+
+    case 'malaysia_hp1': {
+      // Malaysia HP1 (Hydrological Procedure No.1, 2015 revision)
+      // Center-peaked tropical with slightly earlier peak than MSMA
+      const hp1T = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const hp1D = [0, 0.04, 0.10, 0.22, 0.42, 0.62, 0.76, 0.86, 0.93, 0.97, 1.0];
+      return applyDimensionlessCurve(hp1T, hp1D, totalDepth, numSteps, timeStep);
+    }
+
+    case 'austria_okostra': {
+      // Austria ÖKOSTRA — Austrian design rainfall for sewer/drainage
+      // Euler Type II variant with peak at 1/3 of duration
+      return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.33);
     }
   }
 
