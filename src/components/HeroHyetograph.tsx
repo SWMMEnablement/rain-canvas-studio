@@ -259,6 +259,91 @@ const PATTERN_SHAPES: Record<string, { label: string; ratios: number[] }> = {
   "Auckland TP108": { label: "Auckland TP108 — NZ maritime convective", ratios: centerPeaked(48, 1.4, 0.42) },
   "Wellington Regional": { label: "Wellington — frontal/orographic", ratios: centerPeaked(48, 1.6, 0.35) },
   "Christchurch Canterbury": { label: "Christchurch — rain-shadow plains", ratios: centerPeaked(48, 1.2, 0.47) },
+  // New patterns
+  "HIRDS NZ": { label: "HIRDS NZ — hyperbolic tangent temporal", ratios: (() => {
+    const n = 48, a = 1.0, b = 3.5, c = 0.55;
+    const vals: number[] = [];
+    for (let i = 0; i < n; i++) {
+      const t1 = i / n, t2 = (i + 1) / n;
+      vals.push(0.5 * (1 + a * Math.tanh(b * (t2 - c))) - 0.5 * (1 + a * Math.tanh(b * (t1 - c))));
+    }
+    let cum = 0;
+    return vals.map(v => { cum += v; return cum; });
+  })() },
+  "Sifalda (Czech)": { label: "Sifalda — Czech 3-part storm", ratios: (() => {
+    const n = 48;
+    const vals = Array.from({ length: n }, (_, i) => {
+      const t = (i + 0.5) / n;
+      if (t <= 0.34) return 0.14 / 0.34;
+      if (t <= 0.51) return 0.56 / 0.17;
+      return 0.30 / 0.49;
+    });
+    return normalizeToCumulative(vals);
+  })() },
+  "Denmark SVK": { label: "Denmark SVK — Chicago r=0.375", ratios: (() => {
+    const n = 48, r = 0.375;
+    const vals = Array.from({ length: n }, (_, i) => 1 / (0.05 + Math.abs((i + 1) / n - r) * 3) ** 1.2);
+    return normalizeToCumulative(vals);
+  })() },
+  "Sweden SMHI": { label: "Sweden SMHI — Chicago r=0.35", ratios: (() => {
+    const n = 48, r = 0.35;
+    const vals = Array.from({ length: n }, (_, i) => 1 / (0.05 + Math.abs((i + 1) / n - r) * 3) ** 1.2);
+    return normalizeToCumulative(vals);
+  })() },
+  "Norway NVE": { label: "Norway NVE — Chicago r=0.33", ratios: (() => {
+    const n = 48, r = 0.33;
+    const vals = Array.from({ length: n }, (_, i) => 1 / (0.05 + Math.abs((i + 1) / n - r) * 3) ** 1.2);
+    return normalizeToCumulative(vals);
+  })() },
+  "Finland FMI": { label: "Finland FMI — Chicago r=0.35", ratios: (() => {
+    const n = 48, r = 0.35;
+    const vals = Array.from({ length: n }, (_, i) => 1 / (0.05 + Math.abs((i + 1) / n - r) * 3) ** 1.2);
+    return normalizeToCumulative(vals);
+  })() },
+  "Swiss IDF": { label: "Swiss IDF — cantonal Chicago r=0.40", ratios: centerPeaked(48, 1.4, 0.40) },
+  "Spain CEDEX": { label: "Spain CEDEX — alternating block", ratios: centerPeaked(48, 1.5, 0.50) },
+  "Belgium IRM": { label: "Belgium IRM — center-peaked r=0.50", ratios: centerPeaked(48, 1.3, 0.50) },
+  "Pilgrim-Cordery": { label: "Pilgrim-Cordery — Australian historical", ratios: (() => {
+    const pcDepth = [0, 0.04, 0.10, 0.19, 0.42, 0.66, 0.80, 0.88, 0.93, 0.97, 1.00];
+    const n = 48;
+    return Array.from({ length: n }, (_, i) => {
+      const t = (i + 1) / n;
+      const idx = Math.min(Math.floor(t * 10), 9);
+      const frac = (t * 10) - idx;
+      return pcDepth[idx] + frac * (pcDepth[idx + 1] - pcDepth[idx]);
+    });
+  })() },
+  "Watt's Curve (UK)": { label: "Watt's Curve — UK historical bell", ratios: gaussianPeaked(48, 0.5, 4) },
+  "Hong Kong HKO": { label: "Hong Kong HKO — typhoon front-loaded", ratios: frontLoaded(48, 3.0) },
+  "Taiwan CWA": { label: "Taiwan CWA — typhoon r=0.45", ratios: centerPeaked(48, 1.3, 0.45) },
+  "Bangladesh BMD": { label: "Bangladesh BMD — monsoon rear-loaded", ratios: (() => {
+    const bdDepth = [0, 0.03, 0.08, 0.15, 0.24, 0.36, 0.50, 0.65, 0.79, 0.91, 1.00];
+    const n = 48;
+    return Array.from({ length: n }, (_, i) => {
+      const t = (i + 1) / n;
+      const idx = Math.min(Math.floor(t * 10), 9);
+      const frac = (t * 10) - idx;
+      return bdDepth[idx] + frac * (bdDepth[idx + 1] - bdDepth[idx]);
+    });
+  })() },
+  "Pakistan PMD": { label: "Pakistan PMD — monsoon β peak at 45%", ratios: gaussianPeaked(48, 0.45, 4) },
+  "Sri Lanka": { label: "Sri Lanka — monsoon β peak at 40%", ratios: gaussianPeaked(48, 0.40, 4) },
+  "Fiji FMS": { label: "Fiji FMS — tropical cyclone", ratios: frontLoaded(48, 3.5) },
+  "Argentina SMN": { label: "Argentina SMN — Buenos Aires r=0.33", ratios: (() => {
+    const n = 48, r = 0.33;
+    const vals = Array.from({ length: n }, (_, i) => 1 / (0.05 + Math.abs((i + 1) / n - r) * 3) ** 1.2);
+    return normalizeToCumulative(vals);
+  })() },
+  "Peru SENAMHI": { label: "Peru SENAMHI — Andean r=0.40", ratios: centerPeaked(48, 1.3, 0.40) },
+  "Ecuador INAMHI": { label: "Ecuador INAMHI — Andean r=0.40", ratios: centerPeaked(48, 1.3, 0.40) },
+  "Venezuela INAMEH": { label: "Venezuela INAMEH — Andean r=0.40", ratios: centerPeaked(48, 1.3, 0.40) },
+  "Puerto Rico": { label: "Puerto Rico — tropical modified SCS II", ratios: centerPeaked(48, 1.3, 0.48) },
+  "Morocco DMN": { label: "Morocco DMN — Mediterranean r=0.38", ratios: centerPeaked(48, 1.3, 0.38) },
+  "Ethiopia NMA": { label: "Ethiopia NMA — East African r=0.42", ratios: centerPeaked(48, 1.3, 0.42) },
+  "Ghana GMet": { label: "Ghana GMet — West African squall r=0.32", ratios: centerPeaked(48, 1.4, 0.32) },
+  "Tanzania TMA": { label: "Tanzania TMA — East African r=0.44", ratios: centerPeaked(48, 1.3, 0.44) },
+  "Mozambique INAM": { label: "Mozambique INAM — SE African r=0.40", ratios: centerPeaked(48, 1.3, 0.40) },
+  "Arid Flash Flood": { label: "Arid Flash Flood — exponential decay burst", ratios: frontLoaded(48, 6.0) },
 };
 
 const DEFAULT_KEY = "SCS Type II";

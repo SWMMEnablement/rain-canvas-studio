@@ -1,14 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'pmp_hmr' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww' | 'brazil_ana' | 'mexico_conagua' | 'colombia_ideam' | 'chile_dga' | 'nz_tp108' | 'nz_wellington' | 'nz_christchurch';
+import { type PatternType } from "@/lib/rainfallPatterns";
 
 interface PatternOption {
   id: PatternType;
   name: string;
   icon: string;
   description: string;
-  category: 'swmm' | 'icm' | 'international' | 'us_agency' | 'european' | 'asian' | 'middle_east' | 'african' | 'latam';
+  category: 'swmm' | 'icm' | 'international' | 'us_agency' | 'european' | 'asian' | 'middle_east' | 'african' | 'latam' | 'oceania' | 'americas' | 'scandinavian';
 }
 
 export const patterns: PatternOption[] = [
@@ -486,22 +485,224 @@ export const patterns: PatternOption[] = [
     id: 'nz_tp108',
     name: 'Auckland TP108',
     icon: '🇳🇿',
-    description: 'Auckland Council TP108 design storm. Provides rainfall depths for 3-month to 500-year ARI. Maritime convective pattern with center-peaked distribution for Auckland region drainage design.',
-    category: 'international',
+    description: 'Auckland Council TP108 design storm. Maritime convective pattern with center-peaked distribution for Auckland region drainage design.',
+    category: 'oceania',
   },
   {
     id: 'nz_wellington',
     name: 'Wellington Regional',
     icon: '🇳🇿',
-    description: 'Wellington Regional Council design storm. Front-loaded frontal pattern with orographic uplift. Earlier peak (~35%) reflecting exposed westerly/southerly maritime climate.',
-    category: 'international',
+    description: 'Wellington Regional Council design storm. Front-loaded frontal pattern with orographic uplift.',
+    category: 'oceania',
   },
   {
     id: 'nz_christchurch',
     name: 'Christchurch Canterbury',
     icon: '🇳🇿',
-    description: 'Christchurch/Canterbury design storm. Broader symmetric distribution for eastern rain-shadow plains. Nor\'easter and southerly change patterns with moderate peak at ~45%.',
-    category: 'international',
+    description: 'Christchurch/Canterbury design storm. Broader symmetric distribution for eastern rain-shadow plains.',
+    category: 'oceania',
+  },
+  {
+    id: 'hirds_nz',
+    name: 'HIRDS NZ',
+    icon: '🇳🇿',
+    description: 'HIRDS v4 asymmetric hyperbolic tangent temporal pattern. Six-region NZ-wide design storm system from NIWA.',
+    category: 'oceania',
+  },
+  {
+    id: 'pilgrim_cordery',
+    name: 'Pilgrim-Cordery',
+    icon: '🇦🇺',
+    description: 'Pilgrim & Cordery (1975) historical Australian empirical dimensionless ordinate method. Pre-ARR2016 standard.',
+    category: 'oceania',
+  },
+  {
+    id: 'fiji_fms',
+    name: 'Fiji FMS',
+    icon: '🇫🇯',
+    description: 'Fiji Meteorological Service tropical cyclone and convective storm pattern. Short intense tropical storms with early peak.',
+    category: 'oceania',
+  },
+  // Scandinavian patterns
+  {
+    id: 'danish_svk',
+    name: 'Denmark SVK',
+    icon: '🇩🇰',
+    description: 'Danish Water Pollution Committee (Spildevandskomiteen) Chicago-type storm with r=0.375 and Danish IDF parameters.',
+    category: 'scandinavian',
+  },
+  {
+    id: 'swedish_smhi',
+    name: 'Sweden SMHI',
+    icon: '🇸🇪',
+    description: 'Swedish SMHI / Svenskt Vatten P110 Chicago-type storm with r=0.35 based on Gothenburg data (Arnell 1982).',
+    category: 'scandinavian',
+  },
+  {
+    id: 'norwegian_nve',
+    name: 'Norway NVE',
+    icon: '🇳🇴',
+    description: 'Norwegian Water Resources and Energy Directorate Chicago variant with r=0.33 and local intensity tables.',
+    category: 'scandinavian',
+  },
+  {
+    id: 'finnish_fmi',
+    name: 'Finland FMI',
+    icon: '🇫🇮',
+    description: 'Finnish Meteorological Institute Chicago variant with r=0.35 for Finnish climate conditions.',
+    category: 'scandinavian',
+  },
+  // Additional European patterns
+  {
+    id: 'sifalda',
+    name: 'Sifalda (Czech)',
+    icon: '🇨🇿',
+    description: 'Sifalda (1973) three-part storm from Czech city analysis. 14% depth in 0-34%, 56% in 34-51%, 30% in 51-100%.',
+    category: 'european',
+  },
+  {
+    id: 'swiss_idf',
+    name: 'Swiss IDF',
+    icon: '🇨🇭',
+    description: 'Swiss cantonal IDF Chicago variant with r=0.40. Uses various cantonal IDF curves.',
+    category: 'european',
+  },
+  {
+    id: 'spanish_cedex',
+    name: 'Spain CEDEX',
+    icon: '🇪🇸',
+    description: 'CEDEX dimensionless hyetograph from Centro de Estudios y Experimentación de Obras Públicas. Alternating block with regional IDF ratios.',
+    category: 'european',
+  },
+  {
+    id: 'belgian_irm',
+    name: 'Belgium IRM',
+    icon: '🇧🇪',
+    description: 'Royal Meteorological Institute (IRM/KMI) center-peaked storm with r=0.50, commonly used in Flanders.',
+    category: 'european',
+  },
+  {
+    id: 'watts_curve',
+    name: "Watt's Curve (UK)",
+    icon: '🇬🇧',
+    description: "Historical UK method (pre-FEH). Symmetrical bell-shaped profile approximated as beta distribution (α=β=2.5).",
+    category: 'icm',
+  },
+  // Additional Asian patterns
+  {
+    id: 'hong_kong_hko',
+    name: 'Hong Kong HKO',
+    icon: '🇭🇰',
+    description: 'Hong Kong Observatory design rainstorm. Front-loaded typhoon-driven mass curve. Peak intensity in first 4 hours of 24-hour event.',
+    category: 'asian',
+  },
+  {
+    id: 'taiwan_cwa',
+    name: 'Taiwan CWA',
+    icon: '🇹🇼',
+    description: 'Central Weather Administration typhoon/frontal design storm. Chicago-type with r=0.45, regional variants for Taipei, Taichung, Kaohsiung.',
+    category: 'asian',
+  },
+  {
+    id: 'bangladesh_bmd',
+    name: 'Bangladesh BMD',
+    icon: '🇧🇩',
+    description: 'Bangladesh Meteorological Department monsoon design storm. Rear-loaded sustained high intensity reflecting intense monsoon rainfall.',
+    category: 'asian',
+  },
+  {
+    id: 'pakistan_pmd',
+    name: 'Pakistan PMD',
+    icon: '🇵🇰',
+    description: 'Pakistan Meteorological Department monsoon pattern. Beta-distribution with peak at ~45% of storm duration.',
+    category: 'asian',
+  },
+  {
+    id: 'sri_lanka',
+    name: 'Sri Lanka',
+    icon: '🇱🇰',
+    description: 'Sri Lankan monsoon pattern. Beta-distribution with peak at ~40% of storm duration for SW/NE monsoon seasons.',
+    category: 'asian',
+  },
+  // Additional Americas patterns
+  {
+    id: 'argentina_smn',
+    name: 'Argentina SMN',
+    icon: '🇦🇷',
+    description: 'Servicio Meteorológico Nacional Sherman IDF storm. Chicago-type with r=0.33 (Buenos Aires, Papadakis 1973).',
+    category: 'americas',
+  },
+  {
+    id: 'peru_senamhi',
+    name: 'Peru SENAMHI',
+    icon: '🇵🇪',
+    description: 'SENAMHI Andean convective storm. Chicago-type with r=0.40 for tropical Andean conditions.',
+    category: 'americas',
+  },
+  {
+    id: 'ecuador_inamhi',
+    name: 'Ecuador INAMHI',
+    icon: '🇪🇨',
+    description: 'INAMHI Andean storm. Chicago-type with r=0.40 for equatorial Andean climate.',
+    category: 'americas',
+  },
+  {
+    id: 'venezuela_inameh',
+    name: 'Venezuela INAMEH',
+    icon: '🇻🇪',
+    description: 'INAMEH tropical Andean/Caribbean storm. Chicago-type with r=0.40.',
+    category: 'americas',
+  },
+  {
+    id: 'puerto_rico',
+    name: 'Puerto Rico',
+    icon: '🇵🇷',
+    description: 'Modified SCS Type II with tropical adjustment. Peak shifted to 48% of duration per NOAA Atlas 14 Vol. 3.',
+    category: 'americas',
+  },
+  // Additional African patterns
+  {
+    id: 'morocco_dmn',
+    name: 'Morocco DMN',
+    icon: '🇲🇦',
+    description: 'Direction de la Météorologie Nationale Mediterranean pattern. Chicago-type with r=0.38.',
+    category: 'african',
+  },
+  {
+    id: 'ethiopia_nma',
+    name: 'Ethiopia NMA',
+    icon: '🇪🇹',
+    description: 'National Meteorological Agency East African monsoon. Chicago-type with r=0.42.',
+    category: 'african',
+  },
+  {
+    id: 'ghana_gmet',
+    name: 'Ghana GMet',
+    icon: '🇬🇭',
+    description: 'Ghana Meteorological Agency West African convective squall. Front-loaded Chicago-type with r=0.32.',
+    category: 'african',
+  },
+  {
+    id: 'tanzania_tma',
+    name: 'Tanzania TMA',
+    icon: '🇹🇿',
+    description: 'Tanzania Meteorological Authority East African pattern. Chicago-type with r=0.44.',
+    category: 'african',
+  },
+  {
+    id: 'mozambique_inam',
+    name: 'Mozambique INAM',
+    icon: '🇲🇿',
+    description: 'INAM SE African coastal pattern. Chicago-type with r=0.40 for coastal cyclone influence.',
+    category: 'african',
+  },
+  // Middle East extension
+  {
+    id: 'arid_flash_flood',
+    name: 'Arid Flash Flood',
+    icon: '⚡',
+    description: 'Arid zone flash flood design storm. Exponential decay with 70% of rain in first 30% of duration. For wadi flood analysis.',
+    category: 'middle_east',
   },
 ];
 
@@ -516,10 +717,13 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
   const usAgencyPatterns = patterns.filter(p => p.category === 'us_agency');
   const icmPatterns = patterns.filter(p => p.category === 'icm');
   const europeanPatterns = patterns.filter(p => p.category === 'european');
+  const scandinavianPatterns = patterns.filter(p => p.category === 'scandinavian');
   const asianPatterns = patterns.filter(p => p.category === 'asian');
   const middleEastPatterns = patterns.filter(p => p.category === 'middle_east');
   const africanPatterns = patterns.filter(p => p.category === 'african');
   const latamPatterns = patterns.filter(p => p.category === 'latam');
+  const americasPatterns = patterns.filter(p => p.category === 'americas');
+  const oceaniaPatterns = patterns.filter(p => p.category === 'oceania');
   const internationalPatterns = patterns.filter(p => p.category === 'international');
 
   const PatternGrid = ({ patterns }: { patterns: PatternOption[] }) => (
@@ -550,7 +754,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
     <Card className="shadow-card hover:shadow-hover transition-all duration-300">
       <CardHeader>
         <CardTitle>Pattern Type</CardTitle>
-        <CardDescription>Select a rainfall distribution pattern</CardDescription>
+        <CardDescription>Select a rainfall distribution pattern ({patterns.length} available)</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs defaultValue="swmm" className="w-full">
@@ -561,8 +765,11 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
             <TabsTrigger value="middle_east">GCC</TabsTrigger>
             <TabsTrigger value="african">Africa</TabsTrigger>
             <TabsTrigger value="latam">LatAm</TabsTrigger>
+            <TabsTrigger value="americas">Americas</TabsTrigger>
             <TabsTrigger value="icm">UK/ICM</TabsTrigger>
             <TabsTrigger value="european">Europe</TabsTrigger>
+            <TabsTrigger value="scandinavian">Nordic</TabsTrigger>
+            <TabsTrigger value="oceania">Oceania</TabsTrigger>
             <TabsTrigger value="international">Int'l</TabsTrigger>
           </TabsList>
           <TabsContent value="swmm" className="mt-4">
@@ -583,11 +790,20 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
           <TabsContent value="latam" className="mt-4">
             <PatternGrid patterns={latamPatterns} />
           </TabsContent>
+          <TabsContent value="americas" className="mt-4">
+            <PatternGrid patterns={americasPatterns} />
+          </TabsContent>
           <TabsContent value="icm" className="mt-4">
             <PatternGrid patterns={icmPatterns} />
           </TabsContent>
           <TabsContent value="european" className="mt-4">
             <PatternGrid patterns={europeanPatterns} />
+          </TabsContent>
+          <TabsContent value="scandinavian" className="mt-4">
+            <PatternGrid patterns={scandinavianPatterns} />
+          </TabsContent>
+          <TabsContent value="oceania" className="mt-4">
+            <PatternGrid patterns={oceaniaPatterns} />
           </TabsContent>
           <TabsContent value="international" className="mt-4">
             <PatternGrid patterns={internationalPatterns} />

@@ -23,9 +23,12 @@ const PATTERN_BADGES = [
   "FDOT Zone 1", "FDOT Zone 2", "FDOT Zone 3", "FDOT Zone 4", "FDOT Zone 5",
   "TxDOT", "NOAA Atlas 14", "UDFCD Denver", "USACE SPS", "PMP (HMR 51/52)",
   // UK/ICM
-  "Triangular", "Trapezoidal", "FSR Profile", "FEH (UK)",
+  "Triangular", "Trapezoidal", "FSR Profile", "FEH (UK)", "Watt's Curve (UK)",
   // European
-  "Euler Type I", "Euler Type II", "Double Triangle",
+  "Euler Type I", "Euler Type II", "Double Triangle", "Sifalda (Czech)",
+  "Swiss IDF", "Spain CEDEX", "Belgium IRM",
+  // Scandinavian
+  "Denmark SVK", "Sweden SMHI", "Norway NVE", "Finland FMI",
   // International
   "Canadian CDA", "Chicago Storm", "Huff 1st Quartile", "Huff 2nd Quartile",
   "Huff 3rd Quartile", "Huff 4th Quartile", "Desbordes", "German DWA",
@@ -35,14 +38,19 @@ const PATTERN_BADGES = [
   "Singapore PUB", "China GB 50014", "China PRD", "India IMD", "India Coastal",
   "Japan AMeDAS", "Japan Baiu", "Japan Typhoon", "Korea KMA", "Malaysia MSMA",
   "Indonesia BMKG", "Philippines PAGASA", "Vietnam IMHEN", "Thailand TMD",
+  "Hong Kong HKO", "Taiwan CWA", "Bangladesh BMD", "Pakistan PMD", "Sri Lanka",
   // Middle East
-  "Saudi Arabia PME", "UAE NCMS", "Qatar Kahramaa", "Oman DGMAN",
+  "Saudi Arabia PME", "UAE NCMS", "Qatar Kahramaa", "Oman DGMAN", "Arid Flash Flood",
   // African
   "South Africa SANRAL", "Kenya KMD", "Nigeria NiMet", "Egypt HCWW",
+  "Morocco DMN", "Ethiopia NMA", "Ghana GMet", "Tanzania TMA", "Mozambique INAM",
   // Latin America
   "Brazil ANA", "Mexico CONAGUA", "Colombia IDEAM", "Chile DGA",
-  // New Zealand
+  // Americas
+  "Argentina SMN", "Peru SENAMHI", "Ecuador INAMHI", "Venezuela INAMEH", "Puerto Rico",
+  // Oceania
   "Auckland TP108", "Wellington Regional", "Christchurch Canterbury",
+  "HIRDS NZ", "Pilgrim-Cordery", "Fiji FMS",
 ];
 
 const Index = () => {
