@@ -1,10 +1,11 @@
 import { useState, useMemo } from "react";
-import { BarChart3, TrendingUp, Target, Award, Info, ChevronDown, ChevronUp, Lightbulb, Layers } from "lucide-react";
+import { BarChart3, TrendingUp, Target, Award, Info, ChevronDown, ChevronUp, Lightbulb, Layers, Scissors } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
   PieChart, Pie, Cell, Legend, LineChart, Line, ReferenceLine, AreaChart, Area,
@@ -13,6 +14,7 @@ import {
 import { type RainfallDataPoint } from "@/lib/rainfallParsers";
 import { analyzeStormComplete, type AnalysisResult, type PatternMatch } from "@/lib/stormAnalysis";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
+import { extractStormEvents, type StormEvent } from "@/lib/stormEventExtractor";
 
 interface PatternDerivationEngineProps {
   data: RainfallDataPoint[];
@@ -21,26 +23,48 @@ interface PatternDerivationEngineProps {
 
 const QUARTILE_COLORS = ['hsl(var(--chart-1))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))', 'hsl(var(--chart-4))'];
 
+const LONG_RECORD_THRESHOLD_MIN = 48 * 60;
+
 export function PatternDerivationEngine({ data, onPatternSelect }: PatternDerivationEngineProps) {
   const [showAllMatches, setShowAllMatches] = useState(false);
   const [comparisonPattern, setComparisonPattern] = useState<string>('best');
-  
+  const [selectedEventId, setSelectedEventId] = useState<string>('');
+  const [dryGapHours, setDryGapHours] = useState(6);
+
+  const durationMin = data.length > 1 ? data[data.length - 1].time - data[0].time : 0;
+  const isLongRecord = durationMin > LONG_RECORD_THRESHOLD_MIN;
+
+  // Extract storm events from long records
+  const events = useMemo((): StormEvent[] => {
+    if (!isLongRecord) return [];
+    return extractStormEvents(data, dryGapHours * 60, 0.01, 3);
+  }, [data, isLongRecord, dryGapHours]);
+
+  const activeEventId = selectedEventId || (events.length > 0 ? String(events[0].id) : '');
+
+  // Use extracted event data for long records, full data for short ones
+  const analysisData = useMemo((): RainfallDataPoint[] => {
+    if (!isLongRecord) return data;
+    const event = events.find(e => String(e.id) === activeEventId);
+    return event ? event.dataPoints : [];
+  }, [data, isLongRecord, events, activeEventId]);
+
   const analysis = useMemo<AnalysisResult | null>(() => {
-    if (data.length < 3) return null;
+    if (analysisData.length < 3) return null;
     try {
-      return analyzeStormComplete(data);
+      return analyzeStormComplete(analysisData);
     } catch (e) {
       console.error('Analysis failed:', e);
       return null;
     }
-  }, [data]);
+  }, [analysisData]);
 
   // Generate overlay chart data comparing real storm vs synthetic pattern
   const overlayChartData = useMemo(() => {
-    if (!analysis || data.length === 0) return [];
+    if (!analysis || analysisData.length === 0) return [];
     
     const { statistics, bestMatch, matches } = analysis;
-    const timeStep = data.length > 1 ? data[1].time - data[0].time : 15;
+    const timeStep = analysisData.length > 1 ? analysisData[1].time - analysisData[0].time : 15;
     
     // Determine which pattern to compare
     const patternToUse = comparisonPattern === 'best' 
@@ -56,12 +80,12 @@ export function PatternDerivationEngine({ data, onPatternSelect }: PatternDeriva
     );
     
     // Normalize both to same scale for visual comparison
-    const maxReal = Math.max(...data.map(d => d.intensity));
+    const maxReal = Math.max(...analysisData.map(d => d.intensity));
     const maxSynthetic = Math.max(...syntheticIntensities);
     const maxScale = Math.max(maxReal, maxSynthetic);
     
     // Create chart data with both series
-    const chartData = data.map((point, index) => {
+    const chartData = analysisData.map((point, index) => {
       const syntheticValue = index < syntheticIntensities.length 
         ? syntheticIntensities[index] 
         : 0;
@@ -76,7 +100,7 @@ export function PatternDerivationEngine({ data, onPatternSelect }: PatternDeriva
     });
     
     return chartData;
-  }, [data, analysis, comparisonPattern]);
+  }, [analysisData, analysis, comparisonPattern]);
 
   // Get pattern name for display
   const getComparisonPatternName = () => {
@@ -101,6 +125,32 @@ export function PatternDerivationEngine({ data, onPatternSelect }: PatternDeriva
     };
   }, [overlayChartData]);
   
+  // Handle long record with no events
+  if (isLongRecord && events.length === 0) {
+    return (
+      <Card>
+        <CardContent className="py-8 text-center text-muted-foreground space-y-4">
+          <Scissors className="w-8 h-8 mx-auto opacity-50" />
+          <p className="font-medium">No storm events detected</p>
+          <p className="text-sm">
+            Your record spans {(durationMin / 60).toFixed(0)} hours. 
+            Try reducing the dry gap threshold to detect smaller events.
+          </p>
+          <div className="max-w-xs mx-auto space-y-2">
+            <label className="text-xs">Dry gap threshold: {dryGapHours} hours</label>
+            <Slider
+              value={[dryGapHours]}
+              onValueChange={([v]) => setDryGapHours(v)}
+              min={1}
+              max={24}
+              step={1}
+            />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (!analysis) {
     return (
       <Card>
@@ -139,8 +189,80 @@ export function PatternDerivationEngine({ data, onPatternSelect }: PatternDeriva
     return 'outline';
   };
   
+  const selectedEvent = events.find(e => String(e.id) === activeEventId);
+
   return (
     <div className="space-y-6">
+      {/* Event extraction panel for long records */}
+      {isLongRecord && events.length > 0 && (
+        <Card className="border-amber-500/30 bg-amber-500/5">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Scissors className="w-5 h-5 text-amber-600" />
+              Storm Event Extraction
+            </CardTitle>
+            <CardDescription>
+              Your record spans <strong>{(durationMin / 60).toFixed(0)} hours</strong> ({(durationMin / 60 / 24).toFixed(1)} days). 
+              Select an individual storm event to analyze.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-end">
+              <div className="flex-1 space-y-2">
+                <label className="text-sm font-medium">Select storm event</label>
+                <Select value={activeEventId} onValueChange={setSelectedEventId}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an event..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {events.map(event => (
+                      <SelectItem key={event.id} value={String(event.id)}>
+                        Event {event.id}: {event.totalDepth.toFixed(2)} in, {(event.duration / 60).toFixed(1)} hr, 
+                        peak {event.peakIntensity.toFixed(2)} in/hr
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="w-48 space-y-2">
+                <label className="text-xs text-muted-foreground">
+                  Dry gap: {dryGapHours} hr
+                </label>
+                <Slider
+                  value={[dryGapHours]}
+                  onValueChange={([v]) => { setDryGapHours(v); setSelectedEventId(''); }}
+                  min={1}
+                  max={24}
+                  step={1}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+              <div className="p-2 bg-muted rounded-lg">
+                <p className="text-xs text-muted-foreground">Events Found</p>
+                <p className="font-bold text-primary">{events.length}</p>
+              </div>
+              {selectedEvent && (
+                <>
+                  <div className="p-2 bg-muted rounded-lg">
+                    <p className="text-xs text-muted-foreground">Duration</p>
+                    <p className="font-semibold">{(selectedEvent.duration / 60).toFixed(1)} hr</p>
+                  </div>
+                  <div className="p-2 bg-muted rounded-lg">
+                    <p className="text-xs text-muted-foreground">Total Depth</p>
+                    <p className="font-semibold">{selectedEvent.totalDepth.toFixed(2)} in</p>
+                  </div>
+                  <div className="p-2 bg-muted rounded-lg">
+                    <p className="text-xs text-muted-foreground">Data Points</p>
+                    <p className="font-semibold">{selectedEvent.dataPoints.length}</p>
+                  </div>
+                </>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Storm Statistics Summary */}
       <Card>
         <CardHeader className="pb-3">
