@@ -730,14 +730,14 @@ export const patterns: PatternOption[] = [
     id: 'dubai_dm',
     name: 'Dubai Municipality',
     icon: '🇦🇪',
-    description: 'Dubai Municipality (DM) modified median storm profile from Stormwater Design Guidelines. Front-loaded arid flash pattern for all DM drainage projects.',
+    description: 'Dubai Municipality (DM) Modified FEH 90th percentile summer profile (2024/2025 guidelines). Extreme needle peak at 50% of duration for desert convective flash floods.',
     category: 'middle_east',
   },
   {
     id: 'abu_dhabi_adm',
     name: 'Abu Dhabi ADM',
     icon: '🇦🇪',
-    description: 'Abu Dhabi Municipality (ADM) Stormwater Drainage Manual (2016). Modified SCS/Chicago pattern slightly less peaked than Dubai DM.',
+    description: 'Abu Dhabi Municipality (ADM) Modified FEH 75th percentile profile (2024 update). Peaked at 50% of duration, slightly less extreme than Dubai DM.',
     category: 'middle_east',
   },
   {

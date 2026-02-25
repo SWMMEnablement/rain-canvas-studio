@@ -2788,41 +2788,57 @@ export function generateRainfallData(
     case 'aes_30': {
       // AES (Atmospheric Environment Service) Canada 30% distribution
       // Peak at 30% of duration — commonly used in Ontario (Hogg 1980)
-      const aes30T = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
-      const aes30D = [0, 0.02, 0.06, 0.12, 0.22, 0.42, 0.72, 0.82, 0.87, 0.91, 0.94, 0.96, 0.97, 0.99, 1.0];
+      // Verified coordinates: 65% of depth by t/D=0.30, long low-intensity tail
+      const aes30T = [0, 0.10, 0.20, 0.30, 0.40, 0.60, 0.80, 1.0];
+      const aes30D = [0, 0.05, 0.15, 0.65, 0.75, 0.88, 0.96, 1.0];
       return applyDimensionlessCurve(aes30T, aes30D, totalDepth, numSteps, timeStep);
     }
 
     case 'aes_40': {
       // AES Canada 40% distribution — peak at 40%, used in BC and prairies
-      const aes40T = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
-      const aes40D = [0, 0.01, 0.04, 0.08, 0.13, 0.20, 0.30, 0.45, 0.70, 0.82, 0.88, 0.93, 0.95, 0.97, 0.99, 1.0];
+      // Same logic as AES 30% but peak shifted to 40% of duration
+      const aes40T = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.80, 1.0];
+      const aes40D = [0, 0.03, 0.08, 0.20, 0.65, 0.80, 0.90, 0.97, 1.0];
       return applyDimensionlessCurve(aes40T, aes40D, totalDepth, numSteps, timeStep);
     }
 
     case 'kostra_dwd': {
-      // KOSTRA-DWD Germany — Euler Type II variant with steeper peak
-      // Standard DWA-A 118 temporal pattern for KOSTRA regionalized depths
-      // Sharper than standard Euler II: 60% of depth in central 20% of duration
-      const kostraT = [0, 0.10, 0.20, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.70, 0.80, 0.90, 1.0];
-      const kostraD = [0, 0.04, 0.10, 0.18, 0.25, 0.38, 0.62, 0.80, 0.88, 0.92, 0.95, 0.97, 0.99, 1.0];
-      return applyDimensionlessCurve(kostraT, kostraD, totalDepth, numSteps, timeStep);
+      // KOSTRA-DWD Germany — Euler Type II alternating-block method
+      // Peak 5-min intensity placed at end of first third of duration
+      // Blocks ranked by intensity: highest=center, 2nd=left, 3rd=right, alternating
+      // This produces a proper Euler II shape per DWA-A 118
+      const n = numSteps;
+      const peakIdx = Math.max(0, Math.round(n / 3) - 1); // end of first third
+      const ranks: number[] = new Array(n).fill(0);
+      // Generate decreasing intensities using IDF power-law decay
+      const intensities = Array.from({ length: n }, (_, i) => 1 / Math.pow(i + 1, 0.7));
+      // Place alternating: peak at peakIdx, then left, right, left, right...
+      ranks[peakIdx] = intensities[0];
+      let left = peakIdx - 1, right = peakIdx + 1;
+      for (let r = 1; r < n; r++) {
+        if (r % 2 === 1 && left >= 0) { ranks[left] = intensities[r]; left--; }
+        else if (r % 2 === 0 && right < n) { ranks[right] = intensities[r]; right++; }
+        else if (left >= 0) { ranks[left] = intensities[r]; left--; }
+        else if (right < n) { ranks[right] = intensities[r]; right++; }
+      }
+      const totalRaw = ranks.reduce((a, b) => a + b, 0);
+      return ranks.map(v => (v / totalRaw) * totalDepth / (timeStep / 60));
     }
 
     case 'dubai_dm': {
-      // Dubai Municipality — Dimensionless modified median storm profile
-      // From DM Stormwater Guidelines Table 4-4 (DM-WSA-SRPD-SW1)
-      // Modified Chicago with r≈0.33 and higher peak factor for arid flash storms
-      const dmT = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
-      const dmD = [0, 0.05, 0.12, 0.22, 0.38, 0.58, 0.75, 0.84, 0.89, 0.93, 0.95, 0.97, 0.98, 0.99, 1.0];
+      // Dubai Municipality (DM) — Modified FEH 90th percentile summer profile
+      // 2024/2025 guidelines: extremely peaked "needle" at 50% of duration
+      // Reflects desert convective flash flood: ~60% of depth in central 10%
+      const dmT = [0, 0.10, 0.20, 0.30, 0.40, 0.45, 0.50, 0.55, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const dmD = [0, 0.02, 0.06, 0.12, 0.20, 0.30, 0.80, 0.88, 0.92, 0.95, 0.97, 0.99, 1.0];
       return applyDimensionlessCurve(dmT, dmD, totalDepth, numSteps, timeStep);
     }
 
     case 'abu_dhabi_adm': {
-      // Abu Dhabi Municipality (ADM) — modified SCS/Chicago pattern
-      // ADM Stormwater Drainage Manual (2016) — slightly less peaked than Dubai
-      const admT = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
-      const admD = [0, 0.04, 0.10, 0.18, 0.30, 0.48, 0.66, 0.78, 0.86, 0.92, 0.95, 0.97, 0.98, 0.99, 1.0];
+      // Abu Dhabi Municipality (ADM) — Modified FEH 75th percentile profile
+      // 2024 update: peaked at 50% but slightly less extreme than Dubai DM
+      const admT = [0, 0.10, 0.20, 0.30, 0.40, 0.45, 0.50, 0.55, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const admD = [0, 0.03, 0.07, 0.14, 0.22, 0.32, 0.72, 0.82, 0.88, 0.93, 0.96, 0.99, 1.0];
       return applyDimensionlessCurve(admT, admD, totalDepth, numSteps, timeStep);
     }
 
