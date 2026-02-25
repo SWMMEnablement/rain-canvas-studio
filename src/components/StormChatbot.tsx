@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import ReactMarkdown from "react-markdown";
 import { MessageCircle, X, Send, Loader2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -205,8 +204,8 @@ export function StormChatbot({ stormContext }: StormChatbotProps) {
                   }`}
                 >
                   {msg.role === "assistant" ? (
-                    <div className="prose prose-sm dark:prose-invert max-w-none [&>p]:my-1 [&>ul]:my-1 [&>ol]:my-1">
-                      <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    <div className="whitespace-pre-wrap">
+                      {msg.content}
                     </div>
                   ) : (
                     msg.content
