@@ -113,6 +113,41 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'mexico_conagua', name: 'Mexico CONAGUA', color: '#a16207', category: 'Latin American' },
   { id: 'colombia_ideam', name: 'Colombia IDEAM', color: '#854d0e', category: 'Latin American' },
   { id: 'chile_dga', name: 'Chile DGA', color: '#713f12', category: 'Latin American' },
+  // Scandinavian / Nordic
+  { id: 'danish_svk', name: 'Denmark SVK', color: '#dc2626', category: 'Nordic' },
+  { id: 'swedish_smhi', name: 'Sweden SMHI', color: '#2563eb', category: 'Nordic' },
+  { id: 'norwegian_nve', name: 'Norway NVE', color: '#0891b2', category: 'Nordic' },
+  { id: 'finnish_fmi', name: 'Finland FMI', color: '#7c3aed', category: 'Nordic' },
+  // Additional European
+  { id: 'sifalda', name: 'Sifalda (Czech)', color: '#854d0e', category: 'European' },
+  { id: 'swiss_idf', name: 'Swiss IDF', color: '#b91c1c', category: 'European' },
+  { id: 'spanish_cedex', name: 'Spain CEDEX', color: '#c2410c', category: 'European' },
+  { id: 'belgian_irm', name: 'Belgium IRM', color: '#0f766e', category: 'European' },
+  { id: 'watts_curve', name: "Watt's Curve (UK)", color: '#4338ca', category: 'European' },
+  // Oceania
+  { id: 'hirds_nz', name: 'HIRDS NZ', color: '#15803d', category: 'Oceania' },
+  { id: 'pilgrim_cordery', name: 'Pilgrim-Cordery', color: '#a16207', category: 'Oceania' },
+  { id: 'fiji_fms', name: 'Fiji FMS', color: '#0e7490', category: 'Oceania' },
+  // Additional Asian
+  { id: 'hong_kong_hko', name: 'Hong Kong HKO', color: '#be123c', category: 'Asian' },
+  { id: 'taiwan_cwa', name: 'Taiwan CWA', color: '#4f46e5', category: 'Asian' },
+  { id: 'bangladesh_bmd', name: 'Bangladesh BMD', color: '#15803d', category: 'Asian' },
+  { id: 'pakistan_pmd', name: 'Pakistan PMD', color: '#166534', category: 'Asian' },
+  { id: 'sri_lanka', name: 'Sri Lanka', color: '#92400e', category: 'Asian' },
+  // Additional Americas
+  { id: 'argentina_smn', name: 'Argentina SMN', color: '#1d4ed8', category: 'Latin American' },
+  { id: 'peru_senamhi', name: 'Peru SENAMHI', color: '#b91c1c', category: 'Latin American' },
+  { id: 'ecuador_inamhi', name: 'Ecuador INAMHI', color: '#ca8a04', category: 'Latin American' },
+  { id: 'venezuela_inameh', name: 'Venezuela INAMEH', color: '#0369a1', category: 'Latin American' },
+  { id: 'puerto_rico', name: 'Puerto Rico', color: '#7e22ce', category: 'Latin American' },
+  // Additional African
+  { id: 'morocco_dmn', name: 'Morocco DMN', color: '#dc2626', category: 'African' },
+  { id: 'ethiopia_nma', name: 'Ethiopia NMA', color: '#16a34a', category: 'African' },
+  { id: 'ghana_gmet', name: 'Ghana GMet', color: '#ca8a04', category: 'African' },
+  { id: 'tanzania_tma', name: 'Tanzania TMA', color: '#0891b2', category: 'African' },
+  { id: 'mozambique_inam', name: 'Mozambique INAM', color: '#9333ea', category: 'African' },
+  // Additional Middle East
+  { id: 'arid_flash_flood', name: 'Arid Flash Flood', color: '#ea580c', category: 'Middle East' },
 ];
 
 interface PresetGroup {
