@@ -148,6 +148,8 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'mozambique_inam', name: 'Mozambique INAM', color: '#9333ea', category: 'African' },
   // Additional Middle East
   { id: 'arid_flash_flood', name: 'Arid Flash Flood', color: '#ea580c', category: 'Middle East' },
+  { id: 'dubai_dm', name: 'Dubai Municipality', color: '#f59e0b', category: 'Middle East' },
+  { id: 'abu_dhabi_adm', name: 'Abu Dhabi ADM', color: '#8b5cf6', category: 'Middle East' },
 ];
 
 interface PresetGroup {
@@ -239,7 +241,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'GCC Flash Flood',
-    patterns: ['saudi_pme', 'uae_ncms', 'qatar_kahramaa', 'oman_dgman', 'arid_flash_flood'],
+    patterns: ['saudi_pme', 'uae_ncms', 'qatar_kahramaa', 'oman_dgman', 'arid_flash_flood', 'dubai_dm', 'abu_dhabi_adm'],
     description: 'GCC/Middle East arid flash flood patterns',
   },
   {
