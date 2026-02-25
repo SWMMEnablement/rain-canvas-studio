@@ -1,5 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Code2, Play, Copy, CheckCircle, ChevronDown, ChevronRight, Zap, List, BarChart3 } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, ComposedChart } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -209,6 +210,7 @@ export function ApiPlayground() {
             </CardContent>
           </Card>
 
+          <HyetographChart result={genResult} />
           <ResultPanel result={genResult} copied={copied} onCopy={copyToClipboard} />
         </TabsContent>
 
@@ -316,6 +318,61 @@ function CurlSnippet({ curl, copied, onCopy }: { curl: string; copied: string | 
         </div>
       )}
     </>
+  );
+}
+
+function HyetographChart({ result }: { result: EndpointResult }) {
+  const chartData = useMemo(() => {
+    if (!result.data || result.error) return null;
+    const d = result.data as { data?: { time_min: number; intensity: number; cumulative: number }[] };
+    return d.data ?? null;
+  }, [result]);
+
+  if (!chartData || chartData.length === 0) return null;
+
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm flex items-center gap-2">
+          <BarChart3 className="w-4 h-4" />
+          Hyetograph Visualization
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ResponsiveContainer width="100%" height={280}>
+          <ComposedChart data={chartData} margin={{ top: 5, right: 20, bottom: 20, left: 10 }}>
+            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+            <XAxis
+              dataKey="time_min"
+              label={{ value: "Time (min)", position: "insideBottom", offset: -10, className: "fill-muted-foreground text-xs" }}
+              tick={{ fontSize: 11 }}
+              className="fill-muted-foreground"
+            />
+            <YAxis
+              yAxisId="left"
+              label={{ value: "Intensity (in/hr)", angle: -90, position: "insideLeft", offset: 0, className: "fill-muted-foreground text-xs" }}
+              tick={{ fontSize: 11 }}
+              className="fill-muted-foreground"
+            />
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              label={{ value: "Cumulative (in)", angle: 90, position: "insideRight", offset: 0, className: "fill-muted-foreground text-xs" }}
+              tick={{ fontSize: 11 }}
+              className="fill-muted-foreground"
+            />
+            <Tooltip
+              contentStyle={{ backgroundColor: "hsl(var(--popover))", border: "1px solid hsl(var(--border))", borderRadius: "8px", fontSize: 12 }}
+              labelStyle={{ color: "hsl(var(--foreground))" }}
+              itemStyle={{ color: "hsl(var(--foreground))" }}
+              labelFormatter={(v) => `Time: ${v} min`}
+            />
+            <Bar yAxisId="left" dataKey="intensity" fill="hsl(var(--primary))" radius={[2, 2, 0, 0]} name="Intensity (in/hr)" />
+            <Area yAxisId="right" type="monotone" dataKey="cumulative" stroke="hsl(var(--destructive))" fill="hsl(var(--destructive) / 0.1)" name="Cumulative (in)" strokeWidth={2} dot={false} />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
   );
 }
 
