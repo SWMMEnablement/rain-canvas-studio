@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck } from "lucide-react";
+import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck, FlaskRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -15,6 +15,7 @@ import { CustomPatternEditor } from "@/components/CustomPatternEditor";
 import { IdfComparison } from "@/components/IdfComparison";
 import { IdfGuidedSelector } from "@/components/IdfGuidedSelector";
 import { PatternEquationDisplay } from "@/components/PatternEquationDisplay";
+import { AllPatternsTest } from "@/components/AllPatternsTest";
 import { cn } from "@/lib/utils";
 import {
   generateRainfallData,
@@ -104,6 +105,7 @@ const steps: WizardStep[] = [
   { id: 1, title: "Storm Parameters", description: "Set depth, duration & units", icon: <Settings className="w-5 h-5" /> },
   { id: 2, title: "Select Pattern", description: "Choose rainfall distribution", icon: <Layers className="w-5 h-5" /> },
   { id: 3, title: "Review & Export", description: "Visualize and download data", icon: <Download className="w-5 h-5" /> },
+  { id: 4, title: "Test All", description: "Compare all 66 patterns", icon: <FlaskRound className="w-5 h-5" /> },
 ];
 
 export interface StormShareParams {
@@ -666,6 +668,15 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
             />
           </div>
         )}
+
+        {currentStep === 4 && (
+          <AllPatternsTest
+            depth={effectiveDepth}
+            duration={duration}
+            timeStep={timeStep}
+            unitSystem={unitSystem}
+          />
+        )}
       </div>
 
       {/* Navigation Buttons */}
@@ -690,7 +701,7 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
             disabled={!canProceed()}
             className="gap-2"
           >
-            Next
+            {currentStep === 3 ? 'Test All Patterns' : 'Next'}
             <ArrowRight className="w-4 h-4" />
           </Button>
         ) : (
