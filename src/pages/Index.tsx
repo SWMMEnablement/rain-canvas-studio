@@ -16,45 +16,38 @@ import { ApiPlayground } from "@/components/ApiPlayground";
 import { toast } from "sonner";
 
 const PATTERN_BADGES = [
-  // SWMM / Core
-  "Block Pattern", "SCS Type I", "SCS Type IA", "SCS Type II", "SCS Type III",
-  "Balanced Storm", "Yen & Chow", "Double Peak", "Custom",
-  // US Agency
+  "Abu Dhabi ADM", "AES Canada 30%", "AES Canada 40%", "Argentina SMN",
+  "Arid Flash Flood", "ARR 2019 Ensemble", "ARR87 Legacy", "Auckland TP108",
+  "Australian ARR", "Austria ÖKOSTRA",
+  "Balanced Storm", "Bangladesh BMD", "Belgium IRM", "Block Pattern", "Brazil ANA",
+  "Canadian CDA", "Chicago Storm", "Chile DGA", "China Design Storm",
+  "China GB 50014", "China PRD", "Christchurch Canterbury", "Colombia IDEAM", "Custom",
+  "Denmark SVK", "Desbordes", "Double Peak", "Double Triangle",
+  "Dubai Municipality", "Dutch NEERSLAG",
+  "ECCC IDF", "Ecuador INAMHI", "Egypt HCWW", "Ethiopia NMA", "Euler Type I", "Euler Type II",
   "FDOT Zone 1", "FDOT Zone 2", "FDOT Zone 3", "FDOT Zone 4", "FDOT Zone 5",
-  "TxDOT", "NOAA Atlas 14", "UDFCD Denver", "USACE SPS", "PMP (HMR 51/52)",
-  // UK/ICM
-  "Triangular", "Trapezoidal", "FSR Profile", "FEH (UK)", "Watt's Curve (UK)",
-  // European
-  "Euler Type I", "Euler Type II", "Double Triangle", "Sifalda (Czech)",
-  "Swiss IDF", "Spain CEDEX", "Belgium IRM",
-  // Scandinavian
-  "Denmark SVK", "Sweden SMHI", "Norway NVE", "Finland FMI",
-  // International
-  "Canadian CDA", "Chicago Storm", "Huff 1st Quartile", "Huff 2nd Quartile",
-  "Huff 3rd Quartile", "Huff 4th Quartile", "Desbordes", "German DWA",
-  "Dutch NEERSLAG", "Italian Pattern", "Australian ARR", "Japan JMA",
-  "China Design Storm", "South African Huff",
-  // Asian
-  "Singapore PUB", "China GB 50014", "China PRD", "India IMD", "India Coastal",
-  "Japan AMeDAS", "Japan Baiu", "Japan Typhoon", "Korea KMA", "Malaysia MSMA",
-  "Indonesia BMKG", "Philippines PAGASA", "Vietnam IMHEN", "Thailand TMD",
-  "Hong Kong HKO", "Taiwan CWA", "Bangladesh BMD", "Pakistan PMD", "Sri Lanka",
-  // Middle East
-  "Saudi Arabia PME", "UAE NCMS", "Qatar Kahramaa", "Oman DGMAN", "Arid Flash Flood",
-  "Dubai Municipality", "Abu Dhabi ADM",
-  // African
-  "South Africa SANRAL", "Kenya KMD", "Nigeria NiMet", "Egypt HCWW",
-  "Morocco DMN", "Ethiopia NMA", "Ghana GMet", "Tanzania TMA", "Mozambique INAM",
-  // Latin America
-  "Brazil ANA", "Mexico CONAGUA", "Colombia IDEAM", "Chile DGA",
-  // Americas
-  "Argentina SMN", "Peru SENAMHI", "Ecuador INAMHI", "Venezuela INAMEH", "Puerto Rico",
-  "UPM Río de la Plata",
-  // Oceania
-  "Auckland TP108", "Wellington Regional", "Christchurch Canterbury",
-  "HIRDS NZ", "Pilgrim-Cordery", "Fiji FMS", "ARR 2019 Ensemble",
-  // Additional International
-  "AES Canada 30%", "AES Canada 40%", "KOSTRA-DWD", "Montana/Caquot (FR)", "M5-60 (UK/Ireland)",
+  "FEH (UK)", "FEH22/ReFH2", "Fiji FMS", "Finland FMI", "FSR Profile",
+  "German DWA", "Ghana GMet",
+  "HIRDS NZ", "HK DSD 2018", "Hong Kong HKO", "Huff 1st Quartile", "Huff 2nd Quartile",
+  "Huff 3rd Quartile", "Huff 4th Quartile",
+  "India Coastal", "India IMD", "Indonesia BMKG", "Ireland Met Éireann", "Italian Pattern",
+  "Japan AMeDAS", "Japan Baiu", "Japan JMA", "Japan Typhoon",
+  "Kenya KMD", "Korea KMA", "KOSTRA-DWD",
+  "M5-60 (UK/Ireland)", "Malaysia HP1", "Malaysia MSMA", "Mexico CONAGUA",
+  "Montana/Caquot (FR)", "Morocco DMN", "Mozambique INAM",
+  "Nigeria NiMet", "NOAA Atlas 14", "NOAA Atlas 15", "Norway NVE",
+  "Oman DGMAN",
+  "Pakistan PMD", "Peru SENAMHI", "Philippines PAGASA", "Pilgrim-Cordery",
+  "PMP (HMR 51/52)", "Puerto Rico",
+  "Qatar Kahramaa",
+  "Saudi Arabia PME", "SCS Type I", "SCS Type IA", "SCS Type II", "SCS Type III",
+  "SHYREG (FR)", "Sifalda (Czech)", "Singapore PUB", "South Africa SANRAL",
+  "South African Huff", "Spain CEDEX", "Sri Lanka", "Sweden SMHI", "Swiss IDF",
+  "Taiwan CWA", "Tanzania TMA", "Thailand TMD", "Triangular", "Trapezoidal", "TxDOT",
+  "UAE NCMS", "UDFCD Denver", "UPM Río de la Plata", "USACE SPS",
+  "Venezuela INAMEH", "Vietnam IMHEN",
+  "Watt's Curve (UK)", "Wellington Regional",
+  "Yen & Chow",
 ];
 
 const Index = () => {

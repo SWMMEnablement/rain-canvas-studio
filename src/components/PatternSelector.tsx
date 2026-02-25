@@ -768,6 +768,70 @@ export const patterns: PatternOption[] = [
     description: 'Uruguay/Paraguay regional pattern for Río de la Plata basin. Center-peaked design storm derived from Paysandú/Asunción gauge records.',
     category: 'americas',
   },
+  // ─── v3 PATTERNS ───
+  {
+    id: 'feh22_refh2',
+    name: 'FEH22/ReFH2',
+    icon: '🇬🇧',
+    description: 'Current UK-wide FEH22 DDF model (supersedes FEH13/FEH99) with ReFH2 design hyetograph. Standard for UK flood/drainage workflows.',
+    category: 'icm',
+  },
+  {
+    id: 'noaa_a15',
+    name: 'NOAA Atlas 15',
+    icon: '📡',
+    description: 'Next-generation NOAA precipitation frequency atlas (pilot releases). Will supersede Atlas 14 for US-wide design rainfall.',
+    category: 'us_agency',
+  },
+  {
+    id: 'eccc_idf',
+    name: 'ECCC IDF',
+    icon: '🇨🇦',
+    description: 'Environment and Climate Change Canada engineering climate datasets. Official IDF tables/graphs for Canadian design rainfall.',
+    category: 'international',
+  },
+  {
+    id: 'shyreg_fr',
+    name: 'SHYREG (FR)',
+    icon: '🇫🇷',
+    description: 'SHYREG stochastic rainfall generator (IRSTEA/INRAE). French regionalized hourly rainfall model used in hydrology contexts.',
+    category: 'european',
+  },
+  {
+    id: 'ireland_met',
+    name: 'Ireland Met Éireann',
+    icon: '🇮🇪',
+    description: 'Met Éireann rainfall return-period service. Irish national IDF/DDF products for drainage and flood estimation.',
+    category: 'european',
+  },
+  {
+    id: 'arr87_legacy',
+    name: 'ARR87 Legacy',
+    icon: '🇦🇺',
+    description: 'Legacy Australian Rainfall & Runoff 1987 IFD design rainfalls (BoM). For backward compatibility with pre-2016 projects.',
+    category: 'oceania',
+  },
+  {
+    id: 'hk_dsd_2018',
+    name: 'HK DSD 2018',
+    icon: '🇭🇰',
+    description: 'Hong Kong Drainage Services Department Stormwater Drainage Manual (5th ed., 2018). Official DSD design rainstorm IDF profiles.',
+    category: 'asian',
+  },
+  {
+    id: 'malaysia_hp1',
+    name: 'Malaysia HP1',
+    icon: '🇲🇾',
+    description: 'Hydrological Procedure No. 1 (HP1, revised 2015). Malaysian design rainstorm estimation tables/formulae, complementary to MSMA.',
+    category: 'asian',
+  },
+  {
+    id: 'austria_okostra',
+    name: 'Austria ÖKOSTRA',
+    icon: '🇦🇹',
+    description: 'ÖKOSTRA Austrian coordinated design rainfall for sewer/drainage design. Euler Type II variant with Austrian IDF regionalization.',
+    category: 'european',
+  },
 ];
 
 interface PatternSelectorProps {
