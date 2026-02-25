@@ -109,6 +109,28 @@ const PATTERN_SHAPES: Record<string, { ratios: number[]; label: string }> = {
       return vals.map((v) => { cum += v / sum; return cum; });
     })(),
   },
+  "Desbordes (IT77)": {
+    label: "Desbordes IT77 — French double-triangle, peak at 30%",
+    ratios: (() => {
+      const n = 48;
+      const r = 0.375;
+      const vals: number[] = [];
+      for (let i = 0; i < n; i++) {
+        const t = (i + 0.5) / n;
+        // Double-triangle: sharp rise to peak at r, then slower decay
+        if (t <= r) {
+          vals.push(t / r);
+        } else {
+          vals.push(1 - 0.7 * ((t - r) / (1 - r)));
+        }
+      }
+      // Ensure no negatives and normalize
+      const clamped = vals.map(v => Math.max(v, 0.05));
+      const sum = clamped.reduce((a, b) => a + b, 0);
+      let cum = 0;
+      return clamped.map((v) => { cum += v / sum; return cum; });
+    })(),
+  },
   "FHWA/USACE": {
     label: "FHWA/USACE — federal highway standard",
     ratios: (() => {
