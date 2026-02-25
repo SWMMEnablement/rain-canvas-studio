@@ -124,6 +124,15 @@ const patternNames: Record<PatternType, string> = {
   'mozambique_inam': 'Mozambique INAM',
   'hirds_nz': 'HIRDS NZ',
   'arid_flash_flood': 'Arid Flash Flood',
+  'aes_30': 'AES Canada 30%',
+  'aes_40': 'AES Canada 40%',
+  'kostra_dwd': 'KOSTRA-DWD',
+  'dubai_dm': 'Dubai Municipality',
+  'abu_dhabi_adm': 'Abu Dhabi ADM',
+  'montana_caquot': 'Montana/Caquot (FR)',
+  'm5_60_fsr': 'M5-60 (UK/Ireland)',
+  'arr2019': 'ARR 2019 Ensemble',
+  'upm_plata': 'UPM Río de la Plata',
 };
 
 interface WizardStep {

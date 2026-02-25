@@ -35,11 +35,14 @@ const categoryLabels: Record<string, string> = {
   us_agency: 'US Agency',
   icm: 'UK / ICM',
   european: 'European',
+  scandinavian: 'Nordic',
   international: 'International',
   asian: 'Asian',
   middle_east: 'Middle East',
   african: 'African',
   latam: 'Latin America',
+  americas: 'Americas',
+  oceania: 'Oceania',
 };
 
 const categoryColors: Record<string, string> = {
@@ -47,11 +50,14 @@ const categoryColors: Record<string, string> = {
   us_agency: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400',
   icm: 'bg-sky-500/10 text-sky-600 dark:text-sky-400',
   european: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+  scandinavian: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
   international: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
   asian: 'bg-amber-500/10 text-amber-600 dark:text-amber-400',
   middle_east: 'bg-orange-500/10 text-orange-600 dark:text-orange-400',
   african: 'bg-lime-500/10 text-lime-600 dark:text-lime-400',
   latam: 'bg-rose-500/10 text-rose-600 dark:text-rose-400',
+  americas: 'bg-pink-500/10 text-pink-600 dark:text-pink-400',
+  oceania: 'bg-teal-500/10 text-teal-600 dark:text-teal-400',
 };
 
 export function AllPatternsTest({ depth, duration, timeStep, unitSystem }: AllPatternsTestProps) {

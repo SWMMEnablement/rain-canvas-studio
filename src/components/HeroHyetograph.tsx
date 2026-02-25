@@ -344,6 +344,38 @@ const PATTERN_SHAPES: Record<string, { label: string; ratios: number[] }> = {
   "Tanzania TMA": { label: "Tanzania TMA — East African r=0.44", ratios: centerPeaked(48, 1.3, 0.44) },
   "Mozambique INAM": { label: "Mozambique INAM — SE African r=0.40", ratios: centerPeaked(48, 1.3, 0.40) },
   "Arid Flash Flood": { label: "Arid Flash Flood — exponential decay burst", ratios: frontLoaded(48, 6.0) },
+  // New patterns (v2)
+  "AES Canada 30%": { label: "AES Canada 30% — Ontario peak at 30%", ratios: (() => {
+    const d = [0, 0.02, 0.06, 0.12, 0.22, 0.42, 0.72, 0.82, 0.87, 0.91, 0.94, 0.96, 0.97, 0.99, 1.0];
+    const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+    const n = 48;
+    return Array.from({ length: n }, (_, i) => {
+      const x = (i + 1) / n;
+      let lo = 0;
+      for (let j = 1; j < t.length; j++) { if (t[j] >= x) { lo = j - 1; break; } if (j === t.length - 1) lo = j - 1; }
+      const frac = (x - t[lo]) / (t[lo + 1] - t[lo]);
+      return d[lo] + frac * (d[lo + 1] - d[lo]);
+    });
+  })() },
+  "AES Canada 40%": { label: "AES Canada 40% — BC/prairies peak at 40%", ratios: (() => {
+    const d = [0, 0.01, 0.04, 0.08, 0.13, 0.20, 0.30, 0.45, 0.70, 0.82, 0.88, 0.93, 0.95, 0.97, 0.99, 1.0];
+    const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+    const n = 48;
+    return Array.from({ length: n }, (_, i) => {
+      const x = (i + 1) / n;
+      let lo = 0;
+      for (let j = 1; j < t.length; j++) { if (t[j] >= x) { lo = j - 1; break; } if (j === t.length - 1) lo = j - 1; }
+      const frac = (x - t[lo]) / (t[lo + 1] - t[lo]);
+      return d[lo] + frac * (d[lo + 1] - d[lo]);
+    });
+  })() },
+  "KOSTRA-DWD": { label: "KOSTRA-DWD — German regionalized Euler II", ratios: centerPeaked(48, 1.8, 0.45) },
+  "Dubai Municipality": { label: "Dubai DM — arid modified median storm", ratios: frontLoaded(48, 4.5) },
+  "Abu Dhabi ADM": { label: "Abu Dhabi ADM — modified SCS arid", ratios: frontLoaded(48, 3.8) },
+  "Montana/Caquot (FR)": { label: "Montana/Caquot — French power-law IT77", ratios: frontLoaded(48, 5.0) },
+  "M5-60 (UK/Ireland)": { label: "M5-60 FSR — UK short-duration", ratios: centerPeaked(48, 1.8, 0.45) },
+  "ARR 2019 Ensemble": { label: "ARR 2019 — Australian median ensemble", ratios: centerPeaked(48, 1.3, 0.45) },
+  "UPM Río de la Plata": { label: "UPM — Uruguay/Paraguay basin", ratios: centerPeaked(48, 1.5, 0.35) },
 };
 
 const DEFAULT_KEY = "SCS Type II";

@@ -704,6 +704,70 @@ export const patterns: PatternOption[] = [
     description: 'Arid zone flash flood design storm. Exponential decay with 70% of rain in first 30% of duration. For wadi flood analysis.',
     category: 'middle_east',
   },
+  // ─── NEW PATTERNS (v2) ───
+  {
+    id: 'aes_30',
+    name: 'AES Canada 30%',
+    icon: '🍁',
+    description: 'Atmospheric Environment Service (now ECCC) 30% distribution. Peak at 30% of duration. Standard for Ontario urban drainage design (Hogg 1980).',
+    category: 'international',
+  },
+  {
+    id: 'aes_40',
+    name: 'AES Canada 40%',
+    icon: '🍁',
+    description: 'AES/ECCC 40% distribution. Peak at 40% of duration. Used in British Columbia and prairie provinces for moderate-duration storms.',
+    category: 'international',
+  },
+  {
+    id: 'kostra_dwd',
+    name: 'KOSTRA-DWD',
+    icon: '🇩🇪',
+    description: 'KOSTRA-DWD regionalized heavy precipitation design storm. Euler Type II variant with steeper peak per DWA-A 118. Standard for all German drainage engineering.',
+    category: 'european',
+  },
+  {
+    id: 'dubai_dm',
+    name: 'Dubai Municipality',
+    icon: '🇦🇪',
+    description: 'Dubai Municipality (DM) modified median storm profile from Stormwater Design Guidelines. Front-loaded arid flash pattern for all DM drainage projects.',
+    category: 'middle_east',
+  },
+  {
+    id: 'abu_dhabi_adm',
+    name: 'Abu Dhabi ADM',
+    icon: '🇦🇪',
+    description: 'Abu Dhabi Municipality (ADM) Stormwater Drainage Manual (2016). Modified SCS/Chicago pattern slightly less peaked than Dubai DM.',
+    category: 'middle_east',
+  },
+  {
+    id: 'montana_caquot',
+    name: 'Montana/Caquot (FR)',
+    icon: '🇫🇷',
+    description: 'French Montana/Caquot power-law synthetic hyetograph. Decreasing intensity i(t)∝t^(-0.66) per Instruction Technique IT77. Standard for French urban drainage.',
+    category: 'european',
+  },
+  {
+    id: 'm5_60_fsr',
+    name: 'M5-60 (UK/Ireland)',
+    icon: '🇬🇧',
+    description: 'FSR M5-60 short-duration variant. More peaked than standard FSR profile for durations ≤2 hours. Part of Flood Studies Report methodology for UK/Ireland.',
+    category: 'icm',
+  },
+  {
+    id: 'arr2019',
+    name: 'ARR 2019 Ensemble',
+    icon: '🇦🇺',
+    description: 'Australian Rainfall & Runoff 2019 median ensemble burst pattern. Representative of 10 temporal patterns per duration. Modern successor to pre-2016 ARR.',
+    category: 'oceania',
+  },
+  {
+    id: 'upm_plata',
+    name: 'UPM Río de la Plata',
+    icon: '🇺🇾',
+    description: 'Uruguay/Paraguay regional pattern for Río de la Plata basin. Center-peaked design storm derived from Paysandú/Asunción gauge records.',
+    category: 'americas',
+  },
 ];
 
 interface PatternSelectorProps {
