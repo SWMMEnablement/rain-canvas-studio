@@ -257,6 +257,8 @@ const PATTERN_SHAPES: Record<string, { label: string; ratios: number[] }> = {
   "Colombia IDEAM": { label: "Colombia IDEAM — Andean convective", ratios: centerPeaked(48, 1.3, 0.5) },
   "Chile DGA": { label: "Chile DGA — frontal/orographic", ratios: gaussianPeaked(48, 0.5, 4) },
   "Auckland TP108": { label: "Auckland TP108 — NZ maritime convective", ratios: centerPeaked(48, 1.4, 0.42) },
+  "Wellington Regional": { label: "Wellington — frontal/orographic", ratios: centerPeaked(48, 1.6, 0.35) },
+  "Christchurch Canterbury": { label: "Christchurch — rain-shadow plains", ratios: centerPeaked(48, 1.2, 0.47) },
 };
 
 const DEFAULT_KEY = "SCS Type II";

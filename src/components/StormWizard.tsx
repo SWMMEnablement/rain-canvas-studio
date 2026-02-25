@@ -93,6 +93,8 @@ const patternNames: Record<PatternType, string> = {
   'colombia_ideam': 'Colombia IDEAM',
   'chile_dga': 'Chile DGA',
   'nz_tp108': 'Auckland TP108',
+  'nz_wellington': 'Wellington Regional',
+  'nz_christchurch': 'Christchurch Canterbury',
 };
 
 interface WizardStep {

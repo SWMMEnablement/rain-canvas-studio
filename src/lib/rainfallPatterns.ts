@@ -1,4 +1,4 @@
-export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'pmp_hmr' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww' | 'brazil_ana' | 'mexico_conagua' | 'colombia_ideam' | 'chile_dga' | 'nz_tp108';
+export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double' | 'custom' | 'triangular' | 'trapezoidal' | 'fsr' | 'chicago' | 'huff1' | 'huff2' | 'huff3' | 'huff4' | 'desbordes' | 'arr' | 'jma' | 'china' | 'sa_huff' | 'dwa' | 'dutch' | 'italian' | 'balanced' | 'fdot1' | 'fdot2' | 'fdot3' | 'fdot4' | 'fdot5' | 'txdot' | 'yen_chow' | 'noaa_a14' | 'udfcd' | 'usace_sps' | 'feh' | 'euler1' | 'euler2' | 'desbordes_double' | 'canadian' | 'pmp_hmr' | 'singapore_pub' | 'china_gb50014' | 'china_prd' | 'india_imd' | 'india_coastal' | 'japan_amedas' | 'japan_baiu' | 'japan_typhoon' | 'korea_kma' | 'malaysia_msma' | 'indonesia_bmkg' | 'philippines_pagasa' | 'vietnam_imhen' | 'thailand_tmd' | 'saudi_pme' | 'uae_ncms' | 'qatar_kahramaa' | 'oman_dgman' | 'sa_sanral' | 'kenya_kmd' | 'nigeria_nimet' | 'egypt_hcww' | 'brazil_ana' | 'mexico_conagua' | 'colombia_ideam' | 'chile_dga' | 'nz_tp108' | 'nz_wellington' | 'nz_christchurch';
 
 export function generateRainfallData(
   pattern: PatternType,
@@ -2384,6 +2384,94 @@ export function generateRainfallData(
           nextCumulative = 0.86 + 0.09 * ((nextT - 0.65) / 0.15);
         } else {
           nextCumulative = 0.95 + 0.05 * ((nextT - 0.80) / 0.20);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'nz_wellington': {
+      // Wellington Regional Council design storm
+      // Exposed westerly/southerly maritime climate — strong orographic uplift
+      // Front-loaded pattern with earlier peak (~35%) reflecting frontal passage
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.15) {
+          cumulativeFraction = 0.08 * Math.pow(t / 0.15, 0.85);
+        } else if (t <= 0.30) {
+          cumulativeFraction = 0.08 + 0.30 * Math.pow((t - 0.15) / 0.15, 0.80);
+        } else if (t <= 0.45) {
+          cumulativeFraction = 0.38 + 0.32 * ((t - 0.30) / 0.15);
+        } else if (t <= 0.60) {
+          cumulativeFraction = 0.70 + 0.15 * ((t - 0.45) / 0.15);
+        } else if (t <= 0.80) {
+          cumulativeFraction = 0.85 + 0.10 * ((t - 0.60) / 0.20);
+        } else {
+          cumulativeFraction = 0.95 + 0.05 * ((t - 0.80) / 0.20);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.15) {
+          nextCumulative = 0.08 * Math.pow(nextT / 0.15, 0.85);
+        } else if (nextT <= 0.30) {
+          nextCumulative = 0.08 + 0.30 * Math.pow((nextT - 0.15) / 0.15, 0.80);
+        } else if (nextT <= 0.45) {
+          nextCumulative = 0.38 + 0.32 * ((nextT - 0.30) / 0.15);
+        } else if (nextT <= 0.60) {
+          nextCumulative = 0.70 + 0.15 * ((nextT - 0.45) / 0.15);
+        } else if (nextT <= 0.80) {
+          nextCumulative = 0.85 + 0.10 * ((nextT - 0.60) / 0.20);
+        } else {
+          nextCumulative = 0.95 + 0.05 * ((nextT - 0.80) / 0.20);
+        }
+        
+        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
+        data.push(incrementalDepth / (timeStep / 60));
+      }
+      break;
+    }
+
+    case 'nz_christchurch': {
+      // Christchurch / Canterbury design storm
+      // Eastern rain-shadow plains — nor'easter and southerly change patterns
+      // Broader, more symmetric distribution with moderate peak at ~45%
+      for (let i = 0; i < numSteps; i++) {
+        const t = i / numSteps;
+        let cumulativeFraction: number;
+        
+        if (t <= 0.20) {
+          cumulativeFraction = 0.08 * Math.pow(t / 0.20, 0.95);
+        } else if (t <= 0.35) {
+          cumulativeFraction = 0.08 + 0.15 * ((t - 0.20) / 0.15);
+        } else if (t <= 0.50) {
+          cumulativeFraction = 0.23 + 0.35 * Math.pow((t - 0.35) / 0.15, 0.85);
+        } else if (t <= 0.65) {
+          cumulativeFraction = 0.58 + 0.22 * ((t - 0.50) / 0.15);
+        } else if (t <= 0.80) {
+          cumulativeFraction = 0.80 + 0.13 * ((t - 0.65) / 0.15);
+        } else {
+          cumulativeFraction = 0.93 + 0.07 * ((t - 0.80) / 0.20);
+        }
+        
+        const nextT = Math.min((i + 1) / numSteps, 1.0);
+        let nextCumulative: number;
+        if (nextT <= 0.20) {
+          nextCumulative = 0.08 * Math.pow(nextT / 0.20, 0.95);
+        } else if (nextT <= 0.35) {
+          nextCumulative = 0.08 + 0.15 * ((nextT - 0.20) / 0.15);
+        } else if (nextT <= 0.50) {
+          nextCumulative = 0.23 + 0.35 * Math.pow((nextT - 0.35) / 0.15, 0.85);
+        } else if (nextT <= 0.65) {
+          nextCumulative = 0.58 + 0.22 * ((nextT - 0.50) / 0.15);
+        } else if (nextT <= 0.80) {
+          nextCumulative = 0.80 + 0.13 * ((nextT - 0.65) / 0.15);
+        } else {
+          nextCumulative = 0.93 + 0.07 * ((nextT - 0.80) / 0.20);
         }
         
         const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
