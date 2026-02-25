@@ -3,7 +3,7 @@ import { PatternComparison } from "@/components/PatternComparison";
 import { ScsRegionalGuide } from "@/components/ScsRegionalGuide";
 import { UnitComparisonTable } from "@/components/UnitComparisonTable";
 import { UnitConversionCalculator } from "@/components/UnitConversionCalculator";
-import { SensitivityTable } from "@/components/SensitivityTable";
+import { AllPatternsTest } from "@/components/AllPatternsTest";
 import { PatternDecisionGuide } from "@/components/PatternDecisionGuide";
 import { ChinaRainstormCalculator } from "@/components/ChinaRainstormCalculator";
 import { CanadaIdfCalculator } from "@/components/CanadaIdfCalculator";
@@ -106,7 +106,7 @@ export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
               </p>
             </CardContent>
           </Card>
-          <SensitivityTable
+          <AllPatternsTest
             depth={depth}
             duration={duration}
             timeStep={timeStep}
