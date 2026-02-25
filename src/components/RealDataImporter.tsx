@@ -117,20 +117,36 @@ export function RealDataImporter({ onDataImported }: RealDataImporterProps) {
                       <h4 className="font-medium">{format.title}</h4>
                       <p className="text-sm text-muted-foreground">{format.description}</p>
                     </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="shrink-0"
-                      asChild
-                    >
-                      <a 
-                        href={sampleFiles[key as keyof typeof sampleFiles].path} 
-                        download={sampleFiles[key as keyof typeof sampleFiles].name}
+                    <div className="flex gap-2 shrink-0">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        asChild
                       >
-                        <Download className="w-4 h-4 mr-1" />
-                        Sample
-                      </a>
-                    </Button>
+                        <a 
+                          href={sampleFiles[key as keyof typeof sampleFiles].path} 
+                          download={sampleFiles[key as keyof typeof sampleFiles].name}
+                        >
+                          <Download className="w-4 h-4 mr-1" />
+                          Sample
+                        </a>
+                      </Button>
+                      {key === 'csv' && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          asChild
+                        >
+                          <a 
+                            href="/sample-data/sample-month.csv" 
+                            download="sample-month.csv"
+                          >
+                            <Download className="w-4 h-4 mr-1" />
+                            Multi-Day
+                          </a>
+                        </Button>
+                      )}
+                    </div>
                   </div>
                   <div className="flex gap-2">
                     {format.extensions.map(ext => (
