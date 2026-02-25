@@ -7,9 +7,10 @@ import { AllPatternsTest } from "@/components/AllPatternsTest";
 import { PatternDecisionGuide } from "@/components/PatternDecisionGuide";
 import { ChinaRainstormCalculator } from "@/components/ChinaRainstormCalculator";
 import { CanadaIdfCalculator } from "@/components/CanadaIdfCalculator";
+import { ParametricStormEngine } from "@/components/ParametricStormEngine";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GitCompare, Map, Calculator, Info, BarChart3, Target, CloudRain, Snowflake } from "lucide-react";
+import { GitCompare, Map, Calculator, Info, BarChart3, Target, CloudRain, Snowflake, Beaker } from "lucide-react";
 import {
   generateRainfallData,
   prepareChartData,
@@ -43,7 +44,7 @@ export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
       </div>
 
       <Tabs defaultValue="comparison" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 sm:grid-cols-8 mb-6">
+        <TabsList className="grid w-full grid-cols-5 sm:grid-cols-9 mb-6">
           <TabsTrigger value="comparison" className="flex items-center gap-2">
             <GitCompare className="w-4 h-4" />
             <span className="hidden sm:inline">Compare</span>
@@ -71,6 +72,10 @@ export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
           <TabsTrigger value="units" className="flex items-center gap-2">
             <Calculator className="w-4 h-4" />
             <span className="hidden sm:inline">Units</span>
+          </TabsTrigger>
+          <TabsTrigger value="engine" className="flex items-center gap-2">
+            <Beaker className="w-4 h-4" />
+            <span className="hidden sm:inline">Engine</span>
           </TabsTrigger>
           <TabsTrigger value="about" className="flex items-center gap-2">
             <Info className="w-4 h-4" />
@@ -183,6 +188,19 @@ export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
             />
             <UnitConversionCalculator />
           </div>
+        </TabsContent>
+
+        <TabsContent value="engine" className="space-y-6">
+          <Card className="bg-accent/30 border-primary/20">
+            <CardContent className="pt-4">
+              <p className="text-sm text-muted-foreground">
+                <strong>Parametric Storm Engine</strong> generates design storms from first principles using
+                SCS (Sigmoid), Chicago (Keifer-Chu), or Huff (Quartile) mathematical engines. Adjust parameters
+                in real-time to replicate any regional standard or create custom distributions.
+              </p>
+            </CardContent>
+          </Card>
+          <ParametricStormEngine />
         </TabsContent>
 
         <TabsContent value="about" className="space-y-6">
