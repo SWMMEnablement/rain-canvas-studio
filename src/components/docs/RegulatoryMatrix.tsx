@@ -33,62 +33,89 @@ const PATTERN_COLUMNS = [
   { key: "block", label: "Alt. Block" },
   { key: "euler2", label: "Euler II" },
   { key: "feh", label: "FEH" },
+  { key: "desbordes", label: "Desbordes" },
+  { key: "desbordes2", label: "Desb. 2P" },
 ];
 
 const MATRIX_DATA: MatrixEntry[] = [
   {
     jurisdiction: "FEMA (Nationwide)", country: "US", type: "federal",
-    patterns: { scs2: "accepted", scs3: "accepted", scs1: "accepted", huff3: "accepted", chicago: "accepted", block: "accepted", euler2: "unknown", feh: "unknown" },
+    patterns: { scs2: "accepted", scs3: "accepted", scs1: "accepted", huff3: "accepted", chicago: "accepted", block: "accepted", euler2: "unknown", feh: "unknown", desbordes: "unknown", desbordes2: "unknown" },
     notes: "Accepts any technically defensible distribution", referenceDoc: "FEMA Guidelines for Flood Risk Analysis", lastVerified: "2025-01",
   },
   {
     jurisdiction: "USACE (Nationwide)", country: "US", type: "federal",
-    patterns: { scs2: "accepted", scs3: "accepted", scs1: "accepted", huff3: "accepted", chicago: "accepted", block: "accepted", euler2: "unknown", feh: "unknown" },
+    patterns: { scs2: "accepted", scs3: "accepted", scs1: "accepted", huff3: "accepted", chicago: "accepted", block: "accepted", euler2: "unknown", feh: "unknown", desbordes: "unknown", desbordes2: "unknown" },
     notes: "Accepted for Section 404/NEPA analysis", referenceDoc: "EM 1110-2-1417", lastVerified: "2025-01",
   },
   {
     jurisdiction: "TxDOT (Texas)", country: "US", type: "state-dot",
-    patterns: { scs2: "required", scs3: "accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted" },
+    patterns: { scs2: "required", scs3: "accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted", desbordes: "not-accepted", desbordes2: "not-accepted" },
     notes: "TxDOT HDM Ch. 4 mandates specific distributions", referenceDoc: "TxDOT Hydraulic Design Manual", lastVerified: "2024-11",
   },
   {
     jurisdiction: "FDOT (Florida)", country: "US", type: "state-dot",
-    patterns: { scs2: "not-accepted", scs3: "accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted" },
+    patterns: { scs2: "not-accepted", scs3: "accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted", desbordes: "not-accepted", desbordes2: "not-accepted" },
     notes: "Must use FDOT Zone-specific distributions", referenceDoc: "FDOT Drainage Manual Ch. 2", lastVerified: "2024-09",
   },
   {
     jurisdiction: "Caltrans (California)", country: "US", type: "state-dot",
-    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "required", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted" },
+    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "required", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted", desbordes: "not-accepted", desbordes2: "not-accepted" },
     notes: "Use SCS Type I or IA for California", referenceDoc: "Caltrans Highway Design Manual", lastVerified: "2025-01",
   },
   {
     jurisdiction: "MWRD (Chicago)", country: "US", type: "municipality",
-    patterns: { scs2: "accepted", scs3: "unknown", scs1: "unknown", huff3: "accepted", chicago: "accepted", block: "accepted", euler2: "unknown", feh: "unknown" },
+    patterns: { scs2: "accepted", scs3: "unknown", scs1: "unknown", huff3: "accepted", chicago: "accepted", block: "accepted", euler2: "unknown", feh: "unknown", desbordes: "unknown", desbordes2: "unknown" },
     notes: "Accepts Huff, SCS Type II, and Chicago Storm", referenceDoc: "MWRD WMO Stormwater Rules", lastVerified: "2025-01",
   },
   {
     jurisdiction: "City of Houston", country: "US", type: "municipality",
-    patterns: { scs2: "required", scs3: "unknown", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted" },
+    patterns: { scs2: "required", scs3: "unknown", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted", desbordes: "not-accepted", desbordes2: "not-accepted" },
     notes: "Required per Infrastructure Design Manual", referenceDoc: "COH IDM Chapter 9", lastVerified: "2024-11",
   },
   {
+    jurisdiction: "France (national — IT77)", country: "FR", type: "national",
+    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "accepted", block: "accepted", euler2: "accepted", feh: "not-accepted", desbordes: "required", desbordes2: "accepted" },
+    notes: "Desbordes standard per Instruction Technique IT77 for assainissement", referenceDoc: "Circulaire interministérielle n° 77-284", lastVerified: "2025-01",
+  },
+  {
+    jurisdiction: "Métropole de Lyon", country: "FR", type: "municipality",
+    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "accepted", block: "accepted", euler2: "accepted", feh: "not-accepted", desbordes: "required", desbordes2: "accepted" },
+    notes: "Required for urban drainage studies", referenceDoc: "Règlement d'assainissement métropolitain", lastVerified: "2025-01",
+  },
+  {
+    jurisdiction: "Île-de-France (DRIEE)", country: "FR", type: "regional",
+    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "accepted", block: "accepted", euler2: "accepted", feh: "not-accepted", desbordes: "accepted", desbordes2: "accepted" },
+    notes: "Accepted alongside ANC standards for drainage design", referenceDoc: "DRIEE guidelines", lastVerified: "2025-01",
+  },
+  {
+    jurisdiction: "DREAL Occitanie", country: "FR", type: "regional",
+    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "accepted", block: "accepted", euler2: "accepted", feh: "not-accepted", desbordes: "required", desbordes2: "preferred" },
+    notes: "Desbordes Double-Peak recommended for Mediterranean storms", referenceDoc: "DREAL Occitanie flood risk guidance", lastVerified: "2025-01",
+  },
+  {
+    jurisdiction: "Belgium — Wallonia", country: "BE", type: "regional",
+    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "accepted", block: "accepted", euler2: "accepted", feh: "not-accepted", desbordes: "accepted", desbordes2: "accepted" },
+    notes: "Francophone Belgian practice follows French standards", referenceDoc: "SPW guidelines", lastVerified: "2025-01",
+  },
+  {
     jurisdiction: "Environment Agency (England)", country: "UK", type: "national",
-    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "required" },
+    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "required", desbordes: "not-accepted", desbordes2: "not-accepted" },
     notes: "FEH required for all flood risk assessments", referenceDoc: "FEH Guidelines", lastVerified: "2025-01",
   },
   {
     jurisdiction: "DWA (Germany)", country: "DE", type: "national",
-    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "accepted", block: "accepted", euler2: "required", feh: "not-accepted" },
+    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "accepted", block: "accepted", euler2: "required", feh: "not-accepted", desbordes: "not-accepted", desbordes2: "not-accepted" },
     notes: "DWA-A 118 standard for sewer design", referenceDoc: "DWA-A 118", lastVerified: "2025-01",
   },
   {
     jurisdiction: "All Australian States", country: "AU", type: "national",
-    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted" },
+    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted", desbordes: "not-accepted", desbordes2: "not-accepted" },
     notes: "ARR 2019 ensemble temporal patterns mandated", referenceDoc: "Australian Rainfall & Runoff 2019", lastVerified: "2025-01",
   },
   {
     jurisdiction: "Singapore PUB", country: "SG", type: "national",
-    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted" },
+    patterns: { scs2: "not-accepted", scs3: "not-accepted", scs1: "not-accepted", huff3: "not-accepted", chicago: "not-accepted", block: "not-accepted", euler2: "not-accepted", feh: "not-accepted", desbordes: "not-accepted", desbordes2: "not-accepted" },
     notes: "PUB-specific design storm required", referenceDoc: "PUB Code of Practice", lastVerified: "2025-01",
   },
 ];
