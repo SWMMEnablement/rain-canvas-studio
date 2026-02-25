@@ -41,6 +41,8 @@ const PATTERN_BADGES = [
   "South Africa SANRAL", "Kenya KMD", "Nigeria NiMet", "Egypt HCWW",
   // Latin America
   "Brazil ANA", "Mexico CONAGUA", "Colombia IDEAM", "Chile DGA",
+  // New Zealand
+  "NZ Auckland TP108", "NZ Wellington", "NZ Christchurch",
 ];
 
 const Index = () => {
