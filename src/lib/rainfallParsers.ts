@@ -124,11 +124,17 @@ export function parseCSV(content: string, filename: string): ParsedRainfallData 
     const timeStr = cols[timeIdx];
     
     if (/^\d+(\.\d+)?$/.test(timeStr)) {
-      // Numeric - assume minutes unless very small (then hours)
+      // Numeric value — decide if minutes or hours based on context
       const numValue = parseFloat(timeStr);
-      timeMinutes = numValue < 100 && numValue === Math.floor(numValue) && i < 50 
-        ? numValue * (numValue <= 24 ? 60 : 1) // Treat as hours if small integers
-        : numValue;
+      // If header explicitly says "hours" or "hr", treat as hours
+      const headerLabel = header[timeIdx] || '';
+      const isHoursHeader = /hour|hr|h$/.test(headerLabel);
+      if (isHoursHeader) {
+        timeMinutes = numValue * 60;
+      } else {
+        // Default: treat as minutes (most common for engineering CSV)
+        timeMinutes = numValue;
+      }
     } else if (/\d{1,2}:\d{2}/.test(timeStr)) {
       // HH:MM format
       const [hours, mins] = timeStr.split(':').map(Number);
