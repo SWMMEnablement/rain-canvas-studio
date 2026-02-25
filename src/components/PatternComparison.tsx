@@ -212,6 +212,11 @@ const presetGroups: PresetGroup[] = [
     patterns: ['india_imd', 'india_coastal', 'japan_baiu', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd'],
     description: 'Monsoon-influenced patterns across South & Southeast Asia',
   },
+  {
+    name: 'New Zealand',
+    patterns: ['nz_tp108', 'nz_wellington', 'nz_christchurch'],
+    description: 'All three NZ regional design storms (Auckland, Wellington, Christchurch)',
+  },
 ];
 
 export function PatternComparison({ depth: totalDepth, duration, timeStep, unitSystem }: PatternComparisonProps) {
