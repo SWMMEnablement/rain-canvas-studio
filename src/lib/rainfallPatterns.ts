@@ -74,6 +74,13 @@ function chicagoVariant(
       leftIdx--;
     }
   }
+  // Normalize volume: ensure sum(intensity × dt) = totalDepth
+  const dt = timeStep / 60;
+  const vol = orderedData.reduce((s, v) => s + v * dt, 0);
+  if (vol > 0) {
+    const scale = totalDepth / vol;
+    for (let i = 0; i < orderedData.length; i++) orderedData[i] *= scale;
+  }
   return orderedData;
 }
 
@@ -403,6 +410,13 @@ export function generateRainfallData(
         }
       }
       
+      // Normalize volume
+      const dt = timeStep / 60;
+      const vol = orderedData.reduce((s, v) => s + v * dt, 0);
+      if (vol > 0) {
+        const scale = totalDepth / vol;
+        for (let k = 0; k < orderedData.length; k++) orderedData[k] *= scale;
+      }
       return orderedData;
     }
 
@@ -2959,6 +2973,17 @@ export function generateRainfallData(
       // Austria ÖKOSTRA — Austrian design rainfall for sewer/drainage
       // Euler Type II variant with peak at 1/3 of duration
       return chicagoVariant(totalDepth, numSteps, timeStep, duration, 0.33);
+    }
+  }
+
+  // ── Volume normalization ──
+  // Ensure total volume (sum of intensity × timeStep) equals totalDepth
+  const timeStepHours = timeStep / 60;
+  const actualVolume = data.reduce((sum, v) => sum + v * timeStepHours, 0);
+  if (actualVolume > 0 && Math.abs(actualVolume - totalDepth) / totalDepth > 0.001) {
+    const scale = totalDepth / actualVolume;
+    for (let i = 0; i < data.length; i++) {
+      data[i] *= scale;
     }
   }
 
