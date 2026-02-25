@@ -18,11 +18,11 @@ import { PatternEquationDisplay } from "@/components/PatternEquationDisplay";
 import { AllPatternsTest } from "@/components/AllPatternsTest";
 import { cn } from "@/lib/utils";
 import {
-  generateRainfallData,
   prepareChartData,
   prepareExportData,
   type PatternType,
 } from "@/lib/rainfallPatterns";
+import { useStormApi } from "@/hooks/useStormApi";
 import { type UnitSystem } from "@/lib/unitConversions";
 
 const patternNames: Record<PatternType, string> = {
@@ -262,31 +262,34 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
     setCustomIntensities(intensities);
   }, []);
 
-  // Update chart data when parameters change
+  // Fetch intensities from Storm API (with local fallback)
+  const { intensities: apiIntensities, isLoading: isApiLoading, source: dataSource } = useStormApi({
+    pattern: selectedPattern,
+    depth: effectiveDepth,
+    duration,
+    timeStep,
+    customIntensities,
+  });
+
+  // Update chart data when API intensities change
   useEffect(() => {
-    let intensities: number[];
+    if (apiIntensities.length === 0) return;
     
-    if (selectedPattern === 'custom' && customIntensities && customIntensities.length > 0) {
-      intensities = customIntensities;
-    } else {
-      intensities = generateRainfallData(selectedPattern, effectiveDepth, duration, timeStep);
-    }
-    
-    const formattedChartData = prepareChartData(intensities, timeStep);
-    const formattedExportData = prepareExportData(intensities, timeStep);
+    const formattedChartData = prepareChartData(apiIntensities, timeStep);
+    const formattedExportData = prepareExportData(apiIntensities, timeStep);
     setChartData(formattedChartData);
     setExportData(formattedExportData);
 
     // Update storm context for chatbot
-    const peak = Math.max(...intensities);
-    const peakIdx = intensities.indexOf(peak);
+    const peak = Math.max(...apiIntensities);
+    const peakIdx = apiIntensities.indexOf(peak);
     const peakTime = ((peakIdx + 1) * timeStep).toFixed(0);
     const depthUnit = unitSystem === 'SI' ? 'mm' : 'in';
     const intensityUnit = unitSystem === 'SI' ? 'mm/hr' : 'in/hr';
     const patternLabel = patternNames[selectedPattern] || selectedPattern;
-    const ctx = `Pattern: ${patternLabel}\nTotal Depth: ${effectiveDepth.toFixed(2)} ${depthUnit}\nDuration: ${duration.toFixed(1)} hr\nTime Step: ${timeStep} min\nUnit System: ${unitSystem}\nPeak Intensity: ${peak.toFixed(2)} ${intensityUnit} at t=${peakTime} min\nNumber of intervals: ${intensities.length}`;
+    const ctx = `Pattern: ${patternLabel}\nTotal Depth: ${effectiveDepth.toFixed(2)} ${depthUnit}\nDuration: ${duration.toFixed(1)} hr\nTime Step: ${timeStep} min\nUnit System: ${unitSystem}\nPeak Intensity: ${peak.toFixed(2)} ${intensityUnit} at t=${peakTime} min\nNumber of intervals: ${apiIntensities.length}\nData source: ${dataSource}`;
     onStormContextChange?.(ctx);
-  }, [selectedPattern, effectiveDepth, duration, timeStep, customIntensities, unitSystem, onStormContextChange]);
+  }, [apiIntensities, timeStep, unitSystem, selectedPattern, effectiveDepth, duration, dataSource, onStormContextChange]);
 
   // Calculate peak intensity for IDF comparison
   const peakIntensity = useMemo(() => {
@@ -648,7 +651,17 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
             </Card>
 
             {/* Chart */}
-            <RainfallChart data={chartData} unitSystem={unitSystem} />
+            <div className="relative">
+              <RainfallChart data={chartData} unitSystem={unitSystem} />
+              <div className="flex items-center gap-2 mt-1 justify-end">
+                {isApiLoading && (
+                  <span className="text-xs text-muted-foreground animate-pulse">Syncing with API…</span>
+                )}
+                <Badge variant="outline" className="text-xs">
+                  {dataSource === "api" ? "☁ API" : "⚡ Local"}
+                </Badge>
+              </div>
+            </div>
 
             {/* Export Options */}
             <ExportButtons
