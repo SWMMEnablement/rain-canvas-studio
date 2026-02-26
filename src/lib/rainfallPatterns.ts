@@ -139,152 +139,40 @@ export function generateRainfallData(
     }
 
     case 'scs1': {
-      // SCS Type I distribution - Pacific maritime climate
-      // Peak occurs earlier (around 40% of duration)
-      for (let i = 0; i < numSteps; i++) {
-        const t = i / numSteps;
-        let cumulativeFraction: number;
-        
-        // SCS Type I cumulative distribution approximation
-        if (t <= 0.4) {
-          cumulativeFraction = 0.50 * Math.pow(t / 0.4, 0.8);
-        } else if (t <= 0.6) {
-          cumulativeFraction = 0.50 + 0.35 * ((t - 0.4) / 0.2);
-        } else {
-          cumulativeFraction = 0.85 + 0.15 * ((t - 0.6) / 0.4);
-        }
-        
-        const nextT = Math.min((i + 1) / numSteps, 1.0);
-        let nextCumulative: number;
-        
-        if (nextT <= 0.4) {
-          nextCumulative = 0.50 * Math.pow(nextT / 0.4, 0.8);
-        } else if (nextT <= 0.6) {
-          nextCumulative = 0.50 + 0.35 * ((nextT - 0.4) / 0.2);
-        } else {
-          nextCumulative = 0.85 + 0.15 * ((nextT - 0.6) / 0.4);
-        }
-        
-        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
-        const intensity = incrementalDepth / (timeStep / 60);
-        data.push(intensity);
-      }
-      break;
+      // SCS Type I — NRCS TR-55 tabulated mass curve (24-hr)
+      const scs1T = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
+      const scs1D = [0, 0.017, 0.035, 0.054, 0.076, 0.100, 0.125, 0.156, 0.194, 0.254, 0.515, 0.583, 0.624, 0.654, 0.682, 0.706, 0.727, 0.748, 0.767, 0.785, 0.804, 0.830, 0.860, 0.928, 1.0];
+      return applyDimensionlessCurve(scs1T, scs1D, totalDepth, numSteps, timeStep);
     }
 
     case 'scs1a': {
-      // SCS Type IA distribution - Pacific Northwest coastal
-      // Very early peak (around 35% of duration)
-      for (let i = 0; i < numSteps; i++) {
-        const t = i / numSteps;
-        let cumulativeFraction: number;
-        
-        // SCS Type IA cumulative distribution approximation
-        if (t <= 0.35) {
-          cumulativeFraction = 0.55 * Math.pow(t / 0.35, 0.75);
-        } else if (t <= 0.55) {
-          cumulativeFraction = 0.55 + 0.30 * ((t - 0.35) / 0.2);
-        } else {
-          cumulativeFraction = 0.85 + 0.15 * ((t - 0.55) / 0.45);
-        }
-        
-        const nextT = Math.min((i + 1) / numSteps, 1.0);
-        let nextCumulative: number;
-        
-        if (nextT <= 0.35) {
-          nextCumulative = 0.55 * Math.pow(nextT / 0.35, 0.75);
-        } else if (nextT <= 0.55) {
-          nextCumulative = 0.55 + 0.30 * ((nextT - 0.35) / 0.2);
-        } else {
-          nextCumulative = 0.85 + 0.15 * ((nextT - 0.55) / 0.45);
-        }
-        
-        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
-        const intensity = incrementalDepth / (timeStep / 60);
-        data.push(intensity);
-      }
-      break;
+      // SCS Type IA — NRCS TR-55 tabulated mass curve (24-hr)
+      const scs1aT = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
+      const scs1aD = [0, 0.020, 0.050, 0.082, 0.116, 0.156, 0.206, 0.268, 0.425, 0.480, 0.520, 0.550, 0.577, 0.601, 0.624, 0.645, 0.664, 0.683, 0.701, 0.719, 0.736, 0.753, 0.771, 0.854, 1.0];
+      return applyDimensionlessCurve(scs1aT, scs1aD, totalDepth, numSteps, timeStep);
     }
 
     case 'scs2': {
-      // SCS Type II distribution - Most of US (moderate climate)
-      // Peak at approximately 50% of duration
-      for (let i = 0; i < numSteps; i++) {
-        const t = i / numSteps;
-        let cumulativeFraction: number;
-        
-        // SCS Type II cumulative distribution approximation
-        if (t <= 0.5) {
-          cumulativeFraction = 0.35 * Math.pow(t / 0.5, 0.9);
-        } else if (t <= 0.6) {
-          cumulativeFraction = 0.35 + 0.45 * ((t - 0.5) / 0.1);
-        } else {
-          cumulativeFraction = 0.80 + 0.20 * ((t - 0.6) / 0.4);
-        }
-        
-        const nextT = Math.min((i + 1) / numSteps, 1.0);
-        let nextCumulative: number;
-        
-        if (nextT <= 0.5) {
-          nextCumulative = 0.35 * Math.pow(nextT / 0.5, 0.9);
-        } else if (nextT <= 0.6) {
-          nextCumulative = 0.35 + 0.45 * ((nextT - 0.5) / 0.1);
-        } else {
-          nextCumulative = 0.80 + 0.20 * ((nextT - 0.6) / 0.4);
-        }
-        
-        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
-        const intensity = incrementalDepth / (timeStep / 60);
-        data.push(intensity);
-      }
-      break;
+      // SCS Type II — NRCS TR-55 tabulated mass curve (24-hr)
+      // Sharp peak at t=0.5 (hour 12): 34% of rainfall in central 1-hour window
+      const scs2T = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
+      const scs2D = [0, 0.011, 0.022, 0.035, 0.048, 0.063, 0.080, 0.098, 0.120, 0.147, 0.181, 0.235, 0.663, 0.735, 0.772, 0.799, 0.820, 0.838, 0.854, 0.868, 0.880, 0.893, 0.907, 0.952, 1.0];
+      return applyDimensionlessCurve(scs2T, scs2D, totalDepth, numSteps, timeStep);
     }
 
     case 'scs3': {
-      // SCS Type III distribution - Gulf Coast and high rainfall areas
-      // Very sharp peak at approximately 50% of duration
-      for (let i = 0; i < numSteps; i++) {
-        const t = i / numSteps;
-        let cumulativeFraction: number;
-        
-        // SCS Type III cumulative distribution approximation
-        if (t <= 0.5) {
-          cumulativeFraction = 0.25 * Math.pow(t / 0.5, 1.0);
-        } else if (t <= 0.58) {
-          cumulativeFraction = 0.25 + 0.50 * ((t - 0.5) / 0.08);
-        } else {
-          cumulativeFraction = 0.75 + 0.25 * ((t - 0.58) / 0.42);
-        }
-        
-        const nextT = Math.min((i + 1) / numSteps, 1.0);
-        let nextCumulative: number;
-        
-        if (nextT <= 0.5) {
-          nextCumulative = 0.25 * Math.pow(nextT / 0.5, 1.0);
-        } else if (nextT <= 0.58) {
-          nextCumulative = 0.25 + 0.50 * ((nextT - 0.5) / 0.08);
-        } else {
-          nextCumulative = 0.75 + 0.25 * ((nextT - 0.58) / 0.42);
-        }
-        
-        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
-        const intensity = incrementalDepth / (timeStep / 60);
-        data.push(intensity);
-      }
-      break;
+      // SCS Type III — NRCS TR-55 tabulated mass curve (24-hr)
+      const scs3T = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
+      const scs3D = [0, 0.010, 0.022, 0.036, 0.050, 0.067, 0.085, 0.106, 0.130, 0.158, 0.189, 0.250, 0.500, 0.702, 0.751, 0.785, 0.811, 0.834, 0.853, 0.870, 0.886, 0.900, 0.917, 0.952, 1.0];
+      return applyDimensionlessCurve(scs3T, scs3D, totalDepth, numSteps, timeStep);
     }
 
     case 'double': {
-      // Double peak distribution
-      for (let i = 0; i < numSteps; i++) {
-        const t = i / numSteps;
-        // Two Gaussian peaks
-        const peak1 = 2.5 * Math.exp(-Math.pow((t - 0.3) / 0.08, 2));
-        const peak2 = 2.0 * Math.exp(-Math.pow((t - 0.7) / 0.08, 2));
-        const intensity = (totalDepth / duration) * (peak1 + peak2) * 0.8;
-        data.push(intensity);
-      }
-      break;
+      // Double peak distribution — two clearly separated peaks with distinct valley
+      // Tabulated dimensionless mass curve ensuring visible bimodal shape at any resolution
+      const dpT = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const dpD = [0, 0.01, 0.04, 0.12, 0.28, 0.40, 0.46, 0.48, 0.49, 0.495, 0.50, 0.505, 0.51, 0.52, 0.54, 0.60, 0.72, 0.88, 0.96, 0.99, 1.0];
+      return applyDimensionlessCurve(dpT, dpD, totalDepth, numSteps, timeStep);
     }
 
     case 'custom': {
