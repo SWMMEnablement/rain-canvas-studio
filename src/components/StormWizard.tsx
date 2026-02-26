@@ -170,6 +170,17 @@ const patternNames: Record<PatternType, string> = {
   'bolivia_altiplano': 'Bolivia Altiplano',
   'fourier_multipeak': 'Fourier Multi-Peak',
   'cc_idf_scaled': 'CC-IDF Scaled',
+  // v6 patterns
+  'g2p_gamma': 'G2P Gamma',
+  'poland_bs': 'Poland Bogdanowicz-Stachy',
+  'belgium_willems': 'Belgium Willems',
+  'russia_snip': 'Russia SNiP',
+  'turkey_dsi': 'Turkey DSİ',
+  'korea_molit': 'Korea MOLIT',
+  'greece_hellenic': 'Greece Hellenic',
+  'romania_stas': 'Romania STAS',
+  'pmp_wmo': 'PMP WMO Generalized',
+  'nested_envelope': 'Nested Envelope',
 };
 
 interface WizardStep {
