@@ -168,19 +168,19 @@ export function generateRainfallData(
     }
 
     case 'double': {
-      // Double peak distribution — two clearly separated intensity peaks
+      // Double peak distribution — two sharp, clearly separated intensity peaks
       // Peak 1 centred at ~20%, Peak 2 at ~80%, with a ZERO-intensity plateau
-      // from 35-65% of the duration so both peaks are visible even at 1h / 12 steps.
+      // from 30-70% of the duration so both peaks are unmistakable even at 1h.
       // Each peak carries 50% of the total depth.
       const dpT = [
-        0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35,
-        0.65,
-        0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0
+        0,    0.08, 0.12, 0.16, 0.20, 0.24, 0.28, 0.30,
+        0.70,
+        0.72, 0.76, 0.80, 0.84, 0.88, 0.92, 1.0
       ];
       const dpD = [
-        0, 0.02, 0.10, 0.28, 0.45, 0.49, 0.50, 0.50,
+        0,    0.02, 0.08, 0.25, 0.42, 0.48, 0.50, 0.50,
         0.50,
-        0.51, 0.55, 0.72, 0.90, 0.98, 1.00, 1.0
+        0.50, 0.52, 0.58, 0.75, 0.92, 0.98, 1.0
       ];
       return applyDimensionlessCurve(dpT, dpD, totalDepth, numSteps, timeStep);
     }
