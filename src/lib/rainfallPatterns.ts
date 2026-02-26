@@ -26,7 +26,9 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   | 'turkey_dsi' | 'korea_molit' | 'greece_hellenic' | 'romania_stas'
   | 'pmp_wmo' | 'nested_envelope'
   // v7 — Niche patterns
-  | 'arnell_sweden' | 'tenax_cds' | 'avm';
+  | 'arnell_sweden' | 'tenax_cds' | 'avm'
+  // v8 — South African SCS Types
+  | 'sa_scs1' | 'sa_scs2' | 'sa_scs3' | 'sa_scs4';
 
 // ─── Helper functions for pattern generation ───
 
@@ -3384,6 +3386,39 @@ export function generateRainfallData(
         data[i] = 0.15 + Math.exp(-4.5 * Math.pow(t - 0.45, 2));
       }
       break;
+    }
+
+    case 'sa_scs1': {
+      // SCS-SA Type 1 — Coastal/orographic, lowest concentration (flattest)
+      // Adapted from US SCS for South Africa by Schulze (1984), Weddepohl (1988)
+      // Symmetrical 24-hour storm, D-hour/24-hour ratio range: lowest
+      const saScs1T = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.479, 0.500, 0.521, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
+      const saScs1P = [0, 0.010, 0.022, 0.036, 0.051, 0.069, 0.089, 0.115, 0.148, 0.189, 0.240, 0.310, 0.370, 0.500, 0.630, 0.690, 0.760, 0.811, 0.852, 0.885, 0.911, 0.931, 0.949, 0.964, 0.978, 0.990, 1.0];
+      return applyDimensionlessCurve(saScs1T, saScs1P, totalDepth, numSteps, timeStep);
+    }
+
+    case 'sa_scs2': {
+      // SCS-SA Type 2 — Moderate concentration (inland transitional)
+      // Schulze (1984), Weddepohl (1988) — symmetrical about center
+      const saScs2T = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.479, 0.500, 0.521, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
+      const saScs2P = [0, 0.008, 0.017, 0.028, 0.041, 0.056, 0.074, 0.098, 0.130, 0.172, 0.228, 0.310, 0.385, 0.500, 0.615, 0.690, 0.772, 0.828, 0.870, 0.902, 0.926, 0.944, 0.959, 0.972, 0.983, 0.992, 1.0];
+      return applyDimensionlessCurve(saScs2T, saScs2P, totalDepth, numSteps, timeStep);
+    }
+
+    case 'sa_scs3': {
+      // SCS-SA Type 3 — Higher concentration (inland convective)
+      // Schulze (1984), Weddepohl (1988) — sharper center peak
+      const saScs3T = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.479, 0.500, 0.521, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
+      const saScs3P = [0, 0.006, 0.013, 0.022, 0.033, 0.046, 0.062, 0.083, 0.113, 0.155, 0.215, 0.310, 0.400, 0.500, 0.600, 0.690, 0.785, 0.845, 0.887, 0.917, 0.938, 0.954, 0.967, 0.978, 0.987, 0.994, 1.0];
+      return applyDimensionlessCurve(saScs3T, saScs3P, totalDepth, numSteps, timeStep);
+    }
+
+    case 'sa_scs4': {
+      // SCS-SA Type 4 — Highest concentration (extreme convective, Highveld)
+      // Schulze (1984), Weddepohl (1988) — steepest center peak
+      const saScs4T = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.479, 0.500, 0.521, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
+      const saScs4P = [0, 0.005, 0.010, 0.017, 0.026, 0.037, 0.051, 0.070, 0.098, 0.140, 0.204, 0.310, 0.415, 0.500, 0.585, 0.690, 0.796, 0.860, 0.902, 0.930, 0.949, 0.963, 0.974, 0.983, 0.990, 0.995, 1.0];
+      return applyDimensionlessCurve(saScs4T, saScs4P, totalDepth, numSteps, timeStep);
     }
   }
 

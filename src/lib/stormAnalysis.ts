@@ -212,6 +212,10 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   arnell_sweden: { name: 'Arnell (Sweden)', peakPosition: 0.33, description: 'Swedish historical 1982 predecessor' },
   tenax_cds: { name: 'TENAX-CDS', peakPosition: 0.40, description: 'Climate-adapted Chicago design storm' },
   avm: { name: 'Average Variability', peakPosition: 0.45, description: 'Averaged observed storm patterns' },
+  sa_scs1: { name: 'SA SCS Type 1', peakPosition: 0.50, description: 'South African SCS Type 1 — coastal/orographic, lowest concentration' },
+  sa_scs2: { name: 'SA SCS Type 2', peakPosition: 0.50, description: 'South African SCS Type 2 — moderate concentration' },
+  sa_scs3: { name: 'SA SCS Type 3', peakPosition: 0.50, description: 'South African SCS Type 3 — inland convective' },
+  sa_scs4: { name: 'SA SCS Type 4', peakPosition: 0.50, description: 'South African SCS Type 4 — extreme convective Highveld' },
 };
 
 /**

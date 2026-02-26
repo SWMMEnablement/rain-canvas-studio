@@ -49,6 +49,9 @@ export const TAXONOMY_TREE: TaxonomyNode[] = [
       {
         id: '2.2', label: 'SCS/NRCS Type Curves',
         patterns: ['scs1', 'scs1a', 'scs2', 'scs3'],
+        children: [
+          { id: '2.2.1', label: 'SCS-SA (South Africa)', patterns: ['sa_scs1', 'sa_scs2', 'sa_scs3', 'sa_scs4'] },
+        ],
       },
       {
         id: '2.3', label: 'Average Variability / Ensemble',
@@ -197,6 +200,11 @@ export const COMPARISON_DATA: ComparisonRow[] = [
   { id: 'china', name: 'China Design Storm', taxonomyClass: '3.1', region: 'China', idfRequired: 'Yes', temporalRes: 'Any', durationRange: '0.5–24h', keyParams: 'P&C formula, r', peakPosition: 'variable', advancementRatio: '0.35–0.45', nestedIdf: false, dimensionless: false, sourceDoc: 'GB 50014', equationFamily: 'Keifer-Chu', useCase: 'Chinese urban drainage', swmmCompat: 'Direct', icmCompat: 'Conversion' },
   { id: 'pmp_hmr', name: 'PMP (HMR 51/52)', taxonomyClass: '3.5', region: 'United States', idfRequired: 'No', temporalRes: 'Any', durationRange: '6–72h', keyParams: 'Basin area, Tr', peakPosition: 'center', advancementRatio: 'N/A', nestedIdf: true, dimensionless: false, sourceDoc: 'HMR 51/52 (NWS)', equationFamily: 'ABM', useCase: 'Dam safety / PMP', swmmCompat: 'Conversion', icmCompat: 'Conversion' },
   { id: 'txdot', name: 'TxDOT', taxonomyClass: '4.2', region: 'Texas, US', idfRequired: 'No', temporalRes: 'Any', durationRange: '5–24h', keyParams: 'a, b (regional)', peakPosition: 'front', advancementRatio: '~0.02', nestedIdf: false, dimensionless: true, sourceDoc: 'TxDOT HDM', equationFamily: 'SCS', useCase: 'Texas highways', swmmCompat: 'Direct', icmCompat: 'Conversion' },
+  // South African SCS Types
+  { id: 'sa_scs1', name: 'SA SCS Type 1', taxonomyClass: '2.2', region: 'South Africa', idfRequired: 'No', temporalRes: '5-min', durationRange: '24h', keyParams: 'P₂₄', peakPosition: 'center', advancementRatio: '0.50', nestedIdf: false, dimensionless: true, sourceDoc: 'Schulze 1984, Weddepohl 1988', equationFamily: 'SCS', useCase: 'SA coastal/orographic', swmmCompat: 'Direct', icmCompat: 'Conversion' },
+  { id: 'sa_scs2', name: 'SA SCS Type 2', taxonomyClass: '2.2', region: 'South Africa', idfRequired: 'No', temporalRes: '5-min', durationRange: '24h', keyParams: 'P₂₄', peakPosition: 'center', advancementRatio: '0.50', nestedIdf: false, dimensionless: true, sourceDoc: 'Schulze 1984, Weddepohl 1988', equationFamily: 'SCS', useCase: 'SA inland transitional', swmmCompat: 'Direct', icmCompat: 'Conversion' },
+  { id: 'sa_scs3', name: 'SA SCS Type 3', taxonomyClass: '2.2', region: 'South Africa', idfRequired: 'No', temporalRes: '5-min', durationRange: '24h', keyParams: 'P₂₄', peakPosition: 'center', advancementRatio: '0.50', nestedIdf: false, dimensionless: true, sourceDoc: 'Schulze 1984, Weddepohl 1988', equationFamily: 'SCS', useCase: 'SA inland convective', swmmCompat: 'Direct', icmCompat: 'Conversion' },
+  { id: 'sa_scs4', name: 'SA SCS Type 4', taxonomyClass: '2.2', region: 'South Africa', idfRequired: 'No', temporalRes: '5-min', durationRange: '24h', keyParams: 'P₂₄', peakPosition: 'center', advancementRatio: '0.50', nestedIdf: false, dimensionless: true, sourceDoc: 'Schulze 1984, Weddepohl 1988', equationFamily: 'SCS', useCase: 'SA extreme convective Highveld', swmmCompat: 'Direct', icmCompat: 'Conversion' },
 ];
 
 // ── Equation Family Registry ──
@@ -267,10 +275,10 @@ export const EQUATION_FAMILIES: EquationFamily[] = [
     ],
     variables: [
       { symbol: 'P_{24}', meaning: 'Total 24-hour depth' },
-      { symbol: 'f_{SCS}', meaning: 'Tabulated cumulative fraction for type I/IA/II/III' },
+      { symbol: 'f_{SCS}', meaning: 'Tabulated cumulative fraction for type I/IA/II/III or SA Type 1–4' },
     ],
-    members: ['SCS Type I', 'SCS Type IA', 'SCS Type II', 'SCS Type III', 'TxDOT'],
-    notes: '24-hour duration with ~30 min of peak intensity near center. TR-55 standard since 1986.',
+    members: ['SCS Type I', 'SCS Type IA', 'SCS Type II', 'SCS Type III', 'TxDOT', 'SA SCS Type 1', 'SA SCS Type 2', 'SA SCS Type 3', 'SA SCS Type 4'],
+    notes: '24-hour duration with ~30 min of peak intensity near center. TR-55 standard since 1986. South African adaptation by Schulze (1984) and Weddepohl (1988) created 4 symmetrical types based on D-hour/24-hour ratios.',
   },
   {
     id: 'huff', name: 'Family 5: Huff Curves',
