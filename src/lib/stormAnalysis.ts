@@ -170,6 +170,25 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   hk_dsd_2018: { name: 'HK DSD 2018', peakPosition: 0.25, description: 'HK Stormwater Drainage Manual 5th ed.' },
   malaysia_hp1: { name: 'Malaysia HP1', peakPosition: 0.40, description: 'Hydrological Procedure No.1 (2015)' },
   austria_okostra: { name: 'Austria ÖKOSTRA', peakPosition: 0.33, description: 'Austrian ÖKOSTRA design rainfall' },
+  // v4 patterns
+  france_shypre: { name: 'France SHYPRE', peakPosition: 0.35, description: 'French SHYPRE stochastic hyetograph' },
+  poland_panda: { name: 'Poland PANDa', peakPosition: 0.40, description: 'Polish national precipitation atlas' },
+  turkey_mgm: { name: 'Turkey MGM', peakPosition: 0.38, description: 'Turkish meteorological IDF' },
+  israel_ims: { name: 'Israel IMS', peakPosition: 0.30, description: 'Israeli arid/semi-arid convective' },
+  iran_irimo: { name: 'Iran IRIMO', peakPosition: 0.35, description: 'Iranian meteorological IDF' },
+  iraq_mos: { name: 'Iraq MoS', peakPosition: 0.32, description: 'Iraqi Tigris-Euphrates basin' },
+  kazakhstan_kazhydromet: { name: 'Kazakhstan Kazhydromet', peakPosition: 0.42, description: 'Central Asian continental' },
+  russia_roshydromet: { name: 'Russia Roshydromet', peakPosition: 0.40, description: 'Russian continental IDF' },
+  portugal_ipma: { name: 'Portugal IPMA', peakPosition: 0.40, description: 'Portuguese Mediterranean IDF' },
+  nz_niwa: { name: 'NZ NIWA', peakPosition: 0.45, description: 'NZ national NIWA standard' },
+  csa_w231: { name: 'CSA W231', peakPosition: 0.45, description: 'Canadian climate-adjusted IDF' },
+  sa_wrc: { name: 'SA WRC', peakPosition: 0.38, description: 'South African Water Research Commission' },
+  west_africa_cilss: { name: 'West Africa CILSS', peakPosition: 0.28, description: 'Sahel AGRHYMET convective squall' },
+  noaa_a16: { name: 'NOAA Atlas 16', peakPosition: 0.50, description: 'Next-gen NOAA western US atlas' },
+  euro_cordex: { name: 'EURO-CORDEX', peakPosition: 0.48, description: 'Climate-downscaled European ensemble' },
+  mongolia_namem: { name: 'Mongolia NAMEM', peakPosition: 0.35, description: 'High-altitude cold-arid continental' },
+  pacific_sprep: { name: 'Pacific SPREP', peakPosition: 0.22, description: 'Pacific SIDS tropical cyclone' },
+  czech_chmu: { name: 'Czech ČHMÚ', peakPosition: 0.38, description: 'Czech modern hydrometeorological' },
 };
 
 /**

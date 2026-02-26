@@ -143,6 +143,25 @@ const patternNames: Record<PatternType, string> = {
   'hk_dsd_2018': 'HK DSD 2018',
   'malaysia_hp1': 'Malaysia HP1',
   'austria_okostra': 'Austria ÖKOSTRA',
+  // v4 patterns
+  'france_shypre': 'France SHYPRE',
+  'poland_panda': 'Poland PANDa',
+  'turkey_mgm': 'Turkey MGM',
+  'israel_ims': 'Israel IMS',
+  'iran_irimo': 'Iran IRIMO',
+  'iraq_mos': 'Iraq MoS',
+  'kazakhstan_kazhydromet': 'Kazakhstan Kazhydromet',
+  'russia_roshydromet': 'Russia Roshydromet',
+  'portugal_ipma': 'Portugal IPMA',
+  'nz_niwa': 'NZ NIWA',
+  'csa_w231': 'CSA W231 (Canada)',
+  'sa_wrc': 'South Africa WRC',
+  'west_africa_cilss': 'West Africa CILSS',
+  'noaa_a16': 'NOAA Atlas 16',
+  'euro_cordex': 'EURO-CORDEX',
+  'mongolia_namem': 'Mongolia NAMEM',
+  'pacific_sprep': 'Pacific SPREP',
+  'czech_chmu': 'Czech ČHMÚ',
 };
 
 interface WizardStep {
