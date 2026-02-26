@@ -168,20 +168,19 @@ export function generateRainfallData(
     }
 
     case 'double': {
-      // Double peak distribution — two clearly separated peaks with distinct valley
-      // Tabulated dimensionless mass curve with pronounced bimodal shape at any resolution
-      // Peak 1 at ~25% of duration, Peak 2 at ~75%, deep valley centred at 50%
-      // Steep peaks at ~20% and ~80%, near-zero valley from 40-60%
-      // Each peak carries ~50% of total depth with a flat plateau between them
+      // Double peak distribution — two clearly separated intensity peaks
+      // Peak 1 centred at ~20%, Peak 2 at ~80%, with a ZERO-intensity plateau
+      // from 35-65% of the duration so both peaks are visible even at 1h / 12 steps.
+      // Each peak carries 50% of the total depth.
       const dpT = [
         0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35,
-        0.40, 0.45, 0.50, 0.55, 0.60,
-        0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0
+        0.65,
+        0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0
       ];
       const dpD = [
-        0, 0.01, 0.06, 0.20, 0.40, 0.48, 0.495, 0.499,
-        0.500, 0.501, 0.502, 0.503, 0.504,
-        0.506, 0.52, 0.56, 0.64, 0.80, 0.94, 0.99, 1.0
+        0, 0.02, 0.10, 0.28, 0.45, 0.49, 0.50, 0.50,
+        0.50,
+        0.51, 0.55, 0.72, 0.90, 0.98, 1.00, 1.0
       ];
       return applyDimensionlessCurve(dpT, dpD, totalDepth, numSteps, timeStep);
     }
