@@ -808,6 +808,62 @@ export function PatternComparison({ depth: totalDepth, duration, timeStep, unitS
         yPosition += 5;
       });
 
+      // ─── Peak Intensity Bar Chart ───
+      pdf.addPage();
+      yPosition = margin;
+
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(0, 0, 0);
+      pdf.text('Peak Intensity Distribution', margin, yPosition);
+      yPosition += 8;
+
+      const statsEntries = Object.entries(patternStats)
+        .sort((a, b) => b[1].peakIntensity - a[1].peakIntensity);
+      const maxPeak = statsEntries.length > 0 ? statsEntries[0][1].peakIntensity : 1;
+      const barAreaWidth = pageWidth - 2 * margin - 45; // space for labels
+      const barHeight = Math.min(5, Math.max(2.5, (pageHeight - 2 * margin - 20) / statsEntries.length));
+      const barGap = Math.max(0.5, barHeight * 0.15);
+
+      statsEntries.forEach(([name, stats], idx) => {
+        if (yPosition > pageHeight - margin - 10) {
+          pdf.addPage();
+          yPosition = margin;
+          pdf.setFontSize(12);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setTextColor(0, 0, 0);
+          pdf.text('Peak Intensity Distribution (continued)', margin, yPosition);
+          yPosition += 8;
+        }
+
+        const shortName = name.length > 16 ? name.substring(0, 13) + '...' : name;
+        const barWidth = (stats.peakIntensity / maxPeak) * barAreaWidth;
+        const matchedPattern = comparisonPatterns.find(p => p.name === name);
+        const hex = matchedPattern?.color || '#3b82f6';
+        const color = {
+          r: parseInt(hex.slice(1, 3), 16),
+          g: parseInt(hex.slice(3, 5), 16),
+          b: parseInt(hex.slice(5, 7), 16),
+        };
+
+        // Label
+        pdf.setFontSize(7);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setTextColor(60, 60, 60);
+        pdf.text(shortName, margin, yPosition + barHeight * 0.7);
+
+        // Bar
+        pdf.setFillColor(color.r, color.g, color.b);
+        pdf.rect(margin + 42, yPosition, barWidth, barHeight, 'F');
+
+        // Value label
+        pdf.setFontSize(6);
+        pdf.setTextColor(80, 80, 80);
+        pdf.text(`${stats.peakIntensity} in/hr`, margin + 42 + barWidth + 2, yPosition + barHeight * 0.7);
+
+        yPosition += barHeight + barGap;
+      });
+
       // Footer
       const totalPages = pdf.internal.pages.length - 1;
       for (let i = 1; i <= totalPages; i++) {
