@@ -3102,6 +3102,77 @@ export function Documentation() {
           </div>
         </CardContent>
       </Card>
+
+      {/* References & Acknowledgments */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <BookOpen className="w-5 h-5" />
+            References &amp; Acknowledgments
+          </CardTitle>
+          <CardDescription>Key sources, tools, and standards referenced in this application</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-3">
+            <h4 className="text-sm font-semibold text-foreground">Verification & Reference Tools</h4>
+            <div className="p-3 rounded-lg border bg-muted/30 space-y-1">
+              <p className="text-sm font-medium text-foreground">
+                Vaterlaus, R. — Design Storm Visualisation Tool
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Interactive open-source reference for design storm temporal distributions including SCS, Chicago, Euler, and ABS methods. Used for visual verification of curve shapes and peak characteristics.
+              </p>
+              <a
+                href="https://rossv.github.io/designstorms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+              >
+                rossv.github.io/designstorms
+                <Globe className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h4 className="text-sm font-semibold text-foreground">Primary Standards</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>USDA NRCS — <em>TR-55: Urban Hydrology for Small Watersheds</em> (1986). Source for SCS Type I, IA, II, III distributions.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Keifer, C.J. &amp; Chu, H.H. — "Synthetic Storm Pattern for Drainage Design," <em>Journal of the Hydraulics Division, ASCE</em>, 83(4), 1957. Source for Chicago Storm method.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Huff, F.A. — "Time Distribution of Rainfall in Heavy Storms," <em>Water Resources Research</em>, 3(4), 1967. Source for Huff quartile distributions.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Pilgrim, D.H. &amp; Cordery, I. — <em>Australian Rainfall and Runoff</em> (ARR), 1987 / 2019 revision. Source for ARR temporal patterns.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>DWA — <em>DWA-A 118: Hydraulische Bemessung und Nachweis von Entwässerungssystemen</em>. Source for Euler Type I/II distributions.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Yen, B.C. &amp; Chow, V.T. — "Design Hyetographs for Small Drainage Structures," <em>Journal of the Hydraulics Division, ASCE</em>, 106(6), 1980. Source for Alternating Block method.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="p-3 rounded-lg border border-primary/20 bg-primary/5 text-sm text-muted-foreground">
+            <p>
+              <strong className="text-foreground">Disclaimer:</strong> This tool is provided for educational and preliminary engineering purposes. 
+              All design storm parameters and calculations should be verified against local regulatory requirements and current editions 
+              of the referenced standards before use in final engineering design.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
