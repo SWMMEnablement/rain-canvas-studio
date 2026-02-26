@@ -21,14 +21,19 @@ function frontLoaded(n: number, rate = 3.5): number[] {
   return raw.map((v) => v / max);
 }
 
-/** Generate a double-peak shape */
-function doublePeak(n: number, p1 = 0.3, p2 = 0.75): number[] {
+/** Generate a double-peak shape with a clear zero-intensity valley */
+function doublePeak(n: number, p1 = 0.2, p2 = 0.8): number[] {
   const vals: number[] = [];
   for (let i = 0; i < n; i++) {
     const t = (i + 0.5) / n;
-    const v1 = 1 / (0.1 + Math.abs(t - p1) * 5) ** 1.3;
-    const v2 = 0.7 / (0.1 + Math.abs(t - p2) * 5) ** 1.3;
-    vals.push(v1 + v2);
+    // Zero-intensity plateau between 30% and 70%
+    if (t >= 0.30 && t <= 0.70) {
+      vals.push(0);
+    } else {
+      const v1 = Math.exp(-((t - p1) ** 2) / 0.005);
+      const v2 = Math.exp(-((t - p2) ** 2) / 0.005);
+      vals.push(v1 + v2);
+    }
   }
   return normalizeToCumulative(vals);
 }
@@ -100,7 +105,7 @@ const PATTERN_SHAPES: Record<string, { label: string; ratios: number[] }> = {
   },
   "Double Peak": {
     label: "Double Peak — dual convective cells",
-    ratios: doublePeak(48, 0.3, 0.7),
+    ratios: doublePeak(48, 0.2, 0.8),
   },
   "Custom": {
     label: "Custom — user-defined distribution",
