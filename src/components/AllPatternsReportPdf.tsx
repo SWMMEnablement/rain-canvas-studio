@@ -141,6 +141,53 @@ export function AllPatternsReportPdf({ depth, duration, timeStep, unitSystem }: 
       });
       y += 8;
 
+      // ── Category Breakdown ──
+      const catMap = new Map<string, { total: number; passed: number }>();
+      rows.forEach(r => {
+        const label = categoryLabels[r.category] || r.category;
+        const entry = catMap.get(label) || { total: 0, passed: 0 };
+        entry.total++;
+        if (r.pass) entry.passed++;
+        catMap.set(label, entry);
+      });
+      const catRows = Array.from(catMap.entries()).sort((a, b) => b[1].total - a[1].total);
+
+      pdf.setFontSize(11);
+      pdf.setFont("helvetica", "bold");
+      pdf.setTextColor(30, 64, 175);
+      pdf.text("Category Breakdown", margin, y);
+      y += 6;
+
+      const catColW = [contentW * 0.35, contentW * 0.15, contentW * 0.15, contentW * 0.15, contentW * 0.20];
+      const catHeaders = ["Region", "Total", "Passed", "Failed", "Status"];
+      pdf.setFillColor(30, 64, 175);
+      pdf.rect(margin, y, contentW, 5.5, "F");
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFontSize(7.5);
+      let cx = margin;
+      catHeaders.forEach((h, i) => { pdf.text(h, cx + 2, y + 3.8); cx += catColW[i]; });
+      y += 5.5;
+
+      pdf.setFontSize(7.5);
+      catRows.forEach(([label, { total, passed }], i) => {
+        const failed = total - passed;
+        const bg = i % 2 === 0 ? 245 : 255;
+        pdf.setFillColor(bg, bg, bg);
+        pdf.rect(margin, y, contentW, 5, "F");
+        pdf.setFont("helvetica", "normal");
+        pdf.setTextColor(50, 50, 50);
+        cx = margin;
+        pdf.text(label, cx + 2, y + 3.5); cx += catColW[0];
+        pdf.text(`${total}`, cx + 2, y + 3.5); cx += catColW[1];
+        pdf.text(`${passed}`, cx + 2, y + 3.5); cx += catColW[2];
+        pdf.text(`${failed}`, cx + 2, y + 3.5); cx += catColW[3];
+        pdf.setFont("helvetica", "bold");
+        pdf.setTextColor(failed === 0 ? 22 : 220, failed === 0 ? 163 : 38, failed === 0 ? 74 : 38);
+        pdf.text(failed === 0 ? "✓ ALL PASS" : `✗ ${failed} FAIL`, cx + 2, y + 3.5);
+        y += 5;
+      });
+      y += 8;
+
       // ── Results table ──
       const colWidths = [
         contentW * 0.06,  // #
