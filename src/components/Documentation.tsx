@@ -3161,6 +3161,38 @@ export function Documentation() {
                 <span className="text-primary mt-0.5">•</span>
                 <span>Yen, B.C. &amp; Chow, V.T. — "Design Hyetographs for Small Drainage Structures," <em>Journal of the Hydraulics Division, ASCE</em>, 106(6), 1980. Source for Alternating Block method.</span>
               </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Japan Meteorological Agency (JMA) — <em>AMeDAS Rainfall Analysis Guidelines</em>, 2020. Source for JMA and AMeDAS temporal patterns based on 1,300+ automated stations.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Kimura, T. &amp; Nakakita, E. — "Typhoon Rainfall Temporal Patterns from JMA Radar-AMeDAS," <em>Journal of Japan Society of Civil Engineers, Ser. B1 (Hydraulic Engineering)</em>, 74(4), 2018. Source for Japan Typhoon and Baiu (梅雨) frontal rain patterns.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Korean Meteorological Administration (KMA) / Ministry of Environment — <em>Urban Flood Control Design Standards</em>, 2019. Source for KMA standard and Huff-KMA temporal distributions.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>India Meteorological Department (IMD) — <em>Rainfall Atlas of India</em>, 2020. Source for IMD monsoon and India Coastal cyclonic temporal patterns based on 6,000+ raingauges.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Public Utilities Board (PUB), Singapore — <em>Code of Practice on Surface Water Drainage</em>, 7th Edition, 2018. Source for Singapore PUB tropical convective burst pattern.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Ministry of Housing and Local Government, Malaysia — <em>Urban Stormwater Management Manual for Malaysia (MSMA)</em>, 2nd Edition, 2012. Source for MSMA tropical center-peaked pattern.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Ministry of Housing and Urban-Rural Development, China — <em>GB 50014-2021: Code for Design of Outdoor Wastewater Engineering</em>. Source for China GB 50014 and P&amp;C (Pilger–Chicago) storm patterns.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Badan Meteorologi, Klimatologi, dan Geofisika (BMKG), Indonesia — <em>Technical Guidelines for Rainfall Analysis</em>, 2017. Source for BMKG tropical front-loaded temporal pattern.</span>
+              </li>
             </ul>
           </div>
 
