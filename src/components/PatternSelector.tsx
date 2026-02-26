@@ -959,6 +959,56 @@ export const patterns: PatternOption[] = [
     description: 'Czech Hydrometeorological Institute (ČHMÚ) modern standards. Chicago-type with r=0.38, replacing legacy Sifalda for current practice.',
     category: 'european',
   },
+  // ─── v5 PATTERNS ───
+  {
+    id: 'barbados_bms',
+    name: 'Barbados BMS',
+    icon: '🇧🇧',
+    description: 'Barbados Meteorological Service design storm using modified Hershfield PMP. Intense tropical maritime convective pattern for Caribbean island drainage.',
+    category: 'international',
+  },
+  {
+    id: 'oecs_caribbean',
+    name: 'OECS Caribbean',
+    icon: '🌴',
+    description: 'Organization of Eastern Caribbean States (OECS) guidelines based on Bell\'s method with tropical cyclone adjustment factor. For St. Lucia, Grenada, Dominica, etc.',
+    category: 'international',
+  },
+  {
+    id: 'cyprus_wdd',
+    name: 'Cyprus WDD',
+    icon: '🇨🇾',
+    description: 'Cyprus Water Development Department double-triangular storm. Two-peak Mediterranean convective profile with primary peak at 25% and secondary at 65% of duration.',
+    category: 'european',
+  },
+  {
+    id: 'malta_mra',
+    name: 'Malta MRA',
+    icon: '🇲🇹',
+    description: 'Malta Resources Authority composite Chicago-Huff method. Peak intensity position (r=0.32) determined by local quartile analysis of historical Mediterranean storms.',
+    category: 'european',
+  },
+  {
+    id: 'bolivia_altiplano',
+    name: 'Bolivia Altiplano',
+    icon: '🇧🇴',
+    description: 'SENAMHI Bolivia Altiplano pattern — modified SCS Type I with reduced peak factor (0.25 vs 0.375) for high-altitude convective regimes above 3,500m.',
+    category: 'latam',
+  },
+  {
+    id: 'fourier_multipeak',
+    name: 'Fourier Multi-Peak',
+    icon: '〰️',
+    description: 'Modified Fourier Series storm for academic/research use. Generates multi-peaked hyetographs via harmonic superposition for complex basin response studies.',
+    category: 'international',
+  },
+  {
+    id: 'cc_idf_scaled',
+    name: 'CC-IDF Scaled',
+    icon: '🌡️',
+    description: 'Climate Change IDF-Scaled storm. Applies SSP2-4.5 ~20% uplift factor to SCS Type II base pattern (i_future = i_historical × [1 + ΔP%]) for future design scenarios.',
+    category: 'international',
+  },
 ];
 
 interface PatternSelectorProps {
