@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { BarChart3, ArrowUp, ArrowDown, Search, ArrowUpDown } from "lucide-react";
+import { AllPatternsReportPdf } from "@/components/AllPatternsReportPdf";
 import { Button } from "@/components/ui/button";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 import { type UnitSystem, convertIntensity, getIntensityUnit } from "@/lib/unitConversions";
@@ -122,6 +123,9 @@ export function AllPatternsTest({ depth, duration, timeStep, unitSystem }: AllPa
         <p className="text-muted-foreground">
           Compare peak intensities across all {results.length} design storms using your Step 1 parameters
         </p>
+        <div className="mt-3">
+          <AllPatternsReportPdf depth={depth} duration={duration} timeStep={timeStep} unitSystem={unitSystem} />
+        </div>
       </div>
 
       {/* Storm params summary */}
