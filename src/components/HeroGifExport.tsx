@@ -1,8 +1,16 @@
 import { useState, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Video, Download, Loader2, X } from "lucide-react";
+import { Video, Download, Loader2, X, Gauge } from "lucide-react";
 import { toast } from "sonner";
+
+type GifSpeed = "slow" | "normal" | "fast";
+
+const SPEED_CONFIG: Record<GifSpeed, { label: string; frameDelay: number; captureWait: number }> = {
+  slow: { label: "Slow", frameDelay: 500, captureWait: 550 },
+  normal: { label: "Normal", frameDelay: 200, captureWait: 400 },
+  fast: { label: "Fast", frameDelay: 80, captureWait: 300 },
+};
 
 interface HeroGifExportProps {
   patternNames: string[];
@@ -14,6 +22,7 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
   const [isRecording, setIsRecording] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentPattern, setCurrentPattern] = useState("");
+  const [speed, setSpeed] = useState<GifSpeed>("normal");
   const cancelRef = useRef(false);
 
   const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
@@ -39,22 +48,21 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
       return;
     }
 
+    const config = SPEED_CONFIG[speed];
     setIsRecording(true);
     setProgress(0);
     cancelRef.current = false;
 
-    toast.info(`Recording ${patternNames.length} patterns — please wait...`);
+    toast.info(`Recording ${patternNames.length} patterns (${config.label}) — please wait...`);
 
     try {
       const GIF = (await import("gif.js")).default;
 
-      // Fetch the gif.worker.js from CDN and create a blob URL (same-origin requirement)
       const workerResponse = await fetch("https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.worker.js");
       if (!workerResponse.ok) throw new Error("Failed to fetch gif.worker.js");
       const workerBlob = await workerResponse.blob();
       const workerUrl = URL.createObjectURL(workerBlob);
 
-      // Capture first frame to determine dimensions
       onPatternChange(patternNames[0]);
       setCurrentPattern(patternNames[0]);
       await sleep(600);
@@ -73,15 +81,14 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
         workerScript: workerUrl,
       });
 
-      // Add first frame
-      gif.addFrame(firstCanvas, { delay: 200, copy: true });
+      gif.addFrame(firstCanvas, { delay: config.frameDelay, copy: true });
 
-      // Cycle through remaining patterns
       for (let i = 1; i < patternNames.length; i++) {
         if (cancelRef.current) {
           toast.info("Recording cancelled");
           setIsRecording(false);
           setProgress(0);
+          URL.revokeObjectURL(workerUrl);
           return;
         }
 
@@ -90,11 +97,11 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
         setCurrentPattern(name);
         setProgress(Math.round(((i + 1) / patternNames.length) * 80));
 
-        await sleep(400); // wait for recharts animation
+        await sleep(config.captureWait);
 
         const canvas = await captureFrame();
         if (canvas) {
-          gif.addFrame(canvas, { delay: 200, copy: true });
+          gif.addFrame(canvas, { delay: config.frameDelay, copy: true });
         }
       }
 
@@ -105,7 +112,7 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "rainfall-patterns-showcase.gif";
+        link.download = `rainfall-patterns-${speed}.gif`;
         link.click();
         URL.revokeObjectURL(url);
         URL.revokeObjectURL(workerUrl);
@@ -113,8 +120,6 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
         toast.success(`GIF exported — ${patternNames.length} patterns, ${(blob.size / 1024 / 1024).toFixed(1)} MB`);
         setIsRecording(false);
         setProgress(100);
-
-        // Reset to default
         onPatternChange("");
         setTimeout(() => setProgress(0), 2000);
       });
@@ -127,6 +132,7 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
         toast.error("GIF encoding failed");
         setIsRecording(false);
         setProgress(0);
+        URL.revokeObjectURL(workerUrl);
       });
 
       gif.render();
@@ -136,7 +142,7 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
       setIsRecording(false);
       setProgress(0);
     }
-  }, [patternNames, onPatternChange, captureFrame, captureRef]);
+  }, [patternNames, onPatternChange, captureFrame, captureRef, speed]);
 
   const cancelRecording = () => {
     cancelRef.current = true;
@@ -165,16 +171,36 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
           </p>
         </div>
       ) : (
-        <Button
-          onClick={startRecording}
-          variant="ghost"
-          size="sm"
-          className="text-white/80 hover:text-white hover:bg-white/20 gap-2 backdrop-blur-sm border border-white/20"
-        >
-          <Video className="w-4 h-4" />
-          Export All Patterns as GIF
-          <Download className="w-3 h-3" />
-        </Button>
+        <div className="flex items-center gap-2">
+          {/* Speed selector */}
+          <div className="flex items-center gap-1 bg-white/10 backdrop-blur-sm rounded-full px-1 py-0.5 border border-white/20">
+            <Gauge className="w-3 h-3 text-white/60 ml-1.5" />
+            {(["slow", "normal", "fast"] as GifSpeed[]).map((s) => (
+              <button
+                key={s}
+                onClick={() => setSpeed(s)}
+                className={`text-xs px-2.5 py-1 rounded-full transition-all duration-200 ${
+                  speed === s
+                    ? "bg-white/30 text-white font-medium shadow-sm"
+                    : "text-white/60 hover:text-white/90 hover:bg-white/10"
+                }`}
+              >
+                {SPEED_CONFIG[s].label}
+              </button>
+            ))}
+          </div>
+
+          <Button
+            onClick={startRecording}
+            variant="ghost"
+            size="sm"
+            className="text-white/80 hover:text-white hover:bg-white/20 gap-2 backdrop-blur-sm border border-white/20"
+          >
+            <Video className="w-4 h-4" />
+            Export GIF
+            <Download className="w-3 h-3" />
+          </Button>
+        </div>
       )}
     </div>
   );
