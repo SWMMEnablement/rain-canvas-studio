@@ -3193,6 +3193,34 @@ export function Documentation() {
                 <span className="text-primary mt-0.5">•</span>
                 <span>Badan Meteorologi, Klimatologi, dan Geofisika (BMKG), Indonesia — <em>Technical Guidelines for Rainfall Analysis</em>, 2017. Source for BMKG tropical front-loaded temporal pattern.</span>
               </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Ministry of Municipal &amp; Rural Affairs (MOMRA), Saudi Arabia — <em>Storm Water Drainage Design Manual</em>, 2006. Source for MOMRA arid-region temporal distributions for flash flood design.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Abu Dhabi Quality &amp; Conformity Council / UAE National Center of Meteorology (NCM) — <em>Abu Dhabi Stormwater Drainage Manual</em>, 2019. Source for UAE arid convective burst patterns.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Qatar Public Works Authority (Ashghal) — <em>Qatar Sewerage &amp; Drainage Design Manual</em>, 2014. Source for Gulf-region short-duration arid storm temporal profiles.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>South African National Roads Agency (SANRAL) — <em>Drainage Manual</em>, 6th Edition, 2013. Source for South Africa SCS-SA modified distributions and regional calibration factors.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Smithers, J.C. &amp; Schulze, R.E. — "Design Rainfall and Flood Estimation in South Africa," <em>Water Research Commission Report 1060/1/04</em>, 2004. Source for South Africa regional storm temporal patterns.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Nigerian Meteorological Agency (NiMet) / Federal Ministry of Works — <em>Highway Drainage Design Manual</em>, 2013. Source for Nigeria tropical monsoonal temporal distributions.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary mt-0.5">•</span>
+                <span>Kenya Ministry of Roads &amp; Public Works — <em>Design Manual for Roads and Bridges: Part III — Drainage</em>, 1987. Source for East Africa convective storm temporal patterns.</span>
+              </li>
             </ul>
           </div>
 
