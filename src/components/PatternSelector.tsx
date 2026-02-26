@@ -1101,6 +1101,35 @@ export const patterns: PatternOption[] = [
     description: 'Average Variability Method (AVM). Creates design storms by averaging temporal patterns of observed storms at each time step. Produces smoother, less peaked distributions than single-storm methods.',
     category: 'international',
   },
+  // South African SCS Types
+  {
+    id: 'sa_scs1',
+    name: 'SA SCS Type 1',
+    icon: '🇿🇦',
+    description: 'South African SCS Type 1 (Schulze 1984, Weddepohl 1988). Adapted from US SCS for South Africa. Lowest rainfall concentration — coastal and orographic regions. Fixed 24-hour duration, 5-min intervals, symmetrical about center.',
+    category: 'african',
+  },
+  {
+    id: 'sa_scs2',
+    name: 'SA SCS Type 2',
+    icon: '🇿🇦',
+    description: 'South African SCS Type 2 (Schulze 1984, Weddepohl 1988). Moderate rainfall concentration — inland transitional areas. Fixed 24-hour duration, 5-min intervals, symmetrical about center.',
+    category: 'african',
+  },
+  {
+    id: 'sa_scs3',
+    name: 'SA SCS Type 3',
+    icon: '🇿🇦',
+    description: 'South African SCS Type 3 (Schulze 1984, Weddepohl 1988). Higher rainfall concentration — inland convective regions. Fixed 24-hour duration, 5-min intervals, symmetrical about center.',
+    category: 'african',
+  },
+  {
+    id: 'sa_scs4',
+    name: 'SA SCS Type 4',
+    icon: '🇿🇦',
+    description: 'South African SCS Type 4 (Schulze 1984, Weddepohl 1988). Highest rainfall concentration — extreme convective Highveld. Fixed 24-hour duration, 5-min intervals, symmetrical about center.',
+    category: 'african',
+  },
 ];
 
 interface PatternSelectorProps {

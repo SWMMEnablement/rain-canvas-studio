@@ -184,6 +184,10 @@ const patternNames: Record<PatternType, string> = {
   'arnell_sweden': 'Arnell (Sweden)',
   'tenax_cds': 'TENAX-CDS',
   'avm': 'Average Variability',
+  'sa_scs1': 'SA SCS Type 1',
+  'sa_scs2': 'SA SCS Type 2',
+  'sa_scs3': 'SA SCS Type 3',
+  'sa_scs4': 'SA SCS Type 4',
 };
 
 interface WizardStep {
