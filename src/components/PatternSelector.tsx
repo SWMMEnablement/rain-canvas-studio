@@ -1080,6 +1080,27 @@ export const patterns: PatternOption[] = [
     description: 'Nested/Envelope design storm used by USACE for dam safety. Creates worst-case nesting where sub-duration depths match IDF values for all durations ≤ D.',
     category: 'us_agency',
   },
+  {
+    id: 'arnell_sweden',
+    name: 'Arnell (Sweden)',
+    icon: '🇸🇪',
+    description: 'Arnell (1982) historical Swedish design storm. Predecessor to modern SMHI, Chicago-type with r=0.33 and broader peak. Still referenced in older Swedish drainage designs.',
+    category: 'european',
+  },
+  {
+    id: 'tenax_cds',
+    name: 'TENAX-CDS',
+    icon: '🌡️',
+    description: 'TENAX Climate-adapted Chicago Design Storm (2024). From Zurich/EPFL research using temperature-conditioned extreme value statistics with super-Clausius-Clapeyron scaling at peak.',
+    category: 'european',
+  },
+  {
+    id: 'avm',
+    name: 'Average Variability',
+    icon: '📊',
+    description: 'Average Variability Method (AVM). Creates design storms by averaging temporal patterns of observed storms at each time step. Produces smoother, less peaked distributions than single-storm methods.',
+    category: 'international',
+  },
 ];
 
 interface PatternSelectorProps {

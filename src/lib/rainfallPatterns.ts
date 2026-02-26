@@ -24,7 +24,9 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   // New patterns (v6) — Missing Design Storms Analysis
   | 'g2p_gamma' | 'poland_bs' | 'belgium_willems' | 'russia_snip'
   | 'turkey_dsi' | 'korea_molit' | 'greece_hellenic' | 'romania_stas'
-  | 'pmp_wmo' | 'nested_envelope';
+  | 'pmp_wmo' | 'nested_envelope'
+  // v7 — Niche patterns
+  | 'arnell_sweden' | 'tenax_cds' | 'avm';
 
 // ─── Helper functions for pattern generation ───
 
@@ -3338,6 +3340,50 @@ export function generateRainfallData(
       const volN = ordered.reduce((s, v) => s + v * dtN, 0);
       if (volN > 0) { const sc = totalDepth / volN; for (let i = 0; i < ordered.length; i++) ordered[i] *= sc; }
       return ordered;
+    }
+
+    case 'arnell_sweden': {
+      // Arnell (1982) — Swedish historical predecessor to SMHI
+      // Chicago-type with r=0.33, slightly broader peak than modern SMHI
+      const r = 0.33;
+      const peakIdx = Math.floor(numSteps * r);
+      for (let i = 0; i < numSteps; i++) {
+        const t = (i + 0.5) / numSteps;
+        const dist = Math.abs(t - r);
+        data[i] = 1 / Math.pow(0.06 + dist * 2.8, 1.15);
+      }
+      break;
+    }
+
+    case 'tenax_cds': {
+      // TENAX-CDS (2024) — Climate-adapted Chicago Design Storm
+      // Temperature-conditioned extreme value approach from Zurich/EPFL
+      // Uses Chicago storm base with climate scaling factor applied to peak
+      const rT = 0.40;
+      const climateBoost = 1.07; // ~7% per °C Clausius-Clapeyron scaling at peak
+      const peakIdxT = Math.floor(numSteps * rT);
+      for (let i = 0; i < numSteps; i++) {
+        const t = (i + 0.5) / numSteps;
+        const dist = Math.abs(t - rT);
+        const base = 1 / Math.pow(0.05 + dist * 3.2, 1.25);
+        // Apply super-CC scaling near peak (within 20% of peak position)
+        const peakProximity = 1 - Math.min(dist / 0.2, 1);
+        data[i] = base * (1 + (climateBoost - 1) * peakProximity);
+      }
+      break;
+    }
+
+    case 'avm': {
+      // Average Variability Method (AVM)
+      // Creates design storm by averaging temporal patterns of observed storms
+      // Produces smoother, less peaked shape than single-storm methods
+      // Implemented as broad Gaussian with moderate peak
+      for (let i = 0; i < numSteps; i++) {
+        const t = (i + 0.5) / numSteps;
+        // Broad center peak with gradual tails (typical of averaged storms)
+        data[i] = 0.15 + Math.exp(-4.5 * Math.pow(t - 0.45, 2));
+      }
+      break;
     }
   }
 

@@ -181,6 +181,9 @@ const patternNames: Record<PatternType, string> = {
   'romania_stas': 'Romania STAS',
   'pmp_wmo': 'PMP WMO Generalized',
   'nested_envelope': 'Nested Envelope',
+  'arnell_sweden': 'Arnell (Sweden)',
+  'tenax_cds': 'TENAX-CDS',
+  'avm': 'Average Variability',
 };
 
 interface WizardStep {

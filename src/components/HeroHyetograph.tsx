@@ -422,6 +422,31 @@ const PATTERN_SHAPES: Record<string, { label: string; ratios: number[] }> = {
     });
   })() },
   "Nested Envelope": { label: "Nested Envelope — USACE worst-case nesting", ratios: centerPeaked(48, 1.6, 0.50) },
+  // v7 niche patterns
+  "Arnell (Sweden)": { label: "Arnell 1982 — Swedish historical Chicago r=0.33", ratios: (() => {
+    const n = 48, r = 0.33;
+    const vals = Array.from({ length: n }, (_, i) => 1 / Math.pow(0.06 + Math.abs((i + 0.5) / n - r) * 2.8, 1.15));
+    return normalizeToCumulative(vals);
+  })() },
+  "TENAX-CDS": { label: "TENAX-CDS — climate-adapted Chicago storm (2024)", ratios: (() => {
+    const n = 48, r = 0.40;
+    const vals = Array.from({ length: n }, (_, i) => {
+      const t = (i + 0.5) / n;
+      const dist = Math.abs(t - r);
+      const base = 1 / Math.pow(0.05 + dist * 3.2, 1.25);
+      const peakProximity = 1 - Math.min(dist / 0.2, 1);
+      return base * (1 + 0.07 * peakProximity);
+    });
+    return normalizeToCumulative(vals);
+  })() },
+  "Average Variability": { label: "AVM — averaged observed storm patterns", ratios: (() => {
+    const n = 48;
+    const vals = Array.from({ length: n }, (_, i) => {
+      const t = (i + 0.5) / n;
+      return 0.15 + Math.exp(-4.5 * Math.pow(t - 0.45, 2));
+    });
+    return normalizeToCumulative(vals);
+  })() },
 };
 
 const DEFAULT_KEY = "SCS Type II";

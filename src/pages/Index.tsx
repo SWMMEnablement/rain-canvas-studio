@@ -18,8 +18,8 @@ import { toast } from "sonner";
 
 const PATTERN_BADGES = [
   "Abu Dhabi ADM", "AES Canada 30%", "AES Canada 40%", "Argentina SMN",
-  "Arid Flash Flood", "ARR 2019 Ensemble", "ARR87 Legacy", "Auckland TP108",
-  "Australian ARR", "Austria ÖKOSTRA",
+  "Arid Flash Flood", "Arnell (Sweden)", "ARR 2019 Ensemble", "ARR87 Legacy", "Auckland TP108",
+  "Australian ARR", "Austria ÖKOSTRA", "Average Variability",
   "Balanced Storm", "Bangladesh BMD", "Belgium IRM", "Belgium Willems",
   "Block Pattern", "Brazil ANA",
   "Canadian CDA", "Chicago Storm", "Chile DGA", "China Design Storm",
@@ -46,7 +46,7 @@ const PATTERN_BADGES = [
   "Saudi Arabia PME", "SCS Type I", "SCS Type IA", "SCS Type II", "SCS Type III",
   "SHYREG (FR)", "Sifalda (Czech)", "Singapore PUB", "South Africa SANRAL",
   "South African Huff", "Spain CEDEX", "Sri Lanka", "Sweden SMHI", "Swiss IDF",
-  "Taiwan CWA", "Tanzania TMA", "Thailand TMD", "Triangular", "Trapezoidal",
+  "Taiwan CWA", "Tanzania TMA", "TENAX-CDS", "Thailand TMD", "Triangular", "Trapezoidal",
   "Turkey DSİ", "TxDOT",
   "UAE NCMS", "UDFCD Denver", "UPM Río de la Plata", "USACE SPS",
   "Venezuela INAMEH", "Vietnam IMHEN",

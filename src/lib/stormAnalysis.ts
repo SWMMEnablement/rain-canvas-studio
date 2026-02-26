@@ -208,6 +208,10 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   romania_stas: { name: 'Romania STAS', peakPosition: 0.50, description: 'Romanian Andrei method drainage' },
   pmp_wmo: { name: 'PMP WMO', peakPosition: 0.45, description: 'WMO generalized Hershfield PMP' },
   nested_envelope: { name: 'Nested Envelope', peakPosition: 0.50, description: 'USACE worst-case nested IDF storm' },
+  // v7 patterns
+  arnell_sweden: { name: 'Arnell (Sweden)', peakPosition: 0.33, description: 'Swedish historical 1982 predecessor' },
+  tenax_cds: { name: 'TENAX-CDS', peakPosition: 0.40, description: 'Climate-adapted Chicago design storm' },
+  avm: { name: 'Average Variability', peakPosition: 0.45, description: 'Averaged observed storm patterns' },
 };
 
 /**
