@@ -197,6 +197,17 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   bolivia_altiplano: { name: 'Bolivia Altiplano', peakPosition: 0.50, description: 'Modified SCS Type I high-altitude' },
   fourier_multipeak: { name: 'Fourier Multi-Peak', peakPosition: 0.40, description: 'Fourier series dual-peak research' },
   cc_idf_scaled: { name: 'CC-IDF Scaled', peakPosition: 0.48, description: 'Climate-change scaled SCS Type II' },
+  // v6 patterns
+  g2p_gamma: { name: 'G2P Gamma', peakPosition: 0.40, description: 'Gamma 2-parameter peaked storm' },
+  poland_bs: { name: 'Poland Bogdanowicz-Stachy', peakPosition: 0.50, description: 'Polish stormwater standard' },
+  belgium_willems: { name: 'Belgium Willems', peakPosition: 0.35, description: 'Flemish composite nested storm' },
+  russia_snip: { name: 'Russia SNiP', peakPosition: 0.20, description: 'Russian building code intensity' },
+  turkey_dsi: { name: 'Turkey DSİ', peakPosition: 0.42, description: 'Turkish State Hydraulic Works IDF' },
+  korea_molit: { name: 'Korea MOLIT', peakPosition: 0.35, description: 'Korean MOLIT Huff-type urban' },
+  greece_hellenic: { name: 'Greece Hellenic', peakPosition: 0.38, description: 'Koutsoyiannis-Baloutsos Greek IDF' },
+  romania_stas: { name: 'Romania STAS', peakPosition: 0.50, description: 'Romanian Andrei method drainage' },
+  pmp_wmo: { name: 'PMP WMO', peakPosition: 0.45, description: 'WMO generalized Hershfield PMP' },
+  nested_envelope: { name: 'Nested Envelope', peakPosition: 0.50, description: 'USACE worst-case nested IDF storm' },
 };
 
 /**

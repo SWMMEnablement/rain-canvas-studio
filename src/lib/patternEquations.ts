@@ -1899,6 +1899,291 @@ export const patternEquations: PatternEquation[] = [
     },
     notes: 'WMO No. 589 provides global guidance on PMP estimation. HMR 51 (east of 105°W) and HMR 52 (west of 105°W) cover the contiguous US.'
   },
+
+  // ══════════ v6 — Missing Design Storms Analysis ══════════
+
+  // ============ G2P Gamma ============
+  {
+    pattern: 'g2p_gamma',
+    name: 'G2P (Gamma 2-Parameter)',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Intensity Function',
+        latex: 'f(t) = \\left(\\frac{t}{t_p}\\right)^{\\phi} \\cdot e^{\\phi\\left(1 - \\frac{t}{t_p}\\right)}',
+        description: 'Gamma-shaped dimensionless intensity with max = 1 at t = tp'
+      },
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = i_0 \\cdot f(t)',
+        description: 'Scaled by maximum rainfall intensity'
+      }
+    ],
+    variables: [
+      { symbol: 'i_0', meaning: 'Maximum rainfall intensity' },
+      { symbol: 't_p', meaning: 'Time to peak (dimensionless, typically 0.4)' },
+      { symbol: '\\phi', meaning: 'Shape parameter controlling peakedness (typically 3–5)' },
+      { symbol: 'f(t)', meaning: 'Dimensionless Gamma function (max = 1)' }
+    ],
+    reference: {
+      title: 'Rainfall Temporal Distribution for Urban Drainage Design',
+      citation: 'Balbastre-Soldevila, R., García-Bartual, R., Andrés-Doménech, I., MDPI Water',
+      year: 2019,
+      link: 'https://doi.org/10.3390/w11122611'
+    },
+    notes: 'Flexible single-parameter control of peakedness. Higher φ → sharper peak. Useful for Mediterranean/semi-arid climates.'
+  },
+
+  // ============ Poland Bogdanowicz-Stachy ============
+  {
+    pattern: 'poland_bs',
+    name: 'Poland Bogdanowicz-Stachy',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Rainfall Depth',
+        latex: 'P(t, p) = 1.42 \\cdot t^{0.33} + \\alpha(p) \\cdot (-\\ln p)^{0.584}',
+        description: 'Polish standard rainfall depth formula'
+      }
+    ],
+    variables: [
+      { symbol: 'P(t, p)', meaning: 'Rainfall depth for duration t and probability p (mm)' },
+      { symbol: 't', meaning: 'Storm duration (minutes)' },
+      { symbol: 'p', meaning: 'Exceedance probability (1/Tr)' },
+      { symbol: '\\alpha(p)', meaning: 'Regional coefficient dependent on location' }
+    ],
+    reference: {
+      title: 'Bogdanowicz-Stachy Rainfall Model',
+      citation: 'Bogdanowicz, E. & Stachy, J., IMGW Polish Institute of Meteorology',
+      year: 1998
+    },
+    notes: 'Standard for Polish urban stormwater design. Various regional forms exist across voivodeships.'
+  },
+
+  // ============ Belgium Willems ============
+  {
+    pattern: 'belgium_willems',
+    name: 'Belgium Willems Composite',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'IDF Relationship',
+        latex: 'i(d) = \\frac{a}{(b + d)^c}',
+        description: 'Belgian IDF curve with Flemish regional parameters'
+      },
+      {
+        label: 'Composite Storm Construction',
+        latex: '\\Delta P_i = P(i \\cdot \\Delta t) - P((i-1) \\cdot \\Delta t)',
+        description: 'Nested incremental depths from IDF, placed with r ≈ 0.35'
+      }
+    ],
+    variables: [
+      { symbol: 'a, b, c', meaning: 'Flemish regional IDF parameters' },
+      { symbol: 'd', meaning: 'Rainfall duration' },
+      { symbol: '\\Delta P_i', meaning: 'Incremental depth for interval i' },
+      { symbol: 'r', meaning: 'Advancement ratio (~0.35 for Flanders)' }
+    ],
+    reference: {
+      title: 'Composite Storm Method for Flemish Urban Drainage',
+      citation: 'Willems, P., Journal of Hydrology',
+      year: 2000
+    },
+    notes: 'Distinct from IRM standard. Widely used in Flemish urban drainage practice with specific Belgian rainfall statistics.'
+  },
+
+  // ============ Russia SNiP ============
+  {
+    pattern: 'russia_snip',
+    name: 'Russia SNiP / SP 32.13330',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'q = \\frac{A \\cdot (1 + C \\cdot \\ln T_r)}{t^n}',
+        description: 'Russian building code storm intensity formula'
+      }
+    ],
+    variables: [
+      { symbol: 'q', meaning: 'Design intensity (L/s·ha)' },
+      { symbol: 'A', meaning: 'Regional intensity parameter' },
+      { symbol: 'C', meaning: 'Climate coefficient' },
+      { symbol: 'T_r', meaning: 'Return period (years)' },
+      { symbol: 't', meaning: 'Storm duration (minutes)' },
+      { symbol: 'n', meaning: 'Regional exponent (typically 0.6–0.8)' }
+    ],
+    reference: {
+      title: 'SP 32.13330.2018 (Updated SNiP 2.04.03-85)',
+      citation: 'Ministry of Construction of Russia',
+      year: 2018
+    },
+    notes: 'Mandatory Russian building code for sewer and drainage design. Front-loaded distribution typical of continental climate.'
+  },
+
+  // ============ Turkey DSİ ============
+  {
+    pattern: 'turkey_dsi',
+    name: 'Turkey DSİ',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'IDF Relationship',
+        latex: 'i = \\frac{A}{(t + B)^C}',
+        description: 'Turkish DSİ regional IDF formula'
+      }
+    ],
+    variables: [
+      { symbol: 'i', meaning: 'Design rainfall intensity (mm/hr)' },
+      { symbol: 'A, B, C', meaning: 'Region-specific parameters (DSİ gauge network)' },
+      { symbol: 't', meaning: 'Storm duration (minutes)' }
+    ],
+    reference: {
+      title: 'DSİ Hydrology Manual',
+      citation: 'State Hydraulic Works (Devlet Su İşleri), Turkey',
+      year: 2012
+    },
+    notes: 'Distinct from Turkey MGM (meteorological). DSİ focuses on hydraulic infrastructure design with region-specific gauge calibration.'
+  },
+
+  // ============ Korea MOLIT ============
+  {
+    pattern: 'korea_molit',
+    name: 'Korea MOLIT',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Huff Curve (MOLIT calibration)',
+        latex: 'F(t) = \\sum_{k=0}^{4} a_k \\cdot \\left(\\frac{t}{D}\\right)^k',
+        description: '4th-order polynomial Huff curve fit for Korean urban basins'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a_k', meaning: 'MOLIT-calibrated polynomial coefficients' },
+      { symbol: 'D', meaning: 'Total storm duration' }
+    ],
+    reference: {
+      title: 'Design Flood Estimation Guidelines',
+      citation: 'Ministry of Land, Infrastructure and Transport (MOLIT), South Korea',
+      year: 2019
+    },
+    notes: 'More front-loaded than KMA standard. Calibrated for urbanized Seoul metropolitan and other major basins.'
+  },
+
+  // ============ Greece Hellenic ============
+  {
+    pattern: 'greece_hellenic',
+    name: 'Greece Hellenic',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Koutsoyiannis-Baloutsos IDF',
+        latex: 'i = \\frac{a}{(t + \\theta)^{\\eta}}',
+        description: 'Greek IDF formulation with regional parameters'
+      }
+    ],
+    variables: [
+      { symbol: 'i', meaning: 'Design rainfall intensity (mm/hr)' },
+      { symbol: 'a', meaning: 'Regional scaling parameter' },
+      { symbol: '\\theta', meaning: 'Duration offset parameter (minutes)' },
+      { symbol: '\\eta', meaning: 'Duration exponent' }
+    ],
+    reference: {
+      title: 'Analysis of IDF Curves for Attica Region',
+      citation: 'Koutsoyiannis, D. & Baloutsos, G., Journal of Hydrology',
+      year: 2000
+    },
+    notes: 'Standard for Greek urban drainage. Regional parameters available for major Greek cities and basins.'
+  },
+
+  // ============ Romania STAS ============
+  {
+    pattern: 'romania_stas',
+    name: 'Romania STAS / Andrei Method',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i = \\frac{a \\cdot T_r^b}{t^c}',
+        description: 'Romanian standard rainfall intensity formula'
+      }
+    ],
+    variables: [
+      { symbol: 'i', meaning: 'Design intensity (mm/hr)' },
+      { symbol: 'a, b, c', meaning: 'Regional parameters' },
+      { symbol: 'T_r', meaning: 'Return period (years)' },
+      { symbol: 't', meaning: 'Storm duration (minutes)' }
+    ],
+    reference: {
+      title: 'Romanian STAS Standards for Urban Drainage',
+      citation: 'Andrei, I., Romanian Standardization Institute',
+      year: 1990
+    },
+    notes: 'Standard Romanian urban drainage practice. Parameters calibrated for major Romanian cities.'
+  },
+
+  // ============ PMP WMO Generalized ============
+  {
+    pattern: 'pmp_wmo',
+    name: 'PMP WMO Generalized (Hershfield)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Hershfield Method',
+        latex: 'PMP = \\bar{X}_n + K_m \\cdot S_n',
+        description: 'Statistical frequency factor approach'
+      },
+      {
+        label: 'Alternative Form',
+        latex: 'PMP = \\bar{X}_n(1 + K_m \\cdot C_v)',
+        description: 'Using coefficient of variation'
+      }
+    ],
+    variables: [
+      { symbol: 'PMP', meaning: 'Probable Maximum Precipitation (mm)' },
+      { symbol: '\\bar{X}_n', meaning: 'Mean of n annual maxima' },
+      { symbol: 'S_n', meaning: 'Standard deviation of annual maxima' },
+      { symbol: 'K_m', meaning: 'Hershfield frequency factor (typically 15–20)' },
+      { symbol: 'C_v', meaning: 'Coefficient of variation' }
+    ],
+    reference: {
+      title: 'WMO-No. 1045: Manual on Estimation of PMP',
+      citation: 'World Meteorological Organization',
+      year: 2009,
+      link: 'https://www.wmo.int'
+    },
+    notes: 'Global framework for PMP estimation. Broader applicability than US-specific HMR 51/52. Includes generalized temporal distribution.'
+  },
+
+  // ============ Nested Envelope ============
+  {
+    pattern: 'nested_envelope',
+    name: 'Nested/Envelope Design Storm',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Nesting Criterion',
+        latex: 'P_{nested}(d) = \\max\\left[P_{T_r}(d)\\right] \\quad \\forall \\; d \\leq D',
+        description: 'Sub-duration depths match IDF values creating worst-case nesting'
+      },
+      {
+        label: 'Alternating Block Placement',
+        latex: '\\Delta P_i = P(i \\cdot \\Delta t) - P((i-1) \\cdot \\Delta t)',
+        description: 'Incremental depths placed symmetrically around storm center'
+      }
+    ],
+    variables: [
+      { symbol: 'P_{nested}(d)', meaning: 'Nested depth for sub-duration d' },
+      { symbol: 'P_{T_r}(d)', meaning: 'IDF depth for return period Tr and duration d' },
+      { symbol: 'D', meaning: 'Total storm duration' },
+      { symbol: '\\Delta P_i', meaning: 'Incremental depth for interval i' }
+    ],
+    reference: {
+      title: 'EM 1110-2-1411: Standard Project Flood Determinations',
+      citation: 'US Army Corps of Engineers',
+      year: 1965
+    },
+    notes: 'Conservative worst-case storm for dam safety and critical infrastructure. Ensures maximum runoff for all sub-catchment travel times.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {

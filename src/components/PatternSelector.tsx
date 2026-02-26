@@ -1009,6 +1009,77 @@ export const patterns: PatternOption[] = [
     description: 'Climate Change IDF-Scaled storm. Applies SSP2-4.5 ~20% uplift factor to SCS Type II base pattern (i_future = i_historical × [1 + ΔP%]) for future design scenarios.',
     category: 'international',
   },
+  // ══════════ v6 — Missing Design Storms Analysis ══════════
+  {
+    id: 'g2p_gamma',
+    name: 'G2P Gamma',
+    icon: 'Γ',
+    description: 'Gamma 2-Parameter (G2P) design storm from Balbastre-Soldevila et al. (2019). Uses f(t)=(t/tp)^φ·exp(φ·(1−t/tp)) with shape parameter φ controlling peakedness.',
+    category: 'international',
+  },
+  {
+    id: 'poland_bs',
+    name: 'Poland Bogdanowicz-Stachy',
+    icon: '🇵🇱',
+    description: 'Polish Bogdanowicz-Stachy standard design storm (P(t,p)=1.42·t^0.33+α(p)·(−ln p)^0.584). Widely used in Polish urban drainage design.',
+    category: 'european',
+  },
+  {
+    id: 'belgium_willems',
+    name: 'Belgium Willems',
+    icon: '🇧🇪',
+    description: 'Willems (2000) composite storm method used in Flanders. Nested IDF intensities with Belgian rainfall statistics, distinct from IRM standard.',
+    category: 'european',
+  },
+  {
+    id: 'russia_snip',
+    name: 'Russia SNiP',
+    icon: '🇷🇺',
+    description: 'Russian SNiP/SP 32.13330 building code storm. q=A·(1+C·ln Tr)/t^n with regional parameters. Standard for Russian urban drainage design.',
+    category: 'european',
+  },
+  {
+    id: 'turkey_dsi',
+    name: 'Turkey DSİ',
+    icon: '🇹🇷',
+    description: 'Turkish DSİ (State Hydraulic Works) regional design storm. Uses i=A/(t+B)^C with region-specific parameters. Distinct from MGM meteorological method.',
+    category: 'european',
+  },
+  {
+    id: 'korea_molit',
+    name: 'Korea MOLIT',
+    icon: '🇰🇷',
+    description: 'South Korea MOLIT (Ministry of Land, Infrastructure and Transport) Huff-type design storm. More front-loaded than KMA standard, calibrated for urbanized basins.',
+    category: 'asian',
+  },
+  {
+    id: 'greece_hellenic',
+    name: 'Greece Hellenic',
+    icon: '🇬🇷',
+    description: 'Greek Hellenic method using Koutsoyiannis-Baloutsos formulation i=a/(t+θ)^η. Regional IDF parameters for Greek basins.',
+    category: 'european',
+  },
+  {
+    id: 'romania_stas',
+    name: 'Romania STAS',
+    icon: '🇷🇴',
+    description: 'Romanian STAS/Andrei method. Uses i=a·Tr^b/t^c for urban drainage design. Standard in Romanian stormwater practice.',
+    category: 'european',
+  },
+  {
+    id: 'pmp_wmo',
+    name: 'PMP WMO Generalized',
+    icon: '🌐',
+    description: 'WMO generalized PMP (Hershfield method, WMO-No. 1045). PMP=X̄n+Km·Sn. Broader global applicability than US-specific HMR 51/52.',
+    category: 'international',
+  },
+  {
+    id: 'nested_envelope',
+    name: 'Nested Envelope',
+    icon: '📦',
+    description: 'Nested/Envelope design storm used by USACE for dam safety. Creates worst-case nesting where sub-duration depths match IDF values for all durations ≤ D.',
+    category: 'us_agency',
+  },
 ];
 
 interface PatternSelectorProps {
