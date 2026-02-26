@@ -386,6 +386,42 @@ const PATTERN_SHAPES: Record<string, { label: string; ratios: number[] }> = {
   "HK DSD 2018": { label: "HK DSD — Stormwater Drainage Manual 5th ed.", ratios: frontLoaded(48, 3.5) },
   "Malaysia HP1": { label: "Malaysia HP1 — Hydrological Procedure No.1 (2015)", ratios: centerPeaked(48, 1.4, 0.40) },
   "Austria ÖKOSTRA": { label: "ÖKOSTRA — Austrian design rainfall", ratios: centerPeaked(48, 1.4, 0.33) },
+  // v4 — 10 new design storms
+  "G2P Gamma": { label: "G2P Gamma — Gamma 2-parameter peaked storm", ratios: (() => {
+    const n = 48, phi = 3.5, tp = 0.4;
+    const vals = Array.from({ length: n }, (_, i) => {
+      const t = (i + 0.5) / n;
+      return Math.pow(t / tp, phi) * Math.exp(phi * (1 - t / tp));
+    });
+    return normalizeToCumulative(vals);
+  })() },
+  "Belgium Willems": { label: "Belgium Willems — Flanders composite storm", ratios: centerPeaked(48, 1.4, 0.45) },
+  "Greece Hellenic": { label: "Greece Hellenic — Koutsoyiannis-Baloutsos IDF", ratios: centerPeaked(48, 1.3, 0.42) },
+  "Korea MOLIT": { label: "Korea MOLIT — Huff-type infrastructure design", ratios: (() => {
+    const n = 48;
+    return Array.from({ length: n }, (_, i) => {
+      const t = (i + 1) / n;
+      if (t < 0.25) return 0.12 * (t / 0.25);
+      if (t < 0.50) return 0.12 + 0.48 * ((t - 0.25) / 0.25);
+      if (t < 0.75) return 0.60 + 0.28 * ((t - 0.50) / 0.25);
+      return 0.88 + 0.12 * ((t - 0.75) / 0.25);
+    });
+  })() },
+  "Poland Bogdanowicz-Stachy": { label: "Poland B-S — Polish stormwater standard", ratios: centerPeaked(48, 1.3, 0.40) },
+  "Romania STAS": { label: "Romania STAS — Andrei method", ratios: centerPeaked(48, 1.3, 0.42) },
+  "Russia SNiP": { label: "Russia SNiP SP 32 — building code storm", ratios: frontLoaded(48, 4.0) },
+  "Turkey DSİ": { label: "Turkey DSİ — State Hydraulic Works regional", ratios: centerPeaked(48, 1.3, 0.38) },
+  "PMP WMO Generalized": { label: "PMP WMO — Hershfield generalized method", ratios: (() => {
+    const n = 48;
+    return Array.from({ length: n }, (_, i) => {
+      const t = (i + 1) / n;
+      if (t < 0.25) return 0.05 * (t / 0.25);
+      if (t < 0.45) return 0.05 + 0.70 * ((t - 0.25) / 0.20);
+      if (t < 0.55) return 0.75 + 0.15 * ((t - 0.45) / 0.10);
+      return 0.90 + 0.10 * ((t - 0.55) / 0.45);
+    });
+  })() },
+  "Nested Envelope": { label: "Nested Envelope — USACE worst-case nesting", ratios: centerPeaked(48, 1.6, 0.50) },
 };
 
 const DEFAULT_KEY = "SCS Type II";
