@@ -50,8 +50,12 @@ import {
   List,
   Leaf,
   PipetteIcon,
-  type LucideIcon
+  type LucideIcon,
+  FolderTree,
 } from "lucide-react";
+import { TaxonomyTree } from "./docs/TaxonomyTree";
+import { ComparisonMatrix } from "./docs/ComparisonMatrix";
+import { EquationFamilyRegistry } from "./docs/EquationFamilyRegistry";
 
 // Calculator categories
 type CalculatorCategory = 'hydrology' | 'hydraulics' | 'water-quality';
@@ -205,7 +209,7 @@ export function Documentation() {
 
       {/* Main Documentation Tabs */}
       <Tabs defaultValue="patterns" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-11 h-auto">
+        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-12 h-auto">
           <TabsTrigger value="patterns" className="flex items-center gap-1">
             <CloudRain className="w-4 h-4" />
             <span className="hidden sm:inline">Patterns</span>
@@ -249,6 +253,10 @@ export function Documentation() {
           <TabsTrigger value="glossary" className="flex items-center gap-1">
             <BookOpen className="w-4 h-4" />
             <span className="hidden sm:inline">Glossary</span>
+          </TabsTrigger>
+          <TabsTrigger value="taxonomy" className="flex items-center gap-1">
+            <FolderTree className="w-4 h-4" />
+            <span className="hidden sm:inline">Taxonomy</span>
           </TabsTrigger>
         </TabsList>
 
@@ -3031,6 +3039,13 @@ export function Documentation() {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        {/* Taxonomy Tab */}
+        <TabsContent value="taxonomy" className="space-y-6">
+          <TaxonomyTree />
+          <ComparisonMatrix />
+          <EquationFamilyRegistry />
         </TabsContent>
       </Tabs>
 
