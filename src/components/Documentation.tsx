@@ -5,6 +5,7 @@ import { PatternReferenceList } from "./docs/PatternReferenceList";
 import { PATTERN_REFERENCE_DATA } from "./docs/patternReferenceData";
 import { PatternDecisionFlowchart } from "./docs/PatternDecisionFlowchart";
 import { RegulatoryMatrix } from "./docs/RegulatoryMatrix";
+import { PatternSearchTable } from "./docs/PatternSearchTable";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -253,6 +254,10 @@ export function Documentation() {
           <TabsTrigger value="glossary" className="flex items-center gap-1">
             <BookOpen className="w-4 h-4" />
             <span className="hidden sm:inline">Glossary</span>
+          </TabsTrigger>
+          <TabsTrigger value="search-table" className="flex items-center gap-1">
+            <Search className="w-4 h-4" />
+            <span className="hidden sm:inline">Finder</span>
           </TabsTrigger>
           <TabsTrigger value="taxonomy" className="flex items-center gap-1">
             <FolderTree className="w-4 h-4" />
@@ -3039,6 +3044,11 @@ export function Documentation() {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        {/* Pattern Finder Tab */}
+        <TabsContent value="search-table" className="space-y-6">
+          <PatternSearchTable />
         </TabsContent>
 
         {/* Taxonomy Tab */}
