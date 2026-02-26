@@ -162,6 +162,14 @@ const patternNames: Record<PatternType, string> = {
   'mongolia_namem': 'Mongolia NAMEM',
   'pacific_sprep': 'Pacific SPREP',
   'czech_chmu': 'Czech ČHMÚ',
+  // v5 patterns
+  'barbados_bms': 'Barbados BMS',
+  'oecs_caribbean': 'OECS Caribbean',
+  'cyprus_wdd': 'Cyprus WDD',
+  'malta_mra': 'Malta MRA',
+  'bolivia_altiplano': 'Bolivia Altiplano',
+  'fourier_multipeak': 'Fourier Multi-Peak',
+  'cc_idf_scaled': 'CC-IDF Scaled',
 };
 
 interface WizardStep {

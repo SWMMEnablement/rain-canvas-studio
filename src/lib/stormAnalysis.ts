@@ -189,6 +189,14 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   mongolia_namem: { name: 'Mongolia NAMEM', peakPosition: 0.35, description: 'High-altitude cold-arid continental' },
   pacific_sprep: { name: 'Pacific SPREP', peakPosition: 0.22, description: 'Pacific SIDS tropical cyclone' },
   czech_chmu: { name: 'Czech ČHMÚ', peakPosition: 0.38, description: 'Czech modern hydrometeorological' },
+  // v5 patterns
+  barbados_bms: { name: 'Barbados BMS', peakPosition: 0.20, description: 'Tropical maritime Hershfield PMP' },
+  oecs_caribbean: { name: 'OECS Caribbean', peakPosition: 0.25, description: 'Eastern Caribbean Bell method + TC' },
+  cyprus_wdd: { name: 'Cyprus WDD', peakPosition: 0.25, description: 'Mediterranean double-triangular' },
+  malta_mra: { name: 'Malta MRA', peakPosition: 0.32, description: 'Composite Chicago-Huff hybrid' },
+  bolivia_altiplano: { name: 'Bolivia Altiplano', peakPosition: 0.50, description: 'Modified SCS Type I high-altitude' },
+  fourier_multipeak: { name: 'Fourier Multi-Peak', peakPosition: 0.40, description: 'Fourier series dual-peak research' },
+  cc_idf_scaled: { name: 'CC-IDF Scaled', peakPosition: 0.48, description: 'Climate-change scaled SCS Type II' },
 };
 
 /**
