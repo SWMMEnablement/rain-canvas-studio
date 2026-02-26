@@ -124,6 +124,12 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'spanish_cedex', name: 'Spain CEDEX', color: '#c2410c', category: 'European' },
   { id: 'belgian_irm', name: 'Belgium IRM', color: '#0f766e', category: 'European' },
   { id: 'watts_curve', name: "Watt's Curve (UK)", color: '#4338ca', category: 'European' },
+  { id: 'kostra_dwd', name: 'KOSTRA-DWD', color: '#1e40af', category: 'European' },
+  { id: 'austria_okostra', name: 'Austria ÖKOSTRA', color: '#7f1d1d', category: 'European' },
+  { id: 'montana_caquot', name: 'Montana/Caquot (FR)', color: '#6d28d9', category: 'European' },
+  { id: 'shyreg_fr', name: 'SHYREG (FR)', color: '#4c1d95', category: 'European' },
+  { id: 'feh22_refh2', name: 'FEH22/ReFH2', color: '#1e3a5f', category: 'European' },
+  { id: 'ireland_met', name: 'Ireland Met Éireann', color: '#065f46', category: 'European' },
   // Oceania
   { id: 'hirds_nz', name: 'HIRDS NZ', color: '#15803d', category: 'Oceania' },
   { id: 'pilgrim_cordery', name: 'Pilgrim-Cordery', color: '#a16207', category: 'Oceania' },
@@ -201,7 +207,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'European',
-    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double', 'sifalda', 'swiss_idf', 'spanish_cedex', 'belgian_irm', 'watts_curve'],
+    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double', 'sifalda', 'swiss_idf', 'spanish_cedex', 'belgian_irm', 'watts_curve', 'kostra_dwd', 'austria_okostra', 'montana_caquot', 'shyreg_fr', 'feh22_refh2', 'ireland_met'],
     description: 'European design patterns',
   },
   {
@@ -221,8 +227,8 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'Euler Types',
-    patterns: ['euler1', 'euler2', 'dwa'],
-    description: 'German Euler distributions',
+    patterns: ['euler1', 'euler2', 'dwa', 'kostra_dwd', 'austria_okostra'],
+    description: 'German/Austrian Euler distributions',
   },
   {
     name: 'UK Methods',
