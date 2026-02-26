@@ -99,7 +99,7 @@ const Index = () => {
           </div>
 
           {/* Pattern Badges */}
-          <div className="flex flex-wrap justify-center gap-2 mt-4 max-w-2xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-2 mt-4 max-w-5xl mx-auto">
             {PATTERN_BADGES.map((name) => (
               <Badge
                 key={name}
