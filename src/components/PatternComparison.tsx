@@ -156,6 +156,49 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'arid_flash_flood', name: 'Arid Flash Flood', color: '#ea580c', category: 'Middle East' },
   { id: 'dubai_dm', name: 'Dubai Municipality', color: '#f59e0b', category: 'Middle East' },
   { id: 'abu_dhabi_adm', name: 'Abu Dhabi ADM', color: '#8b5cf6', category: 'Middle East' },
+  // v2 patterns
+  { id: 'aes_30', name: 'AES Canada 30%', color: '#dc2626', category: 'Canadian' },
+  { id: 'aes_40', name: 'AES Canada 40%', color: '#ef4444', category: 'Canadian' },
+  { id: 'm5_60_fsr', name: 'M5-60 (UK/Ireland)', color: '#334155', category: 'European' },
+  { id: 'arr2019', name: 'ARR 2019 Ensemble', color: '#7c3aed', category: 'Oceania' },
+  { id: 'upm_plata', name: 'UPM Río de la Plata', color: '#0d9488', category: 'Latin American' },
+  { id: 'nz_tp108', name: 'Auckland TP108', color: '#059669', category: 'Oceania' },
+  { id: 'nz_wellington', name: 'Wellington Regional', color: '#047857', category: 'Oceania' },
+  { id: 'nz_christchurch', name: 'Christchurch Canterbury', color: '#065f46', category: 'Oceania' },
+  { id: 'double', name: 'Double Peak', color: '#a855f7', category: 'Other' },
+  // v3 patterns
+  { id: 'noaa_a15', name: 'NOAA Atlas 15', color: '#1e40af', category: 'US Agency' },
+  { id: 'eccc_idf', name: 'ECCC IDF', color: '#b91c1c', category: 'Canadian' },
+  { id: 'arr87_legacy', name: 'ARR87 Legacy', color: '#92400e', category: 'Oceania' },
+  { id: 'hk_dsd_2018', name: 'HK DSD 2018', color: '#e11d48', category: 'Asian' },
+  { id: 'malaysia_hp1', name: 'Malaysia HP1', color: '#14b8a6', category: 'Asian' },
+  // v4 patterns
+  { id: 'france_shypre', name: 'France SHYPRE', color: '#4338ca', category: 'European' },
+  { id: 'poland_panda', name: 'Poland PANDa', color: '#dc2626', category: 'European' },
+  { id: 'turkey_mgm', name: 'Turkey MGM', color: '#dc2626', category: 'Middle East' },
+  { id: 'israel_ims', name: 'Israel IMS', color: '#2563eb', category: 'Middle East' },
+  { id: 'iran_irimo', name: 'Iran IRIMO', color: '#059669', category: 'Middle East' },
+  { id: 'iraq_mos', name: 'Iraq MoS', color: '#92400e', category: 'Middle East' },
+  { id: 'kazakhstan_kazhydromet', name: 'Kazakhstan Kazhydromet', color: '#0891b2', category: 'Asian' },
+  { id: 'russia_roshydromet', name: 'Russia Roshydromet', color: '#1d4ed8', category: 'European' },
+  { id: 'portugal_ipma', name: 'Portugal IPMA', color: '#16a34a', category: 'European' },
+  { id: 'nz_niwa', name: 'NZ NIWA', color: '#0f766e', category: 'Oceania' },
+  { id: 'csa_w231', name: 'CSA W231 (Canada)', color: '#7f1d1d', category: 'Canadian' },
+  { id: 'sa_wrc', name: 'South Africa WRC', color: '#15803d', category: 'African' },
+  { id: 'west_africa_cilss', name: 'West Africa CILSS', color: '#ca8a04', category: 'African' },
+  { id: 'noaa_a16', name: 'NOAA Atlas 16', color: '#1e3a5f', category: 'US Agency' },
+  { id: 'euro_cordex', name: 'EURO-CORDEX', color: '#6d28d9', category: 'European' },
+  { id: 'mongolia_namem', name: 'Mongolia NAMEM', color: '#78350f', category: 'Asian' },
+  { id: 'pacific_sprep', name: 'Pacific SPREP', color: '#0e7490', category: 'Oceania' },
+  { id: 'czech_chmu', name: 'Czech ČHMÚ', color: '#854d0e', category: 'European' },
+  // v5 patterns
+  { id: 'barbados_bms', name: 'Barbados BMS', color: '#0284c7', category: 'Caribbean' },
+  { id: 'oecs_caribbean', name: 'OECS Caribbean', color: '#0d9488', category: 'Caribbean' },
+  { id: 'cyprus_wdd', name: 'Cyprus WDD', color: '#b45309', category: 'European' },
+  { id: 'malta_mra', name: 'Malta MRA', color: '#9333ea', category: 'European' },
+  { id: 'bolivia_altiplano', name: 'Bolivia Altiplano', color: '#a16207', category: 'Latin American' },
+  { id: 'fourier_multipeak', name: 'Fourier Multi-Peak', color: '#6366f1', category: 'Research' },
+  { id: 'cc_idf_scaled', name: 'CC-IDF Scaled', color: '#f43f5e', category: 'Research' },
 ];
 
 interface PresetGroup {
@@ -207,7 +250,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'European',
-    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double', 'sifalda', 'swiss_idf', 'spanish_cedex', 'belgian_irm', 'watts_curve', 'kostra_dwd', 'austria_okostra', 'montana_caquot', 'shyreg_fr', 'feh22_refh2', 'ireland_met'],
+    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double', 'sifalda', 'swiss_idf', 'spanish_cedex', 'belgian_irm', 'watts_curve', 'kostra_dwd', 'austria_okostra', 'montana_caquot', 'shyreg_fr', 'feh22_refh2', 'ireland_met', 'france_shypre', 'poland_panda', 'portugal_ipma', 'russia_roshydromet', 'euro_cordex', 'czech_chmu', 'cyprus_wdd', 'malta_mra', 'm5_60_fsr'],
     description: 'European design patterns',
   },
   {
@@ -217,7 +260,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'US Standard',
-    patterns: ['scs2', 'balanced', 'chicago', 'noaa_a14', 'huff2'],
+    patterns: ['scs2', 'balanced', 'chicago', 'noaa_a14', 'noaa_a15', 'noaa_a16', 'huff2'],
     description: 'Common US design storms',
   },
   {
@@ -232,12 +275,17 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'UK Methods',
-    patterns: ['fsr', 'feh', 'triangular', 'trapezoidal', 'watts_curve'],
+    patterns: ['fsr', 'feh', 'feh22_refh2', 'triangular', 'trapezoidal', 'watts_curve', 'm5_60_fsr'],
     description: 'UK design storm methods',
   },
   {
+    name: 'Canadian',
+    patterns: ['canadian', 'aes_30', 'aes_40', 'eccc_idf', 'csa_w231'],
+    description: 'All Canadian design storm standards',
+  },
+  {
     name: 'Typhoon/Cyclone',
-    patterns: ['japan_typhoon', 'china_prd', 'india_coastal', 'philippines_pagasa', 'hong_kong_hko', 'taiwan_cwa', 'fiji_fms'],
+    patterns: ['japan_typhoon', 'china_prd', 'india_coastal', 'philippines_pagasa', 'hong_kong_hko', 'taiwan_cwa', 'fiji_fms', 'hk_dsd_2018'],
     description: 'Tropical cyclone patterns',
   },
   {
@@ -247,33 +295,48 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'GCC Flash Flood',
-    patterns: ['saudi_pme', 'uae_ncms', 'qatar_kahramaa', 'oman_dgman', 'arid_flash_flood', 'dubai_dm', 'abu_dhabi_adm'],
+    patterns: ['saudi_pme', 'uae_ncms', 'qatar_kahramaa', 'oman_dgman', 'arid_flash_flood', 'dubai_dm', 'abu_dhabi_adm', 'israel_ims', 'iran_irimo', 'iraq_mos', 'turkey_mgm'],
     description: 'GCC/Middle East arid flash flood patterns',
   },
   {
     name: 'African',
-    patterns: ['sa_sanral', 'kenya_kmd', 'nigeria_nimet', 'egypt_hcww', 'sa_huff', 'morocco_dmn', 'ethiopia_nma', 'ghana_gmet', 'tanzania_tma', 'mozambique_inam'],
+    patterns: ['sa_sanral', 'kenya_kmd', 'nigeria_nimet', 'egypt_hcww', 'sa_huff', 'morocco_dmn', 'ethiopia_nma', 'ghana_gmet', 'tanzania_tma', 'mozambique_inam', 'sa_wrc', 'west_africa_cilss'],
     description: 'All African design storm patterns',
   },
   {
     name: 'Latin American',
-    patterns: ['brazil_ana', 'mexico_conagua', 'colombia_ideam', 'chile_dga', 'argentina_smn', 'peru_senamhi', 'ecuador_inamhi', 'venezuela_inameh', 'puerto_rico'],
+    patterns: ['brazil_ana', 'mexico_conagua', 'colombia_ideam', 'chile_dga', 'argentina_smn', 'peru_senamhi', 'ecuador_inamhi', 'venezuela_inameh', 'puerto_rico', 'upm_plata', 'bolivia_altiplano'],
     description: 'All Latin American design storm patterns',
   },
   {
     name: 'Andean',
-    patterns: ['peru_senamhi', 'ecuador_inamhi', 'colombia_ideam', 'venezuela_inameh', 'chile_dga'],
+    patterns: ['peru_senamhi', 'ecuador_inamhi', 'colombia_ideam', 'venezuela_inameh', 'chile_dga', 'bolivia_altiplano'],
     description: 'Andean orographic patterns (r≈0.40)',
   },
   {
     name: 'New Zealand',
-    patterns: ['nz_tp108', 'nz_wellington', 'nz_christchurch', 'hirds_nz'],
-    description: 'All NZ design storms including HIRDS national standard',
+    patterns: ['nz_tp108', 'nz_wellington', 'nz_christchurch', 'hirds_nz', 'nz_niwa'],
+    description: 'All NZ design storms including HIRDS and NIWA national standard',
   },
   {
     name: 'Oceania',
-    patterns: ['nz_tp108', 'nz_wellington', 'nz_christchurch', 'hirds_nz', 'arr', 'pilgrim_cordery', 'fiji_fms'],
+    patterns: ['nz_tp108', 'nz_wellington', 'nz_christchurch', 'hirds_nz', 'nz_niwa', 'arr', 'arr2019', 'arr87_legacy', 'pilgrim_cordery', 'fiji_fms', 'pacific_sprep'],
     description: 'Australia, New Zealand, and Pacific Island patterns',
+  },
+  {
+    name: 'Caribbean',
+    patterns: ['barbados_bms', 'oecs_caribbean', 'puerto_rico'],
+    description: 'Caribbean island design storm patterns',
+  },
+  {
+    name: 'Climate-Adjusted',
+    patterns: ['cc_idf_scaled', 'euro_cordex', 'csa_w231', 'noaa_a16'],
+    description: 'Climate change adjusted design storms',
+  },
+  {
+    name: 'Research',
+    patterns: ['fourier_multipeak', 'cc_idf_scaled'],
+    description: 'Academic and research-based patterns',
   },
 ];
 
