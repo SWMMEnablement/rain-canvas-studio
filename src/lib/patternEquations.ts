@@ -2258,6 +2258,105 @@ export const patternEquations: PatternEquation[] = [
     },
     notes: 'Creates design storms by averaging temporal patterns of multiple observed storms at each time step. Produces smoother distributions than single-storm methods. Related to but distinct from Pilgrim-Cordery ranking approach.'
   },
+  // ============ Sifalda (Czech) ============
+  {
+    pattern: 'sifalda',
+    name: 'Sifalda Design Storm (Czech Republic)',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'First Quarter (0 ≤ t < 0.34T)',
+        latex: 'i_1(t) = \\frac{0.14 \\cdot P}{0.34 \\cdot T}',
+        description: 'Low uniform intensity in the initial phase'
+      },
+      {
+        label: 'Central Burst (0.34T ≤ t < 0.51T)',
+        latex: 'i_2(t) = \\frac{0.56 \\cdot P}{0.17 \\cdot T}',
+        description: 'High-intensity core containing 56% of total depth in 17% of duration'
+      },
+      {
+        label: 'Recession (0.51T ≤ t ≤ T)',
+        latex: 'i_3(t) = \\frac{0.30 \\cdot P}{0.49 \\cdot T}',
+        description: 'Moderate declining intensity in the final phase'
+      }
+    ],
+    variables: [
+      { symbol: 'i_1, i_2, i_3', meaning: 'Uniform intensity in each phase (mm/hr)' },
+      { symbol: 'P', meaning: 'Total precipitation depth' },
+      { symbol: 'T', meaning: 'Total storm duration' }
+    ],
+    reference: {
+      title: 'Úprava intenzit srážek pro městské odvodnění',
+      citation: 'Sifalda, V.',
+      year: 1973
+    },
+    notes: 'Three-block step function from analysis of Czech urban storms. 56% of depth falls in only 17% of duration (central burst). Still used in Czech/Slovak drainage codes alongside modern ČHMÚ Chicago-type.'
+  },
+  // ============ Pilgrim-Cordery ============
+  {
+    pattern: 'pilgrim_cordery',
+    name: 'Pilgrim-Cordery Method',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Ranked Average',
+        latex: 'i^*(t_j) = \\frac{1}{N} \\sum_{k=1}^{N} \\text{rank}_j(i_k)',
+        description: 'Average of ranked intensities at each time position'
+      },
+      {
+        label: 'Dimensionless Hyetograph',
+        latex: 'F(t) = \\frac{P(t)}{P_{total}}',
+        description: 'Cumulative fraction from empirical ordinate table'
+      }
+    ],
+    variables: [
+      { symbol: 'i^*(t_j)', meaning: 'Design intensity at time step j from ranked averaging' },
+      { symbol: 'N', meaning: 'Number of historical storms in sample' },
+      { symbol: 'F(t)', meaning: 'Cumulative dimensionless precipitation fraction' },
+      { symbol: 'P_{total}', meaning: 'Total storm depth' }
+    ],
+    reference: {
+      title: 'Rainfall Temporal Patterns for Design Floods',
+      citation: 'Pilgrim, D.H. & Cordery, I., ASCE J. Hydraulic Division',
+      year: 1975
+    },
+    notes: 'Pre-ARR2016 Australian standard. Ranks observed storm increments independently at each time position, then averages ranks. Produces front-loaded design storm with peak at ~40% of duration. Superseded by ARR2019 ensemble approach.'
+  },
+  // ============ Watt's Curve (UK) ============
+  {
+    pattern: 'watts_curve',
+    name: "Watt's Curve (UK)",
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Rising Limb (t ≤ tₚ)',
+        latex: 'i(t) = i_0 \\cdot \\frac{t}{t_p}',
+        description: 'Linear rise to peak intensity'
+      },
+      {
+        label: 'Falling Limb (t > tₚ)',
+        latex: 'i(t) = i_0 \\cdot \\exp\\left[-k \\cdot \\frac{t - t_p}{t_p}\\right]',
+        description: 'Exponential decay after peak'
+      },
+      {
+        label: 'Beta Approximation',
+        latex: 'f(t) = t^{\\alpha-1}(1-t)^{\\beta-1} / B(\\alpha, \\beta)',
+        description: 'Symmetrical bell shape when α = β = 2.5'
+      }
+    ],
+    variables: [
+      { symbol: 'i_0', meaning: 'Peak intensity (mm/hr)' },
+      { symbol: 't_p', meaning: 'Time to peak' },
+      { symbol: 'k', meaning: 'Decay constant (typically 1.5–3.0)' },
+      { symbol: '\\alpha, \\beta', meaning: 'Beta distribution shape parameters (2.5 each for symmetric)' }
+    ],
+    reference: {
+      title: 'A Study of the Time-Area-Concentration Diagram',
+      citation: 'Watt, W.E. & Chow, K.C.A.',
+      year: 1985
+    },
+    notes: 'Historical UK method predating the Flood Estimation Handbook (FEH). Produces symmetrical bell-shaped profile. Now largely superseded by FEH summer/winter profiles but still referenced in older UK drainage manuals and academic literature.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {
