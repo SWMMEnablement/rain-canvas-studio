@@ -2184,6 +2184,80 @@ export const patternEquations: PatternEquation[] = [
     },
     notes: 'Conservative worst-case storm for dam safety and critical infrastructure. Ensures maximum runoff for all sub-catchment travel times.'
   },
+  // ============ Arnell (Sweden historical) ============
+  {
+    pattern: 'arnell_sweden',
+    name: 'Arnell Design Storm (Sweden 1982)',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Arnell Chicago-type',
+        latex: 'i(t) = \\frac{1}{(0.06 + |t - r| \\cdot 2.8)^{1.15}}',
+        description: 'Chicago-type intensity with broader peak than modern SMHI'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t' },
+      { symbol: 't', meaning: 'Dimensionless time (0–1)' },
+      { symbol: 'r', meaning: 'Advancement ratio = 0.33' },
+    ],
+    reference: {
+      title: 'Dimensionering av dagvattensystem — regn och bräddning',
+      citation: 'Arnell, V.',
+      year: 1982
+    },
+    notes: 'Historical predecessor to modern Sweden SMHI. Uses Chicago-type formulation with r=0.33 and broader peak than current practice. Still referenced in older Swedish municipal drainage standards.'
+  },
+  // ============ TENAX-CDS ============
+  {
+    pattern: 'tenax_cds',
+    name: 'TENAX Climate-Adapted Chicago Design Storm',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Climate-scaled Chicago',
+        latex: 'i(t) = i_{Chicago}(t) \\cdot \\left[1 + (\\alpha_{CC} - 1) \\cdot \\phi(t)\\right]',
+        description: 'Chicago storm with Clausius-Clapeyron scaling at peak'
+      }
+    ],
+    variables: [
+      { symbol: 'i_{Chicago}(t)', meaning: 'Base Chicago storm intensity' },
+      { symbol: '\\alpha_{CC}', meaning: 'Climate scaling factor (~1.07/°C Clausius-Clapeyron)' },
+      { symbol: '\\phi(t)', meaning: 'Peak proximity function (1 at peak, 0 far)' },
+      { symbol: 'r', meaning: 'Advancement ratio = 0.40' },
+    ],
+    reference: {
+      title: 'Temperature-conditioned extremes and the TENAX model',
+      citation: 'Marra, F. et al. (ETH Zurich / EPFL)',
+      year: 2024
+    },
+    notes: 'Very recent framework for climate-adapting IDF curves. Applies super-Clausius-Clapeyron scaling concentrated near the storm peak, reflecting observed intensification of extreme rainfall cores under warming.'
+  },
+  // ============ Average Variability Method ============
+  {
+    pattern: 'avm',
+    name: 'Average Variability Method (AVM)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'AVM averaging',
+        latex: '\\bar{i}(t_j) = \\frac{1}{N} \\sum_{k=1}^{N} i_k(t_j)',
+        description: 'Design intensity from averaging N observed storm patterns'
+      }
+    ],
+    variables: [
+      { symbol: '\\bar{i}(t_j)', meaning: 'Design intensity at time step j' },
+      { symbol: 'N', meaning: 'Number of observed storms in sample' },
+      { symbol: 'i_k(t_j)', meaning: 'Intensity of storm k at time step j' },
+      { symbol: 't_j', meaning: 'Dimensionless time step' },
+    ],
+    reference: {
+      title: 'Australian Rainfall and Runoff (ARR) — temporal patterns',
+      citation: 'Pilgrim, D.H. & Cordery, I.',
+      year: 1975
+    },
+    notes: 'Creates design storms by averaging temporal patterns of multiple observed storms at each time step. Produces smoother distributions than single-storm methods. Related to but distinct from Pilgrim-Cordery ranking approach.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {
