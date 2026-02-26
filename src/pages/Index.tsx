@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { StormWizard, decodeStormParams } from "@/components/StormWizard";
 import { patterns } from "@/components/PatternSelector";
@@ -9,6 +9,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { RainParticles } from "@/components/RainParticles";
 import { HeroHyetograph, getHeroPatternLabel } from "@/components/HeroHyetograph";
 import { StormChatbot } from "@/components/StormChatbot";
+import { HeroGifExport } from "@/components/HeroGifExport";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2 } from "lucide-react";
@@ -67,6 +68,7 @@ const Index = () => {
   const [externalStormParams, setExternalStormParams] = useState<{ depth: number; duration: number } | null>(null);
   const [heroPattern, setHeroPattern] = useState<string | undefined>(undefined);
   const [stormContext, setStormContext] = useState<string>("");
+  const heroRef = useRef<HTMLDivElement>(null);
 
   const handleSendToGenerator = useCallback((depthInches: number, durationHours: number) => {
     setExternalStormParams({ depth: depthInches, duration: durationHours });
@@ -93,7 +95,7 @@ const Index = () => {
           </p>
 
           {/* Hero Hyetograph Preview */}
-          <div className="mt-6 mb-4">
+          <div ref={heroRef} className="mt-6 mb-4 inline-block">
             <HeroHyetograph patternName={heroPattern} />
             <p className="text-xs opacity-80 mt-1 transition-all duration-300">{getHeroPatternLabel(heroPattern)}</p>
           </div>
@@ -115,6 +117,13 @@ const Index = () => {
               </Badge>
             ))}
           </div>
+
+          {/* GIF Export */}
+          <HeroGifExport
+            patternNames={PATTERN_BADGES}
+            onPatternChange={(name) => setHeroPattern(name || undefined)}
+            captureRef={heroRef}
+          />
 
           <p className="text-sm mt-4 opacity-90 font-medium tracking-wide">
             {patterns.length} Design Storm Patterns Available
