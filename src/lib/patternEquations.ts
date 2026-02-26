@@ -1342,6 +1342,563 @@ export const patternEquations: PatternEquation[] = [
     },
     notes: 'Center-peaked with moderate asymmetry. Accounts for monsoon + convective mix. Required for Ministry of Environment urban flood control design.'
   },
+
+  // ============ KOSTRA-DWD ============
+  {
+    pattern: 'kostra_dwd',
+    name: 'KOSTRA-DWD (Germany)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Return Level Equation (DWA-A 531)',
+        latex: '\\text{RL}_{\\text{RP}} = u_p + w_p \\cdot \\ln(\\text{RP})',
+        description: 'Exponential return level model for design rainfall depths'
+      },
+      {
+        label: 'Plotting Position (Partial Series)',
+        latex: '\\text{RP}_k = \\frac{L + 0.2}{k - 0.4} \\cdot M',
+        description: 'Return period estimation for ranked extreme values'
+      },
+      {
+        label: 'Euler Type II Peak Placement',
+        latex: 't_{peak} = \\frac{D}{3}',
+        description: 'Peak 5-min block placed at one-third of storm duration per DWA-A 118'
+      }
+    ],
+    variables: [
+      { symbol: '\\text{RL}_{\\text{RP}}', meaning: 'Return level for return period RP (mm)' },
+      { symbol: 'u_p, w_p', meaning: 'Offset and slope parameters (fitted per grid cell)' },
+      { symbol: '\\text{RP}', meaning: 'Return period (years)' },
+      { symbol: 'L', meaning: 'Sample size' },
+      { symbol: 'M', meaning: 'Length of time series (years)' },
+      { symbol: 'k', meaning: 'Rank index' }
+    ],
+    reference: {
+      title: 'DWA-A 531 / DWA-A 118: KOSTRA-DWD Regionalized Heavy Precipitation',
+      citation: 'Deutsche Vereinigung für Wasserwirtschaft / DWD',
+      year: 2020,
+      link: 'https://www.dwa.de'
+    },
+    notes: 'KOSTRA-DWD provides regionalized design rainfall for all of Germany on a 5 km² grid. Uses Euler Type II alternating-block method with steeper peak per DWA-A 118 compared to standard Euler II.'
+  },
+
+  // ============ Austria ÖKOSTRA ============
+  {
+    pattern: 'austria_okostra',
+    name: 'Austria ÖKOSTRA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Chicago Variant (Euler Type II)',
+        latex: 'i_{before}(t) = \\frac{a\\left[\\frac{(1-c) \\cdot t_b}{r} + b\\right]}{\\left(\\frac{t_b}{r} + b\\right)^{1+c}}, \\quad r = 0.33',
+        description: 'Rising limb with Euler II peak position at 1/3 duration'
+      },
+      {
+        label: 'Falling Limb',
+        latex: 'i_{after}(t) = \\frac{a\\left[\\frac{(1-c) \\cdot t_a}{1-r} + b\\right]}{\\left(\\frac{t_a}{1-r} + b\\right)^{1+c}}',
+        description: 'Recession from peak using Chicago method'
+      }
+    ],
+    variables: [
+      { symbol: 'r', meaning: 'Advancement coefficient = 0.33 (peak at 1/3 duration)' },
+      { symbol: 't_b', meaning: 'Time before peak' },
+      { symbol: 't_a', meaning: 'Time after peak' },
+      { symbol: 'a, b, c', meaning: 'Austrian IDF regionalization parameters' }
+    ],
+    reference: {
+      title: 'ÖKOSTRA: Österreichische Koordinierte Starkniederschlagsregionalisierung und -auswertung',
+      citation: 'Bundesministerium für Land- und Forstwirtschaft, Austria',
+      year: 2018,
+      link: 'https://ehyd.gv.at'
+    },
+    notes: 'Austrian coordinated design rainfall for sewer/drainage design. Uses Euler Type II variant with Austrian IDF regionalization coefficients.'
+  },
+
+  // ============ SHYREG (France) ============
+  {
+    pattern: 'shyreg_fr',
+    name: 'SHYREG / Desbordes (France)',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Desbordes Double Triangle',
+        latex: 'i_M = \\frac{2P(t_1, T)}{t_1} - i_m, \\quad i_m = \\frac{P(t_3, T) - P(t_1, T)}{t_2}',
+        description: 'Peak and base intensities from IDF-derived depths'
+      },
+      {
+        label: 'Montana Formula (IDF)',
+        latex: 'i_T(d) = a_T \\cdot d^{-b_T}',
+        description: 'Underlying French IDF relationship (Montana coefficients)'
+      },
+      {
+        label: 'LCPC/Desbordes IDF',
+        latex: 'i(t, T) = \\frac{a(T)}{(t + b)^{c}}',
+        description: 'General French IDF form for intensity estimation'
+      }
+    ],
+    variables: [
+      { symbol: 'i_M', meaning: 'Maximum intensity of peak rainfall (mm/h)' },
+      { symbol: 'i_m', meaning: 'Maximum intensity before intense period (mm/h)' },
+      { symbol: 'P(t, T)', meaning: 'Rainfall depth for duration t and return period T' },
+      { symbol: 't_1', meaning: 'Intense period duration' },
+      { symbol: 't_2', meaning: 'Half of non-intense period: (t₃ − t₁)/2' },
+      { symbol: 't_3', meaning: 'Total storm duration' },
+      { symbol: 'a_T, b_T', meaning: 'Montana coefficients for return period T' }
+    ],
+    reference: {
+      title: 'Instruction Technique IT77 / SHYPRE Simulation',
+      citation: 'Desbordes & Raous; ORSTOM/Cemagref/IRSTEA',
+      year: 1976,
+      link: 'https://www.irstea.fr'
+    },
+    notes: 'SHYREG (Simulation d\'Hydrogrammes de crues par REGionalisation) uses stochastic hourly rainfall generators calibrated to local climatology. The Desbordes double triangle is the standard temporal pattern for French urban drainage per IT77.'
+  },
+
+  // ============ FEH22/ReFH2 ============
+  {
+    pattern: 'feh22_refh2',
+    name: 'FEH22 / ReFH2 (UK)',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Generalized Logistic (GLO) Distribution',
+        latex: 'f(x) = \\alpha^{-1} \\exp\\left[-(1-\\kappa)y\\right] \\cdot \\left[1 + \\exp(-y)\\right]^{-2}',
+        description: 'Primary frequency distribution for UK rainfall extremes'
+      },
+      {
+        label: 'Quantile Function',
+        latex: 'y = -\\kappa^{-1}\\log\\left(1-\\kappa\\frac{x-\\xi}{\\alpha}\\right), \\quad \\kappa \\neq 0',
+        description: 'GLO reduced variate for return period estimation'
+      },
+      {
+        label: 'ReFH2 Net Rainfall',
+        latex: 'Q = C_v \\cdot C_R \\cdot i \\cdot A',
+        description: 'Rainfall-runoff model: volumetric × routing coefficient'
+      }
+    ],
+    variables: [
+      { symbol: '\\xi', meaning: 'Location parameter' },
+      { symbol: '\\alpha', meaning: 'Scale parameter' },
+      { symbol: '\\kappa', meaning: 'Shape parameter' },
+      { symbol: 'C_v', meaning: 'Volumetric runoff coefficient' },
+      { symbol: 'C_R', meaning: 'Routing coefficient' },
+      { symbol: 'A', meaning: 'Catchment area' }
+    ],
+    reference: {
+      title: 'Flood Estimation Handbook (FEH) 2022 Update',
+      citation: 'Centre for Ecology & Hydrology (CEH), UK',
+      year: 2022,
+      link: 'https://fehweb.ceh.ac.uk'
+    },
+    notes: 'FEH22 supersedes FEH99 with updated DDF models, areal reduction factors, and climate change allowances. GLO distribution is the standard for UK rainfall frequency analysis.'
+  },
+
+  // ============ ECCC IDF ============
+  {
+    pattern: 'eccc_idf',
+    name: 'ECCC IDF (Canada)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'CSA W231:25 Climate Scaling',
+        latex: 'I_{fut} = I_{ref} \\times (CC_{adj})^{\\Delta T}',
+        description: 'Temperature-scaled IDF for climate change adaptation'
+      },
+      {
+        label: 'Default Scaling Factor',
+        latex: 'CC_{adj} = 1.07 \\quad \\text{(Clausius-Clapeyron: 7\\%/°C)}',
+        description: 'Based on thermodynamic moisture-holding capacity increase'
+      },
+      {
+        label: 'Tabled IDF Form',
+        latex: 'i = \\frac{A}{(t_c + B)^C}',
+        description: 'Standard ECCC IDF equation with fitted parameters A, B, C'
+      }
+    ],
+    variables: [
+      { symbol: 'I_{fut}', meaning: 'Future rainfall intensity (mm/h)' },
+      { symbol: 'I_{ref}', meaning: 'Historical reference intensity (mm/h)' },
+      { symbol: 'CC_{adj}', meaning: 'Climate change adjustment factor (default 1.07)' },
+      { symbol: '\\Delta T', meaning: 'Projected temperature change (°C)' },
+      { symbol: 'A, B, C', meaning: 'Station-specific IDF parameters' }
+    ],
+    reference: {
+      title: 'CSA W231:25 / ECCC IDF Curves',
+      citation: 'Environment and Climate Change Canada / CSA Group',
+      year: 2025,
+      link: 'https://climate.weather.gc.ca/prods_servs/engineering_e.html'
+    },
+    notes: 'CSA W231:25 is Canada\'s new standard requiring climate-change adjusted IDF curves. Uses upper 95% CI for reference intensity and 75th-90th percentile climate model warming for ΔT.'
+  },
+
+  // ============ NOAA Atlas 15 ============
+  {
+    pattern: 'noaa_a15',
+    name: 'NOAA Atlas 15',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Precipitation Frequency Estimate',
+        latex: 'P(D, T) = \\hat{P}_D \\cdot K_T',
+        description: 'Design depth from mean annual maximum and frequency factor'
+      },
+      {
+        label: 'Temporal Distribution',
+        latex: 'F(t) = \\sum_{k} w_k \\cdot F_k(t)',
+        description: 'Weighted ensemble of observed temporal patterns'
+      }
+    ],
+    variables: [
+      { symbol: 'P(D,T)', meaning: 'Precipitation depth for duration D and return period T' },
+      { symbol: '\\hat{P}_D', meaning: 'Mean annual maximum precipitation for duration D' },
+      { symbol: 'K_T', meaning: 'Frequency factor for return period T' },
+      { symbol: 'w_k', meaning: 'Regional weighting factors' },
+      { symbol: 'F_k(t)', meaning: 'Component temporal distributions' }
+    ],
+    reference: {
+      title: 'NOAA Atlas 15: Precipitation-Frequency Atlas of the United States',
+      citation: 'NOAA National Weather Service',
+      year: 2024,
+      link: 'https://www.weather.gov/owp/hdsc_currentpf'
+    },
+    notes: 'Successor to Atlas 14 with updated precipitation frequency estimates, new temporal distributions, and improved spatial interpolation methods.'
+  },
+
+  // ============ Ireland Met Éireann ============
+  {
+    pattern: 'ireland_met',
+    name: 'Ireland Met Éireann',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Irish IDF Equation',
+        latex: 'i = \\frac{a}{(t + b)^n}',
+        description: 'Sherman-type IDF with Irish regional parameters'
+      },
+      {
+        label: 'Chicago Variant (r = 0.375)',
+        latex: 'i_{before}(t) = \\frac{a\\left[\\frac{(1-n) \\cdot t_b}{r} + b\\right]}{\\left(\\frac{t_b}{r} + b\\right)^{1+n}}, \\quad r = 0.375',
+        description: 'Keifer-Chu with Irish advancement coefficient'
+      }
+    ],
+    variables: [
+      { symbol: 'a, b, n', meaning: 'Irish regional IDF parameters' },
+      { symbol: 'r', meaning: 'Advancement coefficient = 0.375' },
+      { symbol: 't_b, t_a', meaning: 'Time before/after peak' }
+    ],
+    reference: {
+      title: 'Rainfall Frequency Analysis for Ireland',
+      citation: 'Met Éireann / OPW Flood Studies Update',
+      year: 2019,
+      link: 'https://www.met.ie'
+    },
+    notes: 'Irish design storms use a Chicago-method variant with r=0.375. Flood Studies Update (FSU) provides updated rainfall frequency analysis for Ireland.'
+  },
+
+  // ============ Montana/Caquot (France) ============
+  {
+    pattern: 'montana_caquot',
+    name: 'Montana/Caquot (France)',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Montana Formula',
+        latex: 'i_T(d) = a_T \\cdot d^{-b_T}',
+        description: 'Power-law IDF relationship (French standard form)'
+      },
+      {
+        label: 'Caquot Rational Method',
+        latex: 'Q_T = \\frac{1}{6.6} \\cdot I^{\\frac{1}{(1+0.287b)}} \\cdot C^{\\frac{1}{(1+0.287b)}} \\cdot \\mu^{\\frac{0.84b}{(1+0.287b)}} \\cdot A^{\\frac{1-0.05b}{(1+0.287b)}}',
+        description: 'Caquot formula for peak runoff with Montana exponent b'
+      }
+    ],
+    variables: [
+      { symbol: 'i_T(d)', meaning: 'Intensity for duration d and return period T (mm/h)' },
+      { symbol: 'a_T', meaning: 'Montana coefficient for return period T' },
+      { symbol: 'b_T', meaning: 'Montana exponent (typically 0.5–0.8)' },
+      { symbol: 'I', meaning: 'Average slope (m/m)' },
+      { symbol: 'C', meaning: 'Runoff coefficient' },
+      { symbol: '\\mu', meaning: 'Elongation coefficient' },
+      { symbol: 'A', meaning: 'Catchment area (ha)' }
+    ],
+    reference: {
+      title: 'Instruction Technique Relative aux Réseaux d\'Assainissement (IT77)',
+      citation: 'Circulaire 77-284, Ministère de l\'Équipement, France',
+      year: 1977,
+      link: 'https://www.cerema.fr'
+    },
+    notes: 'The Montana formula is the standard French IDF parameterization. The Caquot method extends it to a rational-type runoff equation widely used in French urban drainage design.'
+  },
+
+  // ============ AES Canada 30% ============
+  {
+    pattern: 'aes_30',
+    name: 'AES Canada 30%',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Chicago Variant (r = 0.30)',
+        latex: 'i_{before}(t) = \\frac{a\\left[\\frac{(1-c)t_b}{0.30} + b\\right]}{\\left(\\frac{t_b}{0.30} + b\\right)^{1+c}}',
+        description: 'Keifer-Chu with 30% advancement coefficient (Ontario/ECCC)'
+      },
+      {
+        label: 'AES IDF Base',
+        latex: 'i = \\frac{A}{(t_c + B)^C}',
+        description: 'Atmospheric Environment Service IDF parameters'
+      }
+    ],
+    variables: [
+      { symbol: 'r = 0.30', meaning: 'Peak at 30% of duration (early-peaked)' },
+      { symbol: 'A, B, C', meaning: 'ECCC/AES station-specific IDF parameters' }
+    ],
+    reference: {
+      title: 'AES IDF Rainfall Curves',
+      citation: 'Environment Canada, Atmospheric Environment Service',
+      year: 1990,
+      link: 'https://climate.weather.gc.ca'
+    },
+    notes: 'Used primarily in Ontario and eastern Canada. The 30% distribution represents convective-dominated storms with early peak.'
+  },
+
+  // ============ AES Canada 40% ============
+  {
+    pattern: 'aes_40',
+    name: 'AES Canada 40%',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Chicago Variant (r = 0.40)',
+        latex: 'i_{before}(t) = \\frac{a\\left[\\frac{(1-c)t_b}{0.40} + b\\right]}{\\left(\\frac{t_b}{0.40} + b\\right)^{1+c}}',
+        description: 'Keifer-Chu with 40% advancement coefficient (BC/prairies)'
+      }
+    ],
+    variables: [
+      { symbol: 'r = 0.40', meaning: 'Peak at 40% of duration (moderate advancement)' },
+      { symbol: 'A, B, C', meaning: 'ECCC/AES station-specific IDF parameters' }
+    ],
+    reference: {
+      title: 'AES IDF Rainfall Curves',
+      citation: 'Environment Canada, Atmospheric Environment Service',
+      year: 1990,
+      link: 'https://climate.weather.gc.ca'
+    },
+    notes: 'Used in British Columbia and prairie provinces. The 40% distribution is more symmetric than the 30% variant.'
+  },
+
+  // ============ ARR 2019 Ensemble ============
+  {
+    pattern: 'arr2019',
+    name: 'ARR 2019 Ensemble (Australia)',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Ensemble Temporal Pattern',
+        latex: 'F_{ens}(t) = \\frac{1}{N} \\sum_{j=1}^{N} F_j(t)',
+        description: 'Average of N ensemble member temporal patterns'
+      },
+      {
+        label: 'Areal Reduction Factor',
+        latex: 'P_{areal} = \\text{ARF}(D, A) \\cdot P_{point}',
+        description: 'Point-to-area depth conversion'
+      }
+    ],
+    variables: [
+      { symbol: 'F_{ens}(t)', meaning: 'Ensemble-averaged cumulative distribution' },
+      { symbol: 'N', meaning: 'Number of ensemble members (typically 10)' },
+      { symbol: 'F_j(t)', meaning: 'Individual temporal pattern from observed storms' },
+      { symbol: '\\text{ARF}', meaning: 'Areal Reduction Factor' },
+      { symbol: 'A', meaning: 'Catchment area' }
+    ],
+    reference: {
+      title: 'Australian Rainfall and Runoff: A Guide to Flood Estimation (2019)',
+      citation: 'Ball et al., Geoscience Australia',
+      year: 2019,
+      link: 'https://arr.ga.gov.au'
+    },
+    notes: 'ARR 2019 replaces single design storms with an ensemble of 10 temporal patterns derived from observed storms, run in parallel to capture uncertainty.'
+  },
+
+  // ============ ARR87 Legacy ============
+  {
+    pattern: 'arr87_legacy',
+    name: 'ARR87 Legacy (Australia)',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.10 \\cdot \\frac{t}{0.2} & t \\leq 0.2 \\\\ 0.10 + 0.55 \\cdot \\left(\\frac{t-0.20}{0.30}\\right)^{0.8} & 0.20 < t \\leq 0.50 \\\\ 0.65 + 0.35 \\cdot \\frac{t-0.50}{0.50} & t > 0.50 \\end{cases}',
+        description: 'Pre-2019 Australian design storm temporal distribution'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'Australian Rainfall and Runoff (1987 Edition)',
+      citation: 'Institution of Engineers Australia',
+      year: 1987,
+      link: 'https://arr.ga.gov.au'
+    },
+    notes: 'Legacy single-pattern design storm superseded by ARR 2019 ensemble approach. Still referenced for comparison with older designs.'
+  },
+
+  // ============ M5-60 (UK/Ireland) ============
+  {
+    pattern: 'm5_60_fsr',
+    name: 'M5-60 (UK/Ireland FSR)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'M5-60 Scaling',
+        latex: 'P(D, T) = M5_{60} \\cdot r_D \\cdot g_T',
+        description: 'Design depth from M5-60 index rainfall, duration ratio, and growth factor'
+      },
+      {
+        label: 'Duration Ratio',
+        latex: 'r_D = \\left(\\frac{D}{60}\\right)^{1-b}',
+        description: 'Duration scaling relative to 60-minute rainfall'
+      }
+    ],
+    variables: [
+      { symbol: 'M5_{60}', meaning: '5-year return period, 60-minute rainfall (mm)' },
+      { symbol: 'r_D', meaning: 'Duration ratio for duration D' },
+      { symbol: 'g_T', meaning: 'Growth factor for return period T' },
+      { symbol: 'b', meaning: 'Duration scaling exponent' }
+    ],
+    reference: {
+      title: 'Flood Studies Report Volume II',
+      citation: 'Natural Environment Research Council (NERC), UK',
+      year: 1975
+    },
+    notes: 'M5-60 is the index rainfall used in the FSR method. Maps of M5-60 cover the UK and Ireland. Superseded by FEH DDF model but still referenced.'
+  },
+
+  // ============ HK DSD 2018 ============
+  {
+    pattern: 'hk_dsd_2018',
+    name: 'Hong Kong DSD 2018',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Cumulative Distribution',
+        latex: 'F(t) = \\begin{cases} 0.06 \\cdot \\frac{t}{0.15} & t \\leq 0.15 \\\\ 0.06 + 0.55 \\cdot \\left(\\frac{t-0.15}{0.10}\\right)^{0.65} & 0.15 < t \\leq 0.25 \\\\ 0.61 + 0.25 \\cdot \\frac{t-0.25}{0.25} & 0.25 < t \\leq 0.50 \\\\ 0.86 + 0.14 \\cdot \\frac{t-0.50}{0.50} & t > 0.50 \\end{cases}',
+        description: 'Early-peaked tropical storm distribution per Stormwater Drainage Manual 5th Edition'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'Stormwater Drainage Manual, 5th Edition',
+      citation: 'Hong Kong Drainage Services Department (DSD)',
+      year: 2018,
+      link: 'https://www.dsd.gov.hk'
+    },
+    notes: 'Peak at 25% of duration reflecting Hong Kong\'s intense subtropical convective rainfall. Required for all drainage design submissions in Hong Kong.'
+  },
+
+  // ============ Malaysia HP1 ============
+  {
+    pattern: 'malaysia_hp1',
+    name: 'Malaysia HP1 (MSMA)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Chicago Variant (r = 0.40)',
+        latex: 'i_{before}(t) = \\frac{a\\left[\\frac{(1-c)t_b}{0.40} + b\\right]}{\\left(\\frac{t_b}{0.40} + b\\right)^{1+c}}',
+        description: 'Keifer-Chu with Malaysian advancement coefficient'
+      },
+      {
+        label: 'Malaysian IDF',
+        latex: 'i = \\frac{\\lambda T^\\kappa}{(d + \\theta)^\\eta}',
+        description: 'HP1 IDF equation with return period scaling'
+      }
+    ],
+    variables: [
+      { symbol: 'r = 0.40', meaning: 'Peak at 40% of duration' },
+      { symbol: '\\lambda, \\kappa, \\theta, \\eta', meaning: 'Regional IDF fitting parameters' },
+      { symbol: 'T', meaning: 'Return period (years)' },
+      { symbol: 'd', meaning: 'Storm duration (minutes)' }
+    ],
+    reference: {
+      title: 'Hydrological Procedure No.1 (HP1) - Estimation of Design Rainstorm',
+      citation: 'Department of Irrigation and Drainage, Malaysia',
+      year: 2015,
+      link: 'https://www.water.gov.my'
+    },
+    notes: 'HP1 (2015 revision) is the standard Malaysian design rainfall estimation method. Required for all MSMA (Manual Saliran Mesra Alam) drainage design.'
+  },
+
+  // ============ UPM Río de la Plata ============
+  {
+    pattern: 'upm_plata',
+    name: 'UPM Río de la Plata',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Triangular Hyetograph',
+        latex: 'i(t) = \\begin{cases} i_{peak} \\cdot \\frac{t}{t_p} & t \\leq t_p \\\\ i_{peak} \\cdot \\frac{D-t}{D-t_p} & t > t_p \\end{cases}',
+        description: 'Triangular distribution with early peak for Río de la Plata basin'
+      },
+      {
+        label: 'Peak Position',
+        latex: 't_p = 0.30 \\cdot D',
+        description: 'Peak at 30% of duration (convective subtropical storms)'
+      }
+    ],
+    variables: [
+      { symbol: 'i_{peak}', meaning: 'Peak intensity = 2P/D (triangular)' },
+      { symbol: 't_p', meaning: 'Time to peak = 0.30D' },
+      { symbol: 'D', meaning: 'Storm duration' }
+    ],
+    reference: {
+      title: 'Diseño Hidrológico Urbano en la Cuenca del Plata',
+      citation: 'Universidad Politécnica de Madrid / FICH-UNL',
+      year: 2010
+    },
+    notes: 'Used for urban drainage design in the Río de la Plata basin (Argentina, Uruguay). Early peak reflects convective subtropical storm characteristics.'
+  },
+
+  // ============ WMO PMP ============
+  {
+    pattern: 'pmp_hmr',
+    name: 'WMO PMP (HMR 51/52)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Statistical PMP Estimation',
+        latex: '\\text{PMP} = \\bar{X}_n + K_m \\cdot \\sigma_n',
+        description: 'Hershfield statistical method for Probable Maximum Precipitation'
+      },
+      {
+        label: 'Frequency Factor',
+        latex: 'K_m = \\frac{X_m - \\bar{X}_{n-1}}{\\sigma_{n-1}}',
+        description: 'Maximum observed deviation from mean in standard deviation units'
+      },
+      {
+        label: 'Alternative Form',
+        latex: '\\text{PMP} = \\bar{X}_n(1 + K_m \\cdot C_v)',
+        description: 'Using coefficient of variation'
+      }
+    ],
+    variables: [
+      { symbol: '\\text{PMP}', meaning: 'Probable Maximum Precipitation (mm)' },
+      { symbol: 'X_m', meaning: 'Maximum observed storm value' },
+      { symbol: '\\bar{X}_n', meaning: 'Mean of n annual maxima' },
+      { symbol: '\\sigma_n', meaning: 'Standard deviation of annual maxima' },
+      { symbol: 'K_m', meaning: 'Hershfield frequency factor (typically 15-20)' },
+      { symbol: 'C_v', meaning: 'Coefficient of variation' }
+    ],
+    reference: {
+      title: 'WMO No. 589: Manual on Estimation of PMP / HMR 51 & 52',
+      citation: 'World Meteorological Organization / US National Weather Service',
+      year: 2009,
+      link: 'https://www.wmo.int'
+    },
+    notes: 'WMO No. 589 provides global guidance on PMP estimation. HMR 51 (east of 105°W) and HMR 52 (west of 105°W) cover the contiguous US.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {
