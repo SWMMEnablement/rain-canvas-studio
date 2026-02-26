@@ -1,15 +1,22 @@
 import { useState, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Video, Download, Loader2, X, Gauge } from "lucide-react";
+import { Video, Download, Loader2, X, Gauge, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
 type GifSpeed = "slow" | "normal" | "fast";
+type GifQuality = "low" | "medium" | "high";
 
 const SPEED_CONFIG: Record<GifSpeed, { label: string; frameDelay: number; captureWait: number }> = {
   slow: { label: "Slow", frameDelay: 500, captureWait: 550 },
   normal: { label: "Normal", frameDelay: 200, captureWait: 400 },
   fast: { label: "Fast", frameDelay: 80, captureWait: 300 },
+};
+
+const QUALITY_CONFIG: Record<GifQuality, { label: string; scale: number; gifQuality: number }> = {
+  low: { label: "Low", scale: 1, gifQuality: 20 },
+  medium: { label: "Med", scale: 1.5, gifQuality: 10 },
+  high: { label: "High", scale: 2, gifQuality: 5 },
 };
 
 interface HeroGifExportProps {
@@ -23,6 +30,7 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
   const [progress, setProgress] = useState(0);
   const [currentPattern, setCurrentPattern] = useState("");
   const [speed, setSpeed] = useState<GifSpeed>("normal");
+  const [quality, setQuality] = useState<GifQuality>("medium");
   const cancelRef = useRef(false);
 
   const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
@@ -33,14 +41,14 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
       const html2canvas = (await import("html2canvas")).default;
       return await html2canvas(captureRef.current, {
         backgroundColor: null,
-        scale: 2,
+        scale: QUALITY_CONFIG[quality].scale,
         useCORS: true,
         logging: false,
       });
     } catch {
       return null;
     }
-  }, [captureRef]);
+  }, [captureRef, quality]);
 
   const startRecording = useCallback(async () => {
     if (!captureRef.current) {
@@ -49,11 +57,12 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
     }
 
     const config = SPEED_CONFIG[speed];
+    const qConfig = QUALITY_CONFIG[quality];
     setIsRecording(true);
     setProgress(0);
     cancelRef.current = false;
 
-    toast.info(`Recording ${patternNames.length} patterns (${config.label}) — please wait...`);
+    toast.info(`Recording ${patternNames.length} patterns (${config.label}, ${qConfig.label} quality) — please wait...`);
 
     try {
       const GIF = (await import("gif.js")).default;
@@ -75,7 +84,7 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
 
       const gif = new GIF({
         workers: 2,
-        quality: 10,
+        quality: qConfig.gifQuality,
         width: w,
         height: h,
         workerScript: workerUrl,
@@ -142,7 +151,7 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
       setIsRecording(false);
       setProgress(0);
     }
-  }, [patternNames, onPatternChange, captureFrame, captureRef, speed]);
+  }, [patternNames, onPatternChange, captureFrame, captureRef, speed, quality]);
 
   const cancelRecording = () => {
     cancelRef.current = true;
@@ -186,6 +195,24 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
                 }`}
               >
                 {SPEED_CONFIG[s].label}
+              </button>
+            ))}
+          </div>
+
+          {/* Quality selector */}
+          <div className="flex items-center gap-1 bg-white/10 backdrop-blur-sm rounded-full px-1 py-0.5 border border-white/20">
+            <ImageIcon className="w-3 h-3 text-white/60 ml-1.5" />
+            {(["low", "medium", "high"] as GifQuality[]).map((q) => (
+              <button
+                key={q}
+                onClick={() => setQuality(q)}
+                className={`text-xs px-2.5 py-1 rounded-full transition-all duration-200 ${
+                  quality === q
+                    ? "bg-white/30 text-white font-medium shadow-sm"
+                    : "text-white/60 hover:text-white/90 hover:bg-white/10"
+                }`}
+              >
+                {QUALITY_CONFIG[q].label}
               </button>
             ))}
           </div>
