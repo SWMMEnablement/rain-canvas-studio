@@ -48,6 +48,12 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
     try {
       const GIF = (await import("gif.js")).default;
 
+      // Fetch the gif.worker.js from CDN and create a blob URL (same-origin requirement)
+      const workerResponse = await fetch("https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.worker.js");
+      if (!workerResponse.ok) throw new Error("Failed to fetch gif.worker.js");
+      const workerBlob = await workerResponse.blob();
+      const workerUrl = URL.createObjectURL(workerBlob);
+
       // Capture first frame to determine dimensions
       onPatternChange(patternNames[0]);
       setCurrentPattern(patternNames[0]);
@@ -64,8 +70,7 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
         quality: 10,
         width: w,
         height: h,
-        workerScript: undefined,
-        transparent: null,
+        workerScript: workerUrl,
       });
 
       // Add first frame
@@ -103,6 +108,7 @@ export function HeroGifExport({ patternNames, onPatternChange, captureRef }: Her
         link.download = "rainfall-patterns-showcase.gif";
         link.click();
         URL.revokeObjectURL(url);
+        URL.revokeObjectURL(workerUrl);
 
         toast.success(`GIF exported — ${patternNames.length} patterns, ${(blob.size / 1024 / 1024).toFixed(1)} MB`);
         setIsRecording(false);
