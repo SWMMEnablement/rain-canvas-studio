@@ -153,6 +153,16 @@ export function PatternSearchTable() {
     return counts;
   }, [enrichedData]);
 
+  // Family breakdown per macro-region for map tooltips
+  const familyBreakdown = useMemo(() => {
+    const bd: Record<MacroRegion, Record<string, number>> = {} as any;
+    for (const r of enrichedData) {
+      if (!bd[r.macro]) bd[r.macro] = {};
+      bd[r.macro][r.equationFamily] = (bd[r.macro][r.equationFamily] || 0) + 1;
+    }
+    return bd;
+  }, [enrichedData]);
+
   const toggleSort = (field: SortField) => {
     if (sortField === field) setSortAsc(!sortAsc);
     else { setSortField(field); setSortAsc(true); }
@@ -262,6 +272,7 @@ export function PatternSearchTable() {
           activeMacro={filterMacro}
           onMacroClick={setFilterMacro}
           totalPatterns={enrichedData.length}
+          familyBreakdown={familyBreakdown}
         />
 
         {/* Results summary */}
