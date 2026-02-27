@@ -305,6 +305,42 @@ export function PatternSearchTable() {
           )}
         </div>
 
+        {/* Active filter badges */}
+        {hasFilters && (
+          <div className="flex flex-wrap items-center gap-1.5">
+            {search && (
+              <Badge variant="secondary" className="text-[10px] gap-1 pl-2 pr-1 py-0.5">
+                Search: <span className="font-semibold">"{search}"</span>
+                <button onClick={() => setSearch("")} className="ml-0.5 rounded-full hover:bg-muted p-0.5"><X className="w-3 h-3" /></button>
+              </Badge>
+            )}
+            {filterRegion !== 'all' && (
+              <Badge variant="secondary" className="text-[10px] gap-1 pl-2 pr-1 py-0.5">
+                <MapPin className="w-3 h-3" /> {filterRegion}
+                <button onClick={() => setFilterRegion('all')} className="ml-0.5 rounded-full hover:bg-muted p-0.5"><X className="w-3 h-3" /></button>
+              </Badge>
+            )}
+            {filterClimate !== 'all' && (
+              <Badge variant="secondary" className="text-[10px] gap-1 pl-2 pr-1 py-0.5">
+                <CloudRain className="w-3 h-3" /> {filterClimate}
+                <button onClick={() => setFilterClimate('all')} className="ml-0.5 rounded-full hover:bg-muted p-0.5"><X className="w-3 h-3" /></button>
+              </Badge>
+            )}
+            {filterFamily !== 'all' && (
+              <Badge variant="secondary" className="text-[10px] gap-1 pl-2 pr-1 py-0.5">
+                <Scale className="w-3 h-3" /> {filterFamily}
+                <button onClick={() => setFilterFamily('all')} className="ml-0.5 rounded-full hover:bg-muted p-0.5"><X className="w-3 h-3" /></button>
+              </Badge>
+            )}
+            {filterMacro && (
+              <Badge variant="secondary" className="text-[10px] gap-1 pl-2 pr-1 py-0.5">
+                Region: <span className="font-semibold">{filterMacro}</span>
+                <button onClick={() => setFilterMacro(null)} className="ml-0.5 rounded-full hover:bg-muted p-0.5"><X className="w-3 h-3" /></button>
+              </Badge>
+            )}
+          </div>
+        )}
+
         <div className="overflow-x-auto max-h-[600px] overflow-y-auto rounded-lg border">
           <Table>
             <TableHeader className="sticky top-0 bg-background z-10">
