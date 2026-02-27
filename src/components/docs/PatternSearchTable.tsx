@@ -277,7 +277,13 @@ export function PatternSearchTable() {
         />
 
         {/* Region Comparison Chart */}
-        <RegionComparisonChart familyBreakdown={familyBreakdown} />
+        <RegionComparisonChart
+          familyBreakdown={familyBreakdown}
+          onBarClick={(family, region) => {
+            setFilterFamily(family);
+            setFilterMacro(region);
+          }}
+        />
 
         {/* Results summary */}
         <p className="text-xs text-muted-foreground">
