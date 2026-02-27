@@ -9,6 +9,7 @@ import { Search, X, Download, ArrowUpDown, Filter, MapPin, CloudRain, Scale } fr
 import { COMPARISON_DATA, PEAK_POSITION_LABELS, type ComparisonRow, type PeakPosition } from "./taxonomyData";
 import { PATTERN_REFERENCE_DATA } from "./patternReferenceData";
 import { PatternCoverageMap, toMacroRegion, type MacroRegion } from "./PatternCoverageMap";
+import { RegionComparisonChart } from "./RegionComparisonChart";
 
 // ── Climate type mapping ──
 type ClimateType = "Tropical" | "Arid" | "Temperate" | "Continental" | "Monsoon" | "Mediterranean" | "Maritime" | "Universal";
@@ -274,6 +275,9 @@ export function PatternSearchTable() {
           totalPatterns={enrichedData.length}
           familyBreakdown={familyBreakdown}
         />
+
+        {/* Region Comparison Chart */}
+        <RegionComparisonChart familyBreakdown={familyBreakdown} />
 
         {/* Results summary */}
         <p className="text-xs text-muted-foreground">
