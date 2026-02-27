@@ -1,7 +1,9 @@
 import { useState, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { BarChart3, X } from "lucide-react";
+import { BarChart3, X, Layers } from "lucide-react";
 import type { MacroRegion } from "./PatternCoverageMap";
 
 const REGION_COLORS: Record<MacroRegion, string> = {
@@ -24,6 +26,7 @@ interface RegionComparisonChartProps {
 
 export function RegionComparisonChart({ familyBreakdown }: RegionComparisonChartProps) {
   const [selected, setSelected] = useState<MacroRegion[]>(['North America', 'Europe', 'Asia-Pacific']);
+  const [stacked, setStacked] = useState(false);
 
   const toggle = (r: MacroRegion) => {
     setSelected(prev =>
@@ -62,7 +65,14 @@ export function RegionComparisonChart({ familyBreakdown }: RegionComparisonChart
           <BarChart3 className="w-4 h-4 text-primary" />
           Region Comparison
         </div>
-        <span className="text-[10px] text-muted-foreground">Select 2–4 regions</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5">
+            <Layers className="w-3.5 h-3.5 text-muted-foreground" />
+            <Label htmlFor="stack-toggle" className="text-[10px] text-muted-foreground cursor-pointer">Stacked</Label>
+            <Switch id="stack-toggle" checked={stacked} onCheckedChange={setStacked} className="scale-75" />
+          </div>
+          <span className="text-[10px] text-muted-foreground">Select 2–4 regions</span>
+        </div>
       </div>
 
       {/* Region selector chips */}
@@ -128,8 +138,9 @@ export function RegionComparisonChart({ familyBreakdown }: RegionComparisonChart
                   key={r}
                   dataKey={r}
                   fill={REGION_COLORS[r]}
-                  radius={[3, 3, 0, 0]}
-                  maxBarSize={28}
+                  stackId={stacked ? 'stack' : undefined}
+                  radius={stacked ? undefined : [3, 3, 0, 0]}
+                  maxBarSize={stacked ? 40 : 28}
                 />
               ))}
             </BarChart>
