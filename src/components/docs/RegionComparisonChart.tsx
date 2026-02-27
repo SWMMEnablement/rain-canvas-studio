@@ -161,9 +161,11 @@ export function RegionComparisonChart({ familyBreakdown, onBarClick }: RegionCom
                   radius={stacked ? undefined : [3, 3, 0, 0]}
                   maxBarSize={stacked ? 40 : 28}
                   cursor={onBarClick ? 'pointer' : undefined}
-                  onClick={(data: any) => {
-                    if (onBarClick && data?.family) {
-                      onBarClick(data.family, r);
+                  onClick={(data: any, _index: number, e: any) => {
+                    e?.stopPropagation?.();
+                    const family = data?.family || data?.payload?.family;
+                    if (onBarClick && family) {
+                      onBarClick(family, r);
                     }
                   }}
                 />
