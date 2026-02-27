@@ -292,11 +292,18 @@ export function PatternSearchTable() {
           }}
         />
 
-        {/* Results summary */}
-        <p className="text-xs text-muted-foreground">
-          Showing {filtered.length} of {enrichedData.length} patterns
-          {filterMacro && <span className="ml-1 font-medium text-primary">· {filterMacro}</span>}
-        </p>
+        {/* Results summary + Reset all */}
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <p className="text-xs text-muted-foreground">
+            Showing {filtered.length} of {enrichedData.length} patterns
+            {filterMacro && <span className="ml-1 font-medium text-primary">· {filterMacro}</span>}
+          </p>
+          {hasFilters && (
+            <Button variant="outline" size="sm" onClick={clearFilters} className="h-7 gap-1.5 text-xs text-destructive border-destructive/30 hover:bg-destructive/10 hover:text-destructive">
+              <X className="w-3.5 h-3.5" /> Reset All Filters
+            </Button>
+          )}
+        </div>
 
         <div className="overflow-x-auto max-h-[600px] overflow-y-auto rounded-lg border">
           <Table>
