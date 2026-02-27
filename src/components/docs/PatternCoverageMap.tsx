@@ -159,6 +159,14 @@ export function PatternCoverageMap({ regionCounts, activeMacro, onMacroClick, to
 
       <div className="relative rounded-lg border bg-muted/20 overflow-hidden">
         <svg ref={svgRef} viewBox="0 0 1000 460" className="w-full h-auto" style={{ maxHeight: 280 }}>
+          <defs>
+            <style>{`
+              @keyframes region-pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.55; }
+              }
+            `}</style>
+          </defs>
           {/* Grid lines for visual interest */}
           {[100, 200, 300, 400, 500, 600, 700, 800, 900].map(x => (
             <line key={`vl-${x}`} x1={x} y1={0} x2={x} y2={460} stroke="hsl(var(--border))" strokeWidth={0.5} strokeDasharray="4 8" opacity={0.3} />
@@ -179,7 +187,7 @@ export function PatternCoverageMap({ regionCounts, activeMacro, onMacroClick, to
                 className="cursor-pointer transition-all duration-200"
                 onClick={() => onMacroClick(isActive ? null : region.id)}
               >
-                <path
+              <path
                   d={region.path}
                   fill={fill}
                   stroke={isActive ? 'hsl(var(--primary))' : 'hsl(var(--border))'}
@@ -187,6 +195,7 @@ export function PatternCoverageMap({ regionCounts, activeMacro, onMacroClick, to
                   className="transition-all duration-200 hover:opacity-90"
                   style={{
                     filter: isActive ? 'drop-shadow(0 0 6px hsl(var(--primary) / 0.3))' : undefined,
+                    animation: count > 20 && !isActive ? 'region-pulse 2.5s ease-in-out infinite' : undefined,
                   }}
                   onMouseEnter={e => {
                     if (!isActive) (e.target as SVGPathElement).style.fill = region.hoverColor;
