@@ -22,9 +22,10 @@ const ALL_REGIONS: MacroRegion[] = [
 
 interface RegionComparisonChartProps {
   familyBreakdown: Record<MacroRegion, Record<string, number>>;
+  onBarClick?: (family: string, region: MacroRegion) => void;
 }
 
-export function RegionComparisonChart({ familyBreakdown }: RegionComparisonChartProps) {
+export function RegionComparisonChart({ familyBreakdown, onBarClick }: RegionComparisonChartProps) {
   const [selected, setSelected] = useState<MacroRegion[]>(['North America', 'Europe', 'Asia-Pacific']);
   const [stacked, setStacked] = useState(false);
   const [percentage, setPercentage] = useState(false);
@@ -159,6 +160,12 @@ export function RegionComparisonChart({ familyBreakdown }: RegionComparisonChart
                   stackId={stacked ? 'stack' : undefined}
                   radius={stacked ? undefined : [3, 3, 0, 0]}
                   maxBarSize={stacked ? 40 : 28}
+                  cursor={onBarClick ? 'pointer' : undefined}
+                  onClick={(data: any) => {
+                    if (onBarClick && data?.family) {
+                      onBarClick(data.family, r);
+                    }
+                  }}
                 />
               ))}
             </BarChart>
