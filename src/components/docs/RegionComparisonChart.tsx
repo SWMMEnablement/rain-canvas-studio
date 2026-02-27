@@ -199,6 +199,7 @@ export function RegionComparisonChart({ familyBreakdown, onBarClick, activeFamil
                         fillOpacity={isDimmed ? 0.25 : 1}
                         stroke={isActive ? 'hsl(var(--foreground))' : 'none'}
                         strokeWidth={isActive ? 2 : 0}
+                        style={{ transition: 'fill-opacity 0.35s ease, stroke-width 0.25s ease' }}
                       />
                     );
                   })}
