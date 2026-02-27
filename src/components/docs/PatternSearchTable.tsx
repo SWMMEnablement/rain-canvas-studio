@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, X, Download, ArrowUpDown, Filter, MapPin, CloudRain, Scale } from "lucide-react";
 import { COMPARISON_DATA, PEAK_POSITION_LABELS, type ComparisonRow, type PeakPosition } from "./taxonomyData";
 import { PATTERN_REFERENCE_DATA } from "./patternReferenceData";
+import { PatternCoverageMap, toMacroRegion, type MacroRegion } from "./PatternCoverageMap";
 
 // ── Climate type mapping ──
 type ClimateType = "Tropical" | "Arid" | "Temperate" | "Continental" | "Monsoon" | "Mediterranean" | "Maritime" | "Universal";
@@ -77,6 +78,7 @@ type SortField = 'name' | 'region' | 'climate' | 'peakPosition' | 'equationFamil
 interface EnrichedRow extends ComparisonRow {
   climate: ClimateType;
   standards: string[];
+  macro: MacroRegion;
 }
 
 export function PatternSearchTable() {
@@ -84,6 +86,7 @@ export function PatternSearchTable() {
   const [filterClimate, setFilterClimate] = useState<string>("all");
   const [filterRegion, setFilterRegion] = useState<string>("all");
   const [filterFamily, setFilterFamily] = useState<string>("all");
+  const [filterMacro, setFilterMacro] = useState<MacroRegion | null>(null);
   const [sortField, setSortField] = useState<SortField>('name');
   const [sortAsc, setSortAsc] = useState(true);
 
@@ -93,6 +96,7 @@ export function PatternSearchTable() {
       ...row,
       climate: getClimateType(row.region),
       standards: getRegStandards(row.id),
+      macro: toMacroRegion(row.region),
     }))
   , []);
 
@@ -115,6 +119,7 @@ export function PatternSearchTable() {
     const q = search.toLowerCase();
     return enrichedData
       .filter(r => {
+        if (filterMacro && r.macro !== filterMacro) return false;
         if (filterClimate !== 'all' && r.climate !== filterClimate) return false;
         if (filterRegion !== 'all' && r.region !== filterRegion) return false;
         if (filterFamily !== 'all' && r.equationFamily !== filterFamily) return false;
@@ -137,20 +142,30 @@ export function PatternSearchTable() {
         }
         return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
       });
-  }, [search, filterClimate, filterRegion, filterFamily, sortField, sortAsc, enrichedData]);
+  }, [search, filterClimate, filterRegion, filterFamily, filterMacro, sortField, sortAsc, enrichedData]);
+
+  // Macro-region counts for the map (unfiltered)
+  const regionCounts = useMemo(() => {
+    const counts: Record<MacroRegion, number> = {} as any;
+    for (const r of enrichedData) {
+      counts[r.macro] = (counts[r.macro] || 0) + 1;
+    }
+    return counts;
+  }, [enrichedData]);
 
   const toggleSort = (field: SortField) => {
     if (sortField === field) setSortAsc(!sortAsc);
     else { setSortField(field); setSortAsc(true); }
   };
 
-  const hasFilters = search || filterClimate !== 'all' || filterRegion !== 'all' || filterFamily !== 'all';
+  const hasFilters = search || filterClimate !== 'all' || filterRegion !== 'all' || filterFamily !== 'all' || filterMacro !== null;
 
   const clearFilters = () => {
     setSearch("");
     setFilterClimate("all");
     setFilterRegion("all");
     setFilterFamily("all");
+    setFilterMacro(null);
   };
 
   const handleCsvExport = () => {
@@ -240,10 +255,19 @@ export function PatternSearchTable() {
         </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="space-y-4">
+        {/* Interactive Map */}
+        <PatternCoverageMap
+          regionCounts={regionCounts}
+          activeMacro={filterMacro}
+          onMacroClick={setFilterMacro}
+          totalPatterns={enrichedData.length}
+        />
+
         {/* Results summary */}
-        <p className="text-xs text-muted-foreground mb-3">
+        <p className="text-xs text-muted-foreground">
           Showing {filtered.length} of {enrichedData.length} patterns
+          {filterMacro && <span className="ml-1 font-medium text-primary">· {filterMacro}</span>}
         </p>
 
         <div className="overflow-x-auto max-h-[600px] overflow-y-auto rounded-lg border">
