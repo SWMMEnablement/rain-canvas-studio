@@ -1,8 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from "recharts";
 import { BarChart3, X, Layers, Percent } from "lucide-react";
 import type { MacroRegion } from "./PatternCoverageMap";
 
@@ -23,9 +23,11 @@ const ALL_REGIONS: MacroRegion[] = [
 interface RegionComparisonChartProps {
   familyBreakdown: Record<MacroRegion, Record<string, number>>;
   onBarClick?: (family: string, region: MacroRegion) => void;
+  activeFamily?: string;
+  activeRegion?: string;
 }
 
-export function RegionComparisonChart({ familyBreakdown, onBarClick }: RegionComparisonChartProps) {
+export function RegionComparisonChart({ familyBreakdown, onBarClick, activeFamily, activeRegion }: RegionComparisonChartProps) {
   const [selected, setSelected] = useState<MacroRegion[]>(['North America', 'Europe', 'Asia-Pacific']);
   const [stacked, setStacked] = useState(false);
   const [percentage, setPercentage] = useState(false);
@@ -117,6 +119,24 @@ export function RegionComparisonChart({ familyBreakdown, onBarClick }: RegionCom
         })}
       </div>
 
+      {/* Active filter indicator */}
+      {activeFamily && (
+        <div className="flex items-center gap-2">
+          <Badge variant="secondary" className="text-[10px] gap-1.5 pl-2 pr-1 py-0.5">
+            Filtered: <span className="font-semibold">{activeFamily}</span>
+            {activeRegion && (
+              <span style={{ color: REGION_COLORS[activeRegion as MacroRegion] }}>· {activeRegion}</span>
+            )}
+            <button
+              onClick={() => onBarClick?.('', '' as MacroRegion)}
+              className="ml-0.5 rounded-full hover:bg-muted p-0.5"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          </Badge>
+        </div>
+      )}
+
       {/* Chart */}
       {selected.length >= 2 && chartData.length > 0 && (
         <div className="rounded-lg border bg-card/50 p-3">
@@ -168,7 +188,21 @@ export function RegionComparisonChart({ familyBreakdown, onBarClick }: RegionCom
                       onBarClick(family, r);
                     }
                   }}
-                />
+                >
+                  {chartData.map((entry) => {
+                    const isActive = activeFamily === entry.family && activeRegion === r;
+                    const isDimmed = activeFamily && (activeFamily !== entry.family || activeRegion !== r);
+                    return (
+                      <Cell
+                        key={`${r}-${entry.family}`}
+                        fill={REGION_COLORS[r]}
+                        fillOpacity={isDimmed ? 0.25 : 1}
+                        stroke={isActive ? 'hsl(var(--foreground))' : 'none'}
+                        strokeWidth={isActive ? 2 : 0}
+                      />
+                    );
+                  })}
+                </Bar>
               ))}
             </BarChart>
           </ResponsiveContainer>

@@ -279,9 +279,16 @@ export function PatternSearchTable() {
         {/* Region Comparison Chart */}
         <RegionComparisonChart
           familyBreakdown={familyBreakdown}
+          activeFamily={filterFamily !== 'all' ? filterFamily : undefined}
+          activeRegion={filterMacro || undefined}
           onBarClick={(family, region) => {
-            setFilterFamily(family);
-            setFilterMacro(region);
+            if (!family) {
+              setFilterFamily('all');
+              setFilterMacro(null);
+            } else {
+              setFilterFamily(family);
+              setFilterMacro(region);
+            }
           }}
         />
 
