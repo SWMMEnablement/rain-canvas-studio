@@ -3,6 +3,7 @@ import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -430,46 +431,56 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
       <Card className="shadow-card">
         <CardContent className="pt-6">
           {/* Step Indicators */}
-          <div className="flex items-center justify-between mb-4">
-            {steps.map((step, index) => (
-              <div key={step.id} className="flex items-center flex-1">
-                <button
-                  onClick={() => goToStep(step.id)}
-                  className={cn(
-                    "flex items-center gap-3 p-3 rounded-lg transition-all duration-300 w-full",
-                    currentStep === step.id 
-                      ? "bg-primary text-primary-foreground shadow-md" 
-                      : currentStep > step.id
-                        ? "bg-accent text-accent-foreground cursor-pointer hover:bg-accent/80"
-                        : "bg-muted text-muted-foreground"
+          <TooltipProvider delayDuration={200}>
+            <div className="flex items-center justify-between mb-4">
+              {steps.map((step, index) => (
+                <div key={step.id} className="flex items-center flex-1">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => goToStep(step.id)}
+                        className={cn(
+                          "flex items-center gap-3 p-3 rounded-lg transition-all duration-300 w-full",
+                          currentStep === step.id 
+                            ? "bg-primary text-primary-foreground shadow-md" 
+                            : currentStep > step.id
+                              ? "bg-accent text-accent-foreground cursor-pointer hover:bg-accent/80"
+                              : "bg-muted text-muted-foreground"
+                        )}
+                        disabled={step.id > currentStep && !canProceed()}
+                      >
+                        <div className={cn(
+                          "flex items-center justify-center w-8 h-8 rounded-full border-2 shrink-0",
+                          currentStep === step.id 
+                            ? "border-primary-foreground bg-primary-foreground/20" 
+                            : currentStep > step.id
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : "border-current"
+                        )}>
+                          {currentStep > step.id ? (
+                            <Check className="w-4 h-4" />
+                          ) : (
+                            step.icon
+                          )}
+                        </div>
+                        <div className="text-left hidden md:block">
+                          <p className="font-medium text-sm">{step.title}</p>
+                          <p className="text-xs opacity-80">{step.description}</p>
+                        </div>
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="text-xs">
+                      <p className="font-medium">{step.title}</p>
+                      <p className="text-muted-foreground">{step.description}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                  {index < steps.length - 1 && (
+                    <ChevronRight className="w-5 h-5 mx-2 text-muted-foreground shrink-0" />
                   )}
-                  disabled={step.id > currentStep && !canProceed()}
-                >
-                  <div className={cn(
-                    "flex items-center justify-center w-8 h-8 rounded-full border-2 shrink-0",
-                    currentStep === step.id 
-                      ? "border-primary-foreground bg-primary-foreground/20" 
-                      : currentStep > step.id
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-current"
-                  )}>
-                    {currentStep > step.id ? (
-                      <Check className="w-4 h-4" />
-                    ) : (
-                      step.icon
-                    )}
-                  </div>
-                  <div className="text-left hidden md:block">
-                    <p className="font-medium text-sm">{step.title}</p>
-                    <p className="text-xs opacity-80">{step.description}</p>
-                  </div>
-                </button>
-                {index < steps.length - 1 && (
-                  <ChevronRight className="w-5 h-5 mx-2 text-muted-foreground shrink-0" />
-                )}
-              </div>
-            ))}
-          </div>
+                </div>
+              ))}
+            </div>
+          </TooltipProvider>
           
           {/* Progress Bar */}
           <Progress value={progress} className="h-2" />
