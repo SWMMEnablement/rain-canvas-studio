@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { BarChart3, X, Layers } from "lucide-react";
+import { BarChart3, X, Layers, Percent } from "lucide-react";
 import type { MacroRegion } from "./PatternCoverageMap";
 
 const REGION_COLORS: Record<MacroRegion, string> = {
@@ -27,6 +27,7 @@ interface RegionComparisonChartProps {
 export function RegionComparisonChart({ familyBreakdown }: RegionComparisonChartProps) {
   const [selected, setSelected] = useState<MacroRegion[]>(['North America', 'Europe', 'Asia-Pacific']);
   const [stacked, setStacked] = useState(false);
+  const [percentage, setPercentage] = useState(false);
 
   const toggle = (r: MacroRegion) => {
     setSelected(prev =>
@@ -44,8 +45,15 @@ export function RegionComparisonChart({ familyBreakdown }: RegionComparisonChart
     return Array.from(allFamilies)
       .map(family => {
         const entry: Record<string, string | number> = { family };
-        for (const r of selected) {
-          entry[r] = familyBreakdown[r]?.[family] || 0;
+        if (stacked && percentage) {
+          const total = selected.reduce((s, r) => s + (familyBreakdown[r]?.[family] || 0), 0);
+          for (const r of selected) {
+            entry[r] = total > 0 ? Math.round(((familyBreakdown[r]?.[family] || 0) / total) * 100) : 0;
+          }
+        } else {
+          for (const r of selected) {
+            entry[r] = familyBreakdown[r]?.[family] || 0;
+          }
         }
         return entry;
       })
@@ -54,7 +62,7 @@ export function RegionComparisonChart({ familyBreakdown }: RegionComparisonChart
         const sumB = selected.reduce((s, r) => s + ((b[r] as number) || 0), 0);
         return sumB - sumA;
       });
-  }, [selected, familyBreakdown]);
+  }, [selected, familyBreakdown, stacked, percentage]);
 
   if (!familyBreakdown || Object.keys(familyBreakdown).length === 0) return null;
 
@@ -69,8 +77,15 @@ export function RegionComparisonChart({ familyBreakdown }: RegionComparisonChart
           <div className="flex items-center gap-1.5">
             <Layers className="w-3.5 h-3.5 text-muted-foreground" />
             <Label htmlFor="stack-toggle" className="text-[10px] text-muted-foreground cursor-pointer">Stacked</Label>
-            <Switch id="stack-toggle" checked={stacked} onCheckedChange={setStacked} className="scale-75" />
+            <Switch id="stack-toggle" checked={stacked} onCheckedChange={(v) => { setStacked(v); if (!v) setPercentage(false); }} className="scale-75" />
           </div>
+          {stacked && (
+            <div className="flex items-center gap-1.5">
+              <Percent className="w-3.5 h-3.5 text-muted-foreground" />
+              <Label htmlFor="pct-toggle" className="text-[10px] text-muted-foreground cursor-pointer">%</Label>
+              <Switch id="pct-toggle" checked={percentage} onCheckedChange={setPercentage} className="scale-75" />
+            </div>
+          )}
           <span className="text-[10px] text-muted-foreground">Select 2–4 regions</span>
         </div>
       </div>
@@ -118,6 +133,8 @@ export function RegionComparisonChart({ familyBreakdown }: RegionComparisonChart
               <YAxis
                 tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
                 allowDecimals={false}
+                domain={stacked && percentage ? [0, 100] : undefined}
+                tickFormatter={stacked && percentage ? (v: number) => `${v}%` : undefined}
               />
               <Tooltip
                 contentStyle={{
@@ -127,6 +144,7 @@ export function RegionComparisonChart({ familyBreakdown }: RegionComparisonChart
                   fontSize: '12px',
                   color: 'hsl(var(--popover-foreground))',
                 }}
+                formatter={stacked && percentage ? (value: number) => `${value}%` : undefined}
               />
               <Legend
                 wrapperStyle={{ fontSize: '11px' }}
