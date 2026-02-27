@@ -230,6 +230,12 @@ export function PatternCoverageMap({ regionCounts, activeMacro, onMacroClick, to
 
           {/* Equator */}
           <line x1={0} y1={230} x2={1000} y2={230} stroke="hsl(var(--muted-foreground))" strokeWidth={0.5} strokeDasharray="6 4" opacity={0.25} />
+
+          {/* Pulse legend */}
+          <g opacity={0.7}>
+            <circle cx={30} cy={445} r={5} fill="hsl(var(--primary) / 0.3)" style={{ animation: 'region-pulse 2.5s ease-in-out infinite' }} />
+            <text x={42} y={449} className="text-[10px] fill-muted-foreground select-none">= 20+ patterns (pulsing)</text>
+          </g>
         </svg>
 
         {/* Tooltip */}
