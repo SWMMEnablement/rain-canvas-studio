@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useRef, useCallback } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Globe } from "lucide-react";
 
@@ -124,10 +124,21 @@ interface PatternCoverageMapProps {
   activeMacro: MacroRegion | null;
   onMacroClick: (macro: MacroRegion | null) => void;
   totalPatterns: number;
+  familyBreakdown?: Record<MacroRegion, Record<string, number>>;
 }
 
-export function PatternCoverageMap({ regionCounts, activeMacro, onMacroClick, totalPatterns }: PatternCoverageMapProps) {
+export function PatternCoverageMap({ regionCounts, activeMacro, onMacroClick, totalPatterns, familyBreakdown }: PatternCoverageMapProps) {
   const universalCount = regionCounts['Universal'] || 0;
+  const [tooltip, setTooltip] = useState<{ regionId: MacroRegion; x: number; y: number } | null>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent, regionId: MacroRegion) => {
+    if (!svgRef.current) return;
+    const rect = svgRef.current.getBoundingClientRect();
+    setTooltip({ regionId, x: e.clientX - rect.left, y: e.clientY - rect.top });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => setTooltip(null), []);
 
   return (
     <div className="space-y-2">
@@ -147,7 +158,7 @@ export function PatternCoverageMap({ regionCounts, activeMacro, onMacroClick, to
       </div>
 
       <div className="relative rounded-lg border bg-muted/20 overflow-hidden">
-        <svg viewBox="0 0 1000 460" className="w-full h-auto" style={{ maxHeight: 280 }}>
+        <svg ref={svgRef} viewBox="0 0 1000 460" className="w-full h-auto" style={{ maxHeight: 280 }}>
           {/* Grid lines for visual interest */}
           {[100, 200, 300, 400, 500, 600, 700, 800, 900].map(x => (
             <line key={`vl-${x}`} x1={x} y1={0} x2={x} y2={460} stroke="hsl(var(--border))" strokeWidth={0.5} strokeDasharray="4 8" opacity={0.3} />
@@ -180,8 +191,10 @@ export function PatternCoverageMap({ regionCounts, activeMacro, onMacroClick, to
                   onMouseEnter={e => {
                     if (!isActive) (e.target as SVGPathElement).style.fill = region.hoverColor;
                   }}
+                  onMouseMove={e => handleMouseMove(e, region.id)}
                   onMouseLeave={e => {
                     if (!isActive) (e.target as SVGPathElement).style.fill = region.color;
+                    handleMouseLeave();
                   }}
                 />
                 {/* Label */}
@@ -209,6 +222,29 @@ export function PatternCoverageMap({ regionCounts, activeMacro, onMacroClick, to
           {/* Equator */}
           <line x1={0} y1={230} x2={1000} y2={230} stroke="hsl(var(--muted-foreground))" strokeWidth={0.5} strokeDasharray="6 4" opacity={0.25} />
         </svg>
+
+        {/* Tooltip */}
+        {tooltip && familyBreakdown && familyBreakdown[tooltip.regionId] && (
+          <div
+            className="absolute z-20 pointer-events-none bg-popover text-popover-foreground border rounded-lg shadow-lg px-3 py-2 text-xs max-w-[200px]"
+            style={{
+              left: Math.min(tooltip.x + 12, (svgRef.current?.getBoundingClientRect().width ?? 300) - 210),
+              top: Math.max(tooltip.y - 10, 0),
+            }}
+          >
+            <p className="font-semibold text-sm mb-1.5">{tooltip.regionId}</p>
+            <div className="space-y-0.5">
+              {Object.entries(familyBreakdown[tooltip.regionId])
+                .sort(([, a], [, b]) => b - a)
+                .map(([family, count]) => (
+                  <div key={family} className="flex justify-between gap-3">
+                    <span className="text-muted-foreground truncate">{family}</span>
+                    <span className="font-medium tabular-nums">{count}</span>
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Legend row */}
