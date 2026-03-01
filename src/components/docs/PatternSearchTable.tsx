@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, X, Download, ArrowUpDown, Filter, MapPin, CloudRain, Scale } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { COMPARISON_DATA, PEAK_POSITION_LABELS, type ComparisonRow, type PeakPosition } from "./taxonomyData";
 import { PATTERN_REFERENCE_DATA } from "./patternReferenceData";
 import { PatternCoverageMap, toMacroRegion, type MacroRegion } from "./PatternCoverageMap";
@@ -323,43 +324,55 @@ export function PatternSearchTable() {
 
         {/* Active filter badges */}
         {hasFilters && (
+          <TooltipProvider delayDuration={200}>
           <div className="flex flex-wrap items-center gap-1.5">
-        {search && (
+        {search && (() => {
+              const count = enrichedData.filter(r => { const q = search.toLowerCase(); return r.name.toLowerCase().includes(q) || r.region.toLowerCase().includes(q) || r.climate.toLowerCase().includes(q) || r.equationFamily.toLowerCase().includes(q) || r.sourceDoc.toLowerCase().includes(q) || r.standards.some(s => s.toLowerCase().includes(q)); }).length;
+              return (
               <Badge variant="secondary" className="text-[10px] gap-1 pl-2 pr-1 py-0.5">
                 Search: <span className="font-semibold">"{search}"</span>
-                <span className="ml-0.5 rounded-full bg-muted-foreground/20 px-1 text-[9px]">{enrichedData.filter(r => { const q = search.toLowerCase(); return r.name.toLowerCase().includes(q) || r.region.toLowerCase().includes(q) || r.climate.toLowerCase().includes(q) || r.equationFamily.toLowerCase().includes(q) || r.sourceDoc.toLowerCase().includes(q) || r.standards.some(s => s.toLowerCase().includes(q)); }).length}</span>
+                <Tooltip><TooltipTrigger asChild><span className="ml-0.5 rounded-full bg-muted-foreground/20 px-1 text-[9px] cursor-default">{count}</span></TooltipTrigger><TooltipContent side="top" className="text-xs">{((count / enrichedData.length) * 100).toFixed(1)}% of {enrichedData.length} patterns</TooltipContent></Tooltip>
                 <button onClick={() => setSearch("")} className="ml-0.5 rounded-full hover:bg-muted p-0.5"><X className="w-3 h-3" /></button>
-              </Badge>
-            )}
-            {filterRegion !== 'all' && (
+              </Badge>);
+            })()}
+            {filterRegion !== 'all' && (() => {
+              const count = enrichedData.filter(r => r.region === filterRegion).length;
+              return (
               <Badge variant="secondary" className="text-[10px] gap-1 pl-2 pr-1 py-0.5">
                 <MapPin className="w-3 h-3" /> {filterRegion}
-                <span className="ml-0.5 rounded-full bg-muted-foreground/20 px-1 text-[9px]">{enrichedData.filter(r => r.region === filterRegion).length}</span>
+                <Tooltip><TooltipTrigger asChild><span className="ml-0.5 rounded-full bg-muted-foreground/20 px-1 text-[9px] cursor-default">{count}</span></TooltipTrigger><TooltipContent side="top" className="text-xs">{((count / enrichedData.length) * 100).toFixed(1)}% of {enrichedData.length} patterns</TooltipContent></Tooltip>
                 <button onClick={() => setFilterRegion('all')} className="ml-0.5 rounded-full hover:bg-muted p-0.5"><X className="w-3 h-3" /></button>
-              </Badge>
-            )}
-            {filterClimate !== 'all' && (
+              </Badge>);
+            })()}
+            {filterClimate !== 'all' && (() => {
+              const count = enrichedData.filter(r => r.climate === filterClimate).length;
+              return (
               <Badge variant="secondary" className="text-[10px] gap-1 pl-2 pr-1 py-0.5">
                 <CloudRain className="w-3 h-3" /> {filterClimate}
-                <span className="ml-0.5 rounded-full bg-muted-foreground/20 px-1 text-[9px]">{enrichedData.filter(r => r.climate === filterClimate).length}</span>
+                <Tooltip><TooltipTrigger asChild><span className="ml-0.5 rounded-full bg-muted-foreground/20 px-1 text-[9px] cursor-default">{count}</span></TooltipTrigger><TooltipContent side="top" className="text-xs">{((count / enrichedData.length) * 100).toFixed(1)}% of {enrichedData.length} patterns</TooltipContent></Tooltip>
                 <button onClick={() => setFilterClimate('all')} className="ml-0.5 rounded-full hover:bg-muted p-0.5"><X className="w-3 h-3" /></button>
-              </Badge>
-            )}
-            {filterFamily !== 'all' && (
+              </Badge>);
+            })()}
+            {filterFamily !== 'all' && (() => {
+              const count = enrichedData.filter(r => r.equationFamily === filterFamily).length;
+              return (
               <Badge variant="secondary" className="text-[10px] gap-1 pl-2 pr-1 py-0.5">
                 <Scale className="w-3 h-3" /> {filterFamily}
-                <span className="ml-0.5 rounded-full bg-muted-foreground/20 px-1 text-[9px]">{enrichedData.filter(r => r.equationFamily === filterFamily).length}</span>
+                <Tooltip><TooltipTrigger asChild><span className="ml-0.5 rounded-full bg-muted-foreground/20 px-1 text-[9px] cursor-default">{count}</span></TooltipTrigger><TooltipContent side="top" className="text-xs">{((count / enrichedData.length) * 100).toFixed(1)}% of {enrichedData.length} patterns</TooltipContent></Tooltip>
                 <button onClick={() => setFilterFamily('all')} className="ml-0.5 rounded-full hover:bg-muted p-0.5"><X className="w-3 h-3" /></button>
-              </Badge>
-            )}
-            {filterMacro && (
+              </Badge>);
+            })()}
+            {filterMacro && (() => {
+              const count = enrichedData.filter(r => r.macro === filterMacro).length;
+              return (
               <Badge variant="secondary" className="text-[10px] gap-1 pl-2 pr-1 py-0.5">
                 Region: <span className="font-semibold">{filterMacro}</span>
-                <span className="ml-0.5 rounded-full bg-muted-foreground/20 px-1 text-[9px]">{enrichedData.filter(r => r.macro === filterMacro).length}</span>
+                <Tooltip><TooltipTrigger asChild><span className="ml-0.5 rounded-full bg-muted-foreground/20 px-1 text-[9px] cursor-default">{count}</span></TooltipTrigger><TooltipContent side="top" className="text-xs">{((count / enrichedData.length) * 100).toFixed(1)}% of {enrichedData.length} patterns</TooltipContent></Tooltip>
                 <button onClick={() => setFilterMacro(null)} className="ml-0.5 rounded-full hover:bg-muted p-0.5"><X className="w-3 h-3" /></button>
-              </Badge>
-            )}
+              </Badge>);
+            })()}
           </div>
+          </TooltipProvider>
         )}
 
         <div className="overflow-x-auto max-h-[600px] overflow-y-auto rounded-lg border">
