@@ -10,6 +10,7 @@ import { COMPARISON_DATA, PEAK_POSITION_LABELS, type ComparisonRow, type PeakPos
 import { PATTERN_REFERENCE_DATA } from "./patternReferenceData";
 import { PatternCoverageMap, toMacroRegion, type MacroRegion } from "./PatternCoverageMap";
 import { RegionComparisonChart } from "./RegionComparisonChart";
+import { SavedFilters, type FilterState } from "./SavedFilters";
 
 // ── Climate type mapping ──
 type ClimateType = "Tropical" | "Arid" | "Temperate" | "Continental" | "Monsoon" | "Mediterranean" | "Maritime" | "Universal";
@@ -179,6 +180,14 @@ export function PatternSearchTable() {
     setFilterMacro(null);
   };
 
+  const applyFilters = (f: FilterState) => {
+    setSearch(f.search);
+    setFilterClimate(f.filterClimate);
+    setFilterRegion(f.filterRegion);
+    setFilterFamily(f.filterFamily);
+    setFilterMacro(f.filterMacro);
+  };
+
   const handleCsvExport = () => {
     const headers = ['Name', 'Region', 'Climate Type', 'Equation Family', 'Peak Position', 'r', 'Duration Range', 'IDF Required', 'Source', 'Regulatory Standards'];
     const rows = filtered.map(r => [
@@ -207,9 +216,16 @@ export function PatternSearchTable() {
               Search {enrichedData.length} patterns by region, climate, or regulatory standard
             </CardDescription>
           </div>
-          <Button variant="outline" size="sm" onClick={handleCsvExport} className="gap-1.5">
-            <Download className="w-4 h-4" /> Export CSV
-          </Button>
+          <div className="flex gap-2">
+            <SavedFilters
+              currentFilters={{ search, filterClimate, filterRegion, filterFamily, filterMacro }}
+              onApply={applyFilters}
+              hasActiveFilters={!!hasFilters}
+            />
+            <Button variant="outline" size="sm" onClick={handleCsvExport} className="gap-1.5">
+              <Download className="w-4 h-4" /> Export CSV
+            </Button>
+          </div>
         </div>
 
         {/* Search + Filters */}
