@@ -371,6 +371,22 @@ export function PatternSearchTable() {
                 <button onClick={() => setFilterMacro(null)} className="ml-0.5 rounded-full hover:bg-muted p-0.5"><X className="w-3 h-3" /></button>
               </Badge>);
             })()}
+            {/* Combined intersection count when 2+ filters active */}
+            {[search, filterRegion !== 'all', filterClimate !== 'all', filterFamily !== 'all', filterMacro].filter(Boolean).length >= 2 && (
+              <Badge className="text-[10px] gap-1 pl-2 pr-1.5 py-0.5 bg-primary/15 text-primary border-primary/30">
+                Combined: <span className="font-semibold">{filtered.length}</span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="ml-0.5 rounded-full bg-primary/20 px-1 text-[9px] cursor-default">
+                      {((filtered.length / enrichedData.length) * 100).toFixed(1)}%
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="text-xs">
+                    {filtered.length} of {enrichedData.length} patterns match all active filters
+                  </TooltipContent>
+                </Tooltip>
+              </Badge>
+            )}
           </div>
           </TooltipProvider>
         )}
