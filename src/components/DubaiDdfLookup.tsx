@@ -135,11 +135,11 @@ export function DubaiDdfLookup({ unitSystem, onApply }: DubaiDdfLookupProps) {
           </div>
         )}
 
-        {/* Compact DDF Table */}
+        {/* Compact DDF + IDF Table */}
         {selectedAri !== null && (
           <details className="group">
             <summary className="text-xs text-muted-foreground cursor-pointer hover:text-foreground transition-colors">
-              View full {selectedAri}-yr DDF row
+              View full {selectedAri}-yr DDF &amp; IDF table
             </summary>
             <div className="mt-2 overflow-x-auto rounded border">
               <Table>
@@ -161,6 +161,24 @@ export function DubaiDdfLookup({ unitSystem, onApply }: DubaiDdfLookupProps) {
                     {DUBAI_DDF_DURATIONS_MIN.map((d, i) => {
                       const depthMm = DUBAI_DDF_DEPTHS[ariIdx][i];
                       const display = unitSystem === "SI" ? depthMm : convertDepth(depthMm, "SI", "USA");
+                      return (
+                        <TableCell
+                          key={d}
+                          className={`text-xs py-1 px-1.5 text-center tabular-nums ${d === selectedDur ? 'bg-primary/10 font-bold text-primary' : ''}`}
+                        >
+                          {display.toFixed(unitSystem === "SI" ? 1 : 2)}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="text-xs py-1 px-2 font-medium whitespace-nowrap">
+                      Intensity ({unitSystem === "SI" ? "mm/hr" : "in/hr"})
+                    </TableCell>
+                    {DUBAI_DDF_DURATIONS_MIN.map((d, i) => {
+                      const depthMm = DUBAI_DDF_DEPTHS[ariIdx][i];
+                      const intensityMmHr = depthMm / (d / 60);
+                      const display = unitSystem === "SI" ? intensityMmHr : convertDepth(intensityMmHr, "SI", "USA");
                       return (
                         <TableCell
                           key={d}
