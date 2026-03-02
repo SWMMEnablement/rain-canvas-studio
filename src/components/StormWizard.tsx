@@ -817,6 +817,7 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
             <ExportButtons
               data={exportData}
               pattern={patternNames[selectedPattern]}
+              patternKey={selectedPattern}
               totalDepth={depth}
               duration={duration}
               timeStep={timeStep}
