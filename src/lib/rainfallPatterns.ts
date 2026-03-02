@@ -2770,42 +2770,18 @@ export function generateRainfallData(
 
     case 'dubai_dm_combined': {
       // Dubai DM Combined — Modified FEH for DXB Combined profile
-      // Mass curve from Dubai Municipality DDF guidelines (r/R cumulative ratios)
-      // Raw ratios: [0, 0.2788, 0.5651, 0.8590, 1.1608, 1.4710, 1.7897, 2.1174, 2.4545, 2.8013, 3.1583, 3.5259]
-      // Normalized to [0,1] and rearranged as center-peaked alternating-block
-      const rawRatios = [0, 0.2788, 0.5651, 0.8590, 1.1608, 1.4710, 1.7897, 2.1174, 2.4545, 2.8013, 3.1583, 3.5259];
-      const maxR = rawRatios[rawRatios.length - 1];
-      // Compute incremental depths from normalized mass curve
-      const increments: number[] = [];
-      for (let k = 1; k < rawRatios.length; k++) {
-        increments.push((rawRatios[k] - rawRatios[k - 1]) / maxR);
-      }
-      // Sort descending for alternating-block placement
-      const sorted = increments.slice().sort((a, b) => b - a);
-      // Place in alternating-block order, peak at center (50%)
-      const nBlocks = sorted.length;
-      const ordered: number[] = new Array(nBlocks).fill(0);
-      const peakIdx = Math.floor(nBlocks / 2);
-      ordered[peakIdx] = sorted[0];
-      let left = peakIdx - 1, right = peakIdx + 1;
-      for (let k = 1; k < sorted.length; k++) {
-        if (k % 2 === 1 && left >= 0) { ordered[left] = sorted[k]; left--; }
-        else if (right < nBlocks) { ordered[right] = sorted[k]; right++; }
-        else if (left >= 0) { ordered[left] = sorted[k]; left--; }
-      }
-      // Build cumulative curve from the alternating-block increments
-      const cumT: number[] = [0];
-      const cumD: number[] = [0];
-      let cumSum = 0;
-      for (let k = 0; k < nBlocks; k++) {
-        cumSum += ordered[k];
-        cumT.push((k + 1) / nBlocks);
-        cumD.push(cumSum);
-      }
-      // Normalize cumD to [0,1]
-      const cumMax = cumD[cumD.length - 1];
-      for (let k = 0; k < cumD.length; k++) cumD[k] /= cumMax;
-      return applyDimensionlessCurve(cumT, cumD, totalDepth, numSteps, timeStep);
+      // Source: Dubai Municipality DDF Guidelines (updated 29 Dec 2024)
+      // Direct dimensionless mass curve: symmetric S-curve, peak at 50% duration
+      // Verified: 33.3mm @ 60min 10yr ARI → peak 98.72 mm/hr at t=30min
+      const dxbT = [
+        0, 0.0833, 0.1667, 0.2500, 0.3333, 0.4167, 0.5000,
+        0.5833, 0.6667, 0.7500, 0.8333, 0.9167, 1.0000
+      ];
+      const dxbD = [
+        0, 0.0257, 0.0584, 0.1013, 0.1610, 0.2532, 0.5000,
+        0.7468, 0.8390, 0.8987, 0.9416, 0.9743, 1.0000
+      ];
+      return applyDimensionlessCurve(dxbT, dxbD, totalDepth, numSteps, timeStep);
     }
 
     case 'abu_dhabi_adm': {
