@@ -460,26 +460,57 @@ interface HeroHyetographProps {
   patternName?: string;
 }
 
-/** A small, decorative hyetograph for the hero section. No axes, no interaction. */
+/** A decorative hyetograph for the hero section. Gradient bars with glow. */
 export function HeroHyetograph({ patternName }: HeroHyetographProps) {
   const key = patternName && PATTERN_SHAPES[patternName] ? patternName : DEFAULT_KEY;
   const shape = PATTERN_SHAPES[key];
 
   const data = useMemo(() => {
     const ratios = shape.ratios;
-    return ratios.map((r, i) => ({
+    const incremental = ratios.map((r, i) => (r - (i > 0 ? ratios[i - 1] : 0)) * 100);
+    const max = Math.max(...incremental);
+    return incremental.map((v, i) => ({
       i,
-      v: (r - (i > 0 ? ratios[i - 1] : 0)) * 100,
+      v,
+      opacity: max > 0 ? 0.4 + 0.6 * (v / max) : 0.5,
     }));
   }, [shape]);
 
   return (
-    <div className="w-56 h-24 mx-auto opacity-80 transition-all duration-300">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-          <Bar dataKey="v" fill="rgba(255,255,255,0.7)" radius={[1, 1, 0, 0]} isAnimationActive animationDuration={500} />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="w-80 h-40 mx-auto transition-all duration-300 relative">
+      {/* Glow effect behind chart */}
+      <div className="absolute inset-0 blur-2xl opacity-20 bg-gradient-to-t from-cyan-400 via-blue-500 to-transparent rounded-full scale-110" />
+      <div className="relative w-full h-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} margin={{ top: 4, right: 2, left: 2, bottom: 0 }}>
+            <defs>
+              <linearGradient id="heroBarGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#67e8f9" stopOpacity={0.95} />
+                <stop offset="40%" stopColor="#22d3ee" stopOpacity={0.85} />
+                <stop offset="100%" stopColor="#0891b2" stopOpacity={0.6} />
+              </linearGradient>
+              <filter id="heroGlow">
+                <feGaussianBlur stdDeviation="2" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <Bar
+              dataKey="v"
+              fill="url(#heroBarGradient)"
+              radius={[2, 2, 0, 0]}
+              isAnimationActive
+              animationDuration={400}
+              animationEasing="ease-out"
+              filter="url(#heroGlow)"
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+      {/* Subtle reflection line at base */}
+      <div className="absolute bottom-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
     </div>
   );
 }
