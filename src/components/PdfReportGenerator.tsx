@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { FileText, Loader2, Settings } from "lucide-react";
+import { FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { type UnitSystem, convertIntensity, convertDepth, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
 import { type PatternType } from "@/lib/rainfallPatterns";
 import { getPatternEquation } from "@/lib/patternEquations";
@@ -24,16 +21,16 @@ interface PdfReportGeneratorProps {
   duration: number;
   timeStep: number;
   unitSystem: UnitSystem;
+  projectName?: string;
+  engineerName?: string;
+  companyName?: string;
 }
 
 export function PdfReportGenerator({
   data, pattern, patternKey, totalDepth, duration, timeStep, unitSystem,
+  projectName = "", engineerName = "", companyName = "",
 }: PdfReportGeneratorProps) {
   const [generating, setGenerating] = useState(false);
-  const [showOptions, setShowOptions] = useState(false);
-  const [projectName, setProjectName] = useState("");
-  const [engineerName, setEngineerName] = useState("");
-  const [companyName, setCompanyName] = useState("");
 
   const generatePdf = async () => {
     setGenerating(true);
@@ -470,36 +467,9 @@ export function PdfReportGenerator({
   };
 
   return (
-    <div className="space-y-2">
-      <Collapsible open={showOptions} onOpenChange={setShowOptions}>
-        <CollapsibleTrigger asChild>
-          <Button variant="ghost" size="sm" className="gap-1.5 text-xs text-muted-foreground h-7 px-2">
-            <Settings className="w-3 h-3" />
-            {showOptions ? "Hide" : "Add"} project details
-          </Button>
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 p-3 bg-muted/50 rounded-lg mt-1">
-            <div>
-              <Label className="text-xs">Project Name</Label>
-              <Input value={projectName} onChange={e => setProjectName(e.target.value)} placeholder="Project name..." className="mt-1 h-8 text-xs" />
-            </div>
-            <div>
-              <Label className="text-xs">Engineer</Label>
-              <Input value={engineerName} onChange={e => setEngineerName(e.target.value)} placeholder="Engineer name..." className="mt-1 h-8 text-xs" />
-            </div>
-            <div>
-              <Label className="text-xs">Company</Label>
-              <Input value={companyName} onChange={e => setCompanyName(e.target.value)} placeholder="Company name..." className="mt-1 h-8 text-xs" />
-            </div>
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
-
-      <Button onClick={generatePdf} disabled={generating} className="gap-2">
-        {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
-        {generating ? "Generating…" : "PDF Engineering Report"}
-      </Button>
-    </div>
+    <Button onClick={generatePdf} disabled={generating} className="gap-2">
+      {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
+      {generating ? "Generating…" : "PDF Engineering Report"}
+    </Button>
   );
 }
