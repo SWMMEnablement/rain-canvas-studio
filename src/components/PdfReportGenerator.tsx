@@ -8,6 +8,8 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { type UnitSystem, convertIntensity, convertDepth, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
+import { type PatternType } from "@/lib/rainfallPatterns";
+import { getPatternEquation } from "@/lib/patternEquations";
 
 interface RainfallDataPoint {
   time: number;
@@ -17,6 +19,7 @@ interface RainfallDataPoint {
 interface PdfReportGeneratorProps {
   data: RainfallDataPoint[];
   pattern: string;
+  patternKey?: PatternType;
   totalDepth: number;
   duration: number;
   timeStep: number;
@@ -24,7 +27,7 @@ interface PdfReportGeneratorProps {
 }
 
 export function PdfReportGenerator({
-  data, pattern, totalDepth, duration, timeStep, unitSystem,
+  data, pattern, patternKey, totalDepth, duration, timeStep, unitSystem,
 }: PdfReportGeneratorProps) {
   const [generating, setGenerating] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -37,6 +40,7 @@ export function PdfReportGenerator({
     try {
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "letter" });
       const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
       const margin = 18;
       const contentW = pageW - margin * 2;
       let y = margin;
@@ -59,6 +63,14 @@ export function PdfReportGenerator({
       const depths = convertedData.map(d => d.convertedIntensity * stepHr);
       const depthSum = depths.reduce((s, v) => s + v, 0);
       const depthError = Math.abs(depthSum - exportDepth) / exportDepth * 100;
+
+      // Helper: check page break
+      const checkPage = (needed: number) => {
+        if (y + needed > pageH - 15) {
+          pdf.addPage();
+          y = margin;
+        }
+      };
 
       // ── Header bar ──
       pdf.setFillColor(30, 64, 175);
@@ -125,7 +137,164 @@ export function PdfReportGenerator({
       });
       y += 6;
 
+      // ── Pattern Equations & Source ──
+      const equationInfo = patternKey ? getPatternEquation(patternKey) : undefined;
+      if (equationInfo) {
+        checkPage(60);
+
+        // Section: Pattern Source & Reference
+        pdf.setTextColor(30, 64, 175);
+        pdf.setFontSize(13);
+        pdf.setFont("helvetica", "bold");
+        pdf.text("Pattern Source & Reference", margin, y);
+        y += 6;
+
+        const refRows = [
+          ["Pattern Name", equationInfo.name],
+          ["Category", equationInfo.category === 'cumulative' ? 'Cumulative Distribution' : equationInfo.category === 'intensity' ? 'Intensity Function' : 'Empirical Method'],
+          ["Reference", equationInfo.reference.title],
+          ["Citation", equationInfo.reference.citation],
+          ["Year", String(equationInfo.reference.year)],
+        ];
+        if (equationInfo.reference.link) {
+          refRows.push(["URL", equationInfo.reference.link]);
+        }
+
+        pdf.setFontSize(9);
+        refRows.forEach((row, i) => {
+          const bgColor = i % 2 === 0 ? 240 : 250;
+          pdf.setFillColor(bgColor, bgColor, bgColor);
+          pdf.rect(margin, y, contentW, rowH, "F");
+          pdf.setTextColor(80, 80, 80);
+          pdf.setFont("helvetica", "bold");
+          pdf.text(row[0], margin + 3, y + 4.5);
+          pdf.setFont("helvetica", "normal");
+          pdf.setTextColor(30, 30, 30);
+          // Truncate long URLs
+          const val = row[1].length > 80 ? row[1].slice(0, 77) + "..." : row[1];
+          pdf.text(val, margin + colW * 0.4, y + 4.5);
+          y += rowH;
+        });
+        y += 4;
+
+        // Notes
+        if (equationInfo.notes) {
+          checkPage(15);
+          pdf.setFillColor(240, 248, 255);
+          pdf.rect(margin, y, contentW, 10, "F");
+          pdf.setFontSize(8);
+          pdf.setTextColor(60, 60, 60);
+          pdf.setFont("helvetica", "italic");
+          const noteLines = pdf.splitTextToSize(`Note: ${equationInfo.notes}`, contentW - 6);
+          pdf.text(noteLines, margin + 3, y + 4);
+          y += Math.max(10, noteLines.length * 4 + 4);
+          y += 3;
+        }
+
+        // Section: Equations Used
+        checkPage(30);
+        pdf.setTextColor(30, 64, 175);
+        pdf.setFontSize(13);
+        pdf.setFont("helvetica", "bold");
+        pdf.text("Equations Used", margin, y);
+        y += 6;
+
+        equationInfo.equations.forEach((eq) => {
+          checkPage(20);
+
+          // Equation label
+          pdf.setFillColor(30, 64, 175);
+          pdf.setTextColor(255, 255, 255);
+          pdf.setFontSize(8);
+          pdf.setFont("helvetica", "bold");
+          const labelW = pdf.getTextWidth(eq.label) + 6;
+          pdf.roundedRect(margin, y, labelW, 5, 1, 1, "F");
+          pdf.text(eq.label, margin + 3, y + 3.6);
+          y += 7;
+
+          // Equation text (plain text rendering of LaTeX — strip LaTeX commands for readability)
+          const plainEq = eq.latex
+            .replace(/\\begin\{cases\}/g, '{ ')
+            .replace(/\\end\{cases\}/g, ' }')
+            .replace(/\\\\/g, ' | ')
+            .replace(/\\left[.(]/g, '(')
+            .replace(/\\right[.)]/g, ')')
+            .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1)/($2)')
+            .replace(/\\cdot/g, '·')
+            .replace(/\\leq/g, '≤')
+            .replace(/\\geq/g, '≥')
+            .replace(/\\approx/g, '≈')
+            .replace(/\\times/g, '×')
+            .replace(/\\sum_\{[^}]*\}\^\{[^}]*\}/g, 'Σ')
+            .replace(/\\Delta/g, 'Δ')
+            .replace(/\\bar\{([^}]+)\}/g, '$1̄')
+            .replace(/\\quad/g, '  ')
+            .replace(/\{/g, '')
+            .replace(/\}/g, '')
+            .replace(/\^/g, '^')
+            .replace(/_/g, '_')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+          pdf.setFillColor(248, 248, 248);
+          const eqLines = pdf.splitTextToSize(plainEq, contentW - 10);
+          const eqH = Math.max(8, eqLines.length * 4 + 4);
+          pdf.rect(margin, y, contentW, eqH, "F");
+          pdf.setFontSize(8);
+          pdf.setFont("courier", "normal");
+          pdf.setTextColor(30, 30, 30);
+          pdf.text(eqLines, margin + 5, y + 4);
+          y += eqH + 2;
+
+          // Description
+          pdf.setFontSize(8);
+          pdf.setFont("helvetica", "normal");
+          pdf.setTextColor(100, 100, 100);
+          pdf.text(eq.description, margin + 3, y + 1);
+          y += 5;
+        });
+        y += 3;
+
+        // Variables table
+        if (equationInfo.variables.length > 0) {
+          checkPage(20);
+          pdf.setTextColor(30, 64, 175);
+          pdf.setFontSize(10);
+          pdf.setFont("helvetica", "bold");
+          pdf.text("Variables", margin, y);
+          y += 5;
+
+          // Header
+          pdf.setFillColor(30, 64, 175);
+          pdf.rect(margin, y, contentW, 5.5, "F");
+          pdf.setTextColor(255, 255, 255);
+          pdf.setFontSize(7.5);
+          pdf.text("Symbol", margin + 3, y + 3.8);
+          pdf.text("Meaning", margin + contentW * 0.2, y + 3.8);
+          y += 5.5;
+
+          equationInfo.variables.forEach((v, i) => {
+            checkPage(6);
+            const bgColor = i % 2 === 0 ? 248 : 255;
+            pdf.setFillColor(bgColor, bgColor, bgColor);
+            pdf.rect(margin, y, contentW, 5, "F");
+            pdf.setFontSize(7.5);
+            pdf.setFont("courier", "normal");
+            pdf.setTextColor(30, 30, 30);
+            const sym = v.symbol.replace(/\\/g, '').replace(/\{/g, '').replace(/\}/g, '');
+            pdf.text(sym, margin + 3, y + 3.5);
+            pdf.setFont("helvetica", "normal");
+            pdf.setTextColor(60, 60, 60);
+            const meaningLines = pdf.splitTextToSize(v.meaning, contentW * 0.75);
+            pdf.text(meaningLines[0], margin + contentW * 0.2, y + 3.5);
+            y += 5;
+          });
+          y += 4;
+        }
+      }
+
       // ── Verification Checks ──
+      checkPage(40);
       pdf.setTextColor(30, 64, 175);
       pdf.setFontSize(13);
       pdf.setFont("helvetica", "bold");
@@ -166,7 +335,6 @@ export function PdfReportGenerator({
         pdf.setFont("helvetica", "normal");
         pdf.text(row[1], xPos + 2, y + 3.8);
         xPos += checkColWidths[1];
-        // Color-code status
         if (row[2].includes("PASS") || row[2].includes("OK")) {
           pdf.setTextColor(22, 163, 74);
         } else if (row[2].includes("FAIL")) {
@@ -183,6 +351,7 @@ export function PdfReportGenerator({
       // ── Hyetograph Chart ──
       const chartEl = document.querySelector(".recharts-responsive-container")?.parentElement;
       if (chartEl) {
+        checkPage(80);
         pdf.setTextColor(30, 64, 175);
         pdf.setFontSize(13);
         pdf.setFont("helvetica", "bold");
@@ -210,7 +379,7 @@ export function PdfReportGenerator({
       }
 
       // ── Timeseries Data Table ──
-      if (y > 200) { pdf.addPage(); y = margin; }
+      checkPage(30);
 
       pdf.setTextColor(30, 64, 175);
       pdf.setFontSize(13);
