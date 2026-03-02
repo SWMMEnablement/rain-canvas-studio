@@ -477,10 +477,11 @@ export function HeroHyetograph({ patternName }: HeroHyetographProps) {
   }, [shape]);
 
   return (
-    <div className="w-80 h-40 mx-auto transition-all duration-300 relative">
+    <div className="w-80 h-56 mx-auto transition-all duration-300 relative">
       {/* Glow effect behind chart */}
-      <div className="absolute inset-0 blur-2xl opacity-20 bg-gradient-to-t from-cyan-400 via-blue-500 to-transparent rounded-full scale-110" />
-      <div className="relative w-full h-full">
+      <div className="absolute inset-0 top-0 bottom-1/3 blur-2xl opacity-20 bg-gradient-to-t from-cyan-400 via-blue-500 to-transparent rounded-full scale-110" />
+      {/* Main chart */}
+      <div className="relative w-full h-[62%]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 4, right: 2, left: 2, bottom: 0 }}>
             <defs>
@@ -509,8 +510,31 @@ export function HeroHyetograph({ patternName }: HeroHyetographProps) {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      {/* Subtle reflection line at base */}
-      <div className="absolute bottom-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
+      {/* Reflection divider line */}
+      <div className="relative left-2 right-2 mx-2 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+      {/* Mirror reflection */}
+      <div className="relative w-full h-[34%] overflow-hidden" style={{ transform: 'scaleY(-1)' }}>
+        <div className="w-full h-full" style={{ maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, transparent 100%)' }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={data} margin={{ top: 0, right: 2, left: 2, bottom: 0 }}>
+              <defs>
+                <linearGradient id="heroBarReflection" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#67e8f9" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#0891b2" stopOpacity={0.05} />
+                </linearGradient>
+              </defs>
+              <Bar
+                dataKey="v"
+                fill="url(#heroBarReflection)"
+                radius={[2, 2, 0, 0]}
+                isAnimationActive
+                animationDuration={400}
+                animationEasing="ease-out"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
     </div>
   );
 }
