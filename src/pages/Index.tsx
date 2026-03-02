@@ -25,7 +25,7 @@ const PATTERN_BADGES = [
   "Canadian CDA", "Chicago Storm", "Chile DGA", "China Design Storm",
   "China GB 50014", "China PRD", "Christchurch Canterbury", "Colombia IDEAM", "Custom",
   "Denmark SVK", "Desbordes", "Double Peak", "Double Triangle",
-  "Dubai Municipality", "Dutch NEERSLAG",
+  "Dubai DM Combined", "Dubai Municipality", "Dutch NEERSLAG",
   "ECCC IDF", "Ecuador INAMHI", "Egypt HCWW", "Ethiopia NMA", "Euler Type I", "Euler Type II",
   "FDOT Zone 1", "FDOT Zone 2", "FDOT Zone 3", "FDOT Zone 4", "FDOT Zone 5",
   "FEH (UK)", "FEH22/ReFH2", "Fiji FMS", "Finland FMI", "FSR Profile",

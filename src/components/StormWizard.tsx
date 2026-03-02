@@ -129,6 +129,7 @@ const patternNames: Record<PatternType, string> = {
   'aes_40': 'AES Canada 40%',
   'kostra_dwd': 'KOSTRA-DWD',
   'dubai_dm': 'Dubai Municipality',
+  'dubai_dm_combined': 'Dubai DM Combined',
   'abu_dhabi_adm': 'Abu Dhabi ADM',
   'montana_caquot': 'Montana/Caquot (FR)',
   'm5_60_fsr': 'M5-60 (UK/Ireland)',

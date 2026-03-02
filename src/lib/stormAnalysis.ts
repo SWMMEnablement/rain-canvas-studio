@@ -155,6 +155,7 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   aes_40: { name: 'AES Canada 40%', peakPosition: 0.40, description: 'BC/prairies 40% distribution' },
   kostra_dwd: { name: 'KOSTRA-DWD', peakPosition: 0.33, description: 'Euler II alternating-block, peak at 1/3' },
   dubai_dm: { name: 'Dubai Municipality', peakPosition: 0.50, description: 'FEH 90th pctl needle peak' },
+  dubai_dm_combined: { name: 'Dubai DM Combined', peakPosition: 0.50, description: 'Modified FEH for DXB Combined' },
   abu_dhabi_adm: { name: 'Abu Dhabi ADM', peakPosition: 0.50, description: 'FEH 75th pctl peak' },
   montana_caquot: { name: 'Montana/Caquot', peakPosition: 0.10, description: 'French power-law IT77' },
   m5_60_fsr: { name: 'M5-60 FSR', peakPosition: 0.45, description: 'UK short-duration FSR' },
