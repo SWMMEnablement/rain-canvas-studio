@@ -478,7 +478,7 @@ export function HeroHyetograph({ patternName }: HeroHyetographProps) {
   }, [shape]);
 
   return (
-    <div className="w-80 h-60 mx-auto transition-all duration-300 relative">
+    <div className="w-96 h-60 mx-auto transition-all duration-300 relative">
       {/* Glow effect behind chart */}
       <div className="absolute inset-0 top-0 bottom-1/3 blur-2xl opacity-20 bg-gradient-to-t from-cyan-400 via-blue-500 to-transparent rounded-full scale-110" />
       {/* Main chart */}
