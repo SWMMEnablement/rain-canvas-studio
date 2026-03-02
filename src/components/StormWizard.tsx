@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck, FlaskRound } from "lucide-react";
+import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck, FlaskRound, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -708,6 +708,32 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
                 </div>
               </CardContent>
             </Card>
+
+            {/* Extreme Intensity Warning */}
+            {(() => {
+              const thresholdMmHr = unitSystem === 'SI' ? 300 : 300 / 25.4;
+              const unit = unitSystem === 'SI' ? 'mm/hr' : 'in/hr';
+              if (peakIntensity > thresholdMmHr) {
+                const peakDisplay = peakIntensity.toFixed(1);
+                return (
+                  <div className="flex items-start gap-3 rounded-lg border border-amber-500/40 bg-amber-500/10 p-4">
+                    <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-medium text-sm text-amber-700 dark:text-amber-400">
+                        Extreme Instantaneous Intensity
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Peak intensity of <span className="font-semibold text-foreground">{peakDisplay} {unit}</span> exceeds
+                        300 mm/hr — a physically rare threshold. This may result from a highly concentrated profile
+                        (e.g., needle-peak distributions) combined with short time steps. Verify this is appropriate
+                        for your design scenario.
+                      </p>
+                    </div>
+                  </div>
+                );
+              }
+              return null;
+            })()}
 
             {/* Share This Storm */}
             <Card className="border-primary/20">
