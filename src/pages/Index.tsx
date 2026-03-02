@@ -98,9 +98,9 @@ const Index = () => {
           </p>
 
           {/* Hero Hyetograph Preview */}
-          <div ref={heroRef} className="mt-8 mb-4 inline-block">
+          <div ref={heroRef} className="mt-8 mb-4 inline-block px-4 pb-4 pt-2">
             <HeroHyetograph patternName={heroPattern} />
-            <p className="text-sm font-medium tracking-wide text-cyan-200/90 mt-2 transition-all duration-300">
+            <p className="text-sm font-medium tracking-wide text-cyan-200/90 mt-3 text-center transition-all duration-300">
               {getHeroPatternLabel(heroPattern)}
             </p>
           </div>
