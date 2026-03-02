@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { DubaiDdfLookup } from "@/components/DubaiDdfLookup";
 import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck, FlaskRound, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,7 +25,7 @@ import {
   type PatternType,
 } from "@/lib/rainfallPatterns";
 import { useStormApi } from "@/hooks/useStormApi";
-import { type UnitSystem } from "@/lib/unitConversions";
+import { type UnitSystem, convertDepth } from "@/lib/unitConversions";
 
 const patternNames: Record<PatternType, string> = {
   'scs1a': 'SCS Type IA',
@@ -516,6 +517,21 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
                 onDurationChange={setDuration}
                 onTimeStepChange={setTimeStep}
                 onUnitSystemChange={setUnitSystem}
+              />
+
+              {/* Dubai DDF Lookup */}
+              <DubaiDdfLookup
+                unitSystem={unitSystem}
+                onApply={(depthMm, durationHr) => {
+                  const depthVal = unitSystem === 'SI' ? depthMm : convertDepth(depthMm, 'SI', 'USA');
+                  setDepth(depthVal);
+                  setDuration(durationHr);
+                  // Auto-select timestep
+                  if (durationHr <= 0.5) setTimeStep(5);
+                  else if (durationHr <= 1) setTimeStep(5);
+                  else if (durationHr <= 6) setTimeStep(15);
+                  else setTimeStep(30);
+                }}
               />
             </div>
           </div>
