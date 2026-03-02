@@ -28,7 +28,9 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   // v7 — Niche patterns
   | 'arnell_sweden' | 'tenax_cds' | 'avm'
   // v8 — South African SCS Types
-  | 'sa_scs1' | 'sa_scs2' | 'sa_scs3' | 'sa_scs4';
+  | 'sa_scs1' | 'sa_scs2' | 'sa_scs3' | 'sa_scs4'
+  // v9 — Dubai DM Combined
+  | 'dubai_dm_combined';
 
 // ─── Helper functions for pattern generation ───
 
@@ -2764,6 +2766,46 @@ export function generateRainfallData(
       const dmT = [0, 0.10, 0.20, 0.30, 0.40, 0.45, 0.50, 0.55, 0.60, 0.70, 0.80, 0.90, 1.0];
       const dmD = [0, 0.02, 0.06, 0.12, 0.20, 0.30, 0.80, 0.88, 0.92, 0.95, 0.97, 0.99, 1.0];
       return applyDimensionlessCurve(dmT, dmD, totalDepth, numSteps, timeStep);
+    }
+
+    case 'dubai_dm_combined': {
+      // Dubai DM Combined — Modified FEH for DXB Combined profile
+      // Mass curve from Dubai Municipality DDF guidelines (r/R cumulative ratios)
+      // Raw ratios: [0, 0.2788, 0.5651, 0.8590, 1.1608, 1.4710, 1.7897, 2.1174, 2.4545, 2.8013, 3.1583, 3.5259]
+      // Normalized to [0,1] and rearranged as center-peaked alternating-block
+      const rawRatios = [0, 0.2788, 0.5651, 0.8590, 1.1608, 1.4710, 1.7897, 2.1174, 2.4545, 2.8013, 3.1583, 3.5259];
+      const maxR = rawRatios[rawRatios.length - 1];
+      // Compute incremental depths from normalized mass curve
+      const increments: number[] = [];
+      for (let k = 1; k < rawRatios.length; k++) {
+        increments.push((rawRatios[k] - rawRatios[k - 1]) / maxR);
+      }
+      // Sort descending for alternating-block placement
+      const sorted = increments.slice().sort((a, b) => b - a);
+      // Place in alternating-block order, peak at center (50%)
+      const nBlocks = sorted.length;
+      const ordered: number[] = new Array(nBlocks).fill(0);
+      const peakIdx = Math.floor(nBlocks / 2);
+      ordered[peakIdx] = sorted[0];
+      let left = peakIdx - 1, right = peakIdx + 1;
+      for (let k = 1; k < sorted.length; k++) {
+        if (k % 2 === 1 && left >= 0) { ordered[left] = sorted[k]; left--; }
+        else if (right < nBlocks) { ordered[right] = sorted[k]; right++; }
+        else if (left >= 0) { ordered[left] = sorted[k]; left--; }
+      }
+      // Build cumulative curve from the alternating-block increments
+      const cumT: number[] = [0];
+      const cumD: number[] = [0];
+      let cumSum = 0;
+      for (let k = 0; k < nBlocks; k++) {
+        cumSum += ordered[k];
+        cumT.push((k + 1) / nBlocks);
+        cumD.push(cumSum);
+      }
+      // Normalize cumD to [0,1]
+      const cumMax = cumD[cumD.length - 1];
+      for (let k = 0; k < cumD.length; k++) cumD[k] /= cumMax;
+      return applyDimensionlessCurve(cumT, cumD, totalDepth, numSteps, timeStep);
     }
 
     case 'abu_dhabi_adm': {

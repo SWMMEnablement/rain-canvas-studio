@@ -734,6 +734,13 @@ export const patterns: PatternOption[] = [
     category: 'middle_east',
   },
   {
+    id: 'dubai_dm_combined',
+    name: 'Dubai DM Combined',
+    icon: '🇦🇪',
+    description: 'Dubai Municipality Modified FEH for DXB Combined profile. Center-peaked alternating-block derived from official DDF cumulative ratios. Symmetric peak at 50% of duration.',
+    category: 'middle_east',
+  },
+  {
     id: 'abu_dhabi_adm',
     name: 'Abu Dhabi ADM',
     icon: '🇦🇪',

@@ -155,6 +155,7 @@ const comparisonPatterns: ComparisonPattern[] = [
   // Additional Middle East
   { id: 'arid_flash_flood', name: 'Arid Flash Flood', color: '#ea580c', category: 'Middle East' },
   { id: 'dubai_dm', name: 'Dubai Municipality', color: '#f59e0b', category: 'Middle East' },
+  { id: 'dubai_dm_combined', name: 'Dubai DM Combined', color: '#d97706', category: 'Middle East' },
   { id: 'abu_dhabi_adm', name: 'Abu Dhabi ADM', color: '#8b5cf6', category: 'Middle East' },
   // v2 patterns
   { id: 'aes_30', name: 'AES Canada 30%', color: '#dc2626', category: 'Canadian' },
@@ -295,7 +296,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'GCC Flash Flood',
-    patterns: ['saudi_pme', 'uae_ncms', 'qatar_kahramaa', 'oman_dgman', 'arid_flash_flood', 'dubai_dm', 'abu_dhabi_adm', 'israel_ims', 'iran_irimo', 'iraq_mos', 'turkey_mgm'],
+    patterns: ['saudi_pme', 'uae_ncms', 'qatar_kahramaa', 'oman_dgman', 'arid_flash_flood', 'dubai_dm', 'dubai_dm_combined', 'abu_dhabi_adm', 'israel_ims', 'iran_irimo', 'iraq_mos', 'turkey_mgm'],
     description: 'GCC/Middle East arid flash flood patterns',
   },
   {

@@ -92,7 +92,7 @@ export const TAXONOMY_TREE: TaxonomyNode[] = [
       {
         id: '3.3', label: 'Middle East & Africa',
         patterns: [
-          'uae_ncms', 'dubai_dm', 'abu_dhabi_adm', 'saudi_pme',
+          'uae_ncms', 'dubai_dm', 'dubai_dm_combined', 'abu_dhabi_adm', 'saudi_pme',
           'qatar_kahramaa', 'oman_dgman', 'turkey_dsi',
           'sa_sanral', 'kenya_kmd', 'nigeria_nimet', 'egypt_hcww',
           'ethiopia_nma', 'ghana_gmet', 'morocco_dmn', 'mozambique_inam',
@@ -255,6 +255,7 @@ export const COMPARISON_DATA: ComparisonRow[] = [
   { id: 'iran_irimo', name: 'Iran IRIMO', taxonomyClass: '1.2', region: 'Iran', idfRequired: 'Yes', temporalRes: 'Any', durationRange: '0.5–24h', keyParams: 'r=0.35, IDF', peakPosition: 'variable', advancementRatio: '0.35', nestedIdf: true, dimensionless: true, sourceDoc: 'IRIMO IDF Standards', equationFamily: 'Keifer-Chu', useCase: 'Iranian drainage', swmmCompat: 'Direct', icmCompat: 'Direct' },
   { id: 'iraq_mos', name: 'Iraq MoS', taxonomyClass: '3.3', region: 'Iraq', idfRequired: 'No', temporalRes: '15-min', durationRange: '1–12h', keyParams: 'Arid front-loaded', peakPosition: 'front', advancementRatio: '~0.20', nestedIdf: false, dimensionless: true, sourceDoc: 'MoS Drainage Std.', equationFamily: 'Parametric', useCase: 'Iraqi drainage', swmmCompat: 'Direct', icmCompat: 'Conversion' },
   { id: 'dubai_dm', name: 'Dubai Municipality', taxonomyClass: '3.3', region: 'UAE (Dubai)', idfRequired: 'Yes', temporalRes: '5-min', durationRange: '0.5–6h', keyParams: 'FEH 90th% needle', peakPosition: 'center', advancementRatio: '0.50', nestedIdf: true, dimensionless: false, sourceDoc: 'Dubai DM 2024 Guidelines', equationFamily: 'FSR/FEH', useCase: 'Dubai drainage', swmmCompat: 'Conversion', icmCompat: 'Direct' },
+  { id: 'dubai_dm_combined', name: 'Dubai DM Combined', taxonomyClass: '3.3', region: 'UAE (Dubai)', idfRequired: 'Yes', temporalRes: '5-min', durationRange: '0.5–24h', keyParams: 'FEH DXB Combined', peakPosition: 'center', advancementRatio: '0.50', nestedIdf: true, dimensionless: false, sourceDoc: 'Dubai DM DDF Guidelines', equationFamily: 'FSR/FEH', useCase: 'Dubai drainage', swmmCompat: 'Conversion', icmCompat: 'Direct' },
   { id: 'abu_dhabi_adm', name: 'Abu Dhabi ADM', taxonomyClass: '3.3', region: 'UAE (Abu Dhabi)', idfRequired: 'Yes', temporalRes: '5-min', durationRange: '0.5–6h', keyParams: 'FEH 75th% peaked', peakPosition: 'center', advancementRatio: '0.50', nestedIdf: true, dimensionless: false, sourceDoc: 'ADM 2024 Guidelines', equationFamily: 'FSR/FEH', useCase: 'Abu Dhabi drainage', swmmCompat: 'Conversion', icmCompat: 'Direct' },
   { id: 'arid_flash_flood', name: 'Arid Flash Flood', taxonomyClass: '3.5', region: 'Universal (Arid)', idfRequired: 'No', temporalRes: 'Any', durationRange: '0.5–6h', keyParams: '70% in first 30%', peakPosition: 'front', advancementRatio: '~0.05', nestedIdf: false, dimensionless: true, sourceDoc: 'General arid practice', equationFamily: 'Parametric', useCase: 'Wadi flash flood', swmmCompat: 'Direct', icmCompat: 'Conversion' },
   // ── African patterns ──

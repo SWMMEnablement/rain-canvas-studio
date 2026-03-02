@@ -376,6 +376,7 @@ const PATTERN_SHAPES: Record<string, { label: string; ratios: number[] }> = {
   })() },
   "KOSTRA-DWD": { label: "KOSTRA-DWD — Euler II alternating-block, peak at 1/3", ratios: centerPeaked(48, 2.2, 0.33) },
   "Dubai Municipality": { label: "Dubai DM — FEH 90th pctl needle peak at 50%", ratios: centerPeaked(48, 3.5, 0.50) },
+  "Dubai DM Combined": { label: "Dubai DM Combined — Modified FEH for DXB, center-peaked", ratios: centerPeaked(48, 1.6, 0.50) },
   "Abu Dhabi ADM": { label: "Abu Dhabi ADM — FEH 75th pctl peak at 50%", ratios: centerPeaked(48, 2.8, 0.50) },
   "Montana/Caquot (FR)": { label: "Montana/Caquot — French power-law IT77", ratios: frontLoaded(48, 5.0) },
   "M5-60 (UK/Ireland)": { label: "M5-60 FSR — UK short-duration", ratios: centerPeaked(48, 1.8, 0.45) },
