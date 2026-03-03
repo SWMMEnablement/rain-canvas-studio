@@ -44,7 +44,7 @@ export function HecHmsExportPanel({ data, pattern, totalDepth, duration, timeSte
     gageName, startDate, startTime, patternName: pattern,
     totalDepth, durationHours: duration, timestepMinutes: timeStep,
     unitSystem, data, projectName, engineerName, companyName,
-  }), [gageName, startDate, startTime, pattern, totalDepth, duration, timeStep, unitSystem, data]);
+  }), [gageName, startDate, startTime, pattern, totalDepth, duration, timeStep, unitSystem, data, projectName, engineerName, companyName]);
 
   const preview = useMemo(() => {
     try {
