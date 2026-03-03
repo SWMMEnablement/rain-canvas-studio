@@ -428,6 +428,9 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
         duration={duration}
         timeStep={timeStep}
         unitSystem={unitSystem}
+        projectName={projectName}
+        engineerName={engineerName}
+        companyName={companyName}
       />
     </div>
   );
