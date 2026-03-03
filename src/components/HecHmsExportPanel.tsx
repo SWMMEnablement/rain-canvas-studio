@@ -22,6 +22,9 @@ interface HecHmsExportPanelProps {
   duration: number;
   timeStep: number;
   unitSystem: UnitSystem;
+  projectName?: string;
+  engineerName?: string;
+  companyName?: string;
 }
 
 const FORMAT_OPTIONS: { id: HecHmsFormat; icon: typeof FileText; title: string; ext: string; desc: string; recommended?: boolean }[] = [
@@ -30,7 +33,7 @@ const FORMAT_OPTIONS: { id: HecHmsFormat; icon: typeof FileText; title: string; 
   { id: 'setup-guide', icon: BookOpen, title: 'Setup Guide', ext: '.txt', desc: 'Step-by-step HEC-HMS configuration instructions' },
 ];
 
-export function HecHmsExportPanel({ data, pattern, totalDepth, duration, timeStep, unitSystem }: HecHmsExportPanelProps) {
+export function HecHmsExportPanel({ data, pattern, totalDepth, duration, timeStep, unitSystem, projectName, engineerName, companyName }: HecHmsExportPanelProps) {
   const [gageName, setGageName] = useState("DesignStorm_001");
   const [startDate, setStartDate] = useState("01Jan2025");
   const [startTime, setStartTime] = useState("00:00");
@@ -40,7 +43,7 @@ export function HecHmsExportPanel({ data, pattern, totalDepth, duration, timeSte
   const options: HecHmsGageOptions = useMemo(() => ({
     gageName, startDate, startTime, patternName: pattern,
     totalDepth, durationHours: duration, timestepMinutes: timeStep,
-    unitSystem, data,
+    unitSystem, data, projectName, engineerName, companyName,
   }), [gageName, startDate, startTime, pattern, totalDepth, duration, timeStep, unitSystem, data]);
 
   const preview = useMemo(() => {
