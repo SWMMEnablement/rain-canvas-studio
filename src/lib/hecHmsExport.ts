@@ -142,7 +142,7 @@ export function generateHecHmsSetupGuide(options: HecHmsGageOptions): string {
 // 3. CONTROL SPECIFICATIONS:
 //    - Start Date: ${options.startDate}
 //    - End Date: Add buffer time for routing (typically +50%)
-//    - Time Interval: ${options.timestepMinutes} minutes
+//    - Time Interval: ${options.timestepMinutes} minutes${options.projectName ? `\n//    - Description: ${options.projectName}` : ''}${options.engineerName ? `\n//    - Engineer: ${options.engineerName}` : ''}${options.companyName ? `\n//    - Company: ${options.companyName}` : ''}
 //
 // Storm Summary:
 //    Pattern:   ${options.patternName}
