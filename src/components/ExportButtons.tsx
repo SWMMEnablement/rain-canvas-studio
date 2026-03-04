@@ -88,6 +88,14 @@ const ALL_PATTERN_NAMES: Record<string, string> = {
   'imgw_cluster4': 'IMGW_Cluster_4', 'imgw_cluster5': 'IMGW_Cluster_5',
   'wroclaw_2050': 'Wroclaw_2050', 'trupl': 'Trupl_Czech', 'samaj_valovic': 'Samaj_Valovic',
   'hungarian_msz': 'Hungarian_MSZ', 'budapest_convective': 'Budapest_Convective', 'owav_rb11': 'OWAV_Regelblatt_11',
+  // v11 — High-value additions
+  'croatian_dhmz': 'Croatian_DHMZ', 'beta_distribution': 'Beta_Distribution',
+  'cc_clausius': 'Clausius_Clapeyron', 'bartlett_lewis': 'Bartlett_Lewis',
+  'tropical_cyclone': 'Tropical_Cyclone_Rainband', 'atmospheric_river': 'Atmospheric_River',
+  'algeria_anrh': 'Algeria_ANRH', 'west_africa_cieh': 'West_Africa_CIEH',
+  'portugal_lnec': 'Portugal_LNEC', 'costa_rica_imn': 'Costa_Rica_IMN',
+  'nepal_dhm': 'Nepal_DHM', 'nyc_dep': 'NYC_DEP',
+  'post_wildfire': 'Post_Wildfire', 'bimodal_gaussian': 'Bimodal_Gaussian',
 };
 
 export function ExportButtons({ data, pattern, patternKey, totalDepth, duration, timeStep, unitSystem }: ExportButtonsProps) {

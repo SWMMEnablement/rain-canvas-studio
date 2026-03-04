@@ -206,6 +206,21 @@ const patternNames: Record<PatternType, string> = {
   'hungarian_msz': 'Hungarian MSZ',
   'budapest_convective': 'Budapest Convective',
   'owav_rb11': 'ÖWAV Regelblatt 11',
+  // v11 — High-value additions
+  'croatian_dhmz': 'Croatian DHMZ',
+  'beta_distribution': 'Beta Distribution',
+  'cc_clausius': 'Clausius-Clapeyron Scaled',
+  'bartlett_lewis': 'Bartlett-Lewis Stochastic',
+  'tropical_cyclone': 'Tropical Cyclone Rainband',
+  'atmospheric_river': 'Atmospheric River',
+  'algeria_anrh': 'Algeria ANRH',
+  'west_africa_cieh': 'West Africa CIEH',
+  'portugal_lnec': 'Portugal LNEC',
+  'costa_rica_imn': 'Costa Rica IMN',
+  'nepal_dhm': 'Nepal DHM',
+  'nyc_dep': 'NYC DEP',
+  'post_wildfire': 'Post-Wildfire',
+  'bimodal_gaussian': 'Bimodal Gaussian',
 };
 
 interface WizardStep {

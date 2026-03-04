@@ -232,6 +232,21 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   hungarian_msz: { name: 'Hungarian MSZ', peakPosition: 0.425, description: 'Hungarian MSZ standard design storm' },
   budapest_convective: { name: 'Budapest Convective', peakPosition: 0.35, description: 'Budapest pluviograph-derived very sharp peak (3.5×)' },
   owav_rb11: { name: 'ÖWAV Regelblatt 11', peakPosition: 0.54, description: 'Austrian standard, later peak for orographic rainfall' },
+  // v11 — High-value additions
+  croatian_dhmz: { name: 'Croatian DHMZ', peakPosition: 0.35, description: 'Adriatic coastal convective storm' },
+  beta_distribution: { name: 'Beta Distribution', peakPosition: 0.40, description: 'Flexible shape via α/β parameters' },
+  cc_clausius: { name: 'Clausius-Clapeyron', peakPosition: 0.35, description: '7%/°C scaled climate storm' },
+  bartlett_lewis: { name: 'Bartlett-Lewis', peakPosition: 0.35, description: 'Stochastic rectangular pulse model' },
+  tropical_cyclone: { name: 'Tropical Cyclone', peakPosition: 0.45, description: 'Rainband spiral structure' },
+  atmospheric_river: { name: 'Atmospheric River', peakPosition: 0.65, description: 'Sustained frontal with late broad peak' },
+  algeria_anrh: { name: 'Algeria ANRH', peakPosition: 0.25, description: 'North African Mediterranean convective' },
+  west_africa_cieh: { name: 'West Africa CIEH', peakPosition: 0.15, description: 'Sahelian squall line 14 countries' },
+  portugal_lnec: { name: 'Portugal LNEC', peakPosition: 0.40, description: 'Portuguese Mediterranean convective' },
+  costa_rica_imn: { name: 'Costa Rica IMN', peakPosition: 0.35, description: 'Central American tropical convective' },
+  nepal_dhm: { name: 'Nepal DHM', peakPosition: 0.45, description: 'Extreme orographic monsoon peak' },
+  nyc_dep: { name: 'NYC DEP', peakPosition: 0.48, description: 'NYC combined sewer design storm' },
+  post_wildfire: { name: 'Post-Wildfire', peakPosition: 0.12, description: 'Debris flow triggering burst' },
+  bimodal_gaussian: { name: 'Bimodal Gaussian', peakPosition: 0.30, description: 'Double Gaussian peak storm' },
 };
 
 /**
