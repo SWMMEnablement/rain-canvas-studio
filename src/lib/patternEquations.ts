@@ -2417,6 +2417,208 @@ export const patternEquations: PatternEquation[] = [
     },
     notes: 'Center-peaked symmetric profile using a 101-point dimensionless S-curve. Verified against 2024/2025 DM guidelines to produce ~98.7 mm/hr peak intensity at 33.3 mm depth / 60-min duration with 30-min time step.'
   },
+  // ============ v10: Poland & Eastern Europe ============
+
+  {
+    pattern: 'atv_a121',
+    name: 'ATV-A 121 (DWA-A 118)',
+    category: 'empirical',
+    equations: [
+      { label: 'ATV-A 121 Model Rain', latex: 'P_k = \\sum_{i=1}^{k} \\Delta P_i, \\quad k = 1 \\ldots 12', description: '12-interval 5-minute step distribution for 60-min storm' },
+      { label: 'Peak Interval', latex: 'P_6 = 24\\% \\text{ of total depth}', description: 'Peak at interval 6 of 12 (~45-50% of duration)' },
+    ],
+    variables: [
+      { symbol: 'P_k', meaning: 'Cumulative rainfall fraction at interval k' },
+      { symbol: 'ΔP_i', meaning: 'Incremental depth at interval i (% of total)' },
+    ],
+    reference: { title: 'ATV-A 121: Niederschlag-Abfluss-Modelle', citation: 'Abwassertechnische Vereinigung', year: 1985 },
+    notes: 'German sewer design standard extensively adopted in Poland. Peak ratio ~2.9×. Superseded by DWA-A 118 but still widely referenced.'
+  },
+
+  {
+    pattern: 'dwa_a118',
+    name: 'DWA-A 118 Symmetric Model Rain',
+    category: 'empirical',
+    equations: [
+      { label: 'Symmetric Distribution', latex: 'F(t) = \\begin{cases} 0.625 \\cdot (t/0.4D)^{1.5} & t \\le 0.4D \\\\ 0.5 + 2.5 \\cdot (t/D - 0.4) & 0.4D < t \\le 0.6D \\\\ 1 - 0.625 \\cdot ((D-t)/0.4D)^{1.5} & t > 0.6D \\end{cases}', description: '40% rising, 20% peak, 40% falling — symmetric about center' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction at time t' },
+      { symbol: 'D', meaning: 'Total storm duration' },
+    ],
+    reference: { title: 'DWA-A 118: Hydraulische Bemessung und Nachweis von Entwässerungssystemen', citation: 'Deutsche Vereinigung für Wasserwirtschaft', year: 2006, link: 'https://www.dwa.de' },
+    notes: 'Updated 2006 German standard with symmetric distribution. Peak ratio 2.5×.'
+  },
+
+  {
+    pattern: 'blaszczyk',
+    name: 'Błaszczyk Distribution',
+    category: 'empirical',
+    equations: [
+      { label: 'Błaszczyk 4-Quarter', latex: 'P(t) = \\begin{cases} 0.60t & 0 \\le t \\le 0.25 \\\\ 1.8(t-0.25)+0.15 & 0.25 < t \\le 0.50 \\\\ t + 0.10 & 0.50 < t \\le 0.75 \\\\ 0.60t + 0.40 & 0.75 < t \\le 1.0 \\end{cases}', description: 'Traditional 4-quarter distribution: 15%, 45%, 25%, 15%' },
+    ],
+    variables: [
+      { symbol: 'P(t)', meaning: 'Cumulative fraction at dimensionless time t' },
+    ],
+    reference: { title: 'Kanalizacja (Sewerage)', citation: 'Błaszczyk, W.', year: 1954 },
+    notes: 'Traditional Polish method still in some municipal standards. Peak ratio 1.8×. Moderate center-peaked distribution.'
+  },
+
+  {
+    pattern: 'imgw_cluster1',
+    name: 'IMGW Cluster 1 — Front-Loaded',
+    category: 'empirical',
+    equations: [
+      { label: 'Front-Loaded Profile', latex: 't_{peak} \\in [0, 0.2D]', description: 'Rapid onset storm with peak in first 20% of duration' },
+    ],
+    variables: [
+      { symbol: 't_{peak}', meaning: 'Time of peak intensity' },
+      { symbol: 'D', meaning: 'Total storm duration' },
+    ],
+    reference: { title: 'Heavy rainfalls in Poland and their hyetographs', citation: 'IMGW-PIB, Ambio', year: 2024 },
+    notes: 'From analysis of 31,646 heavy rainfall events at 100 gauges across Poland. Occurrence: ~18% of heavy storms.'
+  },
+
+  {
+    pattern: 'imgw_cluster2',
+    name: 'IMGW Cluster 2 — Early Peak',
+    category: 'empirical',
+    equations: [
+      { label: 'Early-Peak Profile', latex: 't_{peak} \\in [0.2D, 0.35D]', description: 'Peak in first third of storm duration' },
+    ],
+    variables: [
+      { symbol: 't_{peak}', meaning: 'Time of peak intensity' },
+    ],
+    reference: { title: 'Heavy rainfalls in Poland and their hyetographs', citation: 'IMGW-PIB, Ambio', year: 2024 },
+    notes: 'Occurrence: ~25% of Polish heavy storms. Second most common cluster.'
+  },
+
+  {
+    pattern: 'imgw_cluster3',
+    name: 'IMGW Cluster 3 — Central Peak',
+    category: 'empirical',
+    equations: [
+      { label: 'Central Peak Profile', latex: 't_{peak} \\in [0.35D, 0.50D]', description: 'DVWK-like central peak — most common pattern in Poland' },
+    ],
+    variables: [
+      { symbol: 't_{peak}', meaning: 'Time of peak intensity' },
+    ],
+    reference: { title: 'Heavy rainfalls in Poland and their hyetographs', citation: 'IMGW-PIB, Ambio', year: 2024 },
+    notes: 'Most common cluster: ~28% of Polish heavy storms. Validates DVWK Euler Type II as representative.'
+  },
+
+  {
+    pattern: 'imgw_cluster4',
+    name: 'IMGW Cluster 4 — Late Peak',
+    category: 'empirical',
+    equations: [
+      { label: 'Late-Peak Profile', latex: 't_{peak} \\in [0.50D, 0.70D]', description: 'Peak in second half of storm' },
+    ],
+    variables: [
+      { symbol: 't_{peak}', meaning: 'Time of peak intensity' },
+    ],
+    reference: { title: 'Heavy rainfalls in Poland and their hyetographs', citation: 'IMGW-PIB, Ambio', year: 2024 },
+    notes: 'Occurrence: ~17% of heavy storms.'
+  },
+
+  {
+    pattern: 'imgw_cluster5',
+    name: 'IMGW Cluster 5 — End-Loaded',
+    category: 'empirical',
+    equations: [
+      { label: 'End-Loaded Profile', latex: 't_{peak} \\in [0.70D, 0.90D]', description: 'Delayed peak near end of storm' },
+    ],
+    variables: [
+      { symbol: 't_{peak}', meaning: 'Time of peak intensity' },
+    ],
+    reference: { title: 'Heavy rainfalls in Poland and their hyetographs', citation: 'IMGW-PIB, Ambio', year: 2024 },
+    notes: 'Rarest cluster: ~12% of heavy storms. Important for long-duration runoff analysis.'
+  },
+
+  {
+    pattern: 'wroclaw_2050',
+    name: 'Wrocław 2050 Climate-Adjusted',
+    category: 'empirical',
+    equations: [
+      { label: 'Climate-Adjusted Peak', latex: 'r_{2050} \\approx 2.8 \\bar{i}, \\quad t_{peak} \\approx 0.30D', description: 'Earlier, sharper peak with +15-20% depth increase vs baseline' },
+    ],
+    variables: [
+      { symbol: 'r_{2050}', meaning: 'Peak ratio under 2050 climate projection' },
+      { symbol: '\\bar{i}', meaning: 'Average intensity' },
+    ],
+    reference: { title: 'Model Hyetographs of Short-Term Rainfall for Wrocław in the Perspective of 2050', citation: 'Mikołajewski, K. et al., Atmosphere', year: 2020 },
+    notes: 'Forward-looking infrastructure design. Baseline peak ratio 2.2× shifts to 2.8× with earlier peak under climate change.'
+  },
+
+  {
+    pattern: 'trupl',
+    name: 'Trupl Design Storm (Czech)',
+    category: 'cumulative',
+    equations: [
+      { label: 'Trupl Cumulative Curve', latex: 'P(t) \\text{ — 13-point table from 0 to 100\\%}', description: 'Sharper peak than DVWK (3.1× ratio), peak at 40-50% of duration' },
+    ],
+    variables: [
+      { symbol: 'P(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Intenzity krátkodobých dešťů v povodích Labe, Odry a Moravy', citation: 'Trupl, J.', year: 1958 },
+    notes: 'Standard Czech/Slovak design storm. Sharper peak reflects Central European convective patterns.'
+  },
+
+  {
+    pattern: 'samaj_valovic',
+    name: 'Šamaj-Valovič (Slovak)',
+    category: 'empirical',
+    equations: [
+      { label: 'Šamaj-Valovič Distribution', latex: 'P_{35\\text{-}50\\%} = 45\\% \\text{ of total depth}', description: 'Peak at 35-50% of duration, 45% of depth in 15% of time' },
+    ],
+    variables: [
+      { symbol: 'P', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Výdatnosť krátkodobých dažďov na Slovensku', citation: 'Šamaj, F. & Valovič, Š.', year: 1973 },
+    notes: 'Slovak design storm from Bratislava and Košice records. Peak ratio 3.0×.'
+  },
+
+  {
+    pattern: 'hungarian_msz',
+    name: 'Hungarian MSZ Standard',
+    category: 'empirical',
+    equations: [
+      { label: 'MSZ 5-Segment', latex: 'P = [10\\%, 20\\%, 40\\%, 20\\%, 10\\%]', description: '5 equal-duration segments with 40% peak in center segment' },
+    ],
+    variables: [
+      { symbol: 'P', meaning: 'Rainfall depth fraction per segment' },
+    ],
+    reference: { title: 'MSZ Hungarian Standard for Urban Drainage', citation: 'Magyar Szabványügyi Testület', year: 1990 },
+    notes: 'Peak ratio 2.7×. Also referenced in Romania and Serbia.'
+  },
+
+  {
+    pattern: 'budapest_convective',
+    name: 'Budapest Convective Storm',
+    category: 'empirical',
+    equations: [
+      { label: 'Budapest Peak', latex: 'P_{peak} = 35\\% \\text{ of depth in } 10\\% \\text{ of duration}', description: 'Very sharp convective peak (3.5× ratio) at 30-40% of duration' },
+    ],
+    variables: [
+      { symbol: 'P_{peak}', meaning: 'Peak burst rainfall fraction' },
+    ],
+    reference: { title: 'Budapest Long-Term Pluviograph Analysis', citation: 'Országos Meteorológiai Szolgálat (OMSZ)', year: 2005 },
+    notes: 'Derived from Budapest pluviograph records. Very sharp peak (3.5× average) — among the most peaky European profiles.'
+  },
+
+  {
+    pattern: 'owav_rb11',
+    name: 'ÖWAV Regelblatt 11 (Austrian)',
+    category: 'empirical',
+    equations: [
+      { label: 'ÖWAV 12-Interval', latex: 'P_7 = 27\\% \\text{ of total depth}', description: '12-interval distribution with peak at interval 7 (~50-58% of duration)' },
+    ],
+    variables: [
+      { symbol: 'P_k', meaning: 'Rainfall depth fraction at interval k' },
+    ],
+    reference: { title: 'ÖWAV Regelblatt 11: Niederschlagsdaten für die Siedlungsentwässerung', citation: 'Österreichischer Wasser- und Abfallwirtschaftsverband', year: 2009, link: 'https://www.oewav.at' },
+    notes: 'Later peak than DVWK — characteristic of orographic rainfall in Alpine/Carpathian regions. Peak ratio 3.2×. Sometimes used in southern Poland.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {

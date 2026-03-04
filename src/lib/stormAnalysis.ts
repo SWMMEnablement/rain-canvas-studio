@@ -217,6 +217,21 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   sa_scs2: { name: 'SA SCS Type 2', peakPosition: 0.50, description: 'South African SCS Type 2 — moderate concentration' },
   sa_scs3: { name: 'SA SCS Type 3', peakPosition: 0.50, description: 'South African SCS Type 3 — inland convective' },
   sa_scs4: { name: 'SA SCS Type 4', peakPosition: 0.50, description: 'South African SCS Type 4 — extreme convective Highveld' },
+  // v10 — Poland & Eastern Europe
+  atv_a121: { name: 'ATV-A 121', peakPosition: 0.46, description: 'German ATV sewer design rainfall, widely used in Poland' },
+  dwa_a118: { name: 'DWA-A 118', peakPosition: 0.50, description: 'Updated German symmetric model rain (2006)' },
+  blaszczyk: { name: 'Błaszczyk', peakPosition: 0.375, description: 'Traditional Polish design storm method' },
+  imgw_cluster1: { name: 'IMGW Cluster 1', peakPosition: 0.10, description: 'Polish front-loaded rapid onset (18% of storms)' },
+  imgw_cluster2: { name: 'IMGW Cluster 2', peakPosition: 0.275, description: 'Polish early-peak (25% of storms)' },
+  imgw_cluster3: { name: 'IMGW Cluster 3', peakPosition: 0.425, description: 'Polish central peak, most common (28% of storms)' },
+  imgw_cluster4: { name: 'IMGW Cluster 4', peakPosition: 0.60, description: 'Polish late peak (17% of storms)' },
+  imgw_cluster5: { name: 'IMGW Cluster 5', peakPosition: 0.80, description: 'Polish end-loaded delayed peak (12% of storms)' },
+  wroclaw_2050: { name: 'Wrocław 2050', peakPosition: 0.30, description: 'Climate-adjusted design storm for Wrocław' },
+  trupl: { name: 'Trupl', peakPosition: 0.45, description: 'Czech standard design storm (1958), sharper peak than DVWK' },
+  samaj_valovic: { name: 'Šamaj-Valovič', peakPosition: 0.425, description: 'Slovak design storm from Bratislava/Košice records' },
+  hungarian_msz: { name: 'Hungarian MSZ', peakPosition: 0.425, description: 'Hungarian MSZ standard design storm' },
+  budapest_convective: { name: 'Budapest Convective', peakPosition: 0.35, description: 'Budapest pluviograph-derived very sharp peak (3.5×)' },
+  owav_rb11: { name: 'ÖWAV Regelblatt 11', peakPosition: 0.54, description: 'Austrian standard, later peak for orographic rainfall' },
 };
 
 /**

@@ -191,6 +191,21 @@ const patternNames: Record<PatternType, string> = {
   'sa_scs2': 'SA SCS Type 2',
   'sa_scs3': 'SA SCS Type 3',
   'sa_scs4': 'SA SCS Type 4',
+  // v10 — Poland & Eastern Europe
+  'atv_a121': 'ATV-A 121',
+  'dwa_a118': 'DWA-A 118',
+  'blaszczyk': 'Błaszczyk',
+  'imgw_cluster1': 'IMGW Cluster 1',
+  'imgw_cluster2': 'IMGW Cluster 2',
+  'imgw_cluster3': 'IMGW Cluster 3',
+  'imgw_cluster4': 'IMGW Cluster 4',
+  'imgw_cluster5': 'IMGW Cluster 5',
+  'wroclaw_2050': 'Wrocław 2050',
+  'trupl': 'Trupl (Czech)',
+  'samaj_valovic': 'Šamaj-Valovič',
+  'hungarian_msz': 'Hungarian MSZ',
+  'budapest_convective': 'Budapest Convective',
+  'owav_rb11': 'ÖWAV Regelblatt 11',
 };
 
 interface WizardStep {
