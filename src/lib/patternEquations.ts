@@ -3076,6 +3076,1221 @@ export const patternEquations: PatternEquation[] = [
     },
     notes: 'Models double-peak storms from multi-cell convective complexes or frontal passages with embedded convection. Equal-weight peaks at 30% and 70% of duration.'
   },
+
+  // ══════════ v12 — Massive expansion ══════════
+
+  // ──── Eastern Europe ────
+
+  {
+    pattern: 'serbian_rhmz',
+    name: 'Serbian RHMZ',
+    category: 'empirical',
+    equations: [
+      { label: 'Belgrade Profile', latex: 'F(t) = \\sum_{k=1}^{10} \\Delta F_k \\cdot H(t - t_k)', description: 'Stepwise cumulative distribution from Belgrade pluviograph records' },
+      { label: 'Peak Segment', latex: '\\Delta F_{\\max} = 0.25 \\quad \\text{at } t/D \\in [0.3, 0.4]', description: '25% of depth in the peak 10% segment' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: '\\Delta F_k', meaning: 'Incremental fraction per segment' },
+    ],
+    reference: { title: 'Analiza padavina za urbanu kanalizaciju', citation: 'Republički Hidrometeorološki Zavod Srbije (RHMZ)', year: 2012 },
+    notes: 'Continental Pannonian climate. Peak at 30–40% of duration. Peak ratio ~2.5×.'
+  },
+
+  {
+    pattern: 'bulgarian_nimh',
+    name: 'Bulgarian NIMH',
+    category: 'empirical',
+    equations: [
+      { label: 'Sofia Basin Profile', latex: 'F(t) = \\begin{cases} 0.40 \\cdot (t/0.35)^{0.8} & t \\leq 0.35 \\\\ 0.40 + 0.35 \\cdot \\frac{t-0.35}{0.3} & 0.35 < t \\leq 0.65 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Sofia basin convective profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Интензивни валежи над България', citation: 'Национален Институт по Метеорология и Хидрология (NIMH)', year: 2010 },
+    notes: 'Continental/Mediterranean transition climate. Peak at 30–40% of duration.'
+  },
+
+  {
+    pattern: 'slovenian_arso',
+    name: 'Slovenian ARSO',
+    category: 'empirical',
+    equations: [
+      { label: 'Alpine-Mediterranean Profile', latex: 'F(t) = \\begin{cases} 0.35 \\cdot (t/0.35)^{0.85} & t \\leq 0.35 \\\\ 0.35 + 0.40 \\cdot \\frac{t-0.35}{0.25} & 0.35 < t \\leq 0.60 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.60}{0.40} & t > 0.60 \\end{cases}', description: 'Alpine-Mediterranean hybrid' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Nalivi in poplave v Sloveniji', citation: 'Agencija RS za okolje (ARSO)', year: 2014, link: 'https://www.arso.gov.si' },
+    notes: 'Julian Alps orographic enhancement. Center-peaked (35–60% of duration). Peak ratio ~3.0×.'
+  },
+
+  {
+    pattern: 'ukrainian_dbn',
+    name: 'Ukrainian DBN',
+    category: 'empirical',
+    equations: [
+      { label: 'DBN Standard', latex: 'F(t) = \\begin{cases} 0.30 \\cdot (t/0.4)^{0.9} & t \\leq 0.4 \\\\ 0.30 + 0.40 \\cdot \\frac{t-0.4}{0.2} & 0.4 < t \\leq 0.6 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Ukrainian state building norms design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'ДБН В.2.5-75 Каналізація', citation: 'Мінрегіон України', year: 2013 },
+    notes: 'Continental steppe climate. Center-peaked at 40–60%. Derived from Soviet SNiP legacy updated for Ukrainian conditions.'
+  },
+
+  {
+    pattern: 'lithuanian_hms',
+    name: 'Lithuanian HMS',
+    category: 'empirical',
+    equations: [
+      { label: 'Baltic Profile', latex: 'F(t) = \\begin{cases} 0.25 \\cdot (t/0.4)^{0.85} & t \\leq 0.4 \\\\ 0.25 + 0.45 \\cdot \\frac{t-0.4}{0.25} & 0.4 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Baltic maritime-continental design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Lietuvos klimato atlasas', citation: 'Lietuvos Hidrometeorologijos Tarnyba (HMS)', year: 2013 },
+    notes: 'Baltic maritime climate. Moderate center peak at 40–65% of duration. Peak ratio ~2.5×.'
+  },
+
+  {
+    pattern: 'latvian_lvgmc',
+    name: 'Latvian LVGMC',
+    category: 'empirical',
+    equations: [
+      { label: 'Riga Profile', latex: 'F(t) = \\begin{cases} 0.20 \\cdot (t/0.35)^{0.9} & t \\leq 0.35 \\\\ 0.20 + 0.50 \\cdot \\frac{t-0.35}{0.3} & 0.35 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Latvian maritime drainage design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Lietus intensitātes dati Latvijā', citation: 'Latvijas Vides, Ģeoloģijas un Meteoroloģijas Centrs (LVGMC)', year: 2015 },
+    notes: 'Baltic maritime climate. Center-peaked at 35–65%. Similar to Lithuanian HMS.'
+  },
+
+  {
+    pattern: 'estonian_emhi',
+    name: 'Estonian EMHI',
+    category: 'empirical',
+    equations: [
+      { label: 'Tallinn Profile', latex: 'F(t) = \\begin{cases} 0.22 \\cdot (t/0.4)^{0.85} & t \\leq 0.4 \\\\ 0.22 + 0.48 \\cdot \\frac{t-0.4}{0.25} & 0.4 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Estonian maritime design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Eesti sademete klimatoloogia', citation: 'Eesti Meteoroloogia ja Hüdroloogia Instituut (EMHI)', year: 2014 },
+    notes: 'Northern Baltic maritime. Center-peaked at 40–65%. Peak ratio ~2.3×.'
+  },
+
+  {
+    pattern: 'soviet_snip_legacy',
+    name: 'Soviet SNiP Legacy',
+    category: 'empirical',
+    equations: [
+      { label: 'SNiP 2.04.03-85', latex: 'i = \\frac{A \\cdot (1 + \\lg P)^{\\gamma}}{t^n}', description: 'Soviet-era IDF formula for drainage design' },
+      { label: 'Design Storm Profile', latex: '\\Delta F = [0.08, 0.12, 0.18, 0.25, 0.18, 0.12, 0.07]', description: '7-segment center-peaked distribution' },
+    ],
+    variables: [
+      { symbol: 'A', meaning: 'Regional intensity parameter' },
+      { symbol: 'P', meaning: 'Return period (years)' },
+      { symbol: '\\gamma', meaning: 'Return period exponent (0.5–0.7)' },
+      { symbol: 'n', meaning: 'Duration exponent (0.6–0.8)' },
+    ],
+    reference: { title: 'СНиП 2.04.03-85 Канализация', citation: 'Госстрой СССР', year: 1985 },
+    notes: 'Still used across former Soviet states (Central Asia, Caucasus). Center-peaked 7-segment profile. Peak ratio ~2.5×.'
+  },
+
+  {
+    pattern: 'belarusian_tkp',
+    name: 'Belarusian TKP',
+    category: 'empirical',
+    equations: [
+      { label: 'TKP 45 Profile', latex: 'F(t) = \\begin{cases} 0.28 \\cdot (t/0.4)^{0.85} & t \\leq 0.4 \\\\ 0.28 + 0.42 \\cdot \\frac{t-0.4}{0.2} & 0.4 < t \\leq 0.6 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Belarusian technical code design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'ТКП 45-4.01-57 Канализация', citation: 'Министерство архитектуры и строительства Беларуси', year: 2012 },
+    notes: 'Updated from Soviet SNiP for Belarusian conditions. Continental climate. Peak at 40–60%.'
+  },
+
+  // ──── Nordic/Atlantic Islands ────
+
+  {
+    pattern: 'icelandic_imo',
+    name: 'Icelandic IMO',
+    category: 'empirical',
+    equations: [
+      { label: 'Subarctic Frontal Profile', latex: 'F(t) = \\frac{1-\\cos(\\pi t)}{2}', description: 'Cosine-based sustained frontal profile for subarctic maritime climate' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' },
+    ],
+    reference: { title: 'Úrkoma á Íslandi', citation: 'Icelandic Meteorological Office (IMO)', year: 2018, link: 'https://en.vedur.is' },
+    notes: 'Low-intensity sustained frontal rainfall. Nearly symmetric cosine distribution. Peak ratio ~1.6×.'
+  },
+
+  {
+    pattern: 'svensson_jones',
+    name: 'Svensson-Jones Climate-Adjusted',
+    category: 'empirical',
+    equations: [
+      { label: 'Climate-Adjusted Profile', latex: 'P_{future}(d) = P_{base}(d) \\cdot (1 + \\Delta_T \\cdot f_d)', description: 'Duration-dependent climate change uplift factor' },
+      { label: 'Uplift Factor', latex: 'f_d = a + b \\cdot \\ln(d)', description: 'Log-linear scaling factor varying with duration d' },
+    ],
+    variables: [
+      { symbol: 'P_{future}', meaning: 'Climate-adjusted rainfall depth' },
+      { symbol: 'P_{base}', meaning: 'Baseline (historical) rainfall depth' },
+      { symbol: '\\Delta_T', meaning: 'Temperature change (°C)' },
+      { symbol: 'f_d', meaning: 'Duration-dependent uplift factor' },
+      { symbol: 'a, b', meaning: 'Regional regression parameters' },
+    ],
+    reference: { title: 'Updated UK Rainfall Frequency Estimates for Climate Change', citation: 'Svensson, C. & Jones, D.A., CEH Wallingford', year: 2010 },
+    notes: 'UK-specific climate change uplift method. Applied on top of FEH design storm. Used for UKCP09/18 projections.'
+  },
+
+  {
+    pattern: 'reunion_mf',
+    name: 'Réunion Météo-France',
+    category: 'empirical',
+    equations: [
+      { label: 'Tropical Cyclonic Profile', latex: 'F(t) = \\begin{cases} 0.15 \\cdot (t/0.3)^{0.7} & t \\leq 0.3 \\\\ 0.15 + 0.55 \\cdot \\frac{t-0.3}{0.4} & 0.3 < t \\leq 0.7 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.7}{0.3} & t > 0.7 \\end{cases}', description: 'Sustained tropical cyclonic rainfall with late intensification' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Pluies extrêmes à La Réunion', citation: 'Météo-France, Direction Interrégionale de La Réunion', year: 2009 },
+    notes: 'World record rainfall location. Extreme sustained events (72–96 hr). Center-late peak. Used for Cilaos, Commerson gauge stations.'
+  },
+
+  {
+    pattern: 'azores_ipma',
+    name: 'Azores IPMA',
+    category: 'empirical',
+    equations: [
+      { label: 'Atlantic Subtropical', latex: 'F(t) = \\begin{cases} 0.35 \\cdot (t/0.3)^{0.8} & t \\leq 0.3 \\\\ 0.35 + 0.35 \\cdot \\frac{t-0.3}{0.35} & 0.3 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Atlantic subtropical island storm profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Precipitação Intensa nos Açores', citation: 'Instituto Português do Mar e da Atmosfera (IPMA)', year: 2016 },
+    notes: 'Mid-Atlantic subtropical. Frontal systems with embedded convection. Peak at 25–35% of duration.'
+  },
+
+  // ──── Middle East Expansion ────
+
+  {
+    pattern: 'jordan_jmd',
+    name: 'Jordan JMD',
+    category: 'empirical',
+    equations: [
+      { label: 'Arid Flash Flood Profile', latex: 'F(t) = \\begin{cases} 0.55 \\cdot (t/0.25)^{0.7} & t \\leq 0.25 \\\\ 0.55 + 0.25 \\cdot \\frac{t-0.25}{0.3} & 0.25 < t \\leq 0.55 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.55}{0.45} & t > 0.55 \\end{cases}', description: 'Arid flash flood profile for Jordan Valley/Dead Sea region' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Flash Flood Design Standards for Jordan', citation: 'Jordan Meteorological Department (JMD)', year: 2010 },
+    notes: 'Extremely front-loaded for wadi flash flood design. Peak at 15–25% of duration. Peak ratio ~4.0×.'
+  },
+
+  {
+    pattern: 'lebanon_cav',
+    name: 'Lebanon CAV',
+    category: 'empirical',
+    equations: [
+      { label: 'Mediterranean Mountain Profile', latex: 'F(t) = \\begin{cases} 0.40 \\cdot (t/0.3)^{0.8} & t \\leq 0.3 \\\\ 0.40 + 0.35 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Lebanese Mediterranean mountain convective profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Climat et Hydrologie du Liban', citation: 'Conseil pour l\'Aménagement des Villes (CAV)', year: 2005 },
+    notes: 'Mount Lebanon orographic enhancement. Front-loaded convective with peak at 20–30%. 900+ mm annual on western slopes.'
+  },
+
+  {
+    pattern: 'kuwait_mew',
+    name: 'Kuwait MEW',
+    category: 'empirical',
+    equations: [
+      { label: 'Hyper-Arid Flash Profile', latex: 'F(t) = \\begin{cases} 0.60 \\cdot (t/0.2)^{0.65} & t \\leq 0.2 \\\\ 0.60 + 0.25 \\cdot \\frac{t-0.2}{0.3} & 0.2 < t \\leq 0.5 \\\\ 0.85 + 0.15 \\cdot \\frac{t-0.5}{0.5} & t > 0.5 \\end{cases}', description: 'Hyper-arid flash storm for Kuwait drainage design' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Kuwait Stormwater Drainage Manual', citation: 'Ministry of Electricity and Water (MEW)', year: 2008 },
+    notes: 'Extremely front-loaded. 60% of depth in first 20% of duration. <120 mm annual mean. Peak ratio ~5×.'
+  },
+
+  {
+    pattern: 'bahrain_met',
+    name: 'Bahrain Met',
+    category: 'empirical',
+    equations: [
+      { label: 'Gulf Arid Profile', latex: 'F(t) = \\begin{cases} 0.55 \\cdot (t/0.25)^{0.70} & t \\leq 0.25 \\\\ 0.55 + 0.30 \\cdot \\frac{t-0.25}{0.35} & 0.25 < t \\leq 0.60 \\\\ 0.85 + 0.15 \\cdot \\frac{t-0.60}{0.40} & t > 0.60 \\end{cases}', description: 'Gulf arid storm profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Bahrain Rainfall Analysis for Urban Drainage', citation: 'Bahrain Meteorological Directorate', year: 2012 },
+    notes: 'Gulf arid climate (~77 mm/yr). Front-loaded convective. Similar to Kuwait MEW. Peak ratio ~4×.'
+  },
+
+  {
+    pattern: 'yemen_cama',
+    name: 'Yemen CAMA',
+    category: 'empirical',
+    equations: [
+      { label: 'Wadi Flash Profile', latex: 'F(t) = \\begin{cases} 0.50 \\cdot (t/0.2)^{0.7} & t \\leq 0.2 \\\\ 0.50 + 0.30 \\cdot \\frac{t-0.2}{0.3} & 0.2 < t \\leq 0.5 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.5}{0.5} & t > 0.5 \\end{cases}', description: 'Yemen wadi flash flood storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Wadi Flood Design for Yemen Highlands', citation: 'Civil Aviation and Meteorology Authority (CAMA)', year: 2000 },
+    notes: 'Extremely front-loaded. Wadi flash flood design for Hadhramaut and Tihama regions. Peak ratio ~4.5×.'
+  },
+
+  // ──── Southeast Asia ────
+
+  {
+    pattern: 'myanmar_dmh',
+    name: 'Myanmar DMH',
+    category: 'empirical',
+    equations: [
+      { label: 'Monsoon Convective Profile', latex: 'F(t) = \\begin{cases} 0.45 \\cdot (t/0.3)^{0.75} & t \\leq 0.3 \\\\ 0.45 + 0.30 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Myanmar monsoon convective design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Myanmar Rainfall Climatology', citation: 'Department of Meteorology and Hydrology (DMH), Myanmar', year: 2012 },
+    notes: 'Bay of Bengal monsoon influence. Front-loaded convective. Peak at 20–30% of duration.'
+  },
+
+  {
+    pattern: 'mekong_mrc',
+    name: 'Mekong MRC',
+    category: 'empirical',
+    equations: [
+      { label: 'Mekong Basin Profile', latex: 'F(t) = \\begin{cases} 0.35 \\cdot (t/0.35)^{0.8} & t \\leq 0.35 \\\\ 0.35 + 0.35 \\cdot \\frac{t-0.35}{0.3} & 0.35 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Mekong River Commission regional design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Mekong Basin Flood Management Strategy', citation: 'Mekong River Commission (MRC)', year: 2011, link: 'https://www.mrcmekong.org' },
+    notes: 'Covers Laos, Thailand, Cambodia, Vietnam. Monsoon-driven with center peak at 35–65%. 6 countries collaborate.'
+  },
+
+  {
+    pattern: 'mononobe',
+    name: 'Mononobe (Japan)',
+    category: 'intensity',
+    equations: [
+      { label: 'Mononobe Formula', latex: 'i(t) = \\frac{R_{24}}{24} \\cdot \\left(\\frac{24}{t}\\right)^{2/3}', description: 'Japanese IDF-based intensity formula' },
+      { label: 'Incremental Depth', latex: '\\Delta P = i(t) \\cdot \\Delta t', description: 'Rainfall depth per time step from intensity' },
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at duration t (mm/hr)' },
+      { symbol: 'R_{24}', meaning: '24-hour design rainfall depth (mm)' },
+      { symbol: 't', meaning: 'Duration (hours)' },
+    ],
+    reference: { title: 'Mononobe Rainfall Intensity Formula', citation: 'Mononobe, N., Journal of JSCE', year: 1932 },
+    notes: 'Classic Japanese IDF formula. Still widely used for small-catchment drainage design. Exponent 2/3 is standard.'
+  },
+
+  {
+    pattern: 'uzbekistan_uhm',
+    name: 'Uzbekistan UHM',
+    category: 'empirical',
+    equations: [
+      { label: 'Central Asian Arid Profile', latex: 'F(t) = \\begin{cases} 0.45 \\cdot (t/0.3)^{0.75} & t \\leq 0.3 \\\\ 0.45 + 0.30 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Central Asian arid convective profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Ливневые дожди Узбекистана', citation: 'Узбекское Управление Гидрометеорологии (UHM)', year: 2005 },
+    notes: 'Continental arid. Intense short-burst convective. Based on Soviet SNiP with local adaptation. Peak ratio ~3.5×.'
+  },
+
+  // ──── Africa Expansion ────
+
+  {
+    pattern: 'tunisia_inm',
+    name: 'Tunisia INM',
+    category: 'empirical',
+    equations: [
+      { label: 'Tunisian Mediterranean Profile', latex: 'F(t) = \\begin{cases} 0.50 \\cdot (t/0.3)^{0.8} & t \\leq 0.3 \\\\ 0.50 + 0.30 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Tunisian Mediterranean convective profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Pluies intenses en Tunisie', citation: 'Institut National de la Météorologie (INM), Tunis', year: 2008 },
+    notes: 'North African Mediterranean. Front-loaded with peak at 20–30%. Similar to Algeria ANRH. Tell Atlas influence.'
+  },
+
+  {
+    pattern: 'uganda_unma',
+    name: 'Uganda UNMA',
+    category: 'empirical',
+    equations: [
+      { label: 'Equatorial Convective', latex: 'F(t) = \\begin{cases} 0.50 \\cdot (t/0.25)^{0.7} & t \\leq 0.25 \\\\ 0.50 + 0.30 \\cdot \\frac{t-0.25}{0.35} & 0.25 < t \\leq 0.60 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.60}{0.40} & t > 0.60 \\end{cases}', description: 'Equatorial East African convective storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Uganda Rainfall Climatology and Design Standards', citation: 'Uganda National Meteorological Authority (UNMA)', year: 2015 },
+    notes: 'Lake Victoria basin influence. Intense convective with peak at 15–25%. Two rainy seasons. Peak ratio ~3.5×.'
+  },
+
+  {
+    pattern: 'cameroon_ird',
+    name: 'Cameroon IRD',
+    category: 'empirical',
+    equations: [
+      { label: 'Tropical Humid Profile', latex: 'F(t) = \\begin{cases} 0.55 \\cdot (t/0.2)^{0.65} & t \\leq 0.2 \\\\ 0.55 + 0.25 \\cdot \\frac{t-0.2}{0.3} & 0.2 < t \\leq 0.5 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.5}{0.5} & t > 0.5 \\end{cases}', description: 'Tropical humid design storm for Cameroon/Central Africa' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Pluies et crues au Cameroun', citation: 'Institut de Recherche pour le Développement (IRD)', year: 2002 },
+    notes: 'Tropical humid zone (Douala, Yaoundé). Very front-loaded squall type. Peak ratio ~4×. Used across Central African Francophone countries.'
+  },
+
+  {
+    pattern: 'madagascar_dgm',
+    name: 'Madagascar DGM',
+    category: 'empirical',
+    equations: [
+      { label: 'Cyclonic Tropical Profile', latex: 'F(t) = \\begin{cases} 0.20 \\cdot (t/0.3)^{0.75} & t \\leq 0.3 \\\\ 0.20 + 0.50 \\cdot \\frac{t-0.3}{0.35} & 0.3 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Cyclone-influenced tropical profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Cyclones et précipitations à Madagascar', citation: 'Direction Générale de la Météorologie (DGM)', year: 2010 },
+    notes: 'SW Indian Ocean cyclone corridor. Center-peaked sustained rainfall. 3–5 cyclones per season. Peak ratio ~2.5×.'
+  },
+
+  {
+    pattern: 'mauritius_mms',
+    name: 'Mauritius MMS',
+    category: 'empirical',
+    equations: [
+      { label: 'Island Cyclonic Profile', latex: 'F(t) = \\begin{cases} 0.25 \\cdot (t/0.35)^{0.8} & t \\leq 0.35 \\\\ 0.25 + 0.45 \\cdot \\frac{t-0.35}{0.3} & 0.35 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Mauritius tropical cyclone design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Mauritius Rainfall and Cyclone Study', citation: 'Mauritius Meteorological Services (MMS)', year: 2014 },
+    notes: 'Small island with intense cyclone exposure. Center-peaked. Orographic enhancement on windward side. Peak ratio ~2.8×.'
+  },
+
+  {
+    pattern: 'cote_ivoire',
+    name: 'Côte d\'Ivoire SODECI',
+    category: 'empirical',
+    equations: [
+      { label: 'West African Tropical', latex: 'F(t) = \\begin{cases} 0.55 \\cdot (t/0.2)^{0.65} & t \\leq 0.2 \\\\ 0.55 + 0.25 \\cdot \\frac{t-0.2}{0.3} & 0.2 < t \\leq 0.5 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.5}{0.5} & t > 0.5 \\end{cases}', description: 'West African tropical convective profile for Abidjan drainage' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Drainage Urbain d\'Abidjan', citation: 'SODECI / Ministère des Infrastructures', year: 2005 },
+    notes: 'Abidjan coastal tropical. Very front-loaded squall (60% in first 20%). Similar to CIEH pattern. Peak ratio ~4.5×.'
+  },
+
+  {
+    pattern: 'namibia_nms',
+    name: 'Namibia NMS',
+    category: 'empirical',
+    equations: [
+      { label: 'Semi-Arid Convective', latex: 'F(t) = \\begin{cases} 0.50 \\cdot (t/0.25)^{0.7} & t \\leq 0.25 \\\\ 0.50 + 0.30 \\cdot \\frac{t-0.25}{0.35} & 0.25 < t \\leq 0.60 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.60}{0.40} & t > 0.60 \\end{cases}', description: 'Southern African semi-arid convective' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Namibia Rainfall and Drainage Design', citation: 'Namibia Meteorological Service (NMS)', year: 2012 },
+    notes: 'Semi-arid. Front-loaded convective. Peak at 15–25%. Similar to SANRAL for southern Africa.'
+  },
+
+  {
+    pattern: 'sudan_sma',
+    name: 'Sudan SMA',
+    category: 'empirical',
+    equations: [
+      { label: 'Sahel-Savanna Profile', latex: 'F(t) = \\begin{cases} 0.55 \\cdot (t/0.2)^{0.65} & t \\leq 0.2 \\\\ 0.55 + 0.25 \\cdot \\frac{t-0.2}{0.3} & 0.2 < t \\leq 0.5 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.5}{0.5} & t > 0.5 \\end{cases}', description: 'Sudanese Sahel-savanna haboob and convective storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Khartoum Flood and Drainage Study', citation: 'Sudan Meteorological Authority (SMA)', year: 2008 },
+    notes: 'Sahel transitional climate. Extremely front-loaded squall lines. Peak ratio ~5×. Khartoum flash flood design basis.'
+  },
+
+  // ──── Latin America & Caribbean ────
+
+  {
+    pattern: 'guatemala_insivumeh',
+    name: 'Guatemala INSIVUMEH',
+    category: 'empirical',
+    equations: [
+      { label: 'Central American Tropical', latex: 'F(t) = \\begin{cases} 0.50 \\cdot (t/0.3)^{0.75} & t \\leq 0.3 \\\\ 0.50 + 0.30 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Guatemalan tropical volcanic highland convective' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Análisis de lluvias intensas en Guatemala', citation: 'INSIVUMEH', year: 2010 },
+    notes: 'Volcanic highland convective. Peak at 20–30%. Orographic enhancement on Pacific slope. Peak ratio ~3.5×.'
+  },
+
+  {
+    pattern: 'cuba_insmet',
+    name: 'Cuba INSMET',
+    category: 'empirical',
+    equations: [
+      { label: 'Caribbean Tropical Profile', latex: 'F(t) = \\begin{cases} 0.40 \\cdot (t/0.3)^{0.8} & t \\leq 0.3 \\\\ 0.40 + 0.35 \\cdot \\frac{t-0.3}{0.25} & 0.3 < t \\leq 0.55 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.55}{0.45} & t > 0.55 \\end{cases}', description: 'Cuban Caribbean tropical convective storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Lluvias intensas en Cuba', citation: 'Instituto de Meteorología (INSMET)', year: 2007 },
+    notes: 'Caribbean island tropical. Front-loaded convective + hurricane influence. Peak at 25–35%. Peak ratio ~3.0×.'
+  },
+
+  {
+    pattern: 'dominican_onamet',
+    name: 'Dominican Republic ONAMET',
+    category: 'empirical',
+    equations: [
+      { label: 'Hispaniola Tropical', latex: 'F(t) = \\begin{cases} 0.45 \\cdot (t/0.3)^{0.75} & t \\leq 0.3 \\\\ 0.45 + 0.30 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Hispaniola tropical convective/orographic profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Análisis de precipitaciones de la República Dominicana', citation: 'Oficina Nacional de Meteorología (ONAMET)', year: 2012 },
+    notes: 'Hispaniola tropical. Orographic enhancement on Cordillera Central. Peak at 20–30%. Peak ratio ~3.5×.'
+  },
+
+  {
+    pattern: 'jamaica_msj',
+    name: 'Jamaica MSJ',
+    category: 'empirical',
+    equations: [
+      { label: 'Caribbean Island Profile', latex: 'F(t) = \\begin{cases} 0.45 \\cdot (t/0.3)^{0.75} & t \\leq 0.3 \\\\ 0.45 + 0.30 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Jamaican Blue Mountain convective/orographic profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Jamaica Rainfall and Flood Study', citation: 'Meteorological Service of Jamaica (MSJ)', year: 2010 },
+    notes: 'Blue Mountain orographic enhancement. Front-loaded tropical. Peak at 20–30%. Hurricane-adjusted design criteria.'
+  },
+
+  {
+    pattern: 'trinidad_tobago',
+    name: 'Trinidad & Tobago',
+    category: 'empirical',
+    equations: [
+      { label: 'Southern Caribbean', latex: 'F(t) = \\begin{cases} 0.50 \\cdot (t/0.25)^{0.7} & t \\leq 0.25 \\\\ 0.50 + 0.30 \\cdot \\frac{t-0.25}{0.35} & 0.25 < t \\leq 0.60 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.60}{0.40} & t > 0.60 \\end{cases}', description: 'Southern Caribbean ITCZ-influenced convective' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Trinidad Rainfall Intensity-Duration-Frequency', citation: 'Trinidad & Tobago Meteorological Service', year: 2009 },
+    notes: 'ITCZ-influenced tropical. Very front-loaded. Peak at 15–25%. Peak ratio ~4.0×. South of hurricane belt.'
+  },
+
+  {
+    pattern: 'panama_etesa',
+    name: 'Panama ETESA',
+    category: 'empirical',
+    equations: [
+      { label: 'Isthmian Tropical', latex: 'F(t) = \\begin{cases} 0.50 \\cdot (t/0.3)^{0.75} & t \\leq 0.3 \\\\ 0.50 + 0.30 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Panama isthmus tropical convective profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Análisis de lluvias intensas — Cuenca del Canal de Panamá', citation: 'Empresa de Transmisión Eléctrica S.A. (ETESA)', year: 2011 },
+    notes: 'Panama Canal watershed design basis. Front-loaded tropical. Peak at 20–30%. 2500+ mm annual on Caribbean slope.'
+  },
+
+  {
+    pattern: 'honduras_smn',
+    name: 'Honduras SMN',
+    category: 'empirical',
+    equations: [
+      { label: 'Central American Tropical', latex: 'F(t) = \\begin{cases} 0.50 \\cdot (t/0.3)^{0.75} & t \\leq 0.3 \\\\ 0.50 + 0.30 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Honduran tropical convective profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Lluvias máximas en Honduras', citation: 'Servicio Meteorológico Nacional (SMN), Honduras', year: 2008 },
+    notes: 'Central American tropical. Hurricane corridor (Mitch, Eta). Peak at 20–30%. Peak ratio ~3.5×.'
+  },
+
+  {
+    pattern: 'paraguay_dmh',
+    name: 'Paraguay DMH',
+    category: 'empirical',
+    equations: [
+      { label: 'South American Subtropical', latex: 'F(t) = \\begin{cases} 0.40 \\cdot (t/0.3)^{0.8} & t \\leq 0.3 \\\\ 0.40 + 0.35 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Paraguay subtropical continental convective' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Precipitaciones intensas del Paraguay', citation: 'Dirección de Meteorología e Hidrología (DMH)', year: 2010 },
+    notes: 'Subtropical continental (Chaco/Paraná). Front-loaded convective. Peak at 20–30%. Peak ratio ~3.0×.'
+  },
+
+  {
+    pattern: 'uruguay_inumet',
+    name: 'Uruguay INUMET',
+    category: 'empirical',
+    equations: [
+      { label: 'Río de la Plata Profile', latex: 'F(t) = \\begin{cases} 0.35 \\cdot (t/0.35)^{0.85} & t \\leq 0.35 \\\\ 0.35 + 0.35 \\cdot \\frac{t-0.35}{0.3} & 0.35 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Montevideo subtropical maritime profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Curvas IDF para Uruguay', citation: 'Instituto Uruguayo de Meteorología (INUMET)', year: 2015 },
+    notes: 'Subtropical maritime. Center-peaked at 35–65%. Mesoscale convective complexes. Peak ratio ~2.5×.'
+  },
+
+  {
+    pattern: 'sao_paulo_daee',
+    name: 'São Paulo DAEE',
+    category: 'empirical',
+    equations: [
+      { label: 'DAEE Tropical Urban', latex: 'F(t) = \\begin{cases} 0.40 \\cdot (t/0.3)^{0.8} & t \\leq 0.3 \\\\ 0.40 + 0.35 \\cdot \\frac{t-0.3}{0.25} & 0.3 < t \\leq 0.55 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.55}{0.45} & t > 0.55 \\end{cases}', description: 'São Paulo metropolitan tropical urban design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Equações de Chuvas Intensas do Estado de São Paulo', citation: 'DAEE/CETESB', year: 2014, link: 'https://www.daee.sp.gov.br' },
+    notes: 'Brazilian tropical megacity. Urban heat island enhanced convective. Peak at 25–35%. Basis for Tietê/Pinheiros flood management.'
+  },
+
+  {
+    pattern: 'bogota_eaab',
+    name: 'Bogotá EAAB',
+    category: 'empirical',
+    equations: [
+      { label: 'Andean Highland Profile', latex: 'F(t) = \\begin{cases} 0.35 \\cdot (t/0.35)^{0.8} & t \\leq 0.35 \\\\ 0.35 + 0.35 \\cdot \\frac{t-0.35}{0.25} & 0.35 < t \\leq 0.60 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.60}{0.40} & t > 0.60 \\end{cases}', description: 'Bogotá high-altitude Andean convective profile' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Curvas IDF para Bogotá', citation: 'Empresa de Acueducto y Alcantarillado de Bogotá (EAAB)', year: 2011 },
+    notes: '2,600 m altitude. Andean convective storms. Center-peaked at 35–60%. Bimodal annual (Apr–May, Oct–Nov). Peak ratio ~2.8×.'
+  },
+
+  {
+    pattern: 'lima_senamhi',
+    name: 'Lima SENAMHI',
+    category: 'empirical',
+    equations: [
+      { label: 'El Niño Extreme Profile', latex: 'F(t) = \\begin{cases} 0.55 \\cdot (t/0.25)^{0.7} & t \\leq 0.25 \\\\ 0.55 + 0.25 \\cdot \\frac{t-0.25}{0.3} & 0.25 < t \\leq 0.55 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.55}{0.45} & t > 0.55 \\end{cases}', description: 'Coastal desert extreme event driven by El Niño' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Precipitaciones extremas asociadas a El Niño costero', citation: 'SENAMHI Perú', year: 2017, link: 'https://www.senamhi.gob.pe' },
+    notes: 'Coastal desert (<10 mm/yr normal) but El Niño Costero produces catastrophic rainfall. Extremely front-loaded. Peak ratio ~4×.'
+  },
+
+  // ──── Oceania ────
+
+  {
+    pattern: 'png_nws',
+    name: 'Papua New Guinea NWS',
+    category: 'empirical',
+    equations: [
+      { label: 'Tropical Maritime', latex: 'F(t) = \\begin{cases} 0.40 \\cdot (t/0.3)^{0.8} & t \\leq 0.3 \\\\ 0.40 + 0.35 \\cdot \\frac{t-0.3}{0.35} & 0.3 < t \\leq 0.65 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Tropical maritime design storm for PNG highlands and coastal' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'PNG National Weather Service Design Rainfall', citation: 'PNG National Weather Service (NWS)', year: 2010 },
+    notes: 'Tropical maritime with extreme orography. Highland regions receive 4000+ mm/yr. Front-loaded at 20–30%.'
+  },
+
+  {
+    pattern: 'samoa_met',
+    name: 'Samoa Meteorology',
+    category: 'empirical',
+    equations: [
+      { label: 'Pacific Island Tropical', latex: 'F(t) = \\begin{cases} 0.35 \\cdot (t/0.3)^{0.8} & t \\leq 0.3 \\\\ 0.35 + 0.40 \\cdot \\frac{t-0.3}{0.35} & 0.3 < t \\leq 0.65 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'South Pacific tropical cyclone/SPCZ design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Samoa Meteorological Service Climate Data', citation: 'Samoa Meteorology Division', year: 2012 },
+    notes: 'South Pacific Convergence Zone (SPCZ) influence. Cyclone and SPCZ rainfall. Center-peaked. 3000+ mm/yr.'
+  },
+
+  {
+    pattern: 'hawaii_distinct',
+    name: 'Hawaii Distinct',
+    category: 'empirical',
+    equations: [
+      { label: 'Orographic Trade Wind', latex: 'F(t) = \\frac{1 - \\cos(\\pi t)}{2}', description: 'Sustained trade wind orographic rainfall (cosine distribution)' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' },
+    ],
+    reference: { title: 'Rainfall Atlas of Hawaii', citation: 'Giambelluca, T.W. et al., University of Hawaii', year: 2013, link: 'http://rainfall.geography.hawaii.edu' },
+    notes: 'Trade wind orographic: sustained, nearly uniform. Kona storms are convective. Mt Waialeale wettest spot on Earth. Peak ratio ~1.6×.'
+  },
+
+  // ──── US Regional ────
+
+  {
+    pattern: 'caltrans',
+    name: 'Caltrans',
+    category: 'empirical',
+    equations: [
+      { label: 'California IDF Profile', latex: 'F(t) = \\begin{cases} 0.30 \\cdot (t/0.4)^{0.85} & t \\leq 0.4 \\\\ 0.30 + 0.45 \\cdot \\frac{t-0.4}{0.2} & 0.4 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Caltrans highway drainage design storm for California' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Caltrans Highway Design Manual — Hydrology', citation: 'California Department of Transportation', year: 2019, link: 'https://dot.ca.gov/programs/design' },
+    notes: 'California highway drainage. Center-peaked (40–60%). Mediterranean climate adaptation. Used statewide for DOT projects.'
+  },
+
+  {
+    pattern: 'harris_county_fcd',
+    name: 'Harris County FCD',
+    category: 'empirical',
+    equations: [
+      { label: 'Houston Profile', latex: 'F(t) = \\begin{cases} 0.25 \\cdot (t/0.4)^{0.9} & t \\leq 0.4 \\\\ 0.25 + 0.50 \\cdot \\frac{t-0.4}{0.2} & 0.4 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Harris County (Houston) flood control design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Harris County Flood Control District Hydrology & Hydraulics Guidance Manual', citation: 'Harris County FCD', year: 2018 },
+    notes: 'Houston/Gulf Coast tropical. Center-peaked (40–60%). Post-Harvey updated criteria. Peak ratio ~4.5×.'
+  },
+
+  {
+    pattern: 'maricopa_fcd',
+    name: 'Maricopa County FCD',
+    category: 'empirical',
+    equations: [
+      { label: 'Desert Southwest Profile', latex: 'F(t) = \\begin{cases} 0.55 \\cdot (t/0.25)^{0.7} & t \\leq 0.25 \\\\ 0.55 + 0.25 \\cdot \\frac{t-0.25}{0.35} & 0.25 < t \\leq 0.60 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.60}{0.40} & t > 0.60 \\end{cases}', description: 'Phoenix/Maricopa monsoon flash flood design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Drainage Design Manual for Maricopa County', citation: 'Flood Control District of Maricopa County (FCDMC)', year: 2020, link: 'https://www.maricopa.gov/625' },
+    notes: 'Arizona desert monsoon. Extremely front-loaded. Peak at 15–25%. North American Monsoon thunderstorms. Peak ratio ~4.5×.'
+  },
+
+  {
+    pattern: 'la_county',
+    name: 'LA County DPW',
+    category: 'empirical',
+    equations: [
+      { label: 'Los Angeles Profile', latex: 'F(t) = \\begin{cases} 0.30 \\cdot (t/0.4)^{0.85} & t \\leq 0.4 \\\\ 0.30 + 0.45 \\cdot \\frac{t-0.4}{0.2} & 0.4 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'LA County Department of Public Works drainage design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Hydrology Manual', citation: 'Los Angeles County Department of Public Works', year: 2006, link: 'https://dpw.lacounty.gov/wrd/publication/engineering/2006_Hydrology_Manual' },
+    notes: 'Mediterranean climate. Center-peaked (40–60%). Post-fire debris flow considerations. Used with LA County IDF curves.'
+  },
+
+  {
+    pattern: 'clark_county_nv',
+    name: 'Clark County NV',
+    category: 'empirical',
+    equations: [
+      { label: 'Las Vegas Desert Profile', latex: 'F(t) = \\begin{cases} 0.55 \\cdot (t/0.2)^{0.65} & t \\leq 0.2 \\\\ 0.55 + 0.25 \\cdot \\frac{t-0.2}{0.3} & 0.2 < t \\leq 0.5 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.5}{0.5} & t > 0.5 \\end{cases}', description: 'Las Vegas Valley desert flash flood design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Clark County Regional Flood Control District Hydrologic Criteria', citation: 'CCRFCD', year: 2017 },
+    notes: 'Mojave Desert monsoon/convective. Extremely front-loaded. Peak at 10–20%. 100 mm annual mean. Peak ratio ~5×.'
+  },
+
+  {
+    pattern: 'philadelphia_pwd',
+    name: 'Philadelphia PWD',
+    category: 'empirical',
+    equations: [
+      { label: 'Northeast US Profile', latex: 'F(t) = \\begin{cases} 0.25 \\cdot (t/0.4)^{0.9} & t \\leq 0.4 \\\\ 0.25 + 0.50 \\cdot \\frac{t-0.4}{0.2} & 0.4 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Philadelphia Water Department combined sewer design storm' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+    ],
+    reference: { title: 'Philadelphia Stormwater Management Guidance Manual', citation: 'Philadelphia Water Department (PWD)', year: 2018, link: 'https://www.phila.gov/water' },
+    notes: 'Northeast US combined sewer system. Center-peaked at 40–60%. Green infrastructure design basis. Peak ratio ~4×.'
+  },
+
+  {
+    pattern: 'illinois_b75',
+    name: 'Illinois Bulletin 75',
+    category: 'empirical',
+    equations: [
+      { label: 'Huff-Based Midwest', latex: 'F(t) = \\text{Huff 2nd Quartile (50\\% probability)}', description: 'Illinois State Water Survey Bulletin 75 design storm (Huff 2nd quartile basis)' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction (Huff 2nd quartile median curve)' },
+    ],
+    reference: { title: 'Bulletin 75: Frequency Distributions and Hydroclimatic Characteristics of Heavy Rainstorms in Illinois', citation: 'Huff, F.A. & Angel, J.R., Illinois State Water Survey', year: 1992, link: 'https://www.isws.illinois.edu' },
+    notes: 'Illinois/Midwest standard. Uses Huff 2nd quartile median curve. Required for IDOT highway drainage. Peak at 25–50% of duration.'
+  },
+
+  // ──── Mathematical/Parametric ────
+
+  {
+    pattern: 'parabolic',
+    name: 'Parabolic Storm',
+    category: 'intensity',
+    equations: [
+      { label: 'Parabolic Intensity', latex: 'i(t) = i_{peak} \\cdot \\left[1 - \\left(\\frac{2t - D}{D}\\right)^2\\right]', description: 'Inverted parabola with peak at center' },
+      { label: 'Peak Intensity', latex: 'i_{peak} = \\frac{3P}{2D}', description: 'Peak intensity for volume conservation' },
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Intensity at time t' },
+      { symbol: 'i_{peak}', meaning: 'Peak intensity at t = D/2' },
+      { symbol: 'P', meaning: 'Total storm depth' },
+      { symbol: 'D', meaning: 'Storm duration' },
+    ],
+    reference: { title: 'Parametric Design Storm Methods', citation: 'Standard hydrologic practice', year: 1980 },
+    notes: 'Symmetric inverted parabola. Smooth peak at center. Peak ratio = 1.5×. Useful for moderate-peak design.'
+  },
+
+  {
+    pattern: 'cosine_storm',
+    name: 'Cosine Storm',
+    category: 'intensity',
+    equations: [
+      { label: 'Cosine Intensity', latex: 'i(t) = \\frac{P}{D} \\cdot \\frac{\\pi}{2} \\cdot \\sin\\left(\\frac{\\pi t}{D}\\right)', description: 'Half-sine intensity distribution' },
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Intensity at time t' },
+      { symbol: 'P', meaning: 'Total storm depth' },
+      { symbol: 'D', meaning: 'Storm duration' },
+    ],
+    reference: { title: 'Parametric Design Storm Methods', citation: 'Standard hydrologic practice', year: 1975 },
+    notes: 'Smooth symmetric bell shape. Peak ratio = π/2 ≈ 1.57×. Natural-looking transition from onset to recession.'
+  },
+
+  {
+    pattern: 'lognormal_temporal',
+    name: 'Lognormal Temporal',
+    category: 'intensity',
+    equations: [
+      { label: 'Lognormal Intensity', latex: 'i(t) = \\frac{P}{t \\cdot \\sigma\\sqrt{2\\pi}} \\exp\\left(-\\frac{(\\ln t - \\mu)^2}{2\\sigma^2}\\right)', description: 'Lognormal-distributed intensity over storm duration' },
+    ],
+    variables: [
+      { symbol: '\\mu', meaning: 'Log-mean parameter (controls peak position)' },
+      { symbol: '\\sigma', meaning: 'Log-standard deviation (controls skewness)' },
+      { symbol: 'P', meaning: 'Total storm depth' },
+    ],
+    reference: { title: 'Stochastic Rainfall Models', citation: 'Various statistical hydrology texts', year: 1990 },
+    notes: 'Right-skewed (front-loaded) bell shape. Peak position controlled by μ. Useful for asymmetric convective storms.'
+  },
+
+  {
+    pattern: 'exponential_decay_storm',
+    name: 'Exponential Decay Storm',
+    category: 'intensity',
+    equations: [
+      { label: 'Exponential Decay', latex: 'i(t) = i_0 \\cdot e^{-\\lambda t}', description: 'Exponentially decaying intensity from initial burst' },
+      { label: 'Initial Intensity', latex: 'i_0 = \\frac{P \\cdot \\lambda}{1 - e^{-\\lambda D}}', description: 'Volume-conserving initial intensity' },
+    ],
+    variables: [
+      { symbol: 'i_0', meaning: 'Initial peak intensity' },
+      { symbol: '\\lambda', meaning: 'Decay rate constant' },
+      { symbol: 'P', meaning: 'Total storm depth' },
+      { symbol: 'D', meaning: 'Storm duration' },
+    ],
+    reference: { title: 'Exponential Rainfall Models', citation: 'Standard parametric methods', year: 1985 },
+    notes: 'Extremely front-loaded. Peak at t=0 by definition. Useful for convective burst modeling. Similar to post-wildfire pattern.'
+  },
+
+  {
+    pattern: 'power_curve_storm',
+    name: 'Power Curve Storm',
+    category: 'cumulative',
+    equations: [
+      { label: 'Power Law CDF', latex: 'F(t) = \\left(\\frac{t}{D}\\right)^n', description: 'Power-law cumulative distribution' },
+      { label: 'Intensity', latex: 'i(t) = \\frac{nP}{D} \\left(\\frac{t}{D}\\right)^{n-1}', description: 'Intensity derived from power law CDF' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'n', meaning: 'Power exponent (n<1 front-loaded, n>1 rear-loaded)' },
+      { symbol: 'P', meaning: 'Total storm depth' },
+    ],
+    reference: { title: 'Parametric Rainfall Distribution Models', citation: 'Standard hydrologic practice', year: 1980 },
+    notes: 'Flexible shape: n=0.5 gives front-loaded, n=1 gives uniform (block), n=2 gives rear-loaded. Simple one-parameter model.'
+  },
+
+  {
+    pattern: 'weibull_temporal',
+    name: 'Weibull Temporal',
+    category: 'intensity',
+    equations: [
+      { label: 'Weibull Intensity', latex: 'i(t) = \\frac{P \\cdot k}{\\lambda} \\left(\\frac{t}{\\lambda}\\right)^{k-1} \\exp\\left[-\\left(\\frac{t}{\\lambda}\\right)^k\\right]', description: 'Weibull-distributed temporal rainfall intensity' },
+    ],
+    variables: [
+      { symbol: 'k', meaning: 'Shape parameter (k<1 front-loaded, k>1 peaked)' },
+      { symbol: '\\lambda', meaning: 'Scale parameter (controls timing)' },
+      { symbol: 'P', meaning: 'Total storm depth' },
+    ],
+    reference: { title: 'Weibull Distribution in Hydrology', citation: 'Various statistical hydrology texts', year: 1995 },
+    notes: 'Very flexible 2-parameter distribution. k=1 reduces to exponential decay. k=2 gives Rayleigh distribution. Widely used in reliability/hydrology.'
+  },
+
+  {
+    pattern: 'instantaneous_burst',
+    name: 'Instantaneous Burst',
+    category: 'intensity',
+    equations: [
+      { label: 'Burst + Residual', latex: 'i(t) = \\begin{cases} i_{burst} & t \\leq \\Delta t \\\\ i_{base} & t > \\Delta t \\end{cases}', description: 'Single-step burst followed by low-intensity residual' },
+      { label: 'Burst Intensity', latex: 'i_{burst} = \\frac{f \\cdot P}{\\Delta t}', description: 'Burst fraction f of total depth concentrated in Δt' },
+    ],
+    variables: [
+      { symbol: 'i_{burst}', meaning: 'Burst intensity (very high)' },
+      { symbol: 'i_{base}', meaning: 'Residual base intensity' },
+      { symbol: 'f', meaning: 'Fraction of depth in burst (typically 0.5–0.8)' },
+      { symbol: '\\Delta t', meaning: 'Burst duration (typically 5–15 min)' },
+    ],
+    reference: { title: 'Flash Flood Design Methods', citation: 'Standard engineering practice', year: 2000 },
+    notes: 'Worst-case design for small catchments and inlet sizing. 50–80% of depth in first time step. Peak ratio can exceed 10×.'
+  },
+
+  {
+    pattern: 'sigmoid_mass',
+    name: 'Sigmoid / Logistic Mass Curve',
+    category: 'cumulative',
+    equations: [
+      { label: 'Logistic CDF', latex: 'F(t) = \\frac{1}{1 + e^{-k(t - t_0)}}', description: 'Logistic (sigmoid) cumulative mass curve' },
+      { label: 'Intensity', latex: 'i(t) = \\frac{Pk \\cdot e^{-k(t-t_0)}}{[1 + e^{-k(t-t_0)}]^2}', description: 'Logistic PDF — bell-shaped intensity' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction (0–1)' },
+      { symbol: 'k', meaning: 'Steepness parameter (higher = sharper peak)' },
+      { symbol: 't_0', meaning: 'Inflection point / peak time' },
+      { symbol: 'P', meaning: 'Total storm depth' },
+    ],
+    reference: { title: 'Logistic Distribution in Hydrological Design', citation: 'Various parametric methods', year: 1990 },
+    notes: 'S-shaped mass curve producing symmetric bell intensity. k controls peakiness. Similar to Gaussian but with heavier tails.'
+  },
+
+  // ──── Storm Mechanism Types ────
+
+  {
+    pattern: 'medicane',
+    name: 'Medicane',
+    category: 'intensity',
+    equations: [
+      { label: 'Mediterranean Hurricane', latex: 'i(t) = i_{bg} + \\sum_{k=1}^{3} A_k \\exp\\left(-\\frac{(t-\\mu_k)^2}{2\\sigma_k^2}\\right)', description: 'Multiple embedded convective peaks within sustained cyclonic circulation' },
+    ],
+    variables: [
+      { symbol: 'i_{bg}', meaning: 'Background stratiform intensity' },
+      { symbol: 'A_k', meaning: 'Amplitude of convective peak k' },
+      { symbol: '\\mu_k', meaning: 'Position of peak k' },
+      { symbol: '\\sigma_k', meaning: 'Width of peak k' },
+    ],
+    reference: { title: 'Medicanes: Mediterranean Tropical-Like Cyclones', citation: 'Miglietta, M.M. & Rotunno, R., Bull. Amer. Meteor. Soc.', year: 2019, link: 'https://doi.org/10.1175/BAMS-D-18-0337.1' },
+    notes: 'Mediterranean hurricane. 6–18 hr multi-peak events. Affects Greece, southern Italy, North Africa. 2–3 events per year.'
+  },
+
+  {
+    pattern: 'polar_low',
+    name: 'Polar Low',
+    category: 'intensity',
+    equations: [
+      { label: 'Arctic Convective', latex: 'i(t) = \\frac{P}{D} \\cdot \\alpha \\cdot \\exp\\left(-\\frac{(t-\\mu)^2}{2\\sigma^2}\\right)', description: 'Short-lived Arctic mesoscale low-pressure system' },
+    ],
+    variables: [
+      { symbol: '\\mu', meaning: 'Peak position (typically 0.4–0.5 of duration)' },
+      { symbol: '\\sigma', meaning: 'Storm width parameter' },
+      { symbol: '\\alpha', meaning: 'Normalization for volume conservation' },
+    ],
+    reference: { title: 'Polar Lows: Mesoscale Weather Systems in the Polar Regions', citation: 'Rasmussen, E.A. & Turner, J., Cambridge University Press', year: 2003 },
+    notes: 'Arctic/subarctic maritime. Short-lived (6–12 hr). Single center peak. Norway, Iceland, Barents Sea. Mixed rain/snow.'
+  },
+
+  {
+    pattern: 'cutoff_low',
+    name: 'Cut-Off Low',
+    category: 'cumulative',
+    equations: [
+      { label: 'Slow-Moving Frontal', latex: 'F(t) = \\frac{1 - \\cos(\\pi t)}{2} + 0.15 \\sin(3\\pi t)', description: 'Sustained rainfall with embedded convective pulses from stalled upper-level low' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' },
+    ],
+    reference: { title: 'Cut-Off Low Systems and Associated Precipitation', citation: 'Nieto, R. et al., Meteorol. Atmos. Phys.', year: 2005 },
+    notes: 'Slow-moving upper-level low. 24–72 hr events. Multiple intensity pulses. Mediterranean, South Africa, Australia. Flood-producing.'
+  },
+
+  {
+    pattern: 'mcs_storm',
+    name: 'Mesoscale Convective System (MCS)',
+    category: 'intensity',
+    equations: [
+      { label: 'MCS Intensity', latex: 'i(t) = i_{conv} \\cdot \\exp\\left(-\\frac{(t-t_1)^2}{2\\sigma_c^2}\\right) + i_{strat} \\cdot \\left[1 - \\exp\\left(-\\frac{t}{\\tau}\\right)\\right]', description: 'Convective core followed by trailing stratiform region' },
+    ],
+    variables: [
+      { symbol: 'i_{conv}', meaning: 'Convective core peak intensity' },
+      { symbol: 'i_{strat}', meaning: 'Stratiform trailing intensity' },
+      { symbol: 't_1', meaning: 'Time of convective peak' },
+      { symbol: '\\sigma_c', meaning: 'Convective core width' },
+      { symbol: '\\tau', meaning: 'Stratiform ramp-up time constant' },
+    ],
+    reference: { title: 'Mesoscale Convective Systems', citation: 'Houze, R.A., Rev. Geophys.', year: 2004, link: 'https://doi.org/10.1029/2004RG000150' },
+    notes: 'Leading convective line + trailing stratiform. 3–12 hr events. US Great Plains, Sahel, La Plata basin. Peak ratio ~4×.'
+  },
+
+  {
+    pattern: 'supercell',
+    name: 'Supercell',
+    category: 'intensity',
+    equations: [
+      { label: 'Supercell Intensity', latex: 'i(t) = i_{peak} \\cdot \\exp\\left(-\\frac{|t - t_p|}{\\sigma}\\right)', description: 'Laplacian (double-exponential) intensity centered on mesocyclone passage' },
+      { label: 'Peak Intensity', latex: 'i_{peak} = \\frac{P}{2\\sigma}', description: 'Volume-conserving peak for Laplacian distribution' },
+    ],
+    variables: [
+      { symbol: 'i_{peak}', meaning: 'Extreme peak intensity' },
+      { symbol: 't_p', meaning: 'Time of mesocyclone passage (peak)' },
+      { symbol: '\\sigma', meaning: 'Peak width parameter (very small — 5–15 min)' },
+      { symbol: 'P', meaning: 'Total storm depth' },
+    ],
+    reference: { title: 'The Structure and Classification of Supercell Storms', citation: 'Doswell, C.A. & Burgess, D.W., Mon. Wea. Rev.', year: 1993 },
+    notes: 'Extremely intense single peak. 30–90 min core passage. Worst-case for small catchments. Peak ratio can exceed 8×. Hail and tornado risk.'
+  },
+
+  {
+    pattern: 'orographic_enhanced',
+    name: 'Orographic Enhanced',
+    category: 'cumulative',
+    equations: [
+      { label: 'Orographic Uplift Factor', latex: 'P_{oro} = P_{base} \\cdot (1 + \\alpha \\cdot \\nabla z)', description: 'Elevation-gradient based rainfall enhancement' },
+      { label: 'Sustained Profile', latex: 'F(t) = \\frac{1 - \\cos(\\pi t)}{2}', description: 'Sustained cosine mass curve with orographic depth uplift' },
+    ],
+    variables: [
+      { symbol: 'P_{oro}', meaning: 'Orographically enhanced rainfall depth' },
+      { symbol: 'P_{base}', meaning: 'Base (flat-terrain) rainfall depth' },
+      { symbol: '\\alpha', meaning: 'Orographic enhancement factor' },
+      { symbol: '\\nabla z', meaning: 'Elevation gradient (m/km)' },
+    ],
+    reference: { title: 'Orographic Precipitation', citation: 'Smith, R.B., Rev. Geophys.', year: 1979 },
+    notes: 'Mountain-enhanced sustained rainfall. Nearly symmetric. Applies to any windward mountain slope. Peak ratio ~1.6×.'
+  },
+
+  {
+    pattern: 'urban_heat_island',
+    name: 'Urban Heat Island Storm',
+    category: 'intensity',
+    equations: [
+      { label: 'UHI-Enhanced Profile', latex: 'i(t) = i_{rural}(t) \\cdot (1 + \\Delta_{UHI})', description: 'Rural storm profile amplified by urban heat island effect' },
+      { label: 'UHI Enhancement', latex: '\\Delta_{UHI} = 0.1 \\text{ to } 0.3', description: '10–30% intensity increase over urban areas' },
+    ],
+    variables: [
+      { symbol: 'i_{rural}(t)', meaning: 'Base rural storm intensity profile' },
+      { symbol: '\\Delta_{UHI}', meaning: 'Urban heat island enhancement factor' },
+    ],
+    reference: { title: 'Urban Effects on Precipitation', citation: 'Shepherd, J.M., J. Appl. Meteor. Climatol.', year: 2005 },
+    notes: 'Urban areas can increase rainfall 10–30% downwind. More convective triggering. Used for megacity flood design. Peak ratio ~3.5×.'
+  },
+
+  {
+    pattern: 'monsoon_burst',
+    name: 'Monsoon Burst',
+    category: 'intensity',
+    equations: [
+      { label: 'Burst-Pause-Burst', latex: 'i(t) = \\sum_{k=1}^{N} A_k \\cdot \\exp\\left(-\\frac{(t-\\mu_k)^2}{2\\sigma_k^2}\\right) + i_{bg}', description: 'Multiple monsoon convective bursts with sustained background' },
+    ],
+    variables: [
+      { symbol: 'A_k', meaning: 'Amplitude of burst k' },
+      { symbol: '\\mu_k', meaning: 'Timing of burst k' },
+      { symbol: '\\sigma_k', meaning: 'Duration of burst k' },
+      { symbol: 'i_{bg}', meaning: 'Background monsoon drizzle intensity' },
+      { symbol: 'N', meaning: 'Number of bursts (typically 2–4)' },
+    ],
+    reference: { title: 'Indian Monsoon Rainfall Variability', citation: 'Rajeevan, M. et al., Current Science', year: 2010 },
+    notes: 'Active monsoon phase multi-burst pattern. 6–24 hr events. South/Southeast Asia. Embedded convective cells within monsoon flow.'
+  },
+
+  {
+    pattern: 'squall_line',
+    name: 'Squall Line',
+    category: 'intensity',
+    equations: [
+      { label: 'Frontal Squall Passage', latex: 'i(t) = i_{peak} \\cdot \\exp\\left(-\\frac{(t-t_p)^2}{2\\sigma^2}\\right) + i_{trail} \\cdot H(t-t_p)', description: 'Sharp convective leading edge followed by moderate trailing rain' },
+    ],
+    variables: [
+      { symbol: 'i_{peak}', meaning: 'Peak intensity at squall front passage' },
+      { symbol: 't_p', meaning: 'Time of frontal passage' },
+      { symbol: '\\sigma', meaning: 'Frontal width (narrow, 10–30 min)' },
+      { symbol: 'i_{trail}', meaning: 'Trailing stratiform intensity' },
+      { symbol: 'H(t)', meaning: 'Heaviside step function' },
+    ],
+    reference: { title: 'Linear Mesoscale Convective Systems', citation: 'Parker, M.D. & Johnson, R.H., Mon. Wea. Rev.', year: 2000 },
+    notes: 'Linear convective system passage. Very front-loaded. 1–4 hr. Common in midlatitudes. Peak ratio ~5×.'
+  },
+
+  {
+    pattern: 'sea_breeze',
+    name: 'Sea Breeze Storm',
+    category: 'intensity',
+    equations: [
+      { label: 'Afternoon Convective', latex: 'i(t) = i_{peak} \\cdot \\exp\\left(-\\frac{(t - t_{afternoon})^2}{2\\sigma^2}\\right)', description: 'Sea breeze convergence-triggered afternoon convection' },
+    ],
+    variables: [
+      { symbol: 'i_{peak}', meaning: 'Peak intensity' },
+      { symbol: 't_{afternoon}', meaning: 'Typical afternoon peak (14:00–17:00 local)' },
+      { symbol: '\\sigma', meaning: 'Storm width (30–60 min typical)' },
+    ],
+    reference: { title: 'Sea-Breeze Convection', citation: 'Simpson, J.E., Annual Review of Fluid Mechanics', year: 1994 },
+    notes: 'Diurnal sea breeze convergence. Florida, tropical coasts. Short intense burst (30–90 min). Peak ratio ~4×.'
+  },
+
+  {
+    pattern: 'nocturnal_mcs',
+    name: 'Nocturnal MCS',
+    category: 'intensity',
+    equations: [
+      { label: 'Nocturnal Elevated Convection', latex: 'i(t) = i_{bg} + A \\cdot \\sin^2\\left(\\frac{\\pi(t - t_{onset})}{D_{core}}\\right) \\cdot H(t-t_{onset})', description: 'Elevated nocturnal convection with smooth onset' },
+    ],
+    variables: [
+      { symbol: 'i_{bg}', meaning: 'Background low-level jet moisture' },
+      { symbol: 'A', meaning: 'Convective core amplitude' },
+      { symbol: 't_{onset}', meaning: 'Nocturnal onset time (typically 21:00–01:00)' },
+      { symbol: 'D_{core}', meaning: 'Core convective duration (3–6 hr)' },
+    ],
+    reference: { title: 'Nocturnal Convection Over the Central United States', citation: 'Carbone, R.E. & Tuttle, J.D., Mon. Wea. Rev.', year: 2008 },
+    notes: 'Elevated convection from nocturnal low-level jet. US Great Plains warm season. Center-peaked nocturnal. Peak ratio ~3×.'
+  },
+
+  {
+    pattern: 'rain_on_snow',
+    name: 'Rain-on-Snow',
+    category: 'cumulative',
+    equations: [
+      { label: 'Sustained Warm Front', latex: 'F(t) = \\frac{1 - \\cos(\\pi t)}{2}', description: 'Sustained frontal rainfall on existing snowpack (cosine distribution)' },
+      { label: 'Combined Water Input', latex: 'Q_{total} = P + M_{snow}', description: 'Total water input = liquid precipitation + snowmelt' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'P', meaning: 'Liquid precipitation depth' },
+      { symbol: 'M_{snow}', meaning: 'Snowmelt contribution (T-index or energy balance)' },
+      { symbol: 'Q_{total}', meaning: 'Total water input to soil/runoff' },
+    ],
+    reference: { title: 'Rain-on-Snow Events in the Western United States', citation: 'McCabe, G.J. et al., Bull. Amer. Meteor. Soc.', year: 2007 },
+    notes: 'Warm atmospheric river over snowpack. Dominant flood mechanism for mountain regions. Sustained low-peak. Peak ratio ~1.6×.'
+  },
+
+  {
+    pattern: 'derecho',
+    name: 'Derecho',
+    category: 'intensity',
+    equations: [
+      { label: 'Bow Echo Passage', latex: 'i(t) = i_{peak} \\cdot \\exp\\left(-\\frac{|t-t_p|}{\\sigma}\\right)', description: 'Very brief extreme intensity during bow echo passage' },
+    ],
+    variables: [
+      { symbol: 'i_{peak}', meaning: 'Extreme peak intensity (very high)' },
+      { symbol: 't_p', meaning: 'Time of bow echo passage (very brief)' },
+      { symbol: '\\sigma', meaning: 'Core width (typically 10–20 min)' },
+    ],
+    reference: { title: 'Derechos: Widespread Convectively Induced Windstorms', citation: 'Johns, R.H. & Hirt, W.D., Wea. Forecasting', year: 1987 },
+    notes: 'Long-lived bow echo. Extremely brief but intense rainfall. Wind damage dominant hazard. 15–45 min rainfall core. Peak ratio ~8×.'
+  },
+
+  // ──── Climate Change Variants ────
+
+  {
+    pattern: 'ukcp18_enhanced',
+    name: 'UKCP18 Enhanced',
+    category: 'empirical',
+    equations: [
+      { label: 'Climate Uplift', latex: 'P_{2080} = P_{base} \\cdot (1 + U_{rcp85})', description: 'UKCP18 RCP8.5 2080s climate uplift applied to FEH design storm' },
+      { label: 'Uplift Factor', latex: 'U_{rcp85} = 0.20 \\text{ to } 0.40 \\text{ (region-dependent)}', description: '20–40% rainfall depth increase for 2080s high-emission scenario' },
+    ],
+    variables: [
+      { symbol: 'P_{2080}', meaning: 'Climate-adjusted design depth for 2080s' },
+      { symbol: 'P_{base}', meaning: 'Current baseline design depth' },
+      { symbol: 'U_{rcp85}', meaning: 'UKCP18 RCP8.5 uplift factor' },
+    ],
+    reference: { title: 'UKCP18 Science Overview Report', citation: 'Met Office Hadley Centre', year: 2018, link: 'https://www.metoffice.gov.uk/research/approach/collaboration/ukcp' },
+    notes: 'UK-specific climate projection. Applied to FEH design storm base. Required for Environment Agency flood risk assessments. Uses RCP8.5 2080s.'
+  },
+
+  {
+    pattern: 'super_cc',
+    name: 'Super Clausius-Clapeyron (14%/°C)',
+    category: 'intensity',
+    equations: [
+      { label: 'Super-CC Scaling', latex: '\\frac{di_{peak}}{dT} \\approx 14\\%/°\\text{C}', description: 'Sub-hourly intensities scale at ~14%/°C (2× Clausius-Clapeyron)' },
+      { label: 'Scaled Peak', latex: 'i_{peak,future} = i_{peak,base} \\cdot (1.14)^{\\Delta T}', description: 'Future peak intensity with super-CC scaling' },
+    ],
+    variables: [
+      { symbol: 'i_{peak,future}', meaning: 'Future peak intensity' },
+      { symbol: 'i_{peak,base}', meaning: 'Historical peak intensity' },
+      { symbol: '\\Delta T', meaning: 'Temperature change (°C)' },
+    ],
+    reference: { title: 'Increase in Hourly Precipitation Extremes Beyond Expectations from Temperature Changes', citation: 'Lenderink, G. & van Meijgaard, E., Nature Geoscience', year: 2008, link: 'https://doi.org/10.1038/ngeo262' },
+    notes: 'Sub-hourly rainfall intensities can exceed CC scaling (7%/°C). Observed 14%/°C in Netherlands, Belgium. Critical for urban drainage future-proofing.'
+  },
+
+  {
+    pattern: 'neyman_scott',
+    name: 'Neyman-Scott Rectangular Pulse',
+    category: 'intensity',
+    equations: [
+      { label: 'Cluster Process', latex: 'N(t) \\sim \\text{Poisson}(\\lambda)', description: 'Storm origins arrive as Poisson process' },
+      { label: 'Cell Generation', latex: 'C_j \\sim \\text{Poisson}(\\mu_c)', description: 'Each storm generates random number of cells' },
+      { label: 'Superposition', latex: 'i(t) = \\sum_j \\sum_k X_k \\cdot \\mathbb{1}_{[t_{j,k},\\, t_{j,k}+L_k]}(t)', description: 'Total intensity from overlapping rectangular pulses' },
+    ],
+    variables: [
+      { symbol: '\\lambda', meaning: 'Storm arrival rate' },
+      { symbol: '\\mu_c', meaning: 'Mean number of cells per storm' },
+      { symbol: 'X_k', meaning: 'Cell intensity (Exponentially distributed)' },
+      { symbol: 'L_k', meaning: 'Cell duration (Exponentially distributed)' },
+    ],
+    reference: { title: 'A Stochastic Model of Rainfall for Hydrological Simulation', citation: 'Cowpertwait, P.S.P., J. Hydrol.', year: 1991 },
+    notes: 'Cluster point process model. More structured than Bartlett-Lewis. 5 parameters. Used for continuous simulation. Produces realistic temporal patterns.'
+  },
+
+  // ──── Spanish & US Research ────
+
+  {
+    pattern: 'temez_spain',
+    name: 'Témez (Spain)',
+    category: 'cumulative',
+    equations: [
+      { label: 'Témez Cumulative', latex: 'F(t) = 1 - \\left(1 - \\frac{t}{D}\\right)^{\\beta}', description: 'Spanish power-law cumulative distribution' },
+      { label: 'Exponent', latex: '\\beta = \\frac{I_d}{\\bar{i}} = \\frac{I_d \\cdot D}{P}', description: 'Shape exponent from IDF curve intensity ratio' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: '\\beta', meaning: 'Shape exponent (typically 3–6)' },
+      { symbol: 'I_d', meaning: 'IDF curve intensity for duration d' },
+      { symbol: '\\bar{i}', meaning: 'Average intensity (P/D)' },
+    ],
+    reference: { title: 'Cálculo Hidrometeorológico de Caudales Máximos en Pequeñas Cuencas Naturales', citation: 'Témez, J.R., Dirección General de Carreteras', year: 1991 },
+    notes: 'Spanish standard for highway drainage. IDF-derived shape. Required by Dirección General de Carreteras. Front-loaded power-law.'
+  },
+
+  {
+    pattern: 'bonta_usda',
+    name: 'Bonta USDA',
+    category: 'empirical',
+    equations: [
+      { label: 'Dimensionless Hyetograph', latex: 'F(t) = \\sum_{j=1}^{4} a_j \\cdot t^j', description: '4th-order polynomial fit to dimensionless mass curve' },
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a_j', meaning: 'Polynomial coefficients (fitted to regional data)' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' },
+    ],
+    reference: { title: 'Development and Evaluation of Dimensionless Design Hyetographs', citation: 'Bonta, J.V. & Rao, A.R., USDA-ARS', year: 1988 },
+    notes: 'USDA Agricultural Research Service. Data-driven polynomial fit to observed storms. Midwest US agricultural watersheds. Quartile-classified.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {
