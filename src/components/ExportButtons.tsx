@@ -75,6 +75,18 @@ const ALL_PATTERN_NAMES: Record<string, string> = {
   'shyreg_fr': 'SHYREG_FR', 'ireland_met': 'Ireland_Met_Eireann',
   'arr87_legacy': 'ARR87_Legacy', 'hk_dsd_2018': 'HK_DSD_2018',
   'malaysia_hp1': 'Malaysia_HP1', 'austria_okostra': 'Austria_OKOSTRA',
+  // v4 — Global expansion
+  'france_shypre': 'France_SHYPRE', 'poland_panda': 'Poland_PANDA', 'turkey_mgm': 'Turkey_MGM',
+  'israel_ims': 'Israel_IMS', 'iran_irimo': 'Iran_IRIMO', 'iraq_mos': 'Iraq_MoS',
+  'kazakhstan_kazhydromet': 'Kazakhstan_Kazhydromet', 'russia_roshydromet': 'Russia_Roshydromet',
+  'portugal_ipma': 'Portugal_IPMA', 'nz_niwa': 'NZ_NIWA', 'csa_w231': 'CSA_W231', 'sa_wrc': 'SA_WRC',
+  'west_africa_cilss': 'West_Africa_CILSS', 'noaa_a16': 'NOAA_Atlas_16', 'euro_cordex': 'Euro_CORDEX',
+  'mongolia_namem': 'Mongolia_NAMEM', 'pacific_sprep': 'Pacific_SPREP', 'czech_chmu': 'Czech_CHMU',
+  // v5 — Caribbean, Mediterranean, Parametric
+  'barbados_bms': 'Barbados_BMS', 'oecs_caribbean': 'OECS_Caribbean', 'cyprus_wdd': 'Cyprus_WDD',
+  'malta_mra': 'Malta_MRA', 'bolivia_altiplano': 'Bolivia_Altiplano',
+  'fourier_multipeak': 'Fourier_Multipeak', 'cc_idf_scaled': 'CC_IDF_Scaled',
+  // v6 — Missing Design Storms
   'g2p_gamma': 'G2P_Gamma', 'poland_bs': 'Poland_Bogdanowicz_Stachy',
   'belgium_willems': 'Belgium_Willems', 'russia_snip': 'Russia_SNiP',
   'turkey_dsi': 'Turkey_DSI', 'korea_molit': 'Korea_MOLIT',
