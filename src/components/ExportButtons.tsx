@@ -82,6 +82,12 @@ const ALL_PATTERN_NAMES: Record<string, string> = {
   'pmp_wmo': 'PMP_WMO_Generalized', 'nested_envelope': 'Nested_Envelope',
   'arnell_sweden': 'Arnell_Sweden', 'tenax_cds': 'TENAX_CDS', 'avm': 'Average_Variability',
   'sa_scs1': 'SA_SCS_Type_1', 'sa_scs2': 'SA_SCS_Type_2', 'sa_scs3': 'SA_SCS_Type_3', 'sa_scs4': 'SA_SCS_Type_4',
+  // v10 — Poland & Eastern Europe
+  'atv_a121': 'ATV_A_121', 'dwa_a118': 'DWA_A_118', 'blaszczyk': 'Blaszczyk',
+  'imgw_cluster1': 'IMGW_Cluster_1', 'imgw_cluster2': 'IMGW_Cluster_2', 'imgw_cluster3': 'IMGW_Cluster_3',
+  'imgw_cluster4': 'IMGW_Cluster_4', 'imgw_cluster5': 'IMGW_Cluster_5',
+  'wroclaw_2050': 'Wroclaw_2050', 'trupl': 'Trupl_Czech', 'samaj_valovic': 'Samaj_Valovic',
+  'hungarian_msz': 'Hungarian_MSZ', 'budapest_convective': 'Budapest_Convective', 'owav_rb11': 'OWAV_Regelblatt_11',
 };
 
 export function ExportButtons({ data, pattern, patternKey, totalDepth, duration, timeStep, unitSystem }: ExportButtonsProps) {

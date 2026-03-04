@@ -30,7 +30,10 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   // v8 — South African SCS Types
   | 'sa_scs1' | 'sa_scs2' | 'sa_scs3' | 'sa_scs4'
   // v9 — Dubai DM Combined
-  | 'dubai_dm_combined';
+  | 'dubai_dm_combined'
+  // v10 — Poland & Eastern Europe
+  | 'atv_a121' | 'dwa_a118' | 'blaszczyk' | 'imgw_cluster1' | 'imgw_cluster2' | 'imgw_cluster3' | 'imgw_cluster4' | 'imgw_cluster5'
+  | 'wroclaw_2050' | 'trupl' | 'samaj_valovic' | 'hungarian_msz' | 'budapest_convective' | 'owav_rb11';
 
 // ─── Helper functions for pattern generation ───
 
@@ -3350,6 +3353,112 @@ export function generateRainfallData(
       const saScs4T = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.479, 0.500, 0.521, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
       const saScs4P = [0, 0.005, 0.010, 0.017, 0.026, 0.037, 0.051, 0.070, 0.098, 0.140, 0.204, 0.310, 0.415, 0.500, 0.585, 0.690, 0.796, 0.860, 0.902, 0.930, 0.949, 0.963, 0.974, 0.983, 0.990, 0.995, 1.0];
       return applyDimensionlessCurve(saScs4T, saScs4P, totalDepth, numSteps, timeStep);
+    }
+
+    // ── v10: Poland & Eastern Europe ──
+
+    case 'atv_a121': {
+      // ATV-A 121 (now DWA-A 118) — German sewer design rainfall, widely used in Poland
+      // 12-interval distribution for 60-min storm, peak at interval 6 (~45-50%)
+      const atvT = [0, 1/12, 2/12, 3/12, 4/12, 5/12, 6/12, 7/12, 8/12, 9/12, 10/12, 11/12, 1.0];
+      const atvP = [0, 0.030, 0.065, 0.110, 0.170, 0.265, 0.505, 0.695, 0.800, 0.870, 0.925, 0.965, 1.0];
+      return applyDimensionlessCurve(atvT, atvP, totalDepth, numSteps, timeStep);
+    }
+
+    case 'dwa_a118': {
+      // DWA-A 118 (2006) — Symmetric model rain, updated German standard
+      // Symmetric with 40% rising, 20% peak, 40% falling
+      const dwaT = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const dwaP = [0, 0.030, 0.075, 0.140, 0.250, 0.500, 0.750, 0.860, 0.925, 0.970, 1.0];
+      return applyDimensionlessCurve(dwaT, dwaP, totalDepth, numSteps, timeStep);
+    }
+
+    case 'blaszczyk': {
+      // Błaszczyk (traditional Polish method)
+      // 4-quarter: 15%, 45%, 25%, 15% of rainfall
+      const blT = [0, 0.25, 0.50, 0.75, 1.0];
+      const blP = [0, 0.15, 0.60, 0.85, 1.0];
+      return applyDimensionlessCurve(blT, blP, totalDepth, numSteps, timeStep);
+    }
+
+    case 'imgw_cluster1': {
+      // IMGW Cluster 1 — Front-loaded (rapid onset), peak 0-20%
+      const c1T = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const c1P = [0, 0.22, 0.52, 0.68, 0.78, 0.85, 0.90, 0.93, 0.96, 0.98, 1.0];
+      return applyDimensionlessCurve(c1T, c1P, totalDepth, numSteps, timeStep);
+    }
+
+    case 'imgw_cluster2': {
+      // IMGW Cluster 2 — Early-peak, peak 20-35%
+      const c2T = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const c2P = [0, 0.08, 0.25, 0.55, 0.72, 0.82, 0.89, 0.93, 0.96, 0.98, 1.0];
+      return applyDimensionlessCurve(c2T, c2P, totalDepth, numSteps, timeStep);
+    }
+
+    case 'imgw_cluster3': {
+      // IMGW Cluster 3 — Central peak (DVWK-like), peak 35-50%, most common (28%)
+      const c3T = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const c3P = [0, 0.04, 0.10, 0.22, 0.45, 0.70, 0.84, 0.92, 0.96, 0.98, 1.0];
+      return applyDimensionlessCurve(c3T, c3P, totalDepth, numSteps, timeStep);
+    }
+
+    case 'imgw_cluster4': {
+      // IMGW Cluster 4 — Late peak, peak 50-70%
+      const c4T = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const c4P = [0, 0.03, 0.07, 0.13, 0.22, 0.35, 0.58, 0.80, 0.92, 0.97, 1.0];
+      return applyDimensionlessCurve(c4T, c4P, totalDepth, numSteps, timeStep);
+    }
+
+    case 'imgw_cluster5': {
+      // IMGW Cluster 5 — End-loaded (delayed peak), peak 70-90%
+      const c5T = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const c5P = [0, 0.02, 0.05, 0.09, 0.14, 0.21, 0.30, 0.42, 0.65, 0.88, 1.0];
+      return applyDimensionlessCurve(c5T, c5P, totalDepth, numSteps, timeStep);
+    }
+
+    case 'wroclaw_2050': {
+      // Wrocław 2050 climate-adjusted — earlier, sharper peak than baseline
+      // Peak at ~30% of duration, peak ratio 2.8×
+      const wrT = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const wrP = [0, 0.08, 0.28, 0.60, 0.78, 0.87, 0.92, 0.95, 0.97, 0.99, 1.0];
+      return applyDimensionlessCurve(wrT, wrP, totalDepth, numSteps, timeStep);
+    }
+
+    case 'trupl': {
+      // Trupl (1958) Czech standard — sharper peak than DVWK (3.1× ratio)
+      // From published cumulative curve
+      const trT = [0, 5/60, 10/60, 15/60, 20/60, 25/60, 30/60, 35/60, 40/60, 45/60, 50/60, 55/60, 1.0];
+      const trP = [0, 0.03, 0.07, 0.14, 0.24, 0.42, 0.68, 0.82, 0.89, 0.93, 0.96, 0.98, 1.0];
+      return applyDimensionlessCurve(trT, trP, totalDepth, numSteps, timeStep);
+    }
+
+    case 'samaj_valovic': {
+      // Šamaj-Valovič (Slovak) — peak at 35-50%, peak ratio 3.0×
+      const svT = [0, 0.10, 0.20, 0.35, 0.50, 0.65, 0.75, 1.0];
+      const svP = [0, 0.05, 0.12, 0.20, 0.65, 0.90, 0.95, 1.0];
+      return applyDimensionlessCurve(svT, svP, totalDepth, numSteps, timeStep);
+    }
+
+    case 'hungarian_msz': {
+      // Hungarian MSZ standard — 5-segment: 10%, 20%, 40%, 20%, 10%
+      const huT = [0, 0.20, 0.35, 0.50, 0.70, 1.0];
+      const huP = [0, 0.10, 0.30, 0.70, 0.90, 1.0];
+      return applyDimensionlessCurve(huT, huP, totalDepth, numSteps, timeStep);
+    }
+
+    case 'budapest_convective': {
+      // Budapest convective — very sharp peak (3.5× ratio), peak at 30-40%
+      const bpT = [0, 0.10, 0.15, 0.30, 0.40, 0.60, 1.0];
+      const bpP = [0, 0.03, 0.08, 0.35, 0.70, 0.90, 1.0];
+      return applyDimensionlessCurve(bpT, bpP, totalDepth, numSteps, timeStep);
+    }
+
+    case 'owav_rb11': {
+      // ÖWAV Regelblatt 11 (Austrian standard) — later peak than DVWK (~50-58%)
+      // 12-interval distribution with peak at interval 7
+      const owT = [0, 1/12, 2/12, 3/12, 4/12, 5/12, 6/12, 7/12, 8/12, 9/12, 10/12, 11/12, 1.0];
+      const owP = [0, 0.025, 0.055, 0.095, 0.150, 0.235, 0.335, 0.605, 0.775, 0.855, 0.915, 0.955, 1.0];
+      return applyDimensionlessCurve(owT, owP, totalDepth, numSteps, timeStep);
     }
   }
 
