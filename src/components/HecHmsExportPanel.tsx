@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Download, FileText, Database, BookOpen, ChevronDown, Info, Package } from "lucide-react";
+import { Download, FileText, Database, BookOpen, ChevronDown, Info, Package, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 import { type UnitSystem } from "@/lib/unitConversions";
 import { exportHecHmsFile, type HecHmsFormat, type HecHmsGageOptions } from "@/lib/hecHmsExport";
@@ -39,6 +39,7 @@ export function HecHmsExportPanel({ data, pattern, totalDepth, duration, timeSte
   const [startTime, setStartTime] = useState("00:00");
   const [selectedFormat, setSelectedFormat] = useState<HecHmsFormat>("gage");
   const [showPreview, setShowPreview] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const options: HecHmsGageOptions = useMemo(() => ({
     gageName, startDate, startTime, patternName: pattern,
@@ -161,9 +162,25 @@ export function HecHmsExportPanel({ data, pattern, totalDepth, duration, timeSte
             Preview file contents
           </CollapsibleTrigger>
           <CollapsibleContent>
-            <pre className="mt-2 p-3 bg-muted rounded-md text-xs overflow-x-auto max-h-48 overflow-y-auto font-mono">
-              {preview.slice(0, 1500)}{preview.length > 1500 ? '\n... (truncated)' : ''}
-            </pre>
+            <div className="mt-2 relative">
+              <Button
+                size="sm"
+                variant="ghost"
+                className="absolute top-1.5 right-1.5 h-7 gap-1 text-xs text-muted-foreground hover:text-foreground"
+                onClick={() => {
+                  navigator.clipboard.writeText(preview);
+                  setCopied(true);
+                  toast.success("Copied to clipboard");
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+              >
+                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? "Copied" : "Copy"}
+              </Button>
+              <pre className="p-3 bg-muted rounded-md text-xs overflow-x-auto max-h-48 overflow-y-auto font-mono">
+                {preview.slice(0, 1500)}{preview.length > 1500 ? '\n... (truncated)' : ''}
+              </pre>
+            </div>
           </CollapsibleContent>
         </Collapsible>
 
