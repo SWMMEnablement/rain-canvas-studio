@@ -2619,6 +2619,463 @@ export const patternEquations: PatternEquation[] = [
     reference: { title: 'ÖWAV Regelblatt 11: Niederschlagsdaten für die Siedlungsentwässerung', citation: 'Österreichischer Wasser- und Abfallwirtschaftsverband', year: 2009, link: 'https://www.oewav.at' },
     notes: 'Later peak than DVWK — characteristic of orographic rainfall in Alpine/Carpathian regions. Peak ratio 3.2×. Sometimes used in southern Poland.'
   },
+
+  // ══════════ v11 — High-value additions ══════════
+
+  // ============ Croatian DHMZ ============
+  {
+    pattern: 'croatian_dhmz',
+    name: 'Croatian DHMZ',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Adriatic Convective Profile',
+        latex: 'F(t) = \\sum_{k=1}^{10} \\Delta F_k \\cdot H(t - t_k)',
+        description: 'Stepwise cumulative distribution derived from Adriatic coastal pluviograph records'
+      },
+      {
+        label: 'Peak Segment',
+        latex: '\\Delta F_{\\max} = 0.22 \\quad \\text{at } t/D \\in [0.3, 0.4]',
+        description: '22% of total depth falls in a single 10% duration segment'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction (0–1)' },
+      { symbol: '\\Delta F_k', meaning: 'Incremental fraction in segment k' },
+      { symbol: 't/D', meaning: 'Dimensionless time' }
+    ],
+    reference: {
+      title: 'Analiza oborinskih podataka jadranskog priobalja',
+      citation: 'Državni Hidrometeorološki Zavod (DHMZ)',
+      year: 2015,
+      link: 'https://meteo.hr'
+    },
+    notes: 'Adriatic coastal convective pattern. Peak at 30–40% of duration (peak ratio ~2.8×). Influenced by orographic lifting along Dinaric Alps.'
+  },
+
+  // ============ Algeria ANRH ============
+  {
+    pattern: 'algeria_anrh',
+    name: 'Algeria ANRH',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Mediterranean Front-Loaded Profile',
+        latex: 'F(t) = \\begin{cases} 0.50 \\cdot \\left(\\frac{t}{0.3}\\right)^{0.85} & t \\leq 0.3 \\\\ 0.50 + 0.30 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}',
+        description: 'Semi-arid Mediterranean convective profile with early peak'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'Étude des pluies de courte durée en Algérie du Nord',
+      citation: 'Agence Nationale des Ressources Hydrauliques (ANRH)',
+      year: 2010
+    },
+    notes: 'North African Mediterranean climate. Front-loaded convective bursts typical of Tell Atlas region. Peak at 20–30% of duration.'
+  },
+
+  // ============ West Africa CIEH ============
+  {
+    pattern: 'west_africa_cieh',
+    name: 'West Africa CIEH',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Sahelian Squall Line',
+        latex: 'F(t) = \\begin{cases} 0.60 \\cdot \\left(\\frac{t}{0.2}\\right)^{0.65} & t \\leq 0.2 \\\\ 0.60 + 0.25 \\cdot \\frac{t-0.2}{0.3} & 0.2 < t \\leq 0.5 \\\\ 0.85 + 0.15 \\cdot \\frac{t-0.5}{0.5} & t > 0.5 \\end{cases}',
+        description: 'Extremely front-loaded profile representing Sahelian squall line passage'
+      },
+      {
+        label: 'Peak Burst',
+        latex: 'P_{burst} = 60\\% \\text{ of depth in first } 20\\% \\text{ of duration}',
+        description: 'Intense leading convective burst followed by stratiform tail'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'P_{burst}', meaning: 'Fraction of depth in convective burst' }
+    ],
+    reference: {
+      title: 'Pluies et crues au Sahel — Manuel de drainage urbain',
+      citation: 'Comité Inter-États d\'Études Hydrauliques (CIEH)',
+      year: 1985,
+      link: 'https://horizon.documentation.ird.fr'
+    },
+    notes: 'Covers 14 ECOWAS member states. Sahelian squall lines produce peak ratios of 4–5×. Used for drainage design across West Africa.'
+  },
+
+  // ============ Portugal LNEC ============
+  {
+    pattern: 'portugal_lnec',
+    name: 'Portuguese LNEC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Mediterranean Convective Profile',
+        latex: 'F(t) = \\begin{cases} 0.45 \\cdot \\left(\\frac{t}{0.3}\\right)^{0.80} & t \\leq 0.3 \\\\ 0.45 + 0.30 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}',
+        description: 'Lisbon/Algarve-based Mediterranean convective design storm'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'Drenagem de Águas Pluviais Urbanas — Manual de Saneamento Básico',
+      citation: 'Laboratório Nacional de Engenharia Civil (LNEC)',
+      year: 2000
+    },
+    notes: 'Portuguese standard for urban drainage. Peak at 20–30% of duration. Moderate front-loading typical of Atlantic-influenced Mediterranean storms.'
+  },
+
+  // ============ Costa Rica IMN ============
+  {
+    pattern: 'costa_rica_imn',
+    name: 'Costa Rica IMN',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Tropical Convective Profile',
+        latex: 'F(t) = \\begin{cases} 0.55 \\cdot \\left(\\frac{t}{0.3}\\right)^{0.75} & t \\leq 0.3 \\\\ 0.55 + 0.25 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}',
+        description: 'Pacific-slope tropical convective profile for Central America'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' }
+    ],
+    reference: {
+      title: 'Curvas IDF y distribución temporal para Costa Rica',
+      citation: 'Instituto Meteorológico Nacional (IMN)',
+      year: 2008
+    },
+    notes: 'Pacific slope convective storms. Peak at 20–30% of duration with rapid onset. Applicable to Panama and Nicaragua as well.'
+  },
+
+  // ============ Nepal DHM ============
+  {
+    pattern: 'nepal_dhm',
+    name: 'Nepal DHM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Orographic Monsoon Profile',
+        latex: 'F(t) = \\begin{cases} 0.30 \\cdot \\frac{t}{0.4} & t \\leq 0.4 \\\\ 0.30 + 0.45 \\cdot \\left(\\frac{t-0.4}{0.2}\\right)^{0.7} & 0.4 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}',
+        description: 'Extreme orographic monsoon with intense mid-storm peak'
+      },
+      {
+        label: 'Peak Intensity Ratio',
+        latex: 'i_{peak} \\approx 3.5 \\cdot \\bar{i}',
+        description: 'Peak is ~3.5 times the average intensity due to orographic enhancement'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'i_{peak}', meaning: 'Peak rainfall intensity' },
+      { symbol: '\\bar{i}', meaning: 'Average intensity (P/D)' }
+    ],
+    reference: {
+      title: 'Precipitation Climatology of Nepal',
+      citation: 'Department of Hydrology and Meteorology (DHM), Nepal',
+      year: 2015,
+      link: 'https://dhm.gov.np'
+    },
+    notes: 'Extreme orographic lifting along Himalayan front range. Peak at 40–60% of duration. Peak ratios up to 3.5× in Terai–Churia Hills transition zone.'
+  },
+
+  // ============ NYC DEP ============
+  {
+    pattern: 'nyc_dep',
+    name: 'NYC DEP Design Storm',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Modified SCS Type III',
+        latex: 'F(t) = \\begin{cases} 0.20 \\cdot \\frac{t}{0.4} & t \\leq 0.4 \\\\ 0.20 + 0.55 \\cdot \\left(\\frac{t-0.4}{0.2}\\right)^{0.8} & 0.4 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}',
+        description: 'Modified SCS Type III adapted for NYC combined sewer system design'
+      },
+      {
+        label: 'Design Depth',
+        latex: 'P_{10yr,6hr} = 3.5 \\text{ in (89 mm)}',
+        description: 'Standard NYC DEP design event for combined sewer overflow analysis'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 't', meaning: 'Dimensionless time (t/D)' },
+      { symbol: 'P_{10yr,6hr}', meaning: 'NYC 10-year, 6-hour design depth' }
+    ],
+    reference: {
+      title: 'NYC DEP Guidelines for the Design and Construction of Stormwater Management Systems',
+      citation: 'New York City Department of Environmental Protection',
+      year: 2012,
+      link: 'https://www.nyc.gov/site/dep'
+    },
+    notes: 'Required for all NYC combined sewer areas. Center-peaked distribution (40–60% of duration). Based on modified SCS Type III with NYC-specific IDF data.'
+  },
+
+  // ============ Beta Distribution ============
+  {
+    pattern: 'beta_distribution',
+    name: 'Beta Distribution Storm',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Beta CDF',
+        latex: 'F(t) = I_t(\\alpha, \\beta) = \\frac{B(t; \\alpha, \\beta)}{B(\\alpha, \\beta)}',
+        description: 'Regularized incomplete beta function as cumulative rainfall distribution'
+      },
+      {
+        label: 'Beta PDF (Intensity)',
+        latex: 'f(t) = \\frac{t^{\\alpha-1}(1-t)^{\\beta-1}}{B(\\alpha,\\beta)}',
+        description: 'Probability density function giving dimensionless intensity'
+      },
+      {
+        label: 'Peak Position',
+        latex: 't_{peak} = \\frac{\\alpha - 1}{\\alpha + \\beta - 2}',
+        description: 'Mode of the Beta distribution (peak time as fraction of duration)'
+      }
+    ],
+    variables: [
+      { symbol: '\\alpha', meaning: 'Shape parameter (controls rising limb; default 3)' },
+      { symbol: '\\beta', meaning: 'Shape parameter (controls falling limb; default 4)' },
+      { symbol: 'B(\\alpha,\\beta)', meaning: 'Beta function = Γ(α)Γ(β)/Γ(α+β)' },
+      { symbol: 'I_t(\\alpha,\\beta)', meaning: 'Regularized incomplete beta function' },
+      { symbol: 't_{peak}', meaning: 'Peak position (0.40 for α=3, β=4)' }
+    ],
+    reference: {
+      title: 'Temporal Rainfall Disaggregation Using a Beta Distribution',
+      citation: 'Koutsoyiannis, D., Hydrological Sciences Journal',
+      year: 2003,
+      link: 'https://doi.org/10.1623/hysj.48.2.299.44699'
+    },
+    notes: 'Highly flexible: α=β gives symmetric storm; α<β gives front-loaded; α>β gives rear-loaded. Subsumes many empirical profiles as special cases.'
+  },
+
+  // ============ Clausius-Clapeyron Scaled ============
+  {
+    pattern: 'cc_clausius',
+    name: 'Clausius-Clapeyron Scaled Storm',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'CC Scaling Law',
+        latex: '\\frac{dP}{dT} \\approx 7\\%/°\\text{C}',
+        description: 'Clausius-Clapeyron relation: extreme precipitation increases ~7% per degree Celsius of warming'
+      },
+      {
+        label: 'Scaled Depth',
+        latex: 'P_{future} = P_{baseline} \\cdot (1.07)^{\\Delta T}',
+        description: 'Future design depth scaled by temperature change'
+      },
+      {
+        label: 'Peak Intensification',
+        latex: 'i_{peak,future} = i_{peak,base} \\cdot (1.07)^{\\Delta T} \\cdot \\gamma',
+        description: 'Peak intensifies faster than total depth (super-CC scaling factor γ)'
+      }
+    ],
+    variables: [
+      { symbol: '\\Delta T', meaning: 'Temperature change from baseline (°C; default +3°C)' },
+      { symbol: 'P_{baseline}', meaning: 'Historical design storm depth' },
+      { symbol: 'P_{future}', meaning: 'Climate-adjusted design storm depth' },
+      { symbol: '\\gamma', meaning: 'Super-CC scaling factor for peak intensity (1.0–1.4)' }
+    ],
+    reference: {
+      title: 'Scaling of Extreme Rainfall with Temperature',
+      citation: 'Lenderink, G. & van Meijgaard, E., Journal of Climate',
+      year: 2008,
+      link: 'https://doi.org/10.1175/2007JCLI2037.1'
+    },
+    notes: 'Applies Euler Type II base pattern with CC-scaled depths. At +3°C warming → 1.21× total depth uplift. Peak interval may show super-CC scaling (up to 14%/°C).'
+  },
+
+  // ============ Bartlett-Lewis Stochastic ============
+  {
+    pattern: 'bartlett_lewis',
+    name: 'Bartlett-Lewis Rectangular Pulse',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Storm Arrival (Poisson)',
+        latex: 'N(t) \\sim \\text{Poisson}(\\lambda t)',
+        description: 'Storm origins arrive as a Poisson process with rate λ'
+      },
+      {
+        label: 'Cell Arrivals (Poisson)',
+        latex: 'C_j \\sim \\text{Poisson}(\\beta \\cdot L_j)',
+        description: 'Rain cells arrive within each storm at rate β over storm lifetime L'
+      },
+      {
+        label: 'Cell Duration',
+        latex: 'L_{cell} \\sim \\text{Exp}(\\eta)',
+        description: 'Each rectangular pulse has exponentially distributed duration'
+      },
+      {
+        label: 'Superposition',
+        latex: 'i(t) = \\sum_j \\sum_k X_k \\cdot \\mathbb{1}_{[t_{j,k},\\, t_{j,k}+L_k]}(t)',
+        description: 'Total intensity is superposition of all active rectangular pulses'
+      }
+    ],
+    variables: [
+      { symbol: '\\lambda', meaning: 'Storm arrival rate (storms/hr)' },
+      { symbol: '\\beta', meaning: 'Cell arrival rate within storm (cells/hr)' },
+      { symbol: '\\eta', meaning: 'Cell duration parameter (1/mean duration)' },
+      { symbol: 'X_k', meaning: 'Cell intensity (Gamma-distributed)' },
+      { symbol: 'L_j', meaning: 'Storm lifetime (Exponential)' }
+    ],
+    reference: {
+      title: 'A Point Process Model for Rainfall: Further Developments',
+      citation: 'Rodriguez-Iturbe, I., Cox, D.R. & Isham, V., Proc. R. Soc. Lond.',
+      year: 1988,
+      link: 'https://doi.org/10.1098/rspa.1988.0045'
+    },
+    notes: 'Stochastic model producing irregular multi-burst patterns. Approximated as a fixed realization for design applications. 5 parameters fitted to regional statistics.'
+  },
+
+  // ============ Tropical Cyclone Rainband ============
+  {
+    pattern: 'tropical_cyclone',
+    name: 'Tropical Cyclone Rainband',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Composite Rainband Structure',
+        latex: 'i(t) = i_{bg}(t) + \\sum_{k=1}^{N} A_k \\cdot \\exp\\left(-\\frac{(t-\\mu_k)^2}{2\\sigma_k^2}\\right)',
+        description: 'Background stratiform rain plus embedded Gaussian spiral rainband peaks'
+      },
+      {
+        label: 'Background Rain',
+        latex: 'i_{bg}(t) = \\bar{i} \\cdot \\left[0.5 + 0.5\\sin\\left(\\pi\\frac{t}{D}\\right)\\right]',
+        description: 'Sinusoidal envelope representing broad-scale cyclonic circulation'
+      }
+    ],
+    variables: [
+      { symbol: 'i_{bg}(t)', meaning: 'Background stratiform intensity' },
+      { symbol: 'A_k', meaning: 'Amplitude of rainband k' },
+      { symbol: '\\mu_k', meaning: 'Position of rainband peak k' },
+      { symbol: '\\sigma_k', meaning: 'Width of rainband k' },
+      { symbol: 'N', meaning: 'Number of spiral rainbands (typically 2–4)' },
+      { symbol: '\\bar{i}', meaning: 'Mean storm intensity (P/D)' }
+    ],
+    reference: {
+      title: 'The Structure and Dynamics of Mature Tropical Cyclones',
+      citation: 'Willoughby, H.E., Marks, F.D. & Feinberg, R.J., J. Atmos. Sci.',
+      year: 1984,
+      link: 'https://doi.org/10.1175/1520-0469(1984)041<0395:SOADOM>2.0.CO;2'
+    },
+    notes: 'Models hurricane/typhoon rainfall. Double-banded structure: outer rainband approach + eyewall passage. Total duration typically 12–48 hours.'
+  },
+
+  // ============ Atmospheric River ============
+  {
+    pattern: 'atmospheric_river',
+    name: 'Atmospheric River',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Sustained Frontal Profile',
+        latex: 'F(t) = \\frac{1 - \\cos(\\pi t)}{2} \\cdot \\left(1 + 0.3\\sin(2\\pi t)\\right) \\cdot \\alpha',
+        description: 'Cosine-based sustained profile with embedded frontal modulation'
+      },
+      {
+        label: 'IVT Scaling',
+        latex: 'P \\propto \\text{IVT} = \\frac{1}{g}\\int_{sfc}^{300\\text{hPa}} q \\cdot \\mathbf{V} \\, dp',
+        description: 'Total depth scales with integrated vapor transport'
+      }
+    ],
+    variables: [
+      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: '\\alpha', meaning: 'Normalization constant' },
+      { symbol: '\\text{IVT}', meaning: 'Integrated Vapor Transport (kg/m/s)' },
+      { symbol: 'q', meaning: 'Specific humidity' },
+      { symbol: '\\mathbf{V}', meaning: 'Horizontal wind vector' }
+    ],
+    reference: {
+      title: 'Atmospheric Rivers: A Mini-Review',
+      citation: 'Ralph, F.M., Dettinger, M.D. et al., Water',
+      year: 2017,
+      link: 'https://doi.org/10.3390/w9060447'
+    },
+    notes: 'Sustained 24–72 hour events. Late broad peak at 60–70% of duration. Dominant flood mechanism for US West Coast, Chile, Norway, and New Zealand.'
+  },
+
+  // ============ Post-Wildfire ============
+  {
+    pattern: 'post_wildfire',
+    name: 'Post-Wildfire Design Storm',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Front-Loaded Burst',
+        latex: 'i(t) = i_{peak} \\cdot e^{-k \\cdot t/D}',
+        description: 'Exponential decay from initial burst — models debris flow triggering rainfall'
+      },
+      {
+        label: 'Peak Intensity',
+        latex: 'i_{peak} = \\frac{P \\cdot k}{D \\cdot (1 - e^{-k})}',
+        description: 'Peak intensity derived from volume conservation'
+      },
+      {
+        label: 'Debris Flow Threshold',
+        latex: 'I_{15} \\geq I_{thresh} = f(\\text{burn severity, slope, soil})',
+        description: '15-minute intensity must exceed site-specific threshold for debris flow initiation'
+      }
+    ],
+    variables: [
+      { symbol: 'i_{peak}', meaning: 'Initial peak intensity' },
+      { symbol: 'k', meaning: 'Decay constant (typically 3–5)' },
+      { symbol: 'D', meaning: 'Storm duration' },
+      { symbol: 'I_{15}', meaning: '15-minute rainfall intensity' },
+      { symbol: 'I_{thresh}', meaning: 'Debris flow triggering threshold (site-specific)' }
+    ],
+    reference: {
+      title: 'Emergency Assessment of Post-Fire Debris-Flow Hazards',
+      citation: 'USGS Landslide Hazards Program',
+      year: 2016,
+      link: 'https://landslides.usgs.gov/hazards/postfire_debrisflow/'
+    },
+    notes: 'Extremely front-loaded (peak ratio ~5×). Used for burned watershed emergency response. 15-minute intensity is the critical design metric for debris flow risk.'
+  },
+
+  // ============ Bimodal Gaussian ============
+  {
+    pattern: 'bimodal_gaussian',
+    name: 'Bimodal Gaussian',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Bimodal Intensity',
+        latex: 'i(t) = \\frac{P}{D} \\cdot \\alpha \\left[\\exp\\left(-\\frac{(t-\\mu_1)^2}{2\\sigma_1^2}\\right) + \\exp\\left(-\\frac{(t-\\mu_2)^2}{2\\sigma_2^2}\\right)\\right]',
+        description: 'Sum of two equal-weight Gaussian peaks'
+      },
+      {
+        label: 'Normalization',
+        latex: '\\alpha = \\frac{1}{\\sigma_1\\sqrt{2\\pi} + \\sigma_2\\sqrt{2\\pi}}',
+        description: 'Ensures total area integrates to P'
+      },
+      {
+        label: 'Peak Positions',
+        latex: '\\mu_1 = 0.30D, \\quad \\mu_2 = 0.70D',
+        description: 'Symmetric bimodal peak placement'
+      }
+    ],
+    variables: [
+      { symbol: '\\mu_1, \\mu_2', meaning: 'Peak centers (default 0.30D, 0.70D)' },
+      { symbol: '\\sigma_1, \\sigma_2', meaning: 'Peak widths (default 0.08D each)' },
+      { symbol: '\\alpha', meaning: 'Normalization constant for volume conservation' },
+      { symbol: 'P', meaning: 'Total precipitation depth' },
+      { symbol: 'D', meaning: 'Total storm duration' }
+    ],
+    reference: {
+      title: 'Multi-Cell Convective Storm Modeling',
+      citation: 'Various urban hydrology references',
+      year: 2000
+    },
+    notes: 'Models double-peak storms from multi-cell convective complexes or frontal passages with embedded convection. Equal-weight peaks at 30% and 70% of duration.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {
