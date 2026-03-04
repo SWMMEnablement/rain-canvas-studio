@@ -168,10 +168,13 @@ export function HecHmsExportPanel({ data, pattern, totalDepth, duration, timeSte
                 variant="ghost"
                 className="absolute top-1.5 right-1.5 h-7 gap-1 text-xs text-muted-foreground hover:text-foreground"
                 onClick={() => {
-                  navigator.clipboard.writeText(preview);
-                  setCopied(true);
-                  toast.success("Copied to clipboard");
-                  setTimeout(() => setCopied(false), 2000);
+                  navigator.clipboard.writeText(preview).then(() => {
+                    setCopied(true);
+                    toast.success("Copied to clipboard");
+                    setTimeout(() => setCopied(false), 2000);
+                  }).catch(() => {
+                    toast.error("Clipboard not available — try manually selecting the text");
+                  });
                 }}
               >
                 {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
