@@ -89,7 +89,7 @@ export const TAXONOMY_TREE: TaxonomyNode[] = [
           'poland_bs', 'romania_stas', 'russia_snip', 'czech_chmu',
           'croatian_dhmz', 'serbian_rhmz', 'bulgarian_nimh', 'slovenian_arso',
           'ukrainian_dbn', 'lithuanian_hms', 'latvian_lvgmc', 'estonian_emhi',
-          'belarusian_tkp', 'temez_spain', 'georgian_nea',
+          'belarusian_tkp', 'temez_spain', 'georgian_nea', 'albanian_igewe',
         ],
       },
       {
@@ -490,6 +490,7 @@ export const COMPARISON_DATA: ComparisonRow[] = [
   { id: 'bonta_usda', name: 'Bonta USDA', taxonomyClass: '6.3', region: 'US Midwest', idfRequired: 'No', temporalRes: 'Any', durationRange: '0.5–24h', keyParams: '4th-order polynomial', peakPosition: 'center', advancementRatio: '~0.38', nestedIdf: false, dimensionless: true, sourceDoc: 'Bonta & Rao 1988', equationFamily: 'Ensemble', useCase: 'Agricultural design', swmmCompat: 'Direct', icmCompat: 'Direct' },
   // v12 addition
   { id: 'georgian_nea', name: 'Georgia NEA', taxonomyClass: '3.2', region: 'Georgia (Caucasus)', idfRequired: 'No', temporalRes: '15-min', durationRange: '1–24h', keyParams: 'Front-loaded Mediterranean', peakPosition: 'front', advancementRatio: '~0.25', nestedIdf: false, dimensionless: true, sourceDoc: 'NEA Georgia', equationFamily: 'Parametric', useCase: 'Georgian drainage', swmmCompat: 'Direct', icmCompat: 'Conversion' },
+  { id: 'albanian_igewe', name: 'Albanian IGEWE', taxonomyClass: '3.2', region: 'Albania', idfRequired: 'No', temporalRes: '15-min', durationRange: '1–24h', keyParams: 'Adriatic Mediterranean front', peakPosition: 'front', advancementRatio: '~0.28', nestedIdf: false, dimensionless: true, sourceDoc: 'IGEWE Albania', equationFamily: 'Parametric', useCase: 'Albanian drainage', swmmCompat: 'Direct', icmCompat: 'Conversion' },
   // ── v10 — Poland & Central Europe ──
   { id: 'atv_a121', name: 'ATV-A 121 (DE)', taxonomyClass: '1.6', region: 'Germany', idfRequired: 'Yes', temporalRes: '5-min', durationRange: '0.5–72h', keyParams: 'Euler II + ATV guidelines', peakPosition: 'front', advancementRatio: '0.30', nestedIdf: true, dimensionless: false, sourceDoc: 'ATV-A 121 (2001)', equationFamily: 'Euler', useCase: 'German CSO design', swmmCompat: 'Direct', icmCompat: 'Direct' },
   { id: 'dwa_a118', name: 'DWA-A 118 (DE)', taxonomyClass: '1.6', region: 'Germany', idfRequired: 'Yes', temporalRes: '5-min', durationRange: '0.5–72h', keyParams: 'Euler II + DWA-A 118', peakPosition: 'front', advancementRatio: '0.30', nestedIdf: true, dimensionless: false, sourceDoc: 'DWA-A 118 (2006)', equationFamily: 'Euler', useCase: 'German sewer verification', swmmCompat: 'Direct', icmCompat: 'Direct' },
