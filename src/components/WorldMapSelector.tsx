@@ -722,6 +722,7 @@ export function WorldMapSelector({ onPatternSelect }: WorldMapSelectorProps) {
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<CityMarker | null>(null);
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
+  const [showCities, setShowCities] = useState(true);
 
   const handleRegionClick = useCallback((regionId: string) => {
     setSelectedRegion(prev => prev === regionId ? null : regionId);
@@ -737,9 +738,22 @@ export function WorldMapSelector({ onPatternSelect }: WorldMapSelectorProps) {
             <Globe className="w-5 h-5 text-primary" />
             World Rainfall Pattern Map
           </CardTitle>
-          <CardDescription>
-            Click a region to see recommended rainfall distributions for that area
-          </CardDescription>
+          <div className="flex items-center justify-between">
+            <CardDescription>
+              Click a region to see recommended rainfall distributions for that area
+            </CardDescription>
+            <button
+              onClick={() => { setShowCities(prev => !prev); if (!showCities === false) setSelectedCity(null); }}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                showCities
+                  ? "bg-amber-500/20 text-amber-400 hover:bg-amber-500/30"
+                  : "bg-muted text-muted-foreground hover:bg-muted/80"
+              }`}
+            >
+              <span className={`inline-block w-2 h-2 rounded-full ${showCities ? "bg-amber-400" : "bg-muted-foreground"}`} />
+              {showCities ? "Cities On" : "Cities Off"}
+            </button>
+          </div>
         </CardHeader>
         <CardContent className="p-0">
           {/* SVG Map */}
@@ -832,7 +846,7 @@ export function WorldMapSelector({ onPatternSelect }: WorldMapSelectorProps) {
               })}
 
               {/* ── City markers ── */}
-              {CITY_MARKERS.map(city => {
+              {showCities && CITY_MARKERS.map(city => {
                 const isHovered = hoveredCity === city.id;
                 const isSelected = selectedCity?.id === city.id;
                 return (
