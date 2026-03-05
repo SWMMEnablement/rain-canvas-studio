@@ -3086,15 +3086,19 @@ export const patternEquations: PatternEquation[] = [
     name: 'Serbian RHMZ',
     category: 'empirical',
     equations: [
-      { label: 'Belgrade Profile', latex: 'F(t) = \\sum_{k=1}^{10} \\Delta F_k \\cdot H(t - t_k)', description: 'Stepwise cumulative distribution from Belgrade pluviograph records' },
-      { label: 'Peak Segment', latex: '\\Delta F_{\\max} = 0.25 \\quad \\text{at } t/D \\in [0.3, 0.4]', description: '25% of depth in the peak 10% segment' },
+      { label: 'Belgrade IDF', latex: 'i(t,T) = \\frac{a(T)}{(t + b)^n}', description: 'Sherman-type IDF formula (i in mm/hr, t in minutes)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{cccc} T & a & b & n \\\\ 2 & 698.5 & 8.0 & 0.65 \\\\ 10 & 1078.4 & 9.0 & 0.67 \\\\ 50 & 1465.2 & 10.0 & 0.69 \\\\ 100 & 1635.8 & 10.5 & 0.70 \\end{array}', description: 'Belgrade station IDF coefficients by return period' },
+      { label: 'Temporal', latex: '\\text{Euler Type II, } r = 0.375', description: 'Peak at 37.5% of storm duration' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
-      { symbol: '\\Delta F_k', meaning: 'Incremental fraction per segment' },
+      { symbol: 'i(t,T)', meaning: 'Intensity (mm/hr) for duration t and return period T' },
+      { symbol: 'a(T)', meaning: 'IDF numerator coefficient (varies with return period)' },
+      { symbol: 'b', meaning: 'Time offset (minutes)' },
+      { symbol: 'n', meaning: 'Duration exponent' },
+      { symbol: 'r', meaning: 'Euler peak position ratio (0.375)' },
     ],
     reference: { title: 'Analiza padavina za urbanu kanalizaciju', citation: 'Republički Hidrometeorološki Zavod Srbije (RHMZ)', year: 2012 },
-    notes: 'Continental Pannonian climate. Peak at 30–40% of duration. Peak ratio ~2.5×.'
+    notes: 'Continental Pannonian climate. Euler Type II redistribution with r=0.375. Peak ratio ~2.5×.'
   },
 
   {
@@ -3102,13 +3106,17 @@ export const patternEquations: PatternEquation[] = [
     name: 'Bulgarian NIMH',
     category: 'empirical',
     equations: [
-      { label: 'Sofia Basin Profile', latex: 'F(t) = \\begin{cases} 0.40 \\cdot (t/0.35)^{0.8} & t \\leq 0.35 \\\\ 0.40 + 0.35 \\cdot \\frac{t-0.35}{0.3} & 0.35 < t \\leq 0.65 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Sofia basin convective profile' },
+      { label: 'Sofia IDF', latex: 'i(t,T) = a(T) \\cdot t^{-n}', description: 'Power-law IDF (i in mm/hr, t in minutes, t ≥ 5 min)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{ccc} T & a & n \\\\ 2 & 28.5 & 0.58 \\\\ 10 & 45.6 & 0.60 \\\\ 50 & 63.4 & 0.62 \\\\ 100 & 71.2 & 0.63 \\end{array}', description: 'Sofia IDF coefficients' },
+      { label: 'Temporal', latex: '\\text{Euler Type II, } r = 0.35', description: 'Peak at 35% of storm duration' },
+      { label: 'Black Sea variant', latex: 'a_{coast} \\approx 1.15 \\cdot a_{Sofia}, \\quad n_{coast} \\approx n_{Sofia} - 0.02', description: 'Coastal IDF adjustment' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a(T)', meaning: 'IDF coefficient (varies with return period)' },
+      { symbol: 'n', meaning: 'Duration exponent' },
     ],
     reference: { title: 'Интензивни валежи над България', citation: 'Национален Институт по Метеорология и Хидрология (NIMH)', year: 2010 },
-    notes: 'Continental/Mediterranean transition climate. Peak at 30–40% of duration.'
+    notes: 'Continental/Mediterranean transition climate. Black Sea coast: 15% higher intensities, slightly flatter IDF slope.'
   },
 
   {
@@ -3116,27 +3124,36 @@ export const patternEquations: PatternEquation[] = [
     name: 'Slovenian ARSO',
     category: 'empirical',
     equations: [
-      { label: 'Alpine-Mediterranean Profile', latex: 'F(t) = \\begin{cases} 0.35 \\cdot (t/0.35)^{0.85} & t \\leq 0.35 \\\\ 0.35 + 0.40 \\cdot \\frac{t-0.35}{0.25} & 0.35 < t \\leq 0.60 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.60}{0.40} & t > 0.60 \\end{cases}', description: 'Alpine-Mediterranean hybrid' },
+      { label: 'Ljubljana IDF', latex: 'i(t,T) = \\frac{a(T) + b(T) \\cdot \\ln(t)}{t}', description: 'Logarithmic IDF form (i in mm/hr, t in minutes)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{ccc} T & a & b \\\\ 2 & 18.42 & 5.63 \\\\ 10 & 29.34 & 8.45 \\\\ 50 & 40.12 & 11.15 \\\\ 100 & 44.89 & 12.38 \\end{array}', description: 'Ljubljana IDF coefficients' },
+      { label: 'Temporal', latex: '\\text{Modified Euler Type II, } r = 0.40', description: 'Slightly later peak than standard Euler' },
+      { label: 'Alpine correction', latex: 'i_{adj} = i \\cdot (1 + 0.0003 \\cdot (z - 1000)), \\quad z > 1000\\text{m}', description: 'Orographic enhancement for stations above 1000m' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a(T), b(T)', meaning: 'Logarithmic IDF coefficients' },
+      { symbol: 'z', meaning: 'Station elevation (m)' },
     ],
     reference: { title: 'Nalivi in poplave v Sloveniji', citation: 'Agencija RS za okolje (ARSO)', year: 2014, link: 'https://www.arso.gov.si' },
-    notes: 'Julian Alps orographic enhancement. Center-peaked (35–60% of duration). Peak ratio ~3.0×.'
+    notes: 'Julian Alps orographic enhancement. Modified Euler II with later peak. Peak ratio ~3.0×.'
   },
 
   {
     pattern: 'ukrainian_dbn',
-    name: 'Ukrainian DBN',
+    name: 'Ukrainian DBN (ДБН В.2.5-75)',
     category: 'empirical',
     equations: [
-      { label: 'DBN Standard', latex: 'F(t) = \\begin{cases} 0.30 \\cdot (t/0.4)^{0.9} & t \\leq 0.4 \\\\ 0.30 + 0.40 \\cdot \\frac{t-0.4}{0.2} & 0.4 < t \\leq 0.6 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Ukrainian state building norms design storm' },
+      { label: 'Ukrainian IDF', latex: 'q(t,T) = q_{20}(T) \\cdot (t/20)^{-n}', description: 'Updated Soviet formula (q in L/s/ha, t in minutes)' },
+      { label: 'Regional Parameters', latex: '\\begin{array}{ccc} \\text{City} & q_{20}(T{=}1) & n \\\\ \\text{Kyiv} & 80 & 0.59 \\\\ \\text{Odesa} & 90 & 0.62 \\\\ \\text{Lviv} & 75 & 0.57 \\\\ \\text{Kharkiv} & 85 & 0.61 \\end{array}', description: 'Regional intensity parameters' },
+      { label: 'Temporal Distribution', latex: '\\tau = [0, 0.20, 0.35, 0.50, 0.70, 1.00], \\quad M = [0, 0.10, 0.30, 0.70, 0.90, 1.00]', description: '5-segment mass curve with peak in segment 3' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'q_{20}', meaning: '20-minute intensity for T=1yr (L/s/ha)' },
+      { symbol: 'n', meaning: 'Climatic exponent' },
+      { symbol: '\\tau', meaning: 'Dimensionless time' },
+      { symbol: 'M', meaning: 'Dimensionless cumulative depth' },
     ],
     reference: { title: 'ДБН В.2.5-75 Каналізація', citation: 'Мінрегіон України', year: 2013 },
-    notes: 'Continental steppe climate. Center-peaked at 40–60%. Derived from Soviet SNiP legacy updated for Ukrainian conditions.'
+    notes: '5-segment distribution: f_d = [0.20, 0.15, 0.15, 0.20, 0.30], f_p = [0.10, 0.20, 0.40, 0.20, 0.10]. Peak in segment 3 (40% of depth).'
   },
 
   {
@@ -3144,27 +3161,36 @@ export const patternEquations: PatternEquation[] = [
     name: 'Lithuanian HMS',
     category: 'empirical',
     equations: [
-      { label: 'Baltic Profile', latex: 'F(t) = \\begin{cases} 0.25 \\cdot (t/0.4)^{0.85} & t \\leq 0.4 \\\\ 0.25 + 0.45 \\cdot \\frac{t-0.4}{0.25} & 0.4 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Baltic maritime-continental design storm' },
+      { label: 'Vilnius IDF', latex: 'i(t,T) = \\frac{a(T)}{(t + b)^c}', description: 'Sherman-type IDF (mm/hr, t in minutes)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{cccc} T & a & b & c \\\\ 2 & 520 & 7.5 & 0.62 \\\\ 10 & 805 & 8.5 & 0.64 \\\\ 50 & 1095 & 9.5 & 0.66 \\\\ 100 & 1225 & 10.0 & 0.67 \\end{array}', description: 'Vilnius IDF coefficients' },
+      { label: 'Temporal', latex: '\\text{Euler Type II, } r = 0.375', description: 'Standard Baltic temporal redistribution' },
+      { label: 'Coastal correction', latex: 'a_{Klaip\\dot{e}da} = 1.12 \\cdot a_{Vilnius}', description: 'Maritime enhancement for Baltic coast (Klaipėda)' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a(T)', meaning: 'IDF numerator coefficient' },
+      { symbol: 'b', meaning: 'Time offset (minutes)' },
+      { symbol: 'c', meaning: 'Duration exponent' },
     ],
     reference: { title: 'Lietuvos klimato atlasas', citation: 'Lietuvos Hidrometeorologijos Tarnyba (HMS)', year: 2013 },
-    notes: 'Baltic maritime climate. Moderate center peak at 40–65% of duration. Peak ratio ~2.5×.'
+    notes: 'Baltic maritime climate. Klaipėda coastal stations: 12% higher intensities. Euler II redistribution.'
   },
 
   {
     pattern: 'latvian_lvgmc',
-    name: 'Latvian LVGMC',
+    name: 'Latvian LVĢMC',
     category: 'empirical',
     equations: [
-      { label: 'Riga Profile', latex: 'F(t) = \\begin{cases} 0.20 \\cdot (t/0.35)^{0.9} & t \\leq 0.35 \\\\ 0.20 + 0.50 \\cdot \\frac{t-0.35}{0.3} & 0.35 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Latvian maritime drainage design storm' },
+      { label: 'Riga IDF', latex: 'i(t,T) = \\frac{a(T)}{(t + b)^c}', description: 'Sherman-type IDF (mm/hr, t in minutes)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{cccc} T & a & b & c \\\\ 2 & 490 & 7.0 & 0.61 \\\\ 10 & 765 & 8.0 & 0.63 \\\\ 50 & 1050 & 9.0 & 0.65 \\\\ 100 & 1175 & 9.5 & 0.66 \\end{array}', description: 'Riga IDF coefficients' },
+      { label: 'Temporal', latex: '\\text{Euler Type II, } r = 0.375', description: 'Baltic standard redistribution' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a(T)', meaning: 'IDF numerator coefficient' },
+      { symbol: 'b', meaning: 'Time offset (minutes)' },
+      { symbol: 'c', meaning: 'Duration exponent' },
     ],
     reference: { title: 'Lietus intensitātes dati Latvijā', citation: 'Latvijas Vides, Ģeoloģijas un Meteoroloģijas Centrs (LVGMC)', year: 2015 },
-    notes: 'Baltic maritime climate. Center-peaked at 35–65%. Similar to Lithuanian HMS.'
+    notes: 'Baltic maritime climate. Euler II redistribution, r=0.375. Similar to Lithuanian HMS with slightly lower intensities.'
   },
 
   {
@@ -3172,31 +3198,37 @@ export const patternEquations: PatternEquation[] = [
     name: 'Estonian EMHI',
     category: 'empirical',
     equations: [
-      { label: 'Tallinn Profile', latex: 'F(t) = \\begin{cases} 0.22 \\cdot (t/0.4)^{0.85} & t \\leq 0.4 \\\\ 0.22 + 0.48 \\cdot \\frac{t-0.4}{0.25} & 0.4 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Estonian maritime design storm' },
+      { label: 'Tallinn IDF', latex: 'i(t,T) = \\frac{a(T)}{(t + b)^c}', description: 'Sherman-type IDF (mm/hr, t in minutes)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{cccc} T & a & b & c \\\\ 2 & 460 & 7.0 & 0.60 \\\\ 10 & 725 & 8.0 & 0.62 \\\\ 50 & 1000 & 9.0 & 0.64 \\\\ 100 & 1120 & 9.5 & 0.65 \\end{array}', description: 'Tallinn IDF coefficients' },
+      { label: 'Temporal', latex: '\\text{Euler Type II, } r = 0.375', description: 'Baltic redistribution' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a(T)', meaning: 'IDF numerator coefficient' },
+      { symbol: 'b', meaning: 'Time offset (minutes)' },
+      { symbol: 'c', meaning: 'Duration exponent' },
     ],
     reference: { title: 'Eesti sademete klimatoloogia', citation: 'Eesti Meteoroloogia ja Hüdroloogia Instituut (EMHI)', year: 2014 },
-    notes: 'Northern Baltic maritime. Center-peaked at 40–65%. Peak ratio ~2.3×.'
+    notes: 'Northern Baltic maritime. Slightly lower intensities than Lithuanian/Latvian due to higher latitude. Euler II, r=0.375.'
   },
 
   {
     pattern: 'soviet_snip_legacy',
-    name: 'Soviet SNiP Legacy',
+    name: 'Soviet SNiP 2.04.03-85',
     category: 'empirical',
     equations: [
-      { label: 'SNiP 2.04.03-85', latex: 'i = \\frac{A \\cdot (1 + \\lg P)^{\\gamma}}{t^n}', description: 'Soviet-era IDF formula for drainage design' },
-      { label: 'Design Storm Profile', latex: '\\Delta F = [0.08, 0.12, 0.18, 0.25, 0.18, 0.12, 0.07]', description: '7-segment center-peaked distribution' },
+      { label: 'Soviet IDF', latex: 'q = q_{20} \\cdot (20/t)^n \\cdot (1 + \\lg(T \\cdot p))', description: 'Standard Soviet drainage IDF formula' },
+      { label: 'Climatic Zones', latex: '\\begin{array}{cccc} \\text{Zone} & q_{20}(T{=}1) & n \\\\ \\text{I Arctic} & 50\\text{-}60 & 0.50\\text{-}0.55 \\\\ \\text{II Continental} & 60\\text{-}80 & 0.55\\text{-}0.62 \\\\ \\text{III Temperate} & 70\\text{-}100 & 0.58\\text{-}0.65 \\\\ \\text{IV Subtropical} & 80\\text{-}120 & 0.62\\text{-}0.70 \\\\ \\text{V Arid} & 40\\text{-}70 & 0.65\\text{-}0.80 \\end{array}', description: '5 climatic zones with parameter ranges' },
+      { label: 'Mass Curve', latex: '\\tau = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]', description: 'Standard temporal distribution' },
+      { label: 'Cumulative', latex: 'M = [0, 0.03, 0.08, 0.18, 0.38, 0.65, 0.80, 0.88, 0.93, 0.97, 1.0]', description: 'Center-peaked mass curve' },
     ],
     variables: [
-      { symbol: 'A', meaning: 'Regional intensity parameter' },
-      { symbol: 'P', meaning: 'Return period (years)' },
-      { symbol: '\\gamma', meaning: 'Return period exponent (0.5–0.7)' },
-      { symbol: 'n', meaning: 'Duration exponent (0.6–0.8)' },
+      { symbol: 'q_{20}', meaning: '20-minute intensity for T=1yr (L/s/ha)' },
+      { symbol: 'n', meaning: 'Climatic duration exponent' },
+      { symbol: 'p', meaning: 'Probability coefficient' },
+      { symbol: '\\lg', meaning: 'Base-10 logarithm' },
     ],
     reference: { title: 'СНиП 2.04.03-85 Канализация', citation: 'Госстрой СССР', year: 1985 },
-    notes: 'Still used across former Soviet states (Central Asia, Caucasus). Center-peaked 7-segment profile. Peak ratio ~2.5×.'
+    notes: 'Still used across former Soviet states (Central Asia, Caucasus, Belarus). 5 climatic zones. Center-peaked mass curve. Peak ratio ~2.7×.'
   },
 
   {
@@ -3254,13 +3286,18 @@ export const patternEquations: PatternEquation[] = [
     name: 'Réunion Météo-France',
     category: 'empirical',
     equations: [
-      { label: 'Tropical Cyclonic Profile', latex: 'F(t) = \\begin{cases} 0.15 \\cdot (t/0.3)^{0.7} & t \\leq 0.3 \\\\ 0.15 + 0.55 \\cdot \\frac{t-0.3}{0.4} & 0.3 < t \\leq 0.7 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.7}{0.3} & t > 0.7 \\end{cases}', description: 'Sustained tropical cyclonic rainfall with late intensification' },
+      { label: 'Réunion IDF', latex: 'i(t,T) = a(T) \\cdot t^{-b} + c(T)', description: 'Power-law + offset IDF (EXTREMELY high — world record territory)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{cccc} T & a & b & c \\\\ 2 & 185 & 0.52 & 5.0 \\\\ 10 & 325 & 0.55 & 9.0 \\\\ 50 & 485 & 0.58 & 14.0 \\\\ 100 & 560 & 0.59 & 16.0 \\end{array}', description: 'i in mm/hr — world record rainfall territory' },
+      { label: 'Cyclone Profile (24-hr)', latex: '\\tau = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00]', description: 'High-resolution 24-hour cyclone mass curve' },
+      { label: 'Mass Curve', latex: 'M = [0, 0.01, 0.03, 0.05, 0.08, 0.12, 0.18, 0.28, 0.42, 0.56, 0.67, 0.75, 0.81, 0.86, 0.90, 0.93, 0.95, 0.97, 0.98, 0.99, 1.00]', description: 'Peak at 35–50% of duration; peak ratio ~3.5×' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a(T)', meaning: 'IDF power coefficient (mm/hr)' },
+      { symbol: 'b', meaning: 'Duration exponent' },
+      { symbol: 'c(T)', meaning: 'IDF offset constant (mm/hr)' },
     ],
     reference: { title: 'Pluies extrêmes à La Réunion', citation: 'Météo-France, Direction Interrégionale de La Réunion', year: 2009 },
-    notes: 'World record rainfall location. Extreme sustained events (72–96 hr). Center-late peak. Used for Cilaos, Commerson gauge stations.'
+    notes: 'World record rainfall location. Cilaos: 1825 mm in 24 hr. Extreme sustained cyclonic events (72–96 hr). Center-late peak.'
   },
 
   {
@@ -3284,27 +3321,39 @@ export const patternEquations: PatternEquation[] = [
     name: 'Jordan JMD',
     category: 'empirical',
     equations: [
-      { label: 'Arid Flash Flood Profile', latex: 'F(t) = \\begin{cases} 0.55 \\cdot (t/0.25)^{0.7} & t \\leq 0.25 \\\\ 0.55 + 0.25 \\cdot \\frac{t-0.25}{0.3} & 0.25 < t \\leq 0.55 \\\\ 0.80 + 0.20 \\cdot \\frac{t-0.55}{0.45} & t > 0.55 \\end{cases}', description: 'Arid flash flood profile for Jordan Valley/Dead Sea region' },
+      { label: 'Amman IDF', latex: 'i(t,T) = a(T) \\cdot t^{-n}', description: 'Power-law IDF (mm/hr, t in minutes)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{ccc} T & a & n \\\\ 2 & 22.8 & 0.48 \\\\ 10 & 45.2 & 0.53 \\\\ 50 & 69.4 & 0.57 \\\\ 100 & 80.6 & 0.58 \\end{array}', description: 'Amman IDF coefficients' },
+      { label: 'Temporal', latex: '\\text{Chicago, } r = 0.25', description: 'Front-loaded arid flash flood character' },
+      { label: 'Wadi variant', latex: 'r = 0.15, \\quad D = 1\\text{–}3 \\text{ hours}', description: 'Very front-loaded wadi flash flood design' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a(T)', meaning: 'IDF coefficient' },
+      { symbol: 'n', meaning: 'Duration exponent' },
+      { symbol: 'r', meaning: 'Chicago advancement ratio' },
     ],
     reference: { title: 'Flash Flood Design Standards for Jordan', citation: 'Jordan Meteorological Department (JMD)', year: 2010 },
-    notes: 'Extremely front-loaded for wadi flash flood design. Peak at 15–25% of duration. Peak ratio ~4.0×.'
+    notes: 'Arid flash flood design. Wadi variant uses r=0.15 for extreme front-loading. Duration limited to 1–3 hours.'
   },
 
   {
     pattern: 'lebanon_cav',
-    name: 'Lebanon CAV',
+    name: 'Lebanon Civil Aviation',
     category: 'empirical',
     equations: [
-      { label: 'Mediterranean Mountain Profile', latex: 'F(t) = \\begin{cases} 0.40 \\cdot (t/0.3)^{0.8} & t \\leq 0.3 \\\\ 0.40 + 0.35 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Lebanese Mediterranean mountain convective profile' },
+      { label: 'Beirut IDF', latex: 'i(t,T) = \\frac{a(T)}{(t + b)^c}', description: 'Sherman-type IDF (mm/hr, t in minutes)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{cccc} T & a & b & c \\\\ 2 & 520 & 6.5 & 0.58 \\\\ 10 & 875 & 7.5 & 0.62 \\\\ 50 & 1250 & 8.5 & 0.65 \\\\ 100 & 1425 & 9.0 & 0.66 \\end{array}', description: 'Beirut Airport IDF coefficients' },
+      { label: 'Coastal temporal', latex: '\\text{Chicago, } r = 0.35', description: 'Mediterranean front-loaded convective' },
+      { label: 'Mountain correction', latex: 'i_{mtn} = i_{coast} \\cdot (1 + 0.35 \\cdot \\Delta z / 1000)', description: 'Mt. Lebanon orographic enhancement (Δz = elevation diff from coast)' },
+      { label: 'Mountain temporal', latex: '\\text{Euler Type II, } r = 0.45', description: 'Later peak for orographic enhancement' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a(T)', meaning: 'IDF numerator coefficient' },
+      { symbol: 'b', meaning: 'Time offset' },
+      { symbol: 'c', meaning: 'Duration exponent' },
+      { symbol: '\\Delta z', meaning: 'Elevation difference from coastal station (m)' },
     ],
     reference: { title: 'Climat et Hydrologie du Liban', citation: 'Conseil pour l\'Aménagement des Villes (CAV)', year: 2005 },
-    notes: 'Mount Lebanon orographic enhancement. Front-loaded convective with peak at 20–30%. 900+ mm annual on western slopes.'
+    notes: 'Mt. Lebanon 35% orographic boost. Coastal uses Chicago r=0.35; mountain uses Euler II r=0.45. 900+ mm annual on western slopes.'
   },
 
   {
@@ -3312,13 +3361,17 @@ export const patternEquations: PatternEquation[] = [
     name: 'Kuwait MEW',
     category: 'empirical',
     equations: [
-      { label: 'Hyper-Arid Flash Profile', latex: 'F(t) = \\begin{cases} 0.60 \\cdot (t/0.2)^{0.65} & t \\leq 0.2 \\\\ 0.60 + 0.25 \\cdot \\frac{t-0.2}{0.3} & 0.2 < t \\leq 0.5 \\\\ 0.85 + 0.15 \\cdot \\frac{t-0.5}{0.5} & t > 0.5 \\end{cases}', description: 'Hyper-arid flash storm for Kuwait drainage design' },
+      { label: 'Kuwait IDF', latex: 'i(t,T) = K(T) \\cdot t^{-n}', description: 'Power-law IDF (mm/hr, t in minutes)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{ccc} T & K & n \\\\ 2 & 18.5 & 0.42 \\\\ 10 & 43.8 & 0.49 \\\\ 50 & 74.2 & 0.54 \\\\ 100 & 89.1 & 0.56 \\end{array}', description: 'Kuwait City IDF coefficients' },
+      { label: 'Segment Distribution', latex: '\\Delta f_d = [0.15, 0.15, 0.20, 0.25, 0.25], \\quad \\Delta f_p = [0.40, 0.25, 0.15, 0.12, 0.08]', description: '5-segment arid flash flood: 40% in first 15% of duration' },
+      { label: 'Mass Curve', latex: '\\tau = [0, 0.15, 0.30, 0.50, 0.75, 1.00], \\quad M = [0, 0.40, 0.65, 0.80, 0.92, 1.00]', description: 'Extremely front-loaded cumulative' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'K(T)', meaning: 'IDF coefficient by return period' },
+      { symbol: 'n', meaning: 'Duration exponent' },
     ],
     reference: { title: 'Kuwait Stormwater Drainage Manual', citation: 'Ministry of Electricity and Water (MEW)', year: 2008 },
-    notes: 'Extremely front-loaded. 60% of depth in first 20% of duration. <120 mm annual mean. Peak ratio ~5×.'
+    notes: 'Extremely front-loaded. 40% of depth in first 15% of duration. <120 mm annual mean. Peak ratio 2.67×.'
   },
 
   {
@@ -3356,13 +3409,18 @@ export const patternEquations: PatternEquation[] = [
     name: 'Myanmar DMH',
     category: 'empirical',
     equations: [
-      { label: 'Monsoon Convective Profile', latex: 'F(t) = \\begin{cases} 0.45 \\cdot (t/0.3)^{0.75} & t \\leq 0.3 \\\\ 0.45 + 0.30 \\cdot \\frac{t-0.3}{0.3} & 0.3 < t \\leq 0.6 \\\\ 0.75 + 0.25 \\cdot \\frac{t-0.6}{0.4} & t > 0.6 \\end{cases}', description: 'Myanmar monsoon convective design storm' },
+      { label: 'Yangon IDF', latex: 'i(t,T) = a(T) \\cdot t^{-n}', description: 'Power-law IDF (mm/hr, t in minutes)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{ccc} T & a & n \\\\ 2 & 125.0 & 0.55 \\\\ 10 & 200.0 & 0.58 \\\\ 50 & 280.0 & 0.61 \\\\ 100 & 318.0 & 0.62 \\end{array}', description: 'Yangon IDF coefficients' },
+      { label: 'Monsoon mass curve', latex: '\\tau = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]', description: 'Standard monsoon temporal' },
+      { label: 'Cumulative', latex: 'M = [0, 0.04, 0.10, 0.20, 0.38, 0.60, 0.76, 0.86, 0.92, 0.97, 1.0]', description: 'Center-peaked monsoon, peak ratio ~2.5×' },
+      { label: 'Cyclone Nargis profile', latex: 'M_{Nargis} = [0, 0.02, 0.06, 0.15, 0.35, 0.58, 0.74, 0.85, 0.92, 0.97, 1.0]', description: '12-hr cyclone variant, peak ratio ~3.0×' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a(T)', meaning: 'IDF coefficient' },
+      { symbol: 'n', meaning: 'Duration exponent' },
     ],
     reference: { title: 'Myanmar Rainfall Climatology', citation: 'Department of Meteorology and Hydrology (DMH), Myanmar', year: 2012 },
-    notes: 'Bay of Bengal monsoon influence. Front-loaded convective. Peak at 20–30% of duration.'
+    notes: 'Bay of Bengal monsoon. Two temporal profiles: standard monsoon and Cyclone Nargis extreme. Peak at 40–50%.'
   },
 
   {
@@ -3370,13 +3428,17 @@ export const patternEquations: PatternEquation[] = [
     name: 'Mekong MRC',
     category: 'empirical',
     equations: [
-      { label: 'Mekong Basin Profile', latex: 'F(t) = \\begin{cases} 0.35 \\cdot (t/0.35)^{0.8} & t \\leq 0.35 \\\\ 0.35 + 0.35 \\cdot \\frac{t-0.35}{0.3} & 0.35 < t \\leq 0.65 \\\\ 0.70 + 0.30 \\cdot \\frac{t-0.65}{0.35} & t > 0.65 \\end{cases}', description: 'Mekong River Commission regional design storm' },
+      { label: 'Phnom Penh IDF', latex: 'i(t,T) = a(T) \\cdot t^{-n}', description: 'Power-law IDF (mm/hr, t in minutes)' },
+      { label: 'IDF Parameters', latex: '\\begin{array}{ccc} T & a & n \\\\ 2 & 110.0 & 0.54 \\\\ 10 & 176.0 & 0.57 \\\\ 50 & 246.0 & 0.60 \\\\ 100 & 280.0 & 0.61 \\end{array}', description: 'Phnom Penh IDF coefficients' },
+      { label: 'MRC mass curve', latex: '\\tau = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]', description: 'Standard MRC regional temporal' },
+      { label: 'Cumulative', latex: 'M = [0, 0.04, 0.11, 0.22, 0.40, 0.60, 0.75, 0.86, 0.93, 0.97, 1.0]', description: 'Center-peaked, peak ratio ~2.2×' },
     ],
     variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
+      { symbol: 'a(T)', meaning: 'IDF coefficient' },
+      { symbol: 'n', meaning: 'Duration exponent' },
     ],
     reference: { title: 'Mekong Basin Flood Management Strategy', citation: 'Mekong River Commission (MRC)', year: 2011, link: 'https://www.mrcmekong.org' },
-    notes: 'Covers Laos, Thailand, Cambodia, Vietnam. Monsoon-driven with center peak at 35–65%. 6 countries collaborate.'
+    notes: 'Covers Laos, Thailand, Cambodia, Vietnam. Center-peaked monsoon. 6 countries collaborate. Peak at 40–50%.'
   },
 
   {
@@ -3384,16 +3446,18 @@ export const patternEquations: PatternEquation[] = [
     name: 'Mononobe (Japan)',
     category: 'intensity',
     equations: [
-      { label: 'Mononobe Formula', latex: 'i(t) = \\frac{R_{24}}{24} \\cdot \\left(\\frac{24}{t}\\right)^{2/3}', description: 'Japanese IDF-based intensity formula' },
-      { label: 'Incremental Depth', latex: '\\Delta P = i(t) \\cdot \\Delta t', description: 'Rainfall depth per time step from intensity' },
+      { label: 'Classic Mononobe', latex: 'i(t) = \\frac{R_{24}}{24} \\cdot \\left(\\frac{24}{t}\\right)^{2/3}', description: 'Japanese IDF formula (i in mm/hr, t in hours)' },
+      { label: 'Generalized', latex: 'i(t) = \\frac{R_a}{a} \\cdot \\left(\\frac{a}{t}\\right)^n', description: 'Generalized form with regional exponent' },
+      { label: 'City design depths', latex: '\\begin{array}{cc} \\text{City} & R_{24}(T{=}100) \\\\ \\text{Tokyo} & 350 \\\\ \\text{Osaka} & 300 \\\\ \\text{Nagoya} & 320 \\\\ \\text{Fukuoka} & 380 \\\\ \\text{Naha} & 450 \\end{array}', description: '24-hour design depths (mm) for T=100yr' },
     ],
     variables: [
-      { symbol: 'i(t)', meaning: 'Rainfall intensity at duration t (mm/hr)' },
+      { symbol: 'i(t)', meaning: 'Rainfall intensity (mm/hr)' },
       { symbol: 'R_{24}', meaning: '24-hour design rainfall depth (mm)' },
       { symbol: 't', meaning: 'Duration (hours)' },
+      { symbol: 'n', meaning: 'Regional exponent (standard = 2/3)' },
     ],
     reference: { title: 'Mononobe Rainfall Intensity Formula', citation: 'Mononobe, N., Journal of JSCE', year: 1932 },
-    notes: 'Classic Japanese IDF formula. Still widely used for small-catchment drainage design. Exponent 2/3 is standard.'
+    notes: 'Classic Japanese IDF. Exponent 2/3 is standard. Use alternating block method for temporal distribution. Still widely used for small-catchment drainage design.'
   },
 
   {
