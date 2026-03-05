@@ -24,9 +24,10 @@ import { canadaIdfDatabase } from "@/lib/canadaIdfData";
 
 interface AdvancedToolsProps {
   onSendToGenerator?: (depthMm: number, durationMin: number) => void;
+  onViewIdf?: (city: { name: string; lat: number; lon: number }) => void;
 }
 
-export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
+export function AdvancedTools({ onSendToGenerator, onViewIdf }: AdvancedToolsProps = {}) {
   const [depth, setDepth] = useState(2.0);
   const [duration, setDuration] = useState(6.0);
   const [timeStep, setTimeStep] = useState(15);
@@ -97,7 +98,7 @@ export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
               </p>
             </CardContent>
           </Card>
-          <WorldMapSelector />
+          <WorldMapSelector onViewIdf={onViewIdf} />
         </TabsContent>
 
         <TabsContent value="comparison" className="space-y-6">

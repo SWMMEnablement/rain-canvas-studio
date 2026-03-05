@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -46,15 +46,33 @@ interface NoaaApiResponse {
   error?: string;
 }
 
-export function IdfLookup() {
-  const [latitude, setLatitude] = useState<string>("33.749");
-  const [longitude, setLongitude] = useState<string>("-84.388");
-  const [locationName, setLocationName] = useState<string>("Atlanta, GA");
+interface IdfLookupProps {
+  initialLat?: string;
+  initialLon?: string;
+  initialName?: string;
+  autoFetch?: boolean;
+}
+
+export function IdfLookup({ initialLat, initialLon, initialName, autoFetch }: IdfLookupProps = {}) {
+  const [latitude, setLatitude] = useState<string>(initialLat || "33.749");
+  const [longitude, setLongitude] = useState<string>(initialLon || "-84.388");
+  const [locationName, setLocationName] = useState<string>(initialName || "Atlanta, GA");
   const [idfData, setIdfData] = useState<IdfData>({});
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
   const [noaaSource, setNoaaSource] = useState<string>("");
   const [fetchError, setFetchError] = useState<string>("");
+
+  // Update when external props change (e.g. from map city click)
+  useEffect(() => {
+    if (initialLat && initialLon) {
+      setLatitude(initialLat);
+      setLongitude(initialLon);
+      setLocationName(initialName || "");
+    }
+  }, [initialLat, initialLon, initialName]);
+
+  const autoFetchDone = useRef(false);
 
   const noaaPfdsUrl = useMemo(() => {
     const lat = parseFloat(latitude);
@@ -149,6 +167,15 @@ export function IdfLookup() {
       setLoading(false);
     }
   }, [latitude, longitude, locationName]);
+
+  // Auto-fetch when triggered from external source (e.g. map city click)
+  useEffect(() => {
+    if (autoFetch && initialLat && initialLon && !autoFetchDone.current) {
+      autoFetchDone.current = true;
+      const t = setTimeout(() => handleFetchNoaaData(), 200);
+      return () => clearTimeout(t);
+    }
+  }, [autoFetch, initialLat, initialLon, handleFetchNoaaData]);
 
   const handleIdfValueChange = (duration: string, returnPeriod: number, value: string) => {
     setIdfData(prev => ({

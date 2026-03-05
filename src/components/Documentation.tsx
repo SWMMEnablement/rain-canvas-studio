@@ -99,7 +99,11 @@ const PATTERN_SECTIONS: { value: string; keywords: string[] }[] = [
   { value: 'african', keywords: ['africa', 'south africa', 'sanral', 'kenya', 'nigeria', 'egypt', 'nimet', 'kmd'] },
   { value: 'latam', keywords: ['latin america', 'brazil', 'mexico', 'colombia', 'chile', 'ana', 'conagua', 'ideam', 'dga', 'south america'] },
 ];
-export function Documentation() {
+interface DocumentationProps {
+  idfCity?: { name: string; lat: string; lon: string } | null;
+}
+
+export function Documentation({ idfCity }: DocumentationProps = {}) {
   const [linkedCN, setLinkedCN] = useState<number | null>(null);
   const [linkedArea, setLinkedArea] = useState<number>(0);
   const [linkedRunoffDepth, setLinkedRunoffDepth] = useState<number>(0);
@@ -2773,7 +2777,7 @@ export function Documentation() {
           {isCalculatorVisible('tc') && <div id="calc-tc"><TcCalculator /></div>}
 
           {/* IDF Lookup Tool */}
-          {isCalculatorVisible('idf') && <div id="calc-idf"><IdfLookup /></div>}
+          {isCalculatorVisible('idf') && <div id="calc-idf"><IdfLookup initialLat={idfCity?.lat} initialLon={idfCity?.lon} initialName={idfCity?.name} autoFetch={!!idfCity} /></div>}
 
           {/* Curve Number Calculator */}
           {isCalculatorVisible('cn') && <div id="calc-cn"><CurveNumberCalculator onCNChange={handleCNChange} /></div>}

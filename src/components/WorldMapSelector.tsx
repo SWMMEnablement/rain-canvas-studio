@@ -674,6 +674,8 @@ interface CityMarker {
   id: string;
   name: string;
   country: string;
+  lat: number;
+  lon: number;
   x: number;
   y: number;
   regionId: string;
@@ -684,40 +686,41 @@ interface CityMarker {
 }
 
 const CITY_MARKERS: CityMarker[] = [
-  { id: "nyc", name: "New York", country: "USA", x: 274, y: 148, regionId: "us_east", idfSource: "NOAA Atlas 14", designRainfall: "76 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Northeast coastal; tropical remnants possible" },
-  { id: "houston", name: "Houston", country: "USA", x: 235, y: 170, regionId: "us_gulf", idfSource: "NOAA Atlas 14", designRainfall: "112 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Gulf Coast; extreme convective & tropical storms" },
-  { id: "denver", name: "Denver", country: "USA", x: 217, y: 150, regionId: "us_west", idfSource: "NOAA Atlas 14", designRainfall: "64 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Semi-arid; intense short-duration storms" },
-  { id: "toronto", name: "Toronto", country: "Canada", x: 265, y: 141, regionId: "canada", idfSource: "ECCC IDF v3.5", designRainfall: "58 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Great Lakes influence; mixed precipitation" },
-  { id: "mexico_city", name: "Mexico City", country: "Mexico", x: 229, y: 196, regionId: "central_america", idfSource: "CONAGUA", designRainfall: "72 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "High altitude; afternoon convective bursts" },
-  { id: "sao_paulo", name: "São Paulo", country: "Brazil", x: 284, y: 290, regionId: "south_america", idfSource: "DAEE/CETESB", designRainfall: "86 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "Tropical; intense mesoscale convective systems" },
-  { id: "bogota", name: "Bogotá", country: "Colombia", x: 274, y: 227, regionId: "south_america", idfSource: "IDEAM", designRainfall: "48 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Andean highland; bimodal rainfall" },
-  { id: "london", name: "London", country: "UK", x: 410, y: 125, regionId: "western_europe", idfSource: "FEH22 / ReFH2", designRainfall: "42 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Maritime temperate; low intensity, long duration" },
-  { id: "paris", name: "Paris", country: "France", x: 414, y: 131, regionId: "western_europe", idfSource: "Météo-France SHYREG", designRainfall: "48 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Continental maritime; moderate intensities" },
-  { id: "berlin", name: "Berlin", country: "Germany", x: 434, y: 123, regionId: "eastern_europe", idfSource: "KOSTRA-DWD", designRainfall: "52 mm/hr (100yr-1hr)", returnPeriods: "1–100 yr", notes: "Continental; summer convective dominance" },
-  { id: "rome", name: "Rome", country: "Italy", x: 432, y: 146, regionId: "mediterranean", idfSource: "LSPP / VAPI", designRainfall: "68 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "Mediterranean; intense autumn storms" },
-  { id: "madrid", name: "Madrid", country: "Spain", x: 394, y: 150, regionId: "mediterranean", idfSource: "CEDEX / AEMET", designRainfall: "44 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "Semi-arid continental; DANA cold drops" },
-  { id: "stockholm", name: "Stockholm", country: "Sweden", x: 443, y: 108, regionId: "nordic", idfSource: "SMHI", designRainfall: "38 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Subarctic maritime; mixed precipitation" },
-  { id: "moscow", name: "Moscow", country: "Russia", x: 479, y: 116, regionId: "russia_ca", idfSource: "Roshydromet SNiP", designRainfall: "45 mm/hr (100yr-1hr)", returnPeriods: "1–100 yr", notes: "Continental; short intense summer storms" },
-  { id: "cairo", name: "Cairo", country: "Egypt", x: 467, y: 172, regionId: "north_africa", idfSource: "HCWW / EMA", designRainfall: "28 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Hyper-arid; rare but catastrophic flash floods" },
-  { id: "lagos", name: "Lagos", country: "Nigeria", x: 416, y: 224, regionId: "north_africa", idfSource: "NiMet / CIEH", designRainfall: "95 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Tropical; intense monsoon & squall lines" },
-  { id: "nairobi", name: "Nairobi", country: "Kenya", x: 478, y: 240, regionId: "east_africa", idfSource: "KMD", designRainfall: "62 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Tropical highland; bimodal rainy seasons" },
-  { id: "johannesburg", name: "Joburg", country: "South Africa", x: 461, y: 298, regionId: "east_africa", idfSource: "SANRAL / WRC", designRainfall: "72 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Subtropical highland; intense thunderstorms" },
-  { id: "dubai", name: "Dubai", country: "UAE", x: 511, y: 183, regionId: "middle_east", idfSource: "Dubai Municipality DM", designRainfall: "36 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Hyper-arid; rare intense convective events" },
-  { id: "mumbai", name: "Mumbai", country: "India", x: 544, y: 196, regionId: "south_asia", idfSource: "IMD", designRainfall: "120 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Monsoon-dominated; extreme tropical rainfall" },
-  { id: "beijing", name: "Beijing", country: "China", x: 623, y: 150, regionId: "east_asia", idfSource: "GB 50014 / CMA", designRainfall: "78 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Continental monsoon; summer rainstorm season" },
-  { id: "tokyo", name: "Tokyo", country: "Japan", x: 670, y: 155, regionId: "east_asia", idfSource: "JMA AMeDAS", designRainfall: "85 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Typhoon & Baiu front; high-intensity events" },
-  { id: "seoul", name: "Seoul", country: "S. Korea", x: 651, y: 148, regionId: "east_asia", idfSource: "KMA / MOLIT", designRainfall: "82 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "East Asian monsoon; concentrated summer rainfall" },
-  { id: "singapore", name: "Singapore", country: "Singapore", x: 601, y: 236, regionId: "southeast_asia", idfSource: "PUB", designRainfall: "130 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Equatorial; year-round intense convection" },
-  { id: "jakarta", name: "Jakarta", country: "Indonesia", x: 607, y: 251, regionId: "southeast_asia", idfSource: "BMKG", designRainfall: "110 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Tropical maritime; extreme monsoon flooding" },
-  { id: "hong_kong", name: "Hong Kong", country: "China", x: 619, y: 190, regionId: "east_asia", idfSource: "HKO DSD 2018", designRainfall: "105 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Subtropical; typhoon & rainstorm warnings" },
-  { id: "sydney", name: "Sydney", country: "Australia", x: 688, y: 306, regionId: "oceania", idfSource: "ARR 2019 / BoM", designRainfall: "75 mm/hr (100yr-1hr)", returnPeriods: "2–2000 yr", notes: "Maritime subtropical; east coast lows" },
+  { id: "nyc", name: "New York", country: "USA", lat: 40.7128, lon: -74.0060, x: 274, y: 148, regionId: "us_east", idfSource: "NOAA Atlas 14", designRainfall: "76 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Northeast coastal; tropical remnants possible" },
+  { id: "houston", name: "Houston", country: "USA", lat: 29.7604, lon: -95.3698, x: 235, y: 170, regionId: "us_gulf", idfSource: "NOAA Atlas 14", designRainfall: "112 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Gulf Coast; extreme convective & tropical storms" },
+  { id: "denver", name: "Denver", country: "USA", lat: 39.7392, lon: -104.9903, x: 217, y: 150, regionId: "us_west", idfSource: "NOAA Atlas 14", designRainfall: "64 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Semi-arid; intense short-duration storms" },
+  { id: "toronto", name: "Toronto", country: "Canada", lat: 43.6532, lon: -79.3832, x: 265, y: 141, regionId: "canada", idfSource: "ECCC IDF v3.5", designRainfall: "58 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Great Lakes influence; mixed precipitation" },
+  { id: "mexico_city", name: "Mexico City", country: "Mexico", lat: 19.4326, lon: -99.1332, x: 229, y: 196, regionId: "central_america", idfSource: "CONAGUA", designRainfall: "72 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "High altitude; afternoon convective bursts" },
+  { id: "sao_paulo", name: "São Paulo", country: "Brazil", lat: -23.5505, lon: -46.6333, x: 284, y: 290, regionId: "south_america", idfSource: "DAEE/CETESB", designRainfall: "86 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "Tropical; intense mesoscale convective systems" },
+  { id: "bogota", name: "Bogotá", country: "Colombia", lat: 4.7110, lon: -74.0721, x: 274, y: 227, regionId: "south_america", idfSource: "IDEAM", designRainfall: "48 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Andean highland; bimodal rainfall" },
+  { id: "london", name: "London", country: "UK", lat: 51.5074, lon: -0.1278, x: 410, y: 125, regionId: "western_europe", idfSource: "FEH22 / ReFH2", designRainfall: "42 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Maritime temperate; low intensity, long duration" },
+  { id: "paris", name: "Paris", country: "France", lat: 48.8566, lon: 2.3522, x: 414, y: 131, regionId: "western_europe", idfSource: "Météo-France SHYREG", designRainfall: "48 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Continental maritime; moderate intensities" },
+  { id: "berlin", name: "Berlin", country: "Germany", lat: 52.5200, lon: 13.4050, x: 434, y: 123, regionId: "eastern_europe", idfSource: "KOSTRA-DWD", designRainfall: "52 mm/hr (100yr-1hr)", returnPeriods: "1–100 yr", notes: "Continental; summer convective dominance" },
+  { id: "rome", name: "Rome", country: "Italy", lat: 41.9028, lon: 12.4964, x: 432, y: 146, regionId: "mediterranean", idfSource: "LSPP / VAPI", designRainfall: "68 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "Mediterranean; intense autumn storms" },
+  { id: "madrid", name: "Madrid", country: "Spain", lat: 40.4168, lon: -3.7038, x: 394, y: 150, regionId: "mediterranean", idfSource: "CEDEX / AEMET", designRainfall: "44 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "Semi-arid continental; DANA cold drops" },
+  { id: "stockholm", name: "Stockholm", country: "Sweden", lat: 59.3293, lon: 18.0686, x: 443, y: 108, regionId: "nordic", idfSource: "SMHI", designRainfall: "38 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Subarctic maritime; mixed precipitation" },
+  { id: "moscow", name: "Moscow", country: "Russia", lat: 55.7558, lon: 37.6173, x: 479, y: 116, regionId: "russia_ca", idfSource: "Roshydromet SNiP", designRainfall: "45 mm/hr (100yr-1hr)", returnPeriods: "1–100 yr", notes: "Continental; short intense summer storms" },
+  { id: "cairo", name: "Cairo", country: "Egypt", lat: 30.0444, lon: 31.2357, x: 467, y: 172, regionId: "north_africa", idfSource: "HCWW / EMA", designRainfall: "28 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Hyper-arid; rare but catastrophic flash floods" },
+  { id: "lagos", name: "Lagos", country: "Nigeria", lat: 6.5244, lon: 3.3792, x: 416, y: 224, regionId: "north_africa", idfSource: "NiMet / CIEH", designRainfall: "95 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Tropical; intense monsoon & squall lines" },
+  { id: "nairobi", name: "Nairobi", country: "Kenya", lat: -1.2921, lon: 36.8219, x: 478, y: 240, regionId: "east_africa", idfSource: "KMD", designRainfall: "62 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Tropical highland; bimodal rainy seasons" },
+  { id: "johannesburg", name: "Joburg", country: "South Africa", lat: -26.2041, lon: 28.0473, x: 461, y: 298, regionId: "east_africa", idfSource: "SANRAL / WRC", designRainfall: "72 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Subtropical highland; intense thunderstorms" },
+  { id: "dubai", name: "Dubai", country: "UAE", lat: 25.2048, lon: 55.2708, x: 511, y: 183, regionId: "middle_east", idfSource: "Dubai Municipality DM", designRainfall: "36 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Hyper-arid; rare intense convective events" },
+  { id: "mumbai", name: "Mumbai", country: "India", lat: 19.0760, lon: 72.8777, x: 544, y: 196, regionId: "south_asia", idfSource: "IMD", designRainfall: "120 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Monsoon-dominated; extreme tropical rainfall" },
+  { id: "beijing", name: "Beijing", country: "China", lat: 39.9042, lon: 116.4074, x: 623, y: 150, regionId: "east_asia", idfSource: "GB 50014 / CMA", designRainfall: "78 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Continental monsoon; summer rainstorm season" },
+  { id: "tokyo", name: "Tokyo", country: "Japan", lat: 35.6762, lon: 139.6503, x: 670, y: 155, regionId: "east_asia", idfSource: "JMA AMeDAS", designRainfall: "85 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Typhoon & Baiu front; high-intensity events" },
+  { id: "seoul", name: "Seoul", country: "S. Korea", lat: 37.5665, lon: 126.9780, x: 651, y: 148, regionId: "east_asia", idfSource: "KMA / MOLIT", designRainfall: "82 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "East Asian monsoon; concentrated summer rainfall" },
+  { id: "singapore", name: "Singapore", country: "Singapore", lat: 1.3521, lon: 103.8198, x: 601, y: 236, regionId: "southeast_asia", idfSource: "PUB", designRainfall: "130 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Equatorial; year-round intense convection" },
+  { id: "jakarta", name: "Jakarta", country: "Indonesia", lat: -6.2088, lon: 106.8456, x: 607, y: 251, regionId: "southeast_asia", idfSource: "BMKG", designRainfall: "110 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Tropical maritime; extreme monsoon flooding" },
+  { id: "hong_kong", name: "Hong Kong", country: "China", lat: 22.3193, lon: 114.1694, x: 619, y: 190, regionId: "east_asia", idfSource: "HKO DSD 2018", designRainfall: "105 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Subtropical; typhoon & rainstorm warnings" },
+  { id: "sydney", name: "Sydney", country: "Australia", lat: -33.8688, lon: 151.2093, x: 688, y: 306, regionId: "oceania", idfSource: "ARR 2019 / BoM", designRainfall: "75 mm/hr (100yr-1hr)", returnPeriods: "2–2000 yr", notes: "Maritime subtropical; east coast lows" },
 ];
 
 interface WorldMapSelectorProps {
   onPatternSelect?: (patternId: PatternType) => void;
+  onViewIdf?: (city: { name: string; lat: number; lon: number }) => void;
 }
 
-export function WorldMapSelector({ onPatternSelect }: WorldMapSelectorProps) {
+export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelectorProps) {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<CityMarker | null>(null);
@@ -950,19 +953,35 @@ export function WorldMapSelector({ onPatternSelect }: WorldMapSelectorProps) {
                       <span>{selectedCity.returnPeriods}</span>
                     </div>
                     <p className="text-xs text-muted-foreground italic border-t pt-1.5 mt-1.5">{selectedCity.notes}</p>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="w-full text-xs h-7 mt-1"
-                      onClick={() => {
-                        const regionId = selectedCity.regionId;
-                        setSelectedCity(null);
-                        setSelectedRegion(regionId);
-                      }}
-                    >
-                      <ChevronRight className="w-3 h-3 mr-1" />
-                      View {REGIONS[selectedCity.regionId]?.name} patterns
-                    </Button>
+                    <div className="flex gap-2 mt-1">
+                      <Button
+                        size="sm"
+                        variant="default"
+                        className="flex-1 text-xs h-7"
+                        onClick={() => {
+                          if (onViewIdf) {
+                            onViewIdf({ name: `${selectedCity.name}, ${selectedCity.country}`, lat: selectedCity.lat, lon: selectedCity.lon });
+                          }
+                        }}
+                        disabled={!onViewIdf}
+                      >
+                        <Zap className="w-3 h-3 mr-1" />
+                        View IDF Curves
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 text-xs h-7"
+                        onClick={() => {
+                          const regionId = selectedCity.regionId;
+                          setSelectedCity(null);
+                          setSelectedRegion(regionId);
+                        }}
+                      >
+                        <ChevronRight className="w-3 h-3 mr-1" />
+                        Patterns
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
