@@ -140,6 +140,8 @@ const ALL_PATTERN_NAMES: Record<string, string> = {
   'sea_breeze': 'Sea_Breeze', 'nocturnal_mcs': 'Nocturnal_MCS', 'rain_on_snow': 'Rain_on_Snow',
   'derecho': 'Derecho', 'ukcp18_enhanced': 'UKCP18_Enhanced', 'super_cc': 'Super_CC',
   'neyman_scott': 'Neyman_Scott', 'temez_spain': 'Temez_Spain', 'bonta_usda': 'Bonta_USDA',
+  // v12 addition
+  'georgian_nea': 'Georgia_NEA', 'albanian_igewe': 'Albanian_IGEWE',
 };
 
 export function ExportButtons({ data, pattern, patternKey, totalDepth, duration, timeStep, unitSystem }: ExportButtonsProps) {
