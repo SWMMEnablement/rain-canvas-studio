@@ -105,6 +105,7 @@ const Index = () => {
   }, []);
   const [activeTab, setActiveTab] = useState(sharedStorm ? "generator" : "generator");
   const [externalStormParams, setExternalStormParams] = useState<{ depth: number; duration: number } | null>(null);
+  const [idfCityData, setIdfCityData] = useState<{ name: string; lat: string; lon: string } | null>(null);
   const [heroPattern, setHeroPattern] = useState<string | undefined>(undefined);
   const [stormContext, setStormContext] = useState<string>("");
   const heroRef = useRef<HTMLDivElement>(null);
@@ -113,6 +114,16 @@ const Index = () => {
     setExternalStormParams({ depth: depthInches, duration: durationHours });
     setActiveTab("generator");
     toast.success(`Storm parameters sent: ${(depthInches * 25.4).toFixed(1)} mm / ${(durationHours * 60).toFixed(0)} min`);
+  }, []);
+
+  const handleViewIdf = useCallback((city: { name: string; lat: number; lon: number }) => {
+    setIdfCityData({ name: city.name, lat: city.lat.toFixed(4), lon: city.lon.toFixed(4) });
+    setActiveTab("docs");
+    toast.success(`Loading IDF data for ${city.name}…`);
+    // Scroll to IDF calculator after tab switch
+    setTimeout(() => {
+      document.getElementById("calc-idf")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 300);
   }, []);
 
   return (
@@ -236,7 +247,7 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="advanced">
-            <AdvancedTools onSendToGenerator={handleSendToGenerator} />
+            <AdvancedTools onSendToGenerator={handleSendToGenerator} onViewIdf={handleViewIdf} />
           </TabsContent>
 
           <TabsContent value="api">
@@ -244,7 +255,7 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="docs">
-            <Documentation />
+            <Documentation idfCity={idfCityData} />
           </TabsContent>
         </Tabs>
       </main>
