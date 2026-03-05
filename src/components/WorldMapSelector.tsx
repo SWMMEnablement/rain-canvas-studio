@@ -1007,6 +1007,19 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
                           {REGIONS[hoveredCountryRegion].name}
                         </Badge>
                       )}
+                      {colorMode === "population" && hoveredCountryIso && COUNTRY_POPULATION[hoveredCountryIso] && (
+                        <Badge className="text-xs bg-primary/80 text-primary-foreground border-0">
+                          <Users className="w-3 h-3 mr-1" />
+                          {COUNTRY_POPULATION[hoveredCountryIso] >= 1
+                            ? `${COUNTRY_POPULATION[hoveredCountryIso].toLocaleString()}M`
+                            : `${(COUNTRY_POPULATION[hoveredCountryIso] * 1000).toLocaleString()}K`}
+                        </Badge>
+                      )}
+                      {colorMode === "population" && hoveredCountryIso && !COUNTRY_POPULATION[hoveredCountryIso] && (
+                        <Badge variant="outline" className="text-xs text-muted-foreground">
+                          No population data
+                        </Badge>
+                      )}
                       {colorMode === "rainfall" && hoveredCountryIso && COUNTRY_RAINFALL[hoveredCountryIso] && (
                         <Badge className="text-xs bg-primary/80 text-primary-foreground border-0">
                           <CloudRain className="w-3 h-3 mr-1" />
