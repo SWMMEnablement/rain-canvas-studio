@@ -27,7 +27,7 @@ export function EquationFamilyRegistry() {
           Equation Family Registry
         </CardTitle>
         <CardDescription className="flex items-center justify-between">
-          <span>9 canonical equation families covering all {EQUATION_FAMILIES.reduce((s, f) => s + f.members.length, 0)}+ design storm methods</span>
+          <span>{EQUATION_FAMILIES.length} canonical equation families covering all {EQUATION_FAMILIES.reduce((s, f) => s + f.members.length, 0)}+ design storm methods</span>
           <Button
             size="sm"
             variant="outline"
