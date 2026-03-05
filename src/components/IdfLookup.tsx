@@ -222,10 +222,16 @@ export function IdfLookup({ initialLat, initialLon, initialName, autoFetch }: Id
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 flex-wrap">
           <CloudRain className="w-5 h-5 text-primary" />
           NOAA Atlas 14 IDF Lookup
           <Badge variant="default" className="text-xs ml-2">Live API</Badge>
+          {autoFetch && initialName && (
+            <Badge variant="secondary" className="text-xs ml-auto flex items-center gap-1">
+              <MapPin className="w-3 h-3" />
+              Loaded from Map: {initialName}
+            </Badge>
+          )}
         </CardTitle>
         <CardDescription>
           Retrieve precipitation frequency data for any US location — auto-populated from NOAA Atlas 14
