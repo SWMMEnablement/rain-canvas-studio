@@ -37,7 +37,6 @@ const PATTERN_BADGES = [
   "FDOT Zone 1", "FDOT Zone 2", "FDOT Zone 3", "FDOT Zone 4", "FDOT Zone 5",
   "FEH (UK)", "FEH22/ReFH2", "Fiji FMS", "Finland FMI", "Fourier Multipeak",
   "France SHYPRE", "FSR Profile", "Georgia NEA",
-  "France SHYPRE", "FSR Profile",
   "G2P Gamma", "German DWA", "Ghana GMet", "Greece Hellenic", "Guatemala INSIVUMEH",
   "Harris County FCD", "Hawaii Distinct", "HIRDS NZ", "HK DSD 2018",
   "Honduras SMN", "Hong Kong HKO", "Huff 1st Quartile", "Huff 2nd Quartile",
