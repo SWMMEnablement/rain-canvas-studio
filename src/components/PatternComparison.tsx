@@ -200,6 +200,9 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'bolivia_altiplano', name: 'Bolivia Altiplano', color: '#a16207', category: 'Latin American' },
   { id: 'fourier_multipeak', name: 'Fourier Multi-Peak', color: '#6366f1', category: 'Research' },
   { id: 'cc_idf_scaled', name: 'CC-IDF Scaled', color: '#f43f5e', category: 'Research' },
+  // v12 patterns
+  { id: 'georgian_nea', name: 'Georgia NEA', color: '#2d6a4f', category: 'European' },
+  { id: 'albanian_igewe', name: 'Albanian IGEWE', color: '#e63946', category: 'European' },
 ];
 
 interface PresetGroup {
@@ -251,7 +254,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'European',
-    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double', 'sifalda', 'swiss_idf', 'spanish_cedex', 'belgian_irm', 'watts_curve', 'kostra_dwd', 'austria_okostra', 'montana_caquot', 'shyreg_fr', 'feh22_refh2', 'ireland_met', 'france_shypre', 'poland_panda', 'portugal_ipma', 'russia_roshydromet', 'euro_cordex', 'czech_chmu', 'cyprus_wdd', 'malta_mra', 'm5_60_fsr'],
+    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double', 'sifalda', 'swiss_idf', 'spanish_cedex', 'belgian_irm', 'watts_curve', 'kostra_dwd', 'austria_okostra', 'montana_caquot', 'shyreg_fr', 'feh22_refh2', 'ireland_met', 'france_shypre', 'poland_panda', 'portugal_ipma', 'russia_roshydromet', 'euro_cordex', 'czech_chmu', 'cyprus_wdd', 'malta_mra', 'm5_60_fsr', 'georgian_nea', 'albanian_igewe'],
     description: 'European design patterns',
   },
   {
