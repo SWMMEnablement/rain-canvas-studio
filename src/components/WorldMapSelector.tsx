@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo, memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Globe, MapPin, X, ChevronRight, Zap, AlertTriangle } from "lucide-react";
+import { Globe, MapPin, X, ChevronRight, Zap, AlertTriangle, Users } from "lucide-react";
 import { type PatternType } from "@/lib/rainfallPatterns";
 import {
   ComposableMap,
@@ -11,6 +11,62 @@ import {
   Marker,
 } from "react-simple-maps";
 import { COUNTRY_TO_REGION } from "@/lib/countryRegionMapping";
+
+type ColorMode = "region" | "population";
+
+// ── Population data (millions, approx. 2024 estimates) ──
+const COUNTRY_POPULATION: Record<string, number> = {
+  CHN: 1425, IND: 1440, USA: 340, IDN: 278, PAK: 240, NGA: 230, BRA: 216,
+  BGD: 175, RUS: 144, MEX: 130, JPN: 124, ETH: 120, PHL: 117, EGY: 112,
+  VNM: 100, COD: 102, TUR: 86, IRN: 89, DEU: 84, GBR: 68, FRA: 68,
+  THA: 72, TZA: 67, ZAF: 62, ITA: 59, MMR: 55, KEN: 56, KOR: 52,
+  COL: 52, ESP: 48, UGA: 49, ARG: 46, DZA: 46, SDN: 48, IRQ: 44,
+  AFG: 42, POL: 38, CAN: 40, MAR: 37, SAU: 37, UZB: 35, PER: 34,
+  AGO: 36, MYS: 34, MOZ: 33, GHA: 34, YEM: 34, NPL: 31, VEN: 29,
+  MDG: 30, CMR: 28, CIV: 28, AUS: 26, NER: 27, TWN: 24, LKA: 22,
+  BFA: 23, MLI: 23, CHL: 20, ROU: 19, MWI: 20, KAZ: 20, ZMB: 20,
+  GTM: 18, ECU: 18, SYR: 23, NLD: 18, SEN: 18, TCD: 18, SOM: 18,
+  ZWE: 16, GIN: 14, RWA: 14, BEN: 13, BDI: 13, TUN: 12, BOL: 12,
+  BEL: 12, CUB: 11, SSD: 11, DOM: 11, CZE: 11, GRC: 10, JOR: 11,
+  PRT: 10, AZE: 10, SWE: 10, HND: 10, HUN: 10, BLR: 9, TJK: 10,
+  AUT: 9, ARE: 10, ISR: 10, CHE: 9, PNG: 10, SRB: 7, TGO: 9,
+  SLE: 9, LAO: 8, PRY: 7, LBY: 7, BGR: 7, LBN: 5, NIC: 7,
+  KGZ: 7, SLV: 6, TKM: 6, SGP: 6, DNK: 6, FIN: 6, NOR: 5,
+  CRI: 5, IRL: 5, NZL: 5, CAF: 6, COG: 6, LBR: 5, HRV: 4,
+  OMN: 5, MRT: 5, PAN: 4, KWT: 4, GEO: 4, BIH: 3, MNG: 3,
+  URY: 3, ALB: 3, JAM: 3, ARM: 3, QAT: 3, LTU: 3, NAM: 3,
+  GMB: 3, BWA: 2, GAB: 2, SVN: 2, MKD: 2, LSO: 2, LVA: 2,
+  GNB: 2, BHR: 2, TTO: 1, EST: 1, MUS: 1, SWZ: 1, TLS: 1,
+  FJI: 1, DJI: 1, COM: 1, GUY: 1, SUR: 1, MNE: 1, SLB: 1,
+  BRB: 0.3, BLZ: 0.4, VUT: 0.3, WSM: 0.2, STP: 0.2, KOS: 2,
+  ISL: 0.4, MDV: 0.5, BRN: 0.5, BHS: 0.4, MLT: 0.5, CYP: 1.2,
+  GRL: 0.06, HTI: 12, GUF: 0.3, ESH: 0.6, NCL: 0.3, ERI: 4,
+  HKG: 7.5, MAC: 0.7, PRK: 26, PRI: 3.2, GNQ: 1.7, MDA: 3,
+  BTN: 0.8,
+};
+
+function getPopulationColor(pop: number | undefined): string {
+  if (!pop) return "hsl(215, 12%, 16%)";
+  if (pop >= 500) return "hsl(0, 70%, 45%)";       // >500M - deep red
+  if (pop >= 200) return "hsl(15, 70%, 48%)";       // 200-500M - orange-red
+  if (pop >= 100) return "hsl(30, 70%, 50%)";       // 100-200M - orange
+  if (pop >= 50)  return "hsl(45, 70%, 50%)";       // 50-100M - amber
+  if (pop >= 20)  return "hsl(65, 60%, 45%)";       // 20-50M - yellow-green
+  if (pop >= 5)   return "hsl(140, 45%, 40%)";      // 5-20M - green
+  if (pop >= 1)   return "hsl(190, 50%, 42%)";      // 1-5M - teal
+  return "hsl(210, 40%, 38%)";                       // <1M - blue
+}
+
+const POP_LEGEND = [
+  { label: ">500M", color: "hsl(0, 70%, 45%)" },
+  { label: "200–500M", color: "hsl(15, 70%, 48%)" },
+  { label: "100–200M", color: "hsl(30, 70%, 50%)" },
+  { label: "50–100M", color: "hsl(45, 70%, 50%)" },
+  { label: "20–50M", color: "hsl(65, 60%, 45%)" },
+  { label: "5–20M", color: "hsl(140, 45%, 40%)" },
+  { label: "1–5M", color: "hsl(190, 50%, 42%)" },
+  { label: "<1M", color: "hsl(210, 40%, 38%)" },
+];
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
@@ -533,6 +589,7 @@ const CountryShape = memo(function CountryShape({
   isRegionSelected,
   isRegionHovered,
   isCountryHovered,
+  colorMode,
   onRegionClick,
   onCountryEnter,
   onCountryLeave,
@@ -543,26 +600,40 @@ const CountryShape = memo(function CountryShape({
   isRegionSelected: boolean;
   isRegionHovered: boolean;
   isCountryHovered: boolean;
+  colorMode: ColorMode;
   onRegionClick: (regionId: string) => void;
   onCountryEnter: (countryName: string, regionId: string | undefined) => void;
   onCountryLeave: () => void;
 }) {
   const countryName = getCountryName(geo);
+  const iso = getCountryISO(geo);
   
   const fillColor = useMemo(() => {
-    if (!regionId || !regionData) return "hsl(215, 12%, 16%)"; // unmapped: dark land
+    if (colorMode === "population") {
+      const pop = COUNTRY_POPULATION[iso];
+      if (isCountryHovered || isRegionSelected) {
+        const base = getPopulationColor(pop);
+        return base.replace(/(\d+)%\)$/, (_, l) => `${Math.min(Number(l) + 15, 80)}%)`);
+      }
+      return getPopulationColor(pop);
+    }
+    if (!regionId || !regionData) return "hsl(215, 12%, 16%)";
     if (isRegionSelected) return regionData.hoverColor;
     if (isRegionHovered || isCountryHovered) return regionData.hoverColor;
     return regionData.color;
-  }, [regionId, regionData, isRegionSelected, isRegionHovered, isCountryHovered]);
+  }, [regionId, regionData, isRegionSelected, isRegionHovered, isCountryHovered, colorMode, iso]);
 
   const fillOpacity = useMemo(() => {
+    if (colorMode === "population") {
+      if (isCountryHovered) return 0.95;
+      return COUNTRY_POPULATION[iso] ? 0.75 : 0.4;
+    }
     if (!regionId) return 0.6;
     if (isRegionSelected) return 0.85;
     if (isCountryHovered) return 0.9;
     if (isRegionHovered) return 0.7;
     return 0.55;
-  }, [regionId, isRegionSelected, isRegionHovered, isCountryHovered]);
+  }, [regionId, isRegionSelected, isRegionHovered, isCountryHovered, colorMode, iso]);
 
   const strokeColor = useMemo(() => {
     if (isCountryHovered || isRegionSelected) return "hsl(0, 0%, 90%)";
@@ -605,6 +676,7 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
   const [selectedCity, setSelectedCity] = useState<CityMarker | null>(null);
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
   const [showCities, setShowCities] = useState(true);
+  const [colorMode, setColorMode] = useState<ColorMode>("region");
 
   const handleRegionClick = useCallback((regionId: string) => {
     setSelectedRegion(prev => prev === regionId ? null : regionId);
@@ -638,17 +710,45 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
             <CardDescription>
               Click any country to see recommended rainfall distributions for that region
             </CardDescription>
-            <button
-              onClick={() => { setShowCities(prev => !prev); if (showCities) setSelectedCity(null); }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                showCities
-                  ? "bg-accent text-accent-foreground hover:bg-accent/80"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
-              }`}
-            >
-              <span className={`inline-block w-2 h-2 rounded-full ${showCities ? "bg-primary" : "bg-muted-foreground"}`} />
-              {showCities ? "Cities On" : "Cities Off"}
-            </button>
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* Color mode toggle */}
+              <div className="flex items-center rounded-full border border-border overflow-hidden text-xs">
+                <button
+                  onClick={() => setColorMode("region")}
+                  className={`px-3 py-1.5 font-medium transition-colors ${
+                    colorMode === "region"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  <Globe className="w-3 h-3 inline mr-1" />
+                  Region
+                </button>
+                <button
+                  onClick={() => setColorMode("population")}
+                  className={`px-3 py-1.5 font-medium transition-colors ${
+                    colorMode === "population"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  <Users className="w-3 h-3 inline mr-1" />
+                  Population
+                </button>
+              </div>
+              {/* Cities toggle */}
+              <button
+                onClick={() => { setShowCities(prev => !prev); if (showCities) setSelectedCity(null); }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                  showCities
+                    ? "bg-accent text-accent-foreground hover:bg-accent/80"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+              >
+                <span className={`inline-block w-2 h-2 rounded-full ${showCities ? "bg-primary" : "bg-muted-foreground"}`} />
+                {showCities ? "Cities On" : "Cities Off"}
+              </button>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -685,6 +785,7 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
                         isRegionSelected={isRegionSelected}
                         isRegionHovered={isRegionHovered}
                         isCountryHovered={isCountryHovered}
+                        colorMode={colorMode}
                         onRegionClick={handleRegionClick}
                         onCountryEnter={handleCountryEnter}
                         onCountryLeave={handleCountryLeave}
@@ -749,6 +850,21 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
                 {totalPatterns} patterns mapped
               </Badge>
             </div>
+
+            {/* Population legend */}
+            {colorMode === "population" && (
+              <div className="absolute top-3 left-3 bg-background/85 backdrop-blur-sm rounded-lg px-2.5 py-2 border shadow-lg">
+                <p className="text-[10px] font-semibold text-foreground mb-1.5">Population</p>
+                <div className="space-y-0.5">
+                  {POP_LEGEND.map(item => (
+                    <div key={item.label} className="flex items-center gap-1.5">
+                      <div className="w-3 h-2 rounded-sm flex-shrink-0" style={{ backgroundColor: item.color, opacity: 0.75 }} />
+                      <span className="text-[9px] text-muted-foreground">{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Country hover tooltip */}
             {hoveredCountry && !selectedRegion && (
