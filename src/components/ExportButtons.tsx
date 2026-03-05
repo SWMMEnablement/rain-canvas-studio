@@ -513,16 +513,16 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
         </CollapsibleContent>
       </Collapsible>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <div className="flex items-center">
-          <Button onClick={exportAsCsv} variant="secondary" className="gap-2 rounded-r-none">
+          <Button onClick={exportAsCsv} variant="secondary" className="gap-2 rounded-r-none flex-1">
             <Download className="w-4 h-4" />
             Export CSV
           </Button>
           <Button
             variant="secondary"
             size="icon"
-            className="rounded-l-none border-l-0 w-9"
+            className="rounded-l-none border-l-0 w-9 shrink-0"
             title="Copy CSV to clipboard"
             onClick={() => copyToClipboard(buildCsvContent(), 'CSV', setCopiedCsv)}
           >
@@ -530,14 +530,14 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
           </Button>
         </div>
         <div className="flex items-center">
-          <Button onClick={exportAsJson} variant="secondary" className="gap-2 rounded-r-none">
+          <Button onClick={exportAsJson} variant="secondary" className="gap-2 rounded-r-none flex-1">
             <FileJson className="w-4 h-4" />
             Export JSON
           </Button>
           <Button
             variant="secondary"
             size="icon"
-            className="rounded-l-none border-l-0 w-9"
+            className="rounded-l-none border-l-0 w-9 shrink-0"
             title="Copy JSON to clipboard"
             onClick={() => copyToClipboard(buildJsonContent(), 'JSON', setCopiedJson)}
           >
@@ -545,14 +545,14 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
           </Button>
         </div>
         <div className="flex items-center">
-          <Button onClick={generateSwmmScript} variant="secondary" className="gap-2 rounded-r-none">
+          <Button onClick={generateSwmmScript} variant="secondary" className="gap-2 rounded-r-none flex-1">
             <FileText className="w-4 h-4" />
             SWMM Script
           </Button>
           <Button
             variant="secondary"
             size="icon"
-            className="rounded-l-none border-l-0 w-9"
+            className="rounded-l-none border-l-0 w-9 shrink-0"
             title="Copy SWMM script to clipboard"
             onClick={() => copyToClipboard(buildSwmmScript(), 'SWMM script', setCopiedSwmm)}
           >
@@ -560,14 +560,14 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
           </Button>
         </div>
         <div className="flex items-center">
-          <Button onClick={generateInfoWorksScript} className="gap-2 rounded-r-none">
+          <Button onClick={generateInfoWorksScript} className="gap-2 rounded-r-none flex-1">
             <Droplets className="w-4 h-4" />
             InfoWorks ICM
           </Button>
           <Button
             variant="default"
             size="icon"
-            className="rounded-l-none border-l-0 w-9"
+            className="rounded-l-none border-l-0 w-9 shrink-0"
             title="Copy InfoWorks ICM to clipboard"
             onClick={() => copyToClipboard(buildInfoWorksScript(), 'InfoWorks ICM profile', setCopiedIcm)}
           >
@@ -575,14 +575,14 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
           </Button>
         </div>
         <div className="flex items-center">
-          <Button onClick={exportHydroCAD} variant="secondary" className="gap-2 rounded-r-none">
+          <Button onClick={exportHydroCAD} variant="secondary" className="gap-2 rounded-r-none flex-1">
             <FileSpreadsheet className="w-4 h-4" />
             HydroCAD .hcr
           </Button>
           <Button
             variant="secondary"
             size="icon"
-            className="rounded-l-none border-l-0 w-9"
+            className="rounded-l-none border-l-0 w-9 shrink-0"
             title="Copy HydroCAD to clipboard"
             onClick={() => copyToClipboard(buildHydroCADContent(), 'HydroCAD', setCopiedHcr)}
           >
@@ -590,32 +590,34 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
           </Button>
         </div>
         <div className="flex items-center">
-          <Button onClick={exportSwmmDat} variant="secondary" className="gap-2 rounded-r-none">
+          <Button onClick={exportSwmmDat} variant="secondary" className="gap-2 rounded-r-none flex-1">
             <Database className="w-4 h-4" />
             SWMM .dat
           </Button>
           <Button
             variant="secondary"
             size="icon"
-            className="rounded-l-none border-l-0 w-9"
+            className="rounded-l-none border-l-0 w-9 shrink-0"
             title="Copy SWMM .dat to clipboard"
             onClick={() => copyToClipboard(buildSwmmDatContent(), 'SWMM .dat', setCopiedDat)}
           >
             {copiedDat ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
           </Button>
         </div>
-        <PdfReportGenerator
-          data={data}
-          pattern={pattern}
-          patternKey={patternKey}
-          totalDepth={totalDepth}
-          duration={duration}
-          timeStep={timeStep}
-          unitSystem={unitSystem}
-          projectName={projectName}
-          engineerName={engineerName}
-          companyName={companyName}
-        />
+        <div className="sm:col-span-2 lg:col-span-3">
+          <PdfReportGenerator
+            data={data}
+            pattern={pattern}
+            patternKey={patternKey}
+            totalDepth={totalDepth}
+            duration={duration}
+            timeStep={timeStep}
+            unitSystem={unitSystem}
+            projectName={projectName}
+            engineerName={engineerName}
+            companyName={companyName}
+          />
+        </div>
       </div>
 
       {/* Batch SWMM5 All-Patterns Export */}
