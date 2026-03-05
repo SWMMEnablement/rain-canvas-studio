@@ -304,6 +304,12 @@ export function IdfLookup({ initialLat, initialLon, initialName, autoFetch }: Id
           {fetchError && (
             <div className="p-3 bg-destructive/10 text-destructive rounded-lg text-sm">
               {fetchError}
+              {(parseFloat(latitude) < 24 || parseFloat(latitude) > 50 || parseFloat(longitude) < -125 || parseFloat(longitude) > -66) && (
+                <p className="mt-1 font-medium">
+                  💡 NOAA Atlas 14 only covers the Continental United States. For international locations, 
+                  please consult the local meteorological agency listed in the city's IDF Source field.
+                </p>
+              )}
             </div>
           )}
 
