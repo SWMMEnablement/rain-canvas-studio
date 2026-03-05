@@ -1428,6 +1428,8 @@ export const patterns: PatternOption[] = [
   // Historical/Classical
   { id: 'temez_spain', name: 'Témez (Spain)', icon: '🇪🇸', description: 'Classical Spanish Témez method. May differ from modern CEDEX. Historical importance.', category: 'european' },
   { id: 'bonta_usda', name: 'Bonta (USDA)', icon: '🌾', description: 'USDA ARS synthetic dimensionless hyetographs from 6,000+ Midwest storms. Agricultural Research Service.', category: 'us_agency' },
+  // v12 addition
+  { id: 'georgian_nea', name: 'Georgia NEA', icon: '🇬🇪', description: 'National Environment Agency (Caucasus). Tbilisi convective + Batumi subtropical Black Sea coast. Front-loaded Mediterranean-influenced storms.', category: 'european' },
 ];
 
 interface PatternSelectorProps {

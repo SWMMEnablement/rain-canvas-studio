@@ -36,6 +36,7 @@ const PATTERN_BADGES = [
   "Euler Type I", "Euler Type II", "Euro CORDEX", "Exponential Decay",
   "FDOT Zone 1", "FDOT Zone 2", "FDOT Zone 3", "FDOT Zone 4", "FDOT Zone 5",
   "FEH (UK)", "FEH22/ReFH2", "Fiji FMS", "Finland FMI", "Fourier Multipeak",
+  "France SHYPRE", "FSR Profile", "Georgia NEA",
   "France SHYPRE", "FSR Profile",
   "G2P Gamma", "German DWA", "Ghana GMet", "Greece Hellenic", "Guatemala INSIVUMEH",
   "Harris County FCD", "Hawaii Distinct", "HIRDS NZ", "HK DSD 2018",

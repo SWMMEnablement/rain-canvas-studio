@@ -326,6 +326,7 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   neyman_scott: { name: 'Neyman-Scott', peakPosition: 0.45, description: 'Stochastic cluster model' },
   temez_spain: { name: 'Témez (Spain)', peakPosition: 0.50, description: 'Classical Spanish IDF method' },
   bonta_usda: { name: 'Bonta (USDA)', peakPosition: 0.42, description: 'ARS 6000+ Midwest storm analysis' },
+  georgian_nea: { name: 'Georgia NEA', peakPosition: 0.25, description: 'Caucasus front-loaded Mediterranean-influenced storms' },
 };
 
 /**
