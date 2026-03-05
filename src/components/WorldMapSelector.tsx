@@ -669,6 +669,50 @@ const REGION_PATHS: Record<string, string> = {
   russia_ca: "M 475 68 L 500 62 L 530 58 L 560 56 L 590 58 L 610 62 L 605 72 L 600 82 L 595 92 L 592 102 L 590 112 L 588 120 L 580 128 L 570 132 L 558 135 L 545 135 L 530 132 L 518 128 L 508 122 L 498 115 L 490 108 L 484 100 L 480 92 L 476 82 Z",
 };
 
+// ── City markers with IDF station data ──────────────────────────────
+interface CityMarker {
+  id: string;
+  name: string;
+  country: string;
+  x: number;
+  y: number;
+  regionId: string;
+  idfSource: string;
+  designRainfall: string;
+  returnPeriods: string;
+  notes: string;
+}
+
+const CITY_MARKERS: CityMarker[] = [
+  { id: "nyc", name: "New York", country: "USA", x: 274, y: 148, regionId: "us_east", idfSource: "NOAA Atlas 14", designRainfall: "76 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Northeast coastal; tropical remnants possible" },
+  { id: "houston", name: "Houston", country: "USA", x: 235, y: 170, regionId: "us_gulf", idfSource: "NOAA Atlas 14", designRainfall: "112 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Gulf Coast; extreme convective & tropical storms" },
+  { id: "denver", name: "Denver", country: "USA", x: 217, y: 150, regionId: "us_west", idfSource: "NOAA Atlas 14", designRainfall: "64 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Semi-arid; intense short-duration storms" },
+  { id: "toronto", name: "Toronto", country: "Canada", x: 265, y: 141, regionId: "canada", idfSource: "ECCC IDF v3.5", designRainfall: "58 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Great Lakes influence; mixed precipitation" },
+  { id: "mexico_city", name: "Mexico City", country: "Mexico", x: 229, y: 196, regionId: "central_america", idfSource: "CONAGUA", designRainfall: "72 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "High altitude; afternoon convective bursts" },
+  { id: "sao_paulo", name: "São Paulo", country: "Brazil", x: 284, y: 290, regionId: "south_america", idfSource: "DAEE/CETESB", designRainfall: "86 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "Tropical; intense mesoscale convective systems" },
+  { id: "bogota", name: "Bogotá", country: "Colombia", x: 274, y: 227, regionId: "south_america", idfSource: "IDEAM", designRainfall: "48 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Andean highland; bimodal rainfall" },
+  { id: "london", name: "London", country: "UK", x: 410, y: 125, regionId: "western_europe", idfSource: "FEH22 / ReFH2", designRainfall: "42 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Maritime temperate; low intensity, long duration" },
+  { id: "paris", name: "Paris", country: "France", x: 414, y: 131, regionId: "western_europe", idfSource: "Météo-France SHYREG", designRainfall: "48 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Continental maritime; moderate intensities" },
+  { id: "berlin", name: "Berlin", country: "Germany", x: 434, y: 123, regionId: "eastern_europe", idfSource: "KOSTRA-DWD", designRainfall: "52 mm/hr (100yr-1hr)", returnPeriods: "1–100 yr", notes: "Continental; summer convective dominance" },
+  { id: "rome", name: "Rome", country: "Italy", x: 432, y: 146, regionId: "mediterranean", idfSource: "LSPP / VAPI", designRainfall: "68 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "Mediterranean; intense autumn storms" },
+  { id: "madrid", name: "Madrid", country: "Spain", x: 394, y: 150, regionId: "mediterranean", idfSource: "CEDEX / AEMET", designRainfall: "44 mm/hr (100yr-1hr)", returnPeriods: "2–500 yr", notes: "Semi-arid continental; DANA cold drops" },
+  { id: "stockholm", name: "Stockholm", country: "Sweden", x: 443, y: 108, regionId: "nordic", idfSource: "SMHI", designRainfall: "38 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Subarctic maritime; mixed precipitation" },
+  { id: "moscow", name: "Moscow", country: "Russia", x: 479, y: 116, regionId: "russia_ca", idfSource: "Roshydromet SNiP", designRainfall: "45 mm/hr (100yr-1hr)", returnPeriods: "1–100 yr", notes: "Continental; short intense summer storms" },
+  { id: "cairo", name: "Cairo", country: "Egypt", x: 467, y: 172, regionId: "north_africa", idfSource: "HCWW / EMA", designRainfall: "28 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Hyper-arid; rare but catastrophic flash floods" },
+  { id: "lagos", name: "Lagos", country: "Nigeria", x: 416, y: 224, regionId: "north_africa", idfSource: "NiMet / CIEH", designRainfall: "95 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Tropical; intense monsoon & squall lines" },
+  { id: "nairobi", name: "Nairobi", country: "Kenya", x: 478, y: 240, regionId: "east_africa", idfSource: "KMD", designRainfall: "62 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Tropical highland; bimodal rainy seasons" },
+  { id: "johannesburg", name: "Joburg", country: "South Africa", x: 461, y: 298, regionId: "east_africa", idfSource: "SANRAL / WRC", designRainfall: "72 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Subtropical highland; intense thunderstorms" },
+  { id: "dubai", name: "Dubai", country: "UAE", x: 511, y: 183, regionId: "middle_east", idfSource: "Dubai Municipality DM", designRainfall: "36 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Hyper-arid; rare intense convective events" },
+  { id: "mumbai", name: "Mumbai", country: "India", x: 544, y: 196, regionId: "south_asia", idfSource: "IMD", designRainfall: "120 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Monsoon-dominated; extreme tropical rainfall" },
+  { id: "beijing", name: "Beijing", country: "China", x: 623, y: 150, regionId: "east_asia", idfSource: "GB 50014 / CMA", designRainfall: "78 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Continental monsoon; summer rainstorm season" },
+  { id: "tokyo", name: "Tokyo", country: "Japan", x: 670, y: 155, regionId: "east_asia", idfSource: "JMA AMeDAS", designRainfall: "85 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Typhoon & Baiu front; high-intensity events" },
+  { id: "seoul", name: "Seoul", country: "S. Korea", x: 651, y: 148, regionId: "east_asia", idfSource: "KMA / MOLIT", designRainfall: "82 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "East Asian monsoon; concentrated summer rainfall" },
+  { id: "singapore", name: "Singapore", country: "Singapore", x: 601, y: 236, regionId: "southeast_asia", idfSource: "PUB", designRainfall: "130 mm/hr (100yr-1hr)", returnPeriods: "2–200 yr", notes: "Equatorial; year-round intense convection" },
+  { id: "jakarta", name: "Jakarta", country: "Indonesia", x: 607, y: 251, regionId: "southeast_asia", idfSource: "BMKG", designRainfall: "110 mm/hr (100yr-1hr)", returnPeriods: "2–100 yr", notes: "Tropical maritime; extreme monsoon flooding" },
+  { id: "hong_kong", name: "Hong Kong", country: "China", x: 619, y: 190, regionId: "east_asia", idfSource: "HKO DSD 2018", designRainfall: "105 mm/hr (100yr-1hr)", returnPeriods: "2–1000 yr", notes: "Subtropical; typhoon & rainstorm warnings" },
+  { id: "sydney", name: "Sydney", country: "Australia", x: 688, y: 306, regionId: "oceania", idfSource: "ARR 2019 / BoM", designRainfall: "75 mm/hr (100yr-1hr)", returnPeriods: "2–2000 yr", notes: "Maritime subtropical; east coast lows" },
+];
+
 interface WorldMapSelectorProps {
   onPatternSelect?: (patternId: PatternType) => void;
 }
@@ -676,6 +720,8 @@ interface WorldMapSelectorProps {
 export function WorldMapSelector({ onPatternSelect }: WorldMapSelectorProps) {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
+  const [selectedCity, setSelectedCity] = useState<CityMarker | null>(null);
+  const [hoveredCity, setHoveredCity] = useState<string | null>(null);
 
   const handleRegionClick = useCallback((regionId: string) => {
     setSelectedRegion(prev => prev === regionId ? null : regionId);
@@ -785,6 +831,47 @@ export function WorldMapSelector({ onPatternSelect }: WorldMapSelectorProps) {
                 );
               })}
 
+              {/* ── City markers ── */}
+              {CITY_MARKERS.map(city => {
+                const isHovered = hoveredCity === city.id;
+                const isSelected = selectedCity?.id === city.id;
+                return (
+                  <g key={city.id}>
+                    {/* Outer glow ring */}
+                    {(isHovered || isSelected) && (
+                      <circle cx={city.x} cy={city.y} r="5" fill="none" stroke="hsl(45, 90%, 65%)" strokeWidth="1" opacity="0.6" className="animate-pulse" />
+                    )}
+                    {/* Marker dot */}
+                    <circle
+                      cx={city.x}
+                      cy={city.y}
+                      r={isSelected ? 3 : isHovered ? 2.8 : 2}
+                      fill={isSelected ? "hsl(45, 90%, 65%)" : isHovered ? "hsl(45, 80%, 70%)" : "hsl(45, 70%, 60%)"}
+                      stroke="hsl(215, 30%, 10%)"
+                      strokeWidth="0.8"
+                      className="cursor-pointer transition-all duration-150"
+                      onClick={(e) => { e.stopPropagation(); setSelectedCity(isSelected ? null : city); }}
+                      onMouseEnter={() => setHoveredCity(city.id)}
+                      onMouseLeave={() => setHoveredCity(null)}
+                    />
+                    {/* City name label (on hover) */}
+                    {isHovered && !isSelected && (
+                      <text
+                        x={city.x + 5}
+                        y={city.y - 4}
+                        fill="hsl(45, 70%, 80%)"
+                        fontSize="5.5"
+                        fontWeight="500"
+                        className="pointer-events-none select-none"
+                        style={{ textShadow: "0 0 3px rgba(0,0,0,0.9)" }}
+                      >
+                        {city.name}
+                      </text>
+                    )}
+                  </g>
+                );
+              })}
+
               {/* Pulsing dot on selected region */}
               {selectedRegion && region && (
                 <circle
@@ -821,6 +908,48 @@ export function WorldMapSelector({ onPatternSelect }: WorldMapSelectorProps) {
                     </span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">{REGIONS[hoveredRegion].description}</p>
+                </div>
+              </div>
+            )}
+
+            {/* City IDF popup */}
+            {selectedCity && (
+              <div className="absolute bottom-3 left-3 right-3 sm:left-auto sm:right-3 sm:w-80">
+                <div className="bg-background/95 backdrop-blur-sm rounded-lg border shadow-xl overflow-hidden">
+                  <div className="flex items-center justify-between px-3 py-2 border-b bg-accent/30">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                      <span className="font-semibold text-sm">{selectedCity.name}</span>
+                      <span className="text-xs text-muted-foreground">{selectedCity.country}</span>
+                    </div>
+                    <button onClick={() => setSelectedCity(null)} className="text-muted-foreground hover:text-foreground">
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  <div className="px-3 py-2 space-y-1.5">
+                    <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-xs">
+                      <span className="text-muted-foreground font-medium">IDF Source</span>
+                      <span className="font-semibold text-primary">{selectedCity.idfSource}</span>
+                      <span className="text-muted-foreground font-medium">Design Rain</span>
+                      <span className="font-mono">{selectedCity.designRainfall}</span>
+                      <span className="text-muted-foreground font-medium">Return Periods</span>
+                      <span>{selectedCity.returnPeriods}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground italic border-t pt-1.5 mt-1.5">{selectedCity.notes}</p>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="w-full text-xs h-7 mt-1"
+                      onClick={() => {
+                        const regionId = selectedCity.regionId;
+                        setSelectedCity(null);
+                        setSelectedRegion(regionId);
+                      }}
+                    >
+                      <ChevronRight className="w-3 h-3 mr-1" />
+                      View {REGIONS[selectedCity.regionId]?.name} patterns
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
