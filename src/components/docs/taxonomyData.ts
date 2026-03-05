@@ -635,6 +635,69 @@ export const EQUATION_FAMILIES: EquationFamily[] = [
     members: ['Pilgrim-Cordery', 'ARR 2019 Ensemble', 'ARR87 Legacy', 'AES Canada 30%/40%', 'Average Variability (AVM)'],
     notes: 'Ensemble methods smooth out individual storm irregularities. ARR2019 uses stochastic selection from large event database.',
   },
+  {
+    id: 'segment', name: 'Family 10: Segment-Based Distribution',
+    description: 'Storm divided into N segments with prescribed depth/duration fractions',
+    equations: [
+      { label: 'Segment Intensity', latex: 'i_k = \\frac{P \\cdot f_{p,k}}{D \\cdot f_{d,k}}', description: 'Intensity in segment k from depth and duration fractions' },
+      { label: 'Constraint', latex: '\\sum f_{d,k} = 1, \\quad \\sum f_{p,k} = 1', description: 'Fractions must sum to unity' },
+    ],
+    variables: [
+      { symbol: 'f_{d,k}', meaning: 'Duration fraction of segment k' },
+      { symbol: 'f_{p,k}', meaning: 'Depth fraction of segment k' },
+      { symbol: 'P', meaning: 'Total depth' },
+      { symbol: 'D', meaning: 'Total duration' },
+    ],
+    members: ['Ukrainian DBN', 'Soviet SNiP', 'Belarusian TKP', 'Kuwait MEW', 'Yemen CAMA', 'Błaszczyk', 'Sudan SMA'],
+    notes: 'Common in former Soviet standards and arid regions. Simple to implement. Each segment has uniform intensity.',
+  },
+  {
+    id: 'soviet-idf', name: 'Family 11: Soviet SNiP IDF System',
+    description: 'q₂₀-based IDF with 5 climatic zones, used across former USSR states',
+    equations: [
+      { label: 'Soviet IDF', latex: 'q = q_{20} \\cdot (20/t)^n \\cdot (1 + \\lg(T \\cdot p))', description: 'Standard Soviet drainage intensity formula' },
+    ],
+    variables: [
+      { symbol: 'q_{20}', meaning: '20-minute intensity for T=1yr (L/s/ha)' },
+      { symbol: 'n', meaning: 'Climatic exponent (0.50–0.80)' },
+      { symbol: 'p', meaning: 'Probability coefficient' },
+    ],
+    members: ['Soviet SNiP Legacy', 'Belarusian TKP', 'Ukrainian DBN', 'Kazakhstan Kazhydromet', 'Uzbekistan UHM', 'Russia SNiP'],
+    notes: 'Still in active use across 15+ countries. 5 climatic zones from Arctic (n=0.50) to Arid (n=0.80).',
+  },
+  {
+    id: 'mathematical', name: 'Family 12: Mathematical Distributions',
+    description: 'Pure analytical intensity functions (parabolic, cosine, Weibull, etc.)',
+    equations: [
+      { label: 'Parabolic', latex: 'i(t) = \\frac{6P}{D^2} \\cdot t \\cdot (D - t)', description: 'Inverted parabola, peak ratio 1.5×' },
+      { label: 'Cosine', latex: 'i(t) = \\frac{P}{D}[1 + A\\cos(2\\pi(t-t_p)/D)]', description: 'Raised cosine with amplitude A' },
+      { label: 'Weibull CDF', latex: 'M(t) = 1 - e^{-(t/\\lambda)^k}', description: 'Weibull cumulative mass curve' },
+      { label: 'Exponential', latex: 'i(t) = i_0 \\cdot e^{-\\lambda t}', description: 'Exponential decay from initial burst' },
+    ],
+    variables: [
+      { symbol: 'k', meaning: 'Weibull shape (k=1: exponential, k≈3.6: normal)' },
+      { symbol: '\\lambda', meaning: 'Scale parameter' },
+      { symbol: 'A', meaning: 'Cosine amplitude (0–1)' },
+    ],
+    members: ['Parabolic', 'Cosine Storm', 'Weibull Temporal', 'Exponential Decay', 'LogNormal Temporal', 'Power Curve', 'Sigmoid Logistic', 'Instantaneous Burst'],
+    notes: 'Analytically tractable. Useful for sensitivity analysis and parametric studies. Each has closed-form peak ratio.',
+  },
+  {
+    id: 'storm-mechanism', name: 'Family 13: Storm Mechanism Types',
+    description: 'Physics-based profiles for specific meteorological phenomena',
+    equations: [
+      { label: 'Supercell', latex: 'i(t) = i_{peak} \\cdot \\exp(-|t-t_p|/\\sigma)', description: 'Sharp Laplacian peak for single-cell storms' },
+      { label: 'MCS', latex: 'i(t) = i_c \\cdot G(t,\\mu_c,\\sigma_c) + i_s \\cdot U(t_s, t_e)', description: 'Convective peak + stratiform trailing' },
+    ],
+    variables: [
+      { symbol: 'i_{peak}', meaning: 'Peak intensity' },
+      { symbol: '\\sigma', meaning: 'Peak width parameter' },
+      { symbol: 'G', meaning: 'Gaussian convective component' },
+      { symbol: 'U', meaning: 'Uniform stratiform component' },
+    ],
+    members: ['Supercell', 'MCS Storm', 'Squall Line', 'Derecho', 'Medicane', 'Polar Low', 'Monsoon Burst', 'Sea Breeze', 'Nocturnal MCS', 'Orographic Enhanced', 'Urban Heat Island', 'Rain on Snow'],
+    notes: 'Physics-motivated profiles. Model specific storm types rather than regional standards. Useful for scenario-based design.',
+  },
 ];
 
 export const PEAK_POSITION_LABELS: Record<PeakPosition, string> = {
