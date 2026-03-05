@@ -387,26 +387,103 @@ const REGIONS: Record<string, RegionInfo> = {
   },
 };
 
-// Simplified SVG paths for world regions — Robinson-style projection
+// ── Realistic continent silhouettes (Robinson-style projection) ──────
+// viewBox: 80 40 660 330 → x: 80–740, y: 40–370
+// Mapping: x = 80 + (lon+180)*1.833, y = 40 + (90-lat)*2.2
+
+const CONTINENT_OUTLINES: { id: string; d: string }[] = [
+  // North America (Alaska → Pacific coast → Mexico → Gulf → Florida → East coast → Canada → Arctic)
+  {
+    id: "north_america",
+    d: "M 102 90 L 110 84 L 126 88 L 135 95 L 140 88 L 155 82 L 163 80 L 172 78 L 182 80 L 190 84 L 200 82 L 210 84 L 218 82 L 230 86 L 242 90 L 255 88 L 265 92 L 275 98 L 282 105 L 290 110 L 298 118 L 305 125 L 310 122 L 305 117 L 298 110 L 290 105 L 280 100 L 270 96 L 265 100 L 260 106 L 255 112 L 250 108 L 245 110 L 240 105 L 235 108 L 232 112 L 228 108 L 225 104 L 220 100 L 215 98 L 210 100 L 205 98 L 200 100 L 195 105 L 192 110 L 190 115 L 188 120 L 186 125 L 183 130 L 180 138 L 178 145 L 176 150 L 178 155 L 182 152 L 186 155 L 190 160 L 194 163 L 197 168 L 200 172 L 205 178 L 210 184 L 215 190 L 220 194 L 225 198 L 230 200 L 238 204 L 244 207 L 248 204 L 245 198 L 242 194 L 240 188 L 242 184 L 245 180 L 248 175 L 252 172 L 258 172 L 262 175 L 266 180 L 268 184 L 268 180 L 266 175 L 264 170 L 262 165 L 264 160 L 268 155 L 272 150 L 276 148 L 280 145 L 285 140 L 290 136 L 295 134 L 300 132 L 305 128 Z",
+  },
+  // Greenland
+  {
+    id: "greenland",
+    d: "M 310 72 L 320 68 L 335 62 L 348 58 L 360 55 L 370 58 L 375 65 L 372 72 L 365 78 L 355 82 L 340 84 L 325 82 L 315 78 Z",
+  },
+  // South America
+  {
+    id: "south_america",
+    d: "M 260 218 L 265 222 L 268 228 L 270 235 L 274 240 L 280 242 L 288 240 L 296 238 L 305 240 L 315 242 L 325 244 L 335 246 L 342 248 L 345 252 L 344 258 L 342 265 L 340 272 L 338 278 L 335 284 L 332 290 L 328 296 L 324 302 L 318 308 L 312 312 L 306 316 L 300 320 L 294 325 L 288 332 L 284 338 L 280 345 L 278 350 L 275 355 L 272 350 L 270 342 L 268 335 L 270 328 L 272 320 L 271 312 L 268 305 L 266 298 L 264 290 L 262 282 L 260 274 L 258 265 L 256 258 L 255 250 L 256 242 L 258 234 L 260 226 Z",
+  },
+  // Central America & Caribbean
+  {
+    id: "central_america_land",
+    d: "M 215 194 L 220 196 L 225 198 L 230 200 L 238 204 L 244 207 L 248 210 L 252 214 L 256 216 L 258 218 L 260 218 L 258 215 L 255 212 L 252 210 L 248 207 L 244 205 L 240 202 L 235 200 L 230 198 L 225 196 L 220 194 Z",
+  },
+  // Europe (Iberia → France → Scandinavia → Baltic → Balkans → back)
+  {
+    id: "europe",
+    d: "M 388 155 L 390 160 L 395 158 L 400 160 L 406 155 L 410 150 L 414 148 L 418 145 L 420 142 L 425 140 L 428 142 L 432 146 L 435 150 L 438 154 L 440 158 L 438 162 L 435 158 L 432 155 L 430 158 L 433 162 L 436 165 L 440 162 L 444 158 L 448 155 L 452 152 L 456 148 L 460 145 L 465 142 L 470 138 L 475 132 L 478 128 L 475 122 L 470 118 L 465 112 L 460 108 L 455 102 L 450 96 L 445 92 L 440 88 L 435 85 L 430 82 L 425 84 L 420 88 L 415 92 L 412 98 L 408 105 L 404 110 L 400 112 L 396 108 L 392 112 L 390 118 L 388 122 L 392 125 L 396 128 L 400 130 L 404 132 L 406 135 L 404 138 L 400 140 L 396 142 L 392 145 L 390 148 L 388 152 Z",
+  },
+  // British Isles
+  {
+    id: "british_isles",
+    d: "M 392 108 L 396 105 L 400 102 L 403 105 L 404 110 L 400 112 L 396 108 Z M 386 112 L 390 108 L 392 112 L 390 118 L 386 115 Z",
+  },
+  // Africa
+  {
+    id: "africa",
+    d: "M 390 190 L 395 188 L 400 186 L 408 185 L 415 184 L 422 184 L 430 185 L 438 186 L 445 188 L 452 190 L 458 192 L 465 194 L 470 196 L 475 200 L 478 205 L 480 210 L 482 216 L 484 222 L 486 228 L 488 235 L 490 242 L 490 248 L 488 255 L 486 262 L 482 268 L 478 274 L 474 280 L 470 286 L 466 292 L 462 298 L 458 302 L 454 308 L 450 312 L 446 316 L 442 318 L 438 316 L 436 312 L 434 306 L 432 300 L 430 294 L 428 288 L 425 282 L 422 276 L 418 270 L 415 264 L 412 258 L 408 252 L 405 246 L 402 240 L 400 234 L 398 228 L 396 222 L 394 216 L 392 210 L 390 204 L 389 198 Z",
+  },
+  // Asia (massive - Turkey → Middle East → India → SE Asia → China → Siberia → Urals)
+  {
+    id: "asia",
+    d: "M 475 132 L 480 128 L 488 120 L 496 112 L 505 105 L 515 98 L 525 92 L 535 86 L 548 80 L 560 75 L 575 70 L 590 66 L 605 64 L 620 62 L 635 62 L 650 65 L 660 70 L 668 78 L 672 86 L 675 95 L 676 105 L 672 115 L 668 122 L 665 128 L 660 135 L 655 142 L 650 148 L 648 155 L 652 158 L 658 160 L 662 165 L 660 170 L 655 172 L 650 168 L 645 170 L 642 175 L 640 180 L 636 185 L 632 190 L 628 195 L 625 200 L 622 205 L 618 210 L 614 215 L 610 220 L 605 222 L 600 225 L 596 228 L 592 232 L 588 235 L 585 230 L 580 225 L 575 228 L 570 232 L 565 228 L 560 225 L 555 222 L 550 220 L 545 222 L 540 225 L 535 228 L 530 225 L 526 220 L 524 215 L 522 210 L 520 205 L 518 200 L 520 195 L 524 190 L 528 185 L 532 182 L 536 178 L 540 175 L 545 172 L 548 168 L 545 164 L 540 162 L 535 165 L 530 168 L 525 170 L 520 172 L 515 175 L 510 178 L 505 180 L 500 182 L 496 184 L 492 186 L 488 188 L 485 185 L 482 180 L 480 175 L 478 170 L 476 165 L 475 160 L 474 155 L 472 148 L 470 142 L 472 138 L 475 135 Z",
+  },
+  // Indian subcontinent
+  {
+    id: "india",
+    d: "M 530 175 L 535 172 L 540 168 L 545 165 L 550 168 L 552 172 L 548 178 L 545 185 L 540 192 L 535 200 L 530 208 L 528 215 L 530 222 L 525 225 L 520 220 L 518 212 L 520 205 L 522 198 L 524 190 L 528 185 L 530 180 Z",
+  },
+  // Arabian Peninsula
+  {
+    id: "arabia",
+    d: "M 475 200 L 480 196 L 488 192 L 495 190 L 500 192 L 506 195 L 510 198 L 515 202 L 518 208 L 515 215 L 510 218 L 505 220 L 498 218 L 492 215 L 486 212 L 480 208 L 476 205 Z",
+  },
+  // Japan
+  {
+    id: "japan",
+    d: "M 662 130 L 665 125 L 668 128 L 672 135 L 670 142 L 666 148 L 662 145 L 660 140 L 661 135 Z M 656 148 L 660 145 L 662 150 L 660 155 L 656 152 Z",
+  },
+  // Southeast Asian islands (Indonesia, Philippines, etc.)
+  {
+    id: "se_asia_islands",
+    d: "M 618 225 L 625 222 L 632 225 L 638 228 L 645 232 L 650 235 L 655 232 L 660 235 L 665 240 L 660 244 L 654 242 L 648 240 L 642 242 L 635 245 L 628 248 L 622 250 L 618 246 L 615 240 L 616 232 Z M 640 248 L 648 246 L 655 250 L 662 255 L 665 260 L 660 262 L 652 260 L 645 258 L 640 254 Z M 668 248 L 675 245 L 680 250 L 682 258 L 678 262 L 672 260 L 668 255 Z",
+  },
+  // Australia
+  {
+    id: "australia",
+    d: "M 638 285 L 650 278 L 662 275 L 674 278 L 685 282 L 694 288 L 700 296 L 702 305 L 700 315 L 695 322 L 688 328 L 680 330 L 672 328 L 665 325 L 658 322 L 652 318 L 648 312 L 645 305 L 642 298 L 640 292 Z",
+  },
+  // New Zealand
+  {
+    id: "new_zealand",
+    d: "M 712 318 L 716 314 L 720 318 L 718 325 L 714 328 L 712 324 Z M 714 330 L 718 328 L 720 332 L 718 338 L 714 335 Z",
+  },
+];
+
+// Interactive region overlay paths — positioned to match continent geography
 const REGION_PATHS: Record<string, string> = {
-  us_east: "M 170 155 L 195 148 L 210 155 L 215 170 L 210 190 L 195 195 L 180 192 L 170 180 Z",
-  us_west: "M 115 150 L 145 140 L 170 155 L 170 180 L 155 190 L 130 185 L 115 170 Z",
-  us_gulf: "M 155 190 L 180 192 L 195 195 L 200 205 L 185 210 L 165 208 L 150 200 Z",
-  canada: "M 115 100 L 210 95 L 230 110 L 225 140 L 210 155 L 170 155 L 145 140 L 115 150 L 105 130 Z",
-  western_europe: "M 380 125 L 410 120 L 425 130 L 420 155 L 400 165 L 385 160 L 375 145 Z",
-  eastern_europe: "M 420 115 L 455 110 L 470 125 L 465 155 L 445 165 L 425 160 L 420 140 Z",
-  nordic: "M 385 85 L 425 75 L 445 90 L 440 115 L 420 115 L 400 120 L 385 110 Z",
-  mediterranean: "M 375 160 L 420 155 L 445 165 L 460 175 L 440 185 L 400 185 L 380 175 Z",
-  middle_east: "M 460 170 L 500 160 L 530 175 L 525 200 L 500 210 L 475 205 L 460 190 Z",
-  east_asia: "M 590 120 L 640 110 L 665 130 L 660 165 L 635 175 L 610 170 L 590 150 Z",
-  southeast_asia: "M 590 195 L 630 185 L 660 195 L 665 225 L 640 240 L 610 235 L 590 220 Z",
-  south_asia: "M 530 175 L 565 165 L 590 180 L 590 210 L 570 225 L 545 218 L 530 200 Z",
-  north_africa: "M 360 190 L 420 185 L 460 190 L 460 220 L 430 240 L 390 240 L 360 225 Z",
-  east_africa: "M 430 240 L 470 230 L 490 245 L 490 290 L 470 310 L 445 305 L 430 280 Z",
-  south_america: "M 210 240 L 250 225 L 280 240 L 290 300 L 270 355 L 245 365 L 225 340 L 210 290 Z",
-  central_america: "M 150 205 L 190 210 L 210 220 L 210 240 L 190 245 L 165 240 L 150 225 Z",
-  oceania: "M 620 260 L 670 250 L 700 270 L 700 310 L 680 325 L 640 320 L 620 295 Z",
-  russia_ca: "M 455 70 L 590 60 L 640 80 L 640 120 L 590 130 L 530 135 L 470 125 L 455 100 Z",
+  us_east: "M 262 100 L 275 98 L 285 105 L 290 115 L 298 118 L 305 125 L 300 132 L 290 136 L 280 145 L 272 150 L 268 155 L 264 165 L 262 170 L 258 172 L 254 172 L 248 175 L 245 180 L 245 172 L 252 165 L 258 155 L 260 145 L 258 135 L 255 125 L 255 112 L 258 105 Z",
+  us_west: "M 176 100 L 192 98 L 200 100 L 210 100 L 220 100 L 232 104 L 242 108 L 255 112 L 255 125 L 258 135 L 258 145 L 252 155 L 248 160 L 242 165 L 235 170 L 228 175 L 220 180 L 215 185 L 210 184 L 205 178 L 200 172 L 194 163 L 186 155 L 182 145 L 180 138 L 178 130 L 176 120 L 175 110 Z",
+  us_gulf: "M 215 185 L 225 190 L 235 196 L 242 194 L 245 188 L 245 180 L 248 175 L 252 172 L 258 172 L 262 175 L 266 180 L 268 184 L 266 188 L 260 190 L 255 192 L 248 195 L 240 200 L 235 200 L 228 198 L 220 194 Z",
+  canada: "M 105 82 L 135 72 L 165 68 L 190 70 L 210 72 L 230 76 L 250 82 L 265 88 L 275 95 L 262 100 L 255 105 L 242 100 L 232 98 L 220 96 L 210 95 L 200 96 L 190 95 L 176 100 L 175 110 L 170 105 L 160 98 L 148 92 L 135 88 L 120 85 L 108 84 Z",
+  western_europe: "M 386 98 L 396 95 L 404 98 L 408 105 L 412 110 L 415 118 L 418 125 L 420 132 L 418 138 L 414 142 L 410 148 L 406 155 L 400 160 L 395 158 L 390 155 L 388 148 L 390 142 L 392 135 L 396 130 L 400 125 L 398 118 L 394 112 L 390 108 L 386 105 Z",
+  eastern_europe: "M 420 88 L 435 85 L 445 92 L 455 102 L 460 108 L 465 118 L 468 128 L 470 138 L 465 142 L 460 148 L 455 152 L 448 155 L 440 158 L 435 155 L 432 148 L 428 142 L 425 138 L 420 135 L 418 128 L 416 120 L 418 112 L 420 98 Z",
+  nordic: "M 400 78 L 415 72 L 428 75 L 435 80 L 440 85 L 445 90 L 450 96 L 445 98 L 440 95 L 435 92 L 428 90 L 420 88 L 415 92 L 410 98 L 404 102 L 400 95 L 398 88 Z",
+  mediterranean: "M 388 155 L 400 160 L 410 155 L 418 152 L 425 155 L 432 158 L 438 162 L 444 165 L 450 162 L 456 158 L 462 155 L 468 160 L 475 165 L 478 170 L 475 175 L 468 178 L 460 180 L 450 178 L 440 175 L 430 172 L 420 170 L 410 168 L 402 165 L 395 162 L 390 160 Z",
+  middle_east: "M 468 178 L 478 175 L 485 180 L 492 186 L 498 190 L 505 195 L 510 200 L 515 208 L 510 215 L 505 218 L 498 215 L 492 210 L 486 205 L 480 200 L 476 195 L 472 190 L 468 185 Z",
+  east_asia: "M 610 70 L 625 68 L 640 70 L 655 75 L 665 82 L 672 92 L 675 102 L 672 115 L 668 125 L 665 132 L 660 140 L 655 148 L 650 155 L 645 162 L 640 168 L 635 172 L 628 175 L 620 172 L 612 168 L 605 162 L 600 155 L 596 148 L 594 140 L 592 132 L 590 122 L 592 112 L 595 102 L 600 92 L 605 82 Z",
+  southeast_asia: "M 590 195 L 600 190 L 610 192 L 618 198 L 625 205 L 630 212 L 635 220 L 640 228 L 648 235 L 658 238 L 668 240 L 675 245 L 678 252 L 672 258 L 662 260 L 650 255 L 640 250 L 630 248 L 620 248 L 612 245 L 608 238 L 602 230 L 596 222 L 592 215 L 590 205 Z",
+  south_asia: "M 520 172 L 530 168 L 540 165 L 550 168 L 555 175 L 548 185 L 540 195 L 535 205 L 530 215 L 525 222 L 518 218 L 515 210 L 518 200 L 522 192 L 525 185 L 522 178 Z",
+  north_africa: "M 388 190 L 400 186 L 415 184 L 430 185 L 445 188 L 458 192 L 468 196 L 468 205 L 465 215 L 460 225 L 450 235 L 440 240 L 430 242 L 420 240 L 410 235 L 402 228 L 396 220 L 392 212 L 390 202 Z",
+  east_africa: "M 440 240 L 455 235 L 468 240 L 478 248 L 485 258 L 488 268 L 486 278 L 482 288 L 475 296 L 468 302 L 458 308 L 450 312 L 442 316 L 436 312 L 432 302 L 430 292 L 428 282 L 430 272 L 432 262 L 435 252 Z",
+  south_america: "M 258 218 L 268 222 L 274 230 L 280 240 L 300 238 L 320 242 L 340 248 L 345 255 L 342 268 L 338 280 L 332 292 L 324 304 L 312 314 L 300 322 L 290 332 L 282 342 L 276 352 L 270 345 L 268 335 L 270 325 L 268 315 L 265 305 L 262 295 L 260 282 L 258 268 L 256 255 L 255 242 L 256 230 Z",
+  central_america: "M 200 195 L 212 198 L 220 202 L 230 206 L 240 210 L 248 214 L 255 218 L 258 218 L 256 222 L 248 220 L 240 216 L 232 212 L 222 208 L 212 204 L 204 200 Z",
+  oceania: "M 636 278 L 652 274 L 668 276 L 682 282 L 694 290 L 702 302 L 700 315 L 692 325 L 682 330 L 670 328 L 658 322 L 648 314 L 642 305 L 640 295 L 638 285 Z",
+  russia_ca: "M 475 68 L 500 62 L 530 58 L 560 56 L 590 58 L 610 62 L 605 72 L 600 82 L 595 92 L 592 102 L 590 112 L 588 120 L 580 128 L 570 132 L 558 135 L 545 135 L 530 132 L 518 128 L 508 122 L 498 115 L 490 108 L 484 100 L 480 92 L 476 82 Z",
 };
 
 interface WorldMapSelectorProps {
@@ -437,28 +514,50 @@ export function WorldMapSelector({ onPatternSelect }: WorldMapSelectorProps) {
         </CardHeader>
         <CardContent className="p-0">
           {/* SVG Map */}
-          <div className="relative bg-[hsl(215,25%,12%)] overflow-hidden rounded-b-lg">
+          <div className="relative bg-[hsl(215,30%,10%)] overflow-hidden rounded-b-lg">
             <svg
               viewBox="80 40 660 330"
               className="w-full h-auto"
-              style={{ minHeight: 280 }}
+              style={{ minHeight: 300 }}
             >
-              {/* Ocean background */}
-              <rect x="80" y="40" width="660" height="330" fill="hsl(215, 25%, 12%)" />
+              {/* Deep ocean */}
+              <defs>
+                <radialGradient id="ocean-glow" cx="50%" cy="40%" r="60%">
+                  <stop offset="0%" stopColor="hsl(215, 35%, 14%)" />
+                  <stop offset="100%" stopColor="hsl(215, 30%, 8%)" />
+                </radialGradient>
+              </defs>
+              <rect x="80" y="40" width="660" height="330" fill="url(#ocean-glow)" />
 
-              {/* Grid lines */}
-              {[100, 140, 180, 220, 260, 300, 340].map(y => (
-                <line key={`h${y}`} x1="80" y1={y} x2="740" y2={y} stroke="hsl(215, 20%, 18%)" strokeWidth="0.5" />
+              {/* Subtle latitude / longitude grid */}
+              {[90, 120, 150, 180, 210, 240, 270, 300, 330, 360].map(y => (
+                <line key={`h${y}`} x1="80" y1={y} x2="740" y2={y} stroke="hsl(215, 20%, 14%)" strokeWidth="0.4" />
               ))}
-              {[120, 200, 280, 360, 440, 520, 600, 680].map(x => (
-                <line key={`v${x}`} x1={x} y1="40" x2={x} y2="370" stroke="hsl(215, 20%, 18%)" strokeWidth="0.5" />
+              {[120, 180, 240, 300, 360, 420, 480, 540, 600, 660, 720].map(x => (
+                <line key={`v${x}`} x1={x} y1="40" x2={x} y2="370" stroke="hsl(215, 20%, 14%)" strokeWidth="0.4" />
               ))}
 
-              {/* Equator */}
-              <line x1="80" y1="210" x2="740" y2="210" stroke="hsl(215, 20%, 22%)" strokeWidth="1" strokeDasharray="4 4" />
-              <text x="745" y="213" fill="hsl(215, 20%, 30%)" fontSize="8" fontFamily="monospace">0°</text>
+              {/* Equator & Tropics */}
+              <line x1="80" y1="238" x2="740" y2="238" stroke="hsl(215, 15%, 20%)" strokeWidth="0.8" strokeDasharray="6 3" />
+              <line x1="80" y1="188" x2="740" y2="188" stroke="hsl(215, 15%, 16%)" strokeWidth="0.4" strokeDasharray="3 4" opacity="0.5" />
+              <line x1="80" y1="288" x2="740" y2="288" stroke="hsl(215, 15%, 16%)" strokeWidth="0.4" strokeDasharray="3 4" opacity="0.5" />
+              <text x="744" y="241" fill="hsl(215, 15%, 25%)" fontSize="7" fontFamily="monospace">0°</text>
+              <text x="744" y="191" fill="hsl(215, 15%, 20%)" fontSize="6" fontFamily="monospace">23°N</text>
+              <text x="744" y="291" fill="hsl(215, 15%, 20%)" fontSize="6" fontFamily="monospace">23°S</text>
 
-              {/* Region shapes */}
+              {/* ── Continent silhouettes (background land) ── */}
+              {CONTINENT_OUTLINES.map(c => (
+                <path
+                  key={c.id}
+                  d={c.d}
+                  fill="hsl(215, 12%, 18%)"
+                  stroke="hsl(215, 12%, 22%)"
+                  strokeWidth="0.6"
+                  className="pointer-events-none"
+                />
+              ))}
+
+              {/* ── Interactive region overlays ── */}
               {Object.entries(REGION_PATHS).map(([id, path]) => {
                 const regionData = REGIONS[id];
                 if (!regionData) return null;
@@ -475,26 +574,26 @@ export function WorldMapSelector({ onPatternSelect }: WorldMapSelectorProps) {
                     <path
                       d={path}
                       fill={fillColor}
-                      fillOpacity={isSelected ? 0.95 : isHovered ? 0.85 : 0.6}
-                      stroke={isSelected ? "hsl(0, 0%, 100%)" : isHovered ? "hsl(0, 0%, 90%)" : "hsl(215, 15%, 25%)"}
-                      strokeWidth={isSelected ? 2 : isHovered ? 1.5 : 0.8}
+                      fillOpacity={isSelected ? 0.85 : isHovered ? 0.7 : 0.35}
+                      stroke={isSelected ? "hsl(0, 0%, 95%)" : isHovered ? "hsl(0, 0%, 80%)" : "hsl(215, 12%, 28%)"}
+                      strokeWidth={isSelected ? 1.8 : isHovered ? 1.2 : 0.5}
                       className="cursor-pointer transition-all duration-200"
                       onClick={() => handleRegionClick(id)}
                       onMouseEnter={() => setHoveredRegion(id)}
                       onMouseLeave={() => setHoveredRegion(null)}
-                      style={{ filter: isSelected ? "drop-shadow(0 0 8px rgba(255,255,255,0.3))" : undefined }}
+                      style={{ filter: isSelected ? "drop-shadow(0 0 6px rgba(255,255,255,0.2))" : undefined }}
                     />
-                    {/* Region label */}
+                    {/* Region label on hover/select */}
                     {(isHovered || isSelected) && (
                       <text
                         x={getRegionCenter(path).x}
                         y={getRegionCenter(path).y}
                         textAnchor="middle"
                         fill="white"
-                        fontSize="9"
+                        fontSize="8"
                         fontWeight="600"
                         className="pointer-events-none select-none"
-                        style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
+                        style={{ textShadow: "0 1px 4px rgba(0,0,0,0.9)" }}
                       >
                         {regionData.name}
                       </text>
@@ -503,21 +602,19 @@ export function WorldMapSelector({ onPatternSelect }: WorldMapSelectorProps) {
                 );
               })}
 
-              {/* Legend dot for selected region */}
+              {/* Pulsing dot on selected region */}
               {selectedRegion && region && (
-                <g>
-                  <circle
-                    cx={getRegionCenter(REGION_PATHS[selectedRegion]).x}
-                    cy={getRegionCenter(REGION_PATHS[selectedRegion]).y - 14}
-                    r="4"
-                    fill="white"
-                    className="animate-pulse"
-                  />
-                </g>
+                <circle
+                  cx={getRegionCenter(REGION_PATHS[selectedRegion]).x}
+                  cy={getRegionCenter(REGION_PATHS[selectedRegion]).y - 12}
+                  r="3.5"
+                  fill="white"
+                  className="animate-pulse"
+                />
               )}
             </svg>
 
-            {/* Floating region count badges */}
+            {/* Badges */}
             <div className="absolute top-3 right-3 flex items-center gap-2">
               <Badge variant="secondary" className="text-xs bg-background/80 backdrop-blur-sm">
                 {Object.keys(REGIONS).length} regions
