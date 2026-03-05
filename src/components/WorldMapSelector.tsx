@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Globe, MapPin, X, ChevronRight, Zap, AlertTriangle, Users, Search } from "lucide-react";
+import { Globe, MapPin, X, ChevronRight, Zap, AlertTriangle, Users, Search, CloudRain } from "lucide-react";
 import { type PatternType } from "@/lib/rainfallPatterns";
 import {
   ComposableMap,
@@ -13,7 +13,7 @@ import {
 } from "react-simple-maps";
 import { COUNTRY_TO_REGION } from "@/lib/countryRegionMapping";
 
-type ColorMode = "region" | "population";
+type ColorMode = "region" | "population" | "rainfall";
 
 // ── Population data (millions, approx. 2024 estimates) ──
 const COUNTRY_POPULATION: Record<string, number> = {
@@ -67,6 +67,51 @@ const POP_LEGEND = [
   { label: "5–20M", color: "hsl(140, 45%, 40%)" },
   { label: "1–5M", color: "hsl(190, 50%, 42%)" },
   { label: "<1M", color: "hsl(210, 40%, 38%)" },
+];
+
+// ── Average annual rainfall by country (mm/yr, approx.) ──
+const COUNTRY_RAINFALL: Record<string, number> = {
+  COL: 3240, PNG: 3142, IDN: 2702, MYS: 2875, PHL: 2348, BGD: 2666, SLB: 3028,
+  LKA: 1712, MMR: 2091, BRN: 2722, NGA: 1150, CMR: 1604, SLE: 2526, LBR: 2391,
+  GHA: 1187, CIV: 1348, GIN: 1651, GAB: 1831, COG: 1646, COD: 1543,
+  BRA: 1761, VEN: 1235, ECU: 2087, PER: 1738, GUY: 2387, SUR: 2331,
+  IND: 1083, THA: 1622, VNM: 1821, KHM: 1904, LAO: 1834, NPL: 1500, BTN: 2200,
+  JPN: 1668, TWN: 2508, KOR: 1274, PRK: 1054,
+  USA: 715, CAN: 537, MEX: 758, GTM: 1996, HND: 1976, NIC: 2391, CRI: 2926, PAN: 2928,
+  ARG: 591, CHL: 716, URY: 1300, PRY: 1130, BOL: 1146,
+  GBR: 1220, IRL: 1118, NOR: 1414, ISL: 1940, NLD: 778, BEL: 847, DEU: 700,
+  FRA: 867, ESP: 636, PRT: 854, ITA: 832, CHE: 1537, AUT: 1110,
+  POL: 600, CZE: 677, SVK: 743, HUN: 589, ROU: 637, BGR: 608,
+  SRB: 686, HRV: 1113, SVN: 1162, BIH: 1028, MNE: 1798, ALB: 1485, MKD: 619, GRC: 652,
+  TUR: 593, GEO: 1026, ARM: 562, AZE: 447,
+  RUS: 460, UKR: 565, BLR: 618, LTU: 656, LVA: 641, EST: 626, FIN: 536, SWE: 624, DNK: 703,
+  CHN: 645, MNG: 241, KAZ: 250, UZB: 206, TKM: 161, KGZ: 533, TJK: 691,
+  PAK: 494, AFG: 327, IRN: 228, IRQ: 216, SAU: 59, ARE: 78, OMN: 125, YEM: 167, JOR: 111, ISR: 435, LBN: 661, SYR: 252, KWT: 121, QAT: 74, BHR: 83,
+  AUS: 534, NZL: 1732, FJI: 2592,
+  EGY: 51, LBY: 56, TUN: 207, DZA: 89, MAR: 346, MRT: 92, MLI: 282, NER: 151, TCD: 322, SDN: 167, SSD: 1000, ERI: 384, ETH: 848, SOM: 282, KEN: 630, UGA: 1180, TZA: 1071, RWA: 1212, BDI: 1274, MOZ: 1032, MWI: 1181, ZMB: 1020, ZWE: 657, BWA: 416, NAM: 285, ZAF: 495, LSO: 788, SWZ: 788, MDG: 1513, AGO: 1010, SEN: 686, GMB: 836, GNB: 1577,
+};
+
+function getRainfallColor(rain: number | undefined): string {
+  if (!rain) return "hsl(215, 12%, 16%)";
+  if (rain >= 2500) return "hsl(240, 60%, 50%)";    // >2500mm - deep blue
+  if (rain >= 2000) return "hsl(220, 65%, 48%)";    // 2000-2500 - blue
+  if (rain >= 1500) return "hsl(200, 70%, 45%)";    // 1500-2000 - ocean blue
+  if (rain >= 1000) return "hsl(170, 60%, 40%)";    // 1000-1500 - teal
+  if (rain >= 750)  return "hsl(140, 55%, 42%)";    // 750-1000 - green
+  if (rain >= 500)  return "hsl(80, 55%, 45%)";     // 500-750 - yellow-green
+  if (rain >= 250)  return "hsl(45, 65%, 50%)";     // 250-500 - amber
+  return "hsl(25, 70%, 48%)";                        // <250mm - dry orange
+}
+
+const RAIN_LEGEND = [
+  { label: ">2500 mm", color: "hsl(240, 60%, 50%)" },
+  { label: "2000–2500", color: "hsl(220, 65%, 48%)" },
+  { label: "1500–2000", color: "hsl(200, 70%, 45%)" },
+  { label: "1000–1500", color: "hsl(170, 60%, 40%)" },
+  { label: "750–1000", color: "hsl(140, 55%, 42%)" },
+  { label: "500–750", color: "hsl(80, 55%, 45%)" },
+  { label: "250–500", color: "hsl(45, 65%, 50%)" },
+  { label: "<250 mm", color: "hsl(25, 70%, 48%)" },
 ];
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -618,6 +663,14 @@ const CountryShape = memo(function CountryShape({
       }
       return getPopulationColor(pop);
     }
+    if (colorMode === "rainfall") {
+      const rain = COUNTRY_RAINFALL[iso];
+      if (isCountryHovered || isRegionSelected) {
+        const base = getRainfallColor(rain);
+        return base.replace(/(\d+)%\)$/, (_, l) => `${Math.min(Number(l) + 15, 80)}%)`);
+      }
+      return getRainfallColor(rain);
+    }
     if (!regionId || !regionData) return "hsl(215, 12%, 16%)";
     if (isRegionSelected) return regionData.hoverColor;
     if (isRegionHovered || isCountryHovered) return regionData.hoverColor;
@@ -628,6 +681,10 @@ const CountryShape = memo(function CountryShape({
     if (colorMode === "population") {
       if (isCountryHovered) return 0.95;
       return COUNTRY_POPULATION[iso] ? 0.75 : 0.4;
+    }
+    if (colorMode === "rainfall") {
+      if (isCountryHovered) return 0.95;
+      return COUNTRY_RAINFALL[iso] ? 0.75 : 0.4;
     }
     if (!regionId) return 0.6;
     if (isRegionSelected) return 0.85;
@@ -747,6 +804,17 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
                 >
                   <Users className="w-3 h-3 inline mr-1" />
                   Population
+                </button>
+                <button
+                  onClick={() => setColorMode("rainfall")}
+                  className={`px-3 py-1.5 font-medium transition-colors ${
+                    colorMode === "rainfall"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  <CloudRain className="w-3 h-3 inline mr-1" />
+                  Rainfall
                 </button>
               </div>
               {/* Cities toggle */}
@@ -899,6 +967,21 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
                 <p className="text-[10px] font-semibold text-foreground mb-1.5">Population</p>
                 <div className="space-y-0.5">
                   {POP_LEGEND.map(item => (
+                    <div key={item.label} className="flex items-center gap-1.5">
+                      <div className="w-3 h-2 rounded-sm flex-shrink-0" style={{ backgroundColor: item.color, opacity: 0.75 }} />
+                      <span className="text-[9px] text-muted-foreground">{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Rainfall legend */}
+            {colorMode === "rainfall" && (
+              <div className="absolute top-3 left-3 bg-background/85 backdrop-blur-sm rounded-lg px-2.5 py-2 border shadow-lg">
+                <p className="text-[10px] font-semibold text-foreground mb-1.5">Avg. Annual Rainfall</p>
+                <div className="space-y-0.5">
+                  {RAIN_LEGEND.map(item => (
                     <div key={item.label} className="flex items-center gap-1.5">
                       <div className="w-3 h-2 rounded-sm flex-shrink-0" style={{ backgroundColor: item.color, opacity: 0.75 }} />
                       <span className="text-[9px] text-muted-foreground">{item.label}</span>
