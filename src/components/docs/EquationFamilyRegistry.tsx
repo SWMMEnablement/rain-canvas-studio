@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Download } from "lucide-react";
 import { EQUATION_FAMILIES } from "./taxonomyData";
+import { downloadEquationsMarkdown } from "@/lib/equationsMarkdownExport";
+import { patternEquations } from "@/lib/patternEquations";
+import { toast } from "sonner";
 
 function LaTeXBlock({ latex }: { latex: string }) {
   // Simple LaTeX-to-HTML for display (KaTeX would be ideal but we keep it light)
@@ -22,8 +26,20 @@ export function EquationFamilyRegistry() {
           <BookOpen className="w-5 h-5 text-primary" />
           Equation Family Registry
         </CardTitle>
-        <CardDescription>
-          9 canonical equation families covering all {EQUATION_FAMILIES.reduce((s, f) => s + f.members.length, 0)}+ design storm methods
+        <CardDescription className="flex items-center justify-between">
+          <span>9 canonical equation families covering all {EQUATION_FAMILIES.reduce((s, f) => s + f.members.length, 0)}+ design storm methods</span>
+          <Button
+            size="sm"
+            variant="outline"
+            className="gap-1.5 ml-4 shrink-0"
+            onClick={() => {
+              downloadEquationsMarkdown();
+              toast.success(`Downloaded ${patternEquations.length} equations as Markdown`);
+            }}
+          >
+            <Download className="w-3.5 h-3.5" />
+            Download All Equations (.md)
+          </Button>
         </CardDescription>
       </CardHeader>
       <CardContent>
