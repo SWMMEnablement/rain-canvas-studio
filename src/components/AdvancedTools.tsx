@@ -8,9 +8,10 @@ import { PatternDecisionGuide } from "@/components/PatternDecisionGuide";
 import { ChinaRainstormCalculator } from "@/components/ChinaRainstormCalculator";
 import { CanadaIdfCalculator } from "@/components/CanadaIdfCalculator";
 import { ParametricStormEngine } from "@/components/ParametricStormEngine";
+import { WorldMapSelector } from "@/components/WorldMapSelector";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GitCompare, Map, Calculator, Info, BarChart3, Target, CloudRain, Snowflake, Beaker } from "lucide-react";
+import { GitCompare, Map, Calculator, Info, BarChart3, Target, CloudRain, Snowflake, Beaker, Globe } from "lucide-react";
 import {
   generateRainfallData,
   prepareChartData,
@@ -44,7 +45,11 @@ export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
       </div>
 
       <Tabs defaultValue="comparison" className="w-full">
-        <TabsList className="grid w-full grid-cols-5 sm:grid-cols-9 mb-6">
+        <TabsList className="grid w-full grid-cols-5 sm:grid-cols-10 mb-6">
+          <TabsTrigger value="map" className="flex items-center gap-2">
+            <Globe className="w-4 h-4" />
+            <span className="hidden sm:inline">Map</span>
+          </TabsTrigger>
           <TabsTrigger value="comparison" className="flex items-center gap-2">
             <GitCompare className="w-4 h-4" />
             <span className="hidden sm:inline">Compare</span>
@@ -82,6 +87,18 @@ export function AdvancedTools({ onSendToGenerator }: AdvancedToolsProps = {}) {
             <span className="hidden sm:inline">About</span>
           </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="map" className="space-y-6">
+          <Card className="bg-accent/30 border-primary/20">
+            <CardContent className="pt-4">
+              <p className="text-sm text-muted-foreground">
+                <strong>World Pattern Map</strong> — Click any region on the interactive map to discover 
+                the recommended rainfall distributions for that area. Covers 18 regions with 200+ patterns.
+              </p>
+            </CardContent>
+          </Card>
+          <WorldMapSelector />
+        </TabsContent>
 
         <TabsContent value="comparison" className="space-y-6">
           <Card className="bg-accent/30 border-primary/20">
