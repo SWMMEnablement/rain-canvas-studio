@@ -141,21 +141,24 @@ const Index = () => {
           </div>
 
           {/* Pattern Badges */}
-          <div className="flex flex-wrap justify-center gap-1.5 mt-4 max-w-6xl mx-auto">
-            {PATTERN_BADGES.map((name) => (
-              <Badge
-                key={name}
-                variant="secondary"
-                className={`text-xs backdrop-blur-sm cursor-pointer transition-all duration-200 ${
-                  heroPattern === name
-                    ? "bg-white/60 text-blue-900 border-white/80 shadow-md scale-105"
-                    : "bg-white/30 text-white border-white/40 hover:bg-white/50 hover:scale-105"
-                }`}
-                onClick={() => setHeroPattern(heroPattern === name ? undefined : name)}
-              >
-                {name}
-              </Badge>
-            ))}
+          <div className="relative mt-4 max-w-6xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-1.5 max-h-[200px] sm:max-h-[300px] lg:max-h-none overflow-y-auto px-2 py-1 scrollbar-thin">
+              {PATTERN_BADGES.map((name) => (
+                <Badge
+                  key={name}
+                  variant="secondary"
+                  className={`text-xs backdrop-blur-sm cursor-pointer transition-all duration-200 ${
+                    heroPattern === name
+                      ? "bg-white/60 text-blue-900 border-white/80 shadow-md scale-105"
+                      : "bg-white/30 text-white border-white/40 hover:bg-white/50 hover:scale-105"
+                  }`}
+                  onClick={() => setHeroPattern(heroPattern === name ? undefined : name)}
+                >
+                  {name}
+                </Badge>
+              ))}
+            </div>
+            <div className="lg:hidden pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[hsl(220,70%,35%)] to-transparent" />
           </div>
 
           {/* GIF Export */}
