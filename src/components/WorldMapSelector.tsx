@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo, memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Globe, MapPin, X, ChevronRight, Zap } from "lucide-react";
+import { Globe, MapPin, X, ChevronRight, Zap, AlertTriangle } from "lucide-react";
 import { type PatternType } from "@/lib/rainfallPatterns";
 import {
   ComposableMap,
@@ -699,10 +699,16 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
                       <span>{selectedCity.returnPeriods}</span>
                     </div>
                     <p className="text-xs text-muted-foreground italic border-t pt-1.5 mt-1.5">{selectedCity.notes}</p>
+                    {selectedCity.country !== "USA" && (
+                      <p className="text-xs text-amber-500 dark:text-amber-400 flex items-center gap-1 border-t pt-1.5 mt-1.5">
+                        <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+                        NOAA Atlas 14 covers US only — IDF lookup may return no data for {selectedCity.country}
+                      </p>
+                    )}
                     <div className="flex gap-2 mt-1">
                       <Button
                         size="sm"
-                        variant="default"
+                        variant={selectedCity.country === "USA" ? "default" : "outline"}
                         className="flex-1 text-xs h-7"
                         onClick={() => {
                           if (onViewIdf) {
@@ -712,7 +718,7 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
                         disabled={!onViewIdf}
                       >
                         <Zap className="w-3 h-3 mr-1" />
-                        View IDF Curves
+                        {selectedCity.country === "USA" ? "View IDF Curves" : "Try IDF Lookup"}
                       </Button>
                       <Button
                         size="sm"
