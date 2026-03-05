@@ -648,7 +648,7 @@ const CountryShape = memo(function CountryShape({
   isCountryHovered: boolean;
   colorMode: ColorMode;
   onRegionClick: (regionId: string) => void;
-  onCountryEnter: (countryName: string, regionId: string | undefined) => void;
+  onCountryEnter: (countryName: string, regionId: string | undefined, iso: string) => void;
   onCountryLeave: () => void;
 }) {
   const countryName = getCountryName(geo);
@@ -711,7 +711,7 @@ const CountryShape = memo(function CountryShape({
         hover: { outline: "none" },
         pressed: { outline: "none" },
       }}
-      onMouseEnter={() => onCountryEnter(countryName, regionId)}
+      onMouseEnter={() => onCountryEnter(countryName, regionId, iso)}
       onMouseLeave={onCountryLeave}
       onClick={() => regionId && onRegionClick(regionId)}
       className={regionId ? "cursor-pointer" : "cursor-default"}
@@ -731,6 +731,7 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const [hoveredCountryRegion, setHoveredCountryRegion] = useState<string | null>(null);
+  const [hoveredCountryIso, setHoveredCountryIso] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<CityMarker | null>(null);
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
   const [showCities, setShowCities] = useState(true);
@@ -741,14 +742,16 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
     setSelectedRegion(prev => prev === regionId ? null : regionId);
   }, []);
 
-  const handleCountryEnter = useCallback((countryName: string, regionId: string | undefined) => {
+  const handleCountryEnter = useCallback((countryName: string, regionId: string | undefined, iso: string) => {
     setHoveredCountry(countryName);
     setHoveredCountryRegion(regionId || null);
+    setHoveredCountryIso(iso);
   }, []);
 
   const handleCountryLeave = useCallback(() => {
     setHoveredCountry(null);
     setHoveredCountryRegion(null);
+    setHoveredCountryIso(null);
   }, []);
 
   const region = selectedRegion ? REGIONS[selectedRegion] : null;
@@ -1002,6 +1005,17 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
                       {hoveredCountryRegion && REGIONS[hoveredCountryRegion] && (
                         <Badge variant="outline" className="text-xs">
                           {REGIONS[hoveredCountryRegion].name}
+                        </Badge>
+                      )}
+                      {colorMode === "rainfall" && hoveredCountryIso && COUNTRY_RAINFALL[hoveredCountryIso] && (
+                        <Badge className="text-xs bg-primary/80 text-primary-foreground border-0">
+                          <CloudRain className="w-3 h-3 mr-1" />
+                          {COUNTRY_RAINFALL[hoveredCountryIso].toLocaleString()} mm/yr
+                        </Badge>
+                      )}
+                      {colorMode === "rainfall" && hoveredCountryIso && !COUNTRY_RAINFALL[hoveredCountryIso] && (
+                        <Badge variant="outline" className="text-xs text-muted-foreground">
+                          No rainfall data
                         </Badge>
                       )}
                     </div>
