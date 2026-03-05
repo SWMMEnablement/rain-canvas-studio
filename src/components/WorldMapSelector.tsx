@@ -2,7 +2,8 @@ import { useState, useCallback, useMemo, memo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Globe, MapPin, X, ChevronRight, Zap, AlertTriangle, Users } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Globe, MapPin, X, ChevronRight, Zap, AlertTriangle, Users, Search } from "lucide-react";
 import { type PatternType } from "@/lib/rainfallPatterns";
 import {
   ComposableMap,
@@ -677,6 +678,7 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
   const [showCities, setShowCities] = useState(true);
   const [colorMode, setColorMode] = useState<ColorMode>("region");
+  const [citySearch, setCitySearch] = useState("");
 
   const handleRegionClick = useCallback((regionId: string) => {
     setSelectedRegion(prev => prev === regionId ? null : regionId);
@@ -697,6 +699,17 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
   const totalPatterns = useMemo(() => {
     return Object.values(REGIONS).reduce((acc, r) => acc + r.patterns.length, 0);
   }, []);
+
+  const filteredCities = useMemo(() => {
+    if (!citySearch.trim()) return CITY_MARKERS;
+    const q = citySearch.toLowerCase();
+    return CITY_MARKERS.filter(c =>
+      c.name.toLowerCase().includes(q) ||
+      c.country.toLowerCase().includes(q) ||
+      c.regionId.toLowerCase().includes(q) ||
+      c.idfSource.toLowerCase().includes(q)
+    );
+  }, [citySearch]);
 
   return (
     <div className="space-y-4">
@@ -750,6 +763,28 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
               </button>
             </div>
           </div>
+          {/* City search */}
+          {showCities && (
+            <div className="px-4 pb-2 pt-1">
+              <div className="relative max-w-xs">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+                <Input
+                  placeholder="Search cities (name, country, source…)"
+                  value={citySearch}
+                  onChange={e => setCitySearch(e.target.value)}
+                  className="h-8 text-xs pl-8 pr-8"
+                />
+                {citySearch && (
+                  <button
+                    onClick={() => setCitySearch("")}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </CardHeader>
         <CardContent className="p-0">
           {/* Map Container */}
@@ -796,7 +831,7 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
               </Geographies>
 
               {/* City markers */}
-              {showCities && CITY_MARKERS.map(city => {
+              {showCities && filteredCities.map(city => {
                 const isHovered = hoveredCity === city.id;
                 const isSelected = selectedCity?.id === city.id;
                 return (
@@ -843,6 +878,13 @@ export function WorldMapSelector({ onPatternSelect, onViewIdf }: WorldMapSelecto
 
             {/* Badges */}
             <div className="absolute top-3 right-3 flex items-center gap-2">
+              {showCities && (
+                <Badge variant="secondary" className="text-xs bg-background/80 backdrop-blur-sm">
+                  {filteredCities.length === CITY_MARKERS.length
+                    ? `${CITY_MARKERS.length} cities`
+                    : `${filteredCities.length} / ${CITY_MARKERS.length} cities`}
+                </Badge>
+              )}
               <Badge variant="secondary" className="text-xs bg-background/80 backdrop-blur-sm">
                 {Object.keys(REGIONS).length} regions
               </Badge>
