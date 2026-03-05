@@ -4355,6 +4355,891 @@ export const patternEquations: PatternEquation[] = [
     reference: { title: 'Development and Evaluation of Dimensionless Design Hyetographs', citation: 'Bonta, J.V. & Rao, A.R., USDA-ARS', year: 1988 },
     notes: 'USDA Agricultural Research Service. Data-driven polynomial fit to observed storms. Midwest US agricultural watersheds. Quartile-classified.'
   },
+
+  // ════════════════════════════════════════════════════
+  // MATHEMATICAL DISTRIBUTIONS (#138–#152)
+  // ════════════════════════════════════════════════════
+
+  {
+    pattern: 'parabolic' as PatternType,
+    name: 'Parabolic',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity', latex: 'i(t) = \\frac{6P}{D^2} \\cdot t \\cdot (D - t)', description: 'Symmetric parabolic intensity profile' },
+      { label: 'Cumulative Mass', latex: 'M(t) = 3\\left(\\frac{t}{D}\\right)^2 - 2\\left(\\frac{t}{D}\\right)^3', description: 'S-curve cumulative distribution' },
+      { label: 'Peak Intensity', latex: 'i_{peak} = \\frac{3P}{2D} = 1.5\\bar{i}', description: 'Peak at centre is 1.5× average' },
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Intensity at time t' },
+      { symbol: 'P', meaning: 'Total storm depth' },
+      { symbol: 'D', meaning: 'Total duration' },
+    ],
+    reference: { title: 'Synthetic Storm Profiles', citation: 'Standard hydrologic textbooks', year: 1970 },
+    notes: 'Symmetric, smooth, peak at D/2. Peak ratio 1.5×. Zero intensity at boundaries. Special case of Power Curve (n=1, m=1).'
+  },
+
+  {
+    pattern: 'cosine_storm' as PatternType,
+    name: 'Cosine / Raised Cosine',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity', latex: 'i(t) = \\frac{P}{D}\\left[1 + A\\cos\\left(\\frac{2\\pi(t - t_p)}{D}\\right)\\right]', description: 'Cosine modulation around average intensity' },
+      { label: 'Cumulative', latex: 'M(t) = \\frac{t}{D} + \\frac{A \\cdot D}{2\\pi}\\left[\\sin\\!\\frac{2\\pi(t-t_p)}{D} - \\sin\\!\\frac{-2\\pi t_p}{D}\\right]', description: 'Integrated cumulative mass curve' },
+    ],
+    variables: [
+      { symbol: 'A', meaning: 'Amplitude (0 < A ≤ 1); A=0 → uniform, A=1 → peak 2× avg' },
+      { symbol: 't_p', meaning: 'Time of peak intensity' },
+    ],
+    reference: { title: 'Harmonic Storm Profiles', citation: 'Signal processing approach to hydrology', year: 1985 },
+    notes: 'C∞ continuous — no discontinuities. A=1 gives peak ratio 2.0×. A=0.5 gives 1.5×. Smooth everywhere.'
+  },
+
+  {
+    pattern: 'lognormal_temporal' as PatternType,
+    name: 'Log-Normal Temporal',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity', latex: 'i(t) = \\frac{P}{t \\sigma \\sqrt{2\\pi}} \\exp\\!\\left(-\\frac{(\\ln t - \\mu)^2}{2\\sigma^2}\\right)', description: 'Log-normal PDF scaled to total depth' },
+      { label: 'Cumulative', latex: 'M(t) = P \\cdot \\Phi\\!\\left(\\frac{\\ln t - \\mu}{\\sigma}\\right)', description: 'Standard normal CDF of log-transformed time' },
+      { label: 'Peak Time', latex: 't_p = e^{\\mu - \\sigma^2}', description: 'Mode of the distribution' },
+    ],
+    variables: [
+      { symbol: '\\mu', meaning: 'Log-mean parameter: μ = ln(tₚ) + σ²' },
+      { symbol: '\\sigma', meaning: 'Shape: 0.3 mild skew, 0.5 moderate, 0.8 strong' },
+      { symbol: '\\Phi', meaning: 'Standard normal CDF' },
+    ],
+    reference: { title: 'Statistical Methods in Hydrology', citation: 'Stedinger, Vogel & Foufoula-Georgiou', year: 1993 },
+    notes: 'Right-skewed — realistic for convective storms. σ controls peakedness (0.3→2.0×, 0.5→2.5×, 0.8→3.5× peak ratio).'
+  },
+
+  {
+    pattern: 'exponential_decay' as PatternType,
+    name: 'Exponential Decay',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity', latex: 'i(t) = i_0 \\cdot e^{-kt}', description: 'Exponentially decaying intensity from maximum at t=0' },
+      { label: 'Initial Intensity', latex: 'i_0 = \\frac{Pk}{1 - e^{-kD}}', description: 'Normalised so total depth = P' },
+      { label: 'Cumulative Mass', latex: 'M(t) = \\frac{1 - e^{-kt}}{1 - e^{-kD}}', description: 'Dimensionless cumulative fraction' },
+      { label: 'Peak Ratio', latex: '\\text{ratio} = \\frac{kD}{1 - e^{-kD}}', description: 'kD=1→1.58×, kD=2→2.31×, kD=3→3.16×, kD=5→5.03×' },
+    ],
+    variables: [
+      { symbol: 'k', meaning: 'Decay rate parameter (1/time)' },
+      { symbol: 'i_0', meaning: 'Initial (peak) intensity at t=0' },
+    ],
+    reference: { title: 'Exponential Storm Decay Models', citation: 'Various hydrology references', year: 1975 },
+    notes: 'Always front-loaded (peak at t=0). kD controls peakedness. Common for short convective bursts and post-frontal decay.'
+  },
+
+  {
+    pattern: 'inverse_exponential' as PatternType,
+    name: 'Inverse Exponential (Rise-Decay)',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity', latex: 'i(t) = C\\left(1 - e^{-\\alpha t}\\right) e^{-\\beta(t-t_p)^2}', description: 'Gradual onset with Gaussian-shaped peak and recession' },
+      { label: 'Normalisation', latex: 'C = \\frac{P}{\\int_0^D (1-e^{-\\alpha t})\\,e^{-\\beta(t-t_p)^2}\\,dt}', description: 'Constant ensuring total depth equals P' },
+    ],
+    variables: [
+      { symbol: '\\alpha', meaning: 'Rise rate — controls onset steepness' },
+      { symbol: '\\beta', meaning: 'Decay rate — controls recession width' },
+      { symbol: 't_p', meaning: 'Nominal peak time' },
+      { symbol: 'C', meaning: 'Normalising constant (numerical integration)' },
+    ],
+    reference: { title: 'Frontal Storm Modelling', citation: 'Synthetic hyetograph research', year: 1995 },
+    notes: 'Models slow-building frontal storms with gradual rise and peaked recession. 3 shape parameters give high flexibility.'
+  },
+
+  {
+    pattern: 'power_curve' as PatternType,
+    name: 'Power Curve (Beta-type)',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity', latex: 'i(t) = C \\cdot t^n (D-t)^m', description: 'Generalised beta-type intensity profile' },
+      { label: 'Normalisation', latex: 'C = \\frac{P \\cdot \\Gamma(n+m+2)}{D^{n+m+1} \\cdot \\Gamma(n+1) \\cdot \\Gamma(m+1)}', description: 'Normalising constant via Gamma functions' },
+      { label: 'Cumulative', latex: 'M(t) = I_{t/D}(n+1,\\, m+1)', description: 'Regularised incomplete beta function' },
+      { label: 'Peak Time', latex: 't_p = D \\cdot \\frac{n}{n+m}', description: 'Peak position controlled by exponent ratio' },
+    ],
+    variables: [
+      { symbol: 'n', meaning: 'Rising limb exponent' },
+      { symbol: 'm', meaning: 'Falling limb exponent' },
+      { symbol: '\\Gamma', meaning: 'Gamma function' },
+      { symbol: 'I_x(a,b)', meaning: 'Regularised incomplete beta function' },
+    ],
+    reference: { title: 'Beta Distribution in Hydrology', citation: 'Chow, Maidment & Mays, Applied Hydrology', year: 1988 },
+    notes: 'n=m symmetric; n<m front-loaded; n>m back-loaded. Special cases: n=m=1 → parabolic, n=0,m=0 → block, n=2,m=1 ≈ SCS Type II.'
+  },
+
+  {
+    pattern: 'weibull_temporal' as PatternType,
+    name: 'Weibull Temporal',
+    category: 'cumulative',
+    equations: [
+      { label: 'CDF (Mass Curve)', latex: 'M(t) = \\frac{1 - e^{-(t/\\lambda)^k}}{1 - e^{-(D/\\lambda)^k}}', description: 'Normalised Weibull CDF over storm duration' },
+      { label: 'Intensity (PDF)', latex: 'i(t) = P \\cdot \\frac{k}{\\lambda}\\left(\\frac{t}{\\lambda}\\right)^{k-1} \\frac{e^{-(t/\\lambda)^k}}{1-e^{-(D/\\lambda)^k}}', description: 'Weibull PDF scaled to total depth' },
+      { label: 'Peak Time', latex: 't_p = \\lambda\\left(\\frac{k-1}{k}\\right)^{1/k}, \\quad k > 1', description: 'Mode of the distribution' },
+    ],
+    variables: [
+      { symbol: 'k', meaning: 'Shape: k=1 exponential, k=2 Rayleigh, k=3.6 ≈ normal' },
+      { symbol: '\\lambda', meaning: 'Scale parameter (controls peak timing)' },
+    ],
+    reference: { title: 'Weibull Distribution in Rainfall Analysis', citation: 'Sivapalan & Blöschl, Water Resources Research', year: 1998 },
+    notes: 'k=1 reduces to exponential decay. k=2 Rayleigh-like moderate peak. k>3.6 platykurtic (broad, flat). Very flexible 2-parameter model.'
+  },
+
+  {
+    pattern: 'instantaneous_burst' as PatternType,
+    name: 'Instantaneous Burst',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity', latex: 'i(t) = \\begin{cases} P/\\Delta t & t_0 \\leq t < t_0 + \\Delta t \\\\ 0 & \\text{otherwise} \\end{cases}', description: 'All rainfall delivered in single time step' },
+      { label: 'Cumulative', latex: 'M(t) = \\begin{cases} 0 & t < t_0 \\\\ P(t-t_0)/\\Delta t & t_0 \\leq t < t_0+\\Delta t \\\\ P & t \\geq t_0+\\Delta t \\end{cases}', description: 'Step function mass curve' },
+      { label: 'Peak Ratio', latex: '\\text{ratio} = D / \\Delta t \\to \\infty', description: 'Approaches infinity as time step decreases' },
+    ],
+    variables: [
+      { symbol: 't_0', meaning: 'Burst start time (default: 0)' },
+      { symbol: '\\Delta t', meaning: 'Minimum model time step' },
+    ],
+    reference: { title: 'Impulse Response Testing', citation: 'Numerical methods in hydrology', year: 1980 },
+    notes: 'Theoretical worst-case impulse. Use for pipe surcharge testing, numerical stability testing, and system impulse response analysis.'
+  },
+
+  {
+    pattern: 'uniform_random' as PatternType,
+    name: 'Uniform Random (Stochastic)',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity', latex: 'i(j) = \\frac{P \\cdot X_j}{\\Delta t \\cdot \\sum_k X_k}, \\quad X_j \\sim U(0,1)', description: 'Normalised random intensities preserving total depth' },
+    ],
+    variables: [
+      { symbol: 'X_j', meaning: 'Independent uniform random variables on [0,1]' },
+      { symbol: 'P', meaning: 'Total depth (preserved exactly)' },
+      { symbol: '\\Delta t', meaning: 'Time step' },
+    ],
+    reference: { title: 'Monte Carlo Methods in Hydrology', citation: 'Bras & Rodriguez-Iturbe', year: 1985 },
+    notes: 'Each realisation is different. Average profile → uniform (block rain). For Monte Carlo uncertainty analysis. Set seed for reproducibility.'
+  },
+
+  {
+    pattern: 'bimodal_gaussian' as PatternType,
+    name: 'Bimodal Gaussian',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity', latex: 'i(t) = C\\left[w_1 e^{-\\frac{(t-\\mu_1)^2}{2\\sigma_1^2}} + w_2 e^{-\\frac{(t-\\mu_2)^2}{2\\sigma_2^2}}\\right]', description: 'Weighted sum of two Gaussian peaks' },
+      { label: 'Normalisation', latex: 'C = \\frac{P}{\\int_0^D [w_1 G_1(t) + w_2 G_2(t)]\\,dt}', description: 'Ensures total depth = P' },
+    ],
+    variables: [
+      { symbol: '\\mu_1, \\mu_2', meaning: 'Peak times (defaults: 0.30D, 0.70D)' },
+      { symbol: '\\sigma_1, \\sigma_2', meaning: 'Peak widths (defaults: 0.08D, 0.10D)' },
+      { symbol: 'w_1, w_2', meaning: 'Weights (w₁+w₂=1; defaults: 0.60, 0.40)' },
+    ],
+    reference: { title: 'Multi-Peak Storm Analysis', citation: 'Various urban hydrology research', year: 1990 },
+    notes: 'Models frontal passage (warm + cold front) or tropical squall + trailing stratiform. 5 degrees of freedom for flexible double-peak shapes.'
+  },
+
+  {
+    pattern: 'piecewise_linear' as PatternType,
+    name: 'Piecewise Linear',
+    category: 'cumulative',
+    equations: [
+      { label: 'Intensity', latex: 'i(t) = \\frac{P}{D} \\cdot \\frac{m_{k+1} - m_k}{\\tau_{k+1} - \\tau_k}, \\quad \\tau_k \\leq \\frac{t}{D} < \\tau_{k+1}', description: 'Constant intensity within each segment (slope of mass curve)' },
+    ],
+    variables: [
+      { symbol: '(\\tau_k, m_k)', meaning: 'User-defined breakpoints on dimensionless mass curve' },
+      { symbol: '\\tau', meaning: 'Dimensionless time t/D ∈ [0,1]' },
+      { symbol: 'm', meaning: 'Dimensionless cumulative depth M(τ)/P ∈ [0,1]' },
+    ],
+    reference: { title: 'Custom Hyetograph Construction', citation: 'Standard engineering practice', year: 1970 },
+    notes: 'User defines N breakpoints. Constraints: τ₁=0,m₁=0; τₙ=1,mₙ=1; monotonically increasing. Linear interpolation between points.'
+  },
+
+  {
+    pattern: 'gamma_distribution' as PatternType,
+    name: 'Gamma Distribution',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity (PDF)', latex: 'i(t) = \\frac{P \\cdot t^{\\alpha-1} e^{-t/\\beta}}{\\beta^\\alpha \\Gamma(\\alpha) \\cdot \\int_0^D f(s)\\,ds}', description: 'Gamma PDF normalised over storm duration' },
+      { label: 'Cumulative', latex: 'M(t) = P \\cdot \\frac{\\gamma(\\alpha, t/\\beta)}{\\gamma(\\alpha, D/\\beta)}', description: 'Lower incomplete gamma function ratio' },
+      { label: 'Peak Time', latex: 't_p = (\\alpha - 1)\\beta, \\quad \\alpha \\geq 1', description: 'Mode of the gamma distribution' },
+    ],
+    variables: [
+      { symbol: '\\alpha', meaning: 'Shape: α=1 exponential, α=2 right-skewed, α→∞ normal' },
+      { symbol: '\\beta', meaning: 'Scale parameter (controls timing)' },
+      { symbol: '\\gamma(a,x)', meaning: 'Lower incomplete gamma function' },
+    ],
+    reference: { title: 'Gamma Distribution in Rainfall Modelling', citation: 'Wilks, D.S., Statistical Methods in the Atmospheric Sciences', year: 2011 },
+    notes: 'α=1 exponential decay; α=2 right-skewed peak at β; α=5 moderately peaked. Very flexible 2-parameter family.'
+  },
+
+  {
+    pattern: 'gumbel_temporal' as PatternType,
+    name: 'Gumbel Temporal',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity (PDF)', latex: 'i(t) = \\frac{P}{\\beta} \\cdot \\frac{\\exp\\!\\left[-\\frac{t-\\mu}{\\beta} - e^{-(t-\\mu)/\\beta}\\right]}{M_{norm}}', description: 'Gumbel PDF as temporal distribution' },
+      { label: 'CDF (Mass Curve)', latex: 'M(t) = P \\cdot \\frac{\\exp(-e^{-(t-\\mu)/\\beta})}{\\exp(-e^{-(D-\\mu)/\\beta})}', description: 'Normalised Gumbel CDF' },
+    ],
+    variables: [
+      { symbol: '\\mu', meaning: 'Location parameter (peak time, mode of Gumbel)' },
+      { symbol: '\\beta', meaning: 'Scale parameter (controls spread)' },
+      { symbol: 'M_{norm}', meaning: 'Normalisation constant over [0, D]' },
+    ],
+    reference: { title: 'Extreme Value Theory in Rainfall', citation: 'Coles, S., An Introduction to Statistical Modeling of Extreme Values', year: 2001 },
+    notes: 'Right-skewed with heavy right tail. Good for modeling extreme rainfall events. Peak at t=μ.'
+  },
+
+  {
+    pattern: 'sigmoid_logistic' as PatternType,
+    name: 'Sigmoid / Logistic Mass Curve',
+    category: 'cumulative',
+    equations: [
+      { label: 'Cumulative', latex: 'M(t) = P \\cdot \\frac{L(t) - L(0)}{L(D) - L(0)}, \\quad L(t) = \\frac{1}{1+e^{-k(t-t_0)}}', description: 'Logistic S-curve normalised to [0, P]' },
+      { label: 'Intensity', latex: 'i(t) = \\frac{Pk \\cdot e^{-k(t-t_0)}}{(1+e^{-k(t-t_0)})^2 \\cdot [L(D)-L(0)]}', description: 'Derivative of logistic function' },
+      { label: 'Peak Ratio', latex: '\\text{ratio} \\approx kD/4', description: 'Approximate peak-to-average ratio for kD ≫ 1' },
+    ],
+    variables: [
+      { symbol: 'k', meaning: 'Steepness: k→0 uniform, k→∞ instantaneous burst' },
+      { symbol: 't_0', meaning: 'Inflection point (time of peak intensity)' },
+    ],
+    reference: { title: 'Logistic Growth Curves in Storm Modelling', citation: 'Applied mathematics approach', year: 2000 },
+    notes: 'Elegant S-curve mass curve. Peak at t=t₀. k controls sharpness. Smooth and differentiable everywhere.'
+  },
+
+  {
+    pattern: 'bezier_curve' as PatternType,
+    name: 'Bézier Curve',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve', latex: 'M(\\tau) = (1-u)^3 P_0 + 3(1-u)^2 u\\,P_1 + 3(1-u)u^2\\,P_2 + u^3 P_3', description: 'Cubic Bézier between control points' },
+      { label: 'Intensity', latex: 'i(t) = \\frac{P}{D} \\cdot \\frac{dM}{d\\tau}', description: 'Slope of mass curve scaled to physical units' },
+      { label: 'Derivative', latex: '\\frac{dM}{d\\tau} = 3(1-u)^2(P_1-P_0) + 6(1-u)u(P_2-P_1) + 3u^2(P_3-P_2)', description: 'Tangent vector gives local intensity' },
+    ],
+    variables: [
+      { symbol: 'P_0, P_3', meaning: 'Endpoint control points (fixed at (0,0) and (1,1))' },
+      { symbol: 'P_1, P_2', meaning: 'Handle points controlling curvature (user-draggable)' },
+      { symbol: 'u', meaning: 'Local parameter within segment [0,1]' },
+    ],
+    reference: { title: 'Parametric Curve Methods', citation: 'Computer-aided design applied to hydrology', year: 2010 },
+    notes: 'User drags control points in GUI. Constraints: M(0)=0, M(1)=1, dM/dτ≥0 (monotonicity). Exported as (τ,M) lookup table.'
+  },
+
+  // ════════════════════════════════════════════════════
+  // SPECIALIZED STORM SCENARIOS (#153–#170)
+  // ════════════════════════════════════════════════════
+
+  {
+    pattern: 'atmospheric_river' as PatternType,
+    name: 'Atmospheric River',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (48-hr)', latex: 'M(\\tau) = \\text{interp}(\\tau_{AR},\\, M_{AR})', description: 'Tabulated dimensionless mass curve for atmospheric river events' },
+    ],
+    variables: [
+      { symbol: '\\tau_{AR}', meaning: 'τ=[0,.02,.04,.06,.08,.10,.15,.20,.25,.30,.35,.40,.45,.50,.55,.60,.65,.70,.75,.80,.85,.90,.95,1]' },
+      { symbol: 'M_{AR}', meaning: 'M=[0,.01,.02,.03,.05,.07,.12,.18,.25,.33,.42,.51,.59,.66,.72,.78,.83,.87,.91,.94,.96,.98,.99,1]' },
+    ],
+    reference: { title: 'Atmospheric Rivers and Extreme Precipitation', citation: 'Ralph, F.M. et al., Nature Geoscience', year: 2006 },
+    notes: 'Peak 35–55% of duration (broad). Peak ratio ~1.6×. Duration 24–72 hr. Sustained moderate intensity. Total depths 200–400+ mm.'
+  },
+
+  {
+    pattern: 'medicane' as PatternType,
+    name: 'Medicane (Mediterranean Hurricane)',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (18-hr)', latex: 'M(\\tau) = \\text{interp}(\\tau_{med},\\, M_{med})', description: 'Medicane temporal profile with concentrated core rainfall' },
+    ],
+    variables: [
+      { symbol: '\\tau_{med}', meaning: '19-point dimensionless time array' },
+      { symbol: 'M_{med}', meaning: 'M=[0,.01,.03,.05,.08,.14,.24,.38,.52,.64,.73,.80,.85,.89,.92,.95,.97,.99,1]' },
+    ],
+    reference: { title: 'Medicane Climatology and Impact', citation: 'Cavicchia et al., J. Climate', year: 2014 },
+    notes: 'Peak 30–45% of duration. Peak ratio ~2.8×. Multi-peak possible (outer + inner bands). Rare but devastating Mediterranean events.'
+  },
+
+  {
+    pattern: 'polar_low' as PatternType,
+    name: 'Polar Low',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (6-hr)', latex: 'M = [0, 0.05, 0.15, 0.30, 0.50, 0.68, 0.80, 0.88, 0.94, 0.98, 1.0]', description: 'Compact intense storm at high latitudes' },
+    ],
+    variables: [
+      { symbol: '\\tau', meaning: '[0, 0.1, 0.2, ..., 1.0] dimensionless time' },
+    ],
+    reference: { title: 'Polar Lows: Mesoscale Weather Systems in the Polar Regions', citation: 'Rasmussen & Turner, Cambridge UP', year: 2003 },
+    notes: 'Peak 30–40%. Peak ratio ~2.2×. Duration 3–12 hr. Mixed precipitation (snow possible). Arctic/sub-Arctic maritime.'
+  },
+
+  {
+    pattern: 'cutoff_low' as PatternType,
+    name: 'Cut-Off Low',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (72-hr)', latex: 'M(\\tau) = \\text{interp}(\\tau_{COL},\\, M_{COL})', description: 'Very long duration, broad peak, extreme total depths' },
+    ],
+    variables: [
+      { symbol: '\\tau_{COL}', meaning: '25-point dimensionless time array' },
+      { symbol: 'M_{COL}', meaning: 'M=[0,.01,.02,.04,.06,.09,.12,.16,.21,.27,.33,.40,.48,.55,.62,.68,.74,.79,.84,.88,.92,.95,.97,.99,1]' },
+    ],
+    reference: { title: 'Cut-Off Low Systems and Extreme Rainfall', citation: 'Singleton & Reason, Int. J. Climatol.', year: 2007 },
+    notes: 'Peak 45–55% (centred). Peak ratio ~1.4× (very broad). Duration 48–120 hr. Extreme total depths despite low intensity.'
+  },
+
+  {
+    pattern: 'mcs' as PatternType,
+    name: 'Mesoscale Convective System (MCS)',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (12-hr)', latex: 'M = [0,.01,.03,.06,.12,.22,.38,.54,.66,.78,.85,.90,.93,.96,.98,.99,1]', description: 'Leading convective line with trailing stratiform' },
+    ],
+    variables: [
+      { symbol: '\\tau', meaning: '17-point dimensionless time array' },
+    ],
+    reference: { title: 'Mesoscale Convective Systems', citation: 'Houze, R.A., Cloud Dynamics', year: 2014 },
+    notes: 'Peak 20–35%. Peak ratio ~3.0×. Multiple embedded cells create sub-peaks. Optional noise for cell variability.'
+  },
+
+  {
+    pattern: 'supercell' as PatternType,
+    name: 'Supercell Thunderstorm',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (1-hr)', latex: 'M = [0,.02,.08,.25,.52,.72,.83,.91,.94,.96,.97,.98,.99,1]', description: 'Extremely front-loaded, very high peak intensity' },
+    ],
+    variables: [
+      { symbol: '\\tau', meaning: '14-point dimensionless time' },
+    ],
+    reference: { title: 'The Structure and Dynamics of Supercell Thunderstorms', citation: 'Markowski & Richardson, Cambridge UP', year: 2010 },
+    notes: 'Peak 15–25%. Peak ratio ~4.0×. Duration 30–90 min. Extreme intensities >150 mm/hr possible.'
+  },
+
+  {
+    pattern: 'orographic_enhanced' as PatternType,
+    name: 'Orographic Enhanced',
+    category: 'intensity',
+    equations: [
+      { label: 'Enhancement', latex: 'i_{enh}(t) = i_{base}(t) \\cdot \\text{OEF}(t)', description: 'Base distribution multiplied by orographic factor' },
+      { label: 'OEF', latex: '\\text{OEF} = 1 + \\alpha \\cdot \\bar{w} \\cdot \\frac{dz}{dx}', description: 'Orographic Enhancement Factor for constant wind' },
+      { label: 'Mass Curve', latex: 'M = [0,.04,.10,.19,.31,.47,.63,.77,.88,.95,1]', description: 'Broader peak than convective baseline' },
+    ],
+    variables: [
+      { symbol: '\\alpha', meaning: 'Enhancement coefficient (~0.0002–0.0005 per m/km)' },
+      { symbol: '\\bar{w}', meaning: 'Mean wind speed (m/s)' },
+      { symbol: 'dz/dx', meaning: 'Terrain slope in wind direction (m/km)' },
+    ],
+    reference: { title: 'Orographic Rainfall and Rain-Shadow Effects', citation: 'Roe, G.H., Annual Review Earth & Planetary Sci.', year: 2005 },
+    notes: 'Windward OEF 1.3–2.0, leeward 0.5–0.8 (rain shadow). Broader peak than convective storms.'
+  },
+
+  {
+    pattern: 'urban_heat_island' as PatternType,
+    name: 'Urban Heat Island Enhanced',
+    category: 'intensity',
+    equations: [
+      { label: 'Enhancement', latex: 'i_{urban}(t) = i_{rural}(t) \\cdot \\text{UHI}', description: 'Rural baseline scaled by urban heat island factor' },
+      { label: 'UHI Factor', latex: '\\text{UHI} = 1 + 0.07 \\cdot \\Delta T_{UHI}', description: 'Simplified constant enhancement factor' },
+      { label: 'Peak Enhancement', latex: 'i_{peak,urban} = i_{peak,rural} \\cdot (1 + 0.12 \\cdot \\Delta T_{UHI})', description: 'Convective peak preferentially enhanced' },
+    ],
+    variables: [
+      { symbol: '\\Delta T_{UHI}', meaning: 'Urban–rural temperature difference (°C): small 1–2, medium 2–4, large 4–8' },
+    ],
+    reference: { title: 'Urban Modification of Thunderstorms', citation: 'Shepherd, J.M., Phys. Geogr.', year: 2005 },
+    notes: 'Small city UHI 1.07–1.14, medium 1.14–1.28, large 1.28–1.56. Peak enhancement exceeds mean enhancement.'
+  },
+
+  {
+    pattern: 'monsoon_burst' as PatternType,
+    name: 'Monsoon Burst',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (12-hr)', latex: 'M = [0,.02,.04,.07,.11,.16,.23,.32,.42,.52,.61,.69,.76,.81,.86,.90,.93,.96,.98,.99,1]', description: 'Active monsoon phase with broad peak and embedded convection' },
+    ],
+    variables: [
+      { symbol: '\\tau', meaning: '21-point dimensionless time array' },
+    ],
+    reference: { title: 'The Asian Monsoon', citation: 'Wang, B., Springer Praxis', year: 2006 },
+    notes: 'Broad peak 25–55%. Peak ratio ~1.8×. Fluctuating intensity within envelope. Optional: superimpose random noise for embedded convection.'
+  },
+
+  {
+    pattern: 'monsoon_break' as PatternType,
+    name: 'Monsoon Break',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (24-hr)', latex: 'M = [0, 0.08, 0.17, 0.26, 0.36, 0.47, 0.57, 0.68, 0.79, 0.89, 1.0]', description: 'Nearly uniform light rainfall during monsoon break' },
+    ],
+    variables: [
+      { symbol: '\\tau', meaning: '[0, 0.1, 0.2, ..., 1.0]' },
+    ],
+    reference: { title: 'Monsoon Break and Active Phases', citation: 'Rajeevan, M. et al., Current Science', year: 2010 },
+    notes: 'Nearly uniform (peak ratio ~1.2×). Low total depth 5–15 mm. Drizzle character.'
+  },
+
+  {
+    pattern: 'squall_line' as PatternType,
+    name: 'Squall Line',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (90-min)', latex: 'M = [0,.05,.18,.42,.62,.75,.83,.90,.94,.96,.97,.98,.99,1]', description: 'Very front-loaded with trailing stratiform' },
+    ],
+    variables: [
+      { symbol: '\\tau', meaning: '14-point dimensionless time' },
+    ],
+    reference: { title: 'Squall Lines and Bow Echoes', citation: 'Weisman, M.L. & Trapp, R.J., J. Atmos. Sci.', year: 2003 },
+    notes: 'Peak 10–20%. Peak ratio ~3.8×. Gust front precedes rainfall. Trailing stratiform is low intensity final 60%.'
+  },
+
+  {
+    pattern: 'sea_breeze' as PatternType,
+    name: 'Sea Breeze Convergence',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (3-hr)', latex: 'M = [0,.01,.03,.06,.10,.18,.28,.45,.62,.76,.85,.91,.95,.98,1]', description: 'Late-peak afternoon convective storm' },
+    ],
+    variables: [
+      { symbol: '\\tau', meaning: '15-point dimensionless time' },
+    ],
+    reference: { title: 'Sea Breeze Convection', citation: 'Simpson, J.E., Annual Review Fluid Mech.', year: 1994 },
+    notes: 'Late peak 55–70%. Peak ratio ~3.2×. Triggered by afternoon heating + sea breeze convergence. Florida, tropical coasts, Mediterranean summer.'
+  },
+
+  {
+    pattern: 'nocturnal_mcs' as PatternType,
+    name: 'Nocturnal MCS',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (8-hr)', latex: 'M = [0,.01,.02,.04,.07,.12,.20,.32,.48,.62,.74,.83,.89,.93,.96,.98,1]', description: 'Night-time mesoscale convective system' },
+    ],
+    variables: [
+      { symbol: '\\tau', meaning: '17-point dimensionless time (starting ~10 PM)' },
+    ],
+    reference: { title: 'Nocturnal Convection over the Great Plains', citation: 'Carbone et al., J. Atmos. Sci.', year: 2002 },
+    notes: 'Peak 40–55% (midnight–2AM typically). Peak ratio ~2.5×. US Great Plains, Sahel West Africa.'
+  },
+
+  {
+    pattern: 'rain_on_snow' as PatternType,
+    name: 'Rain-on-Snow (Compound Event)',
+    category: 'intensity',
+    equations: [
+      { label: 'Combined Inflow', latex: 'i_{total}(t) = i_{rain}(t) + q_{melt}(t)', description: 'Rainfall plus snowmelt components' },
+      { label: 'Snowmelt', latex: 'q_{melt}(t) = C_m \\cdot T_{air}(t)', description: 'Degree-day melt method' },
+      { label: 'Temperature', latex: 'T_{air}(t) = T_{base} + \\Delta T \\sin(\\pi t / D)', description: 'Warming profile during event' },
+      { label: 'Total Depth', latex: 'P_{total} = P_{rain} + C_m \\int_0^D \\max(T_{air}(t), 0)\\,dt', description: 'Combined effective precipitation' },
+    ],
+    variables: [
+      { symbol: 'C_m', meaning: 'Melt coefficient: 2–5 mm/°C/day for rain-on-snow' },
+      { symbol: 'T_{base}', meaning: 'Base temperature (typically 0°C)' },
+      { symbol: '\\Delta T', meaning: 'Temperature rise during event (3–5°C typical)' },
+    ],
+    reference: { title: 'Rain-on-Snow Events in the Western US', citation: 'Marks et al., J. Hydrometeorology', year: 1998 },
+    notes: 'Compound event — rainfall atop snowpack. Melt only when T>0°C. Critical for flood design in mountainous regions.'
+  },
+
+  {
+    pattern: 'post_wildfire' as PatternType,
+    name: 'Post-Wildfire Design Storm',
+    category: 'intensity',
+    equations: [
+      { label: 'Debris Flow Threshold', latex: 'I_{15} = 24 \\cdot (p \\cdot x)^{-0.59}', description: 'Peak 15-min intensity triggering debris flow (mm/hr)' },
+      { label: 'Mass Curve (1–3 hr)', latex: 'M = [0, 0.10, 0.30, 0.55, 0.72, 0.83, 0.89, 0.95, 0.98, 1.0]', description: 'Short-duration front-loaded profile' },
+    ],
+    variables: [
+      { symbol: 'p', meaning: 'Proportion of catchment burned at moderate-high severity' },
+      { symbol: 'x', meaning: 'Soil KF-factor (erodibility)' },
+      { symbol: 'I_{15}', meaning: '15-minute peak intensity threshold' },
+    ],
+    reference: { title: 'Post-Fire Debris-Flow Hazard Assessment', citation: 'Staley, D.M. et al., USGS, Landslides', year: 2017 },
+    notes: '2-yr storm triggers debris flows on severely burned areas (vs 25–100 yr unburned). Peak ratio ~3.5×. Duration 1–3 hr.'
+  },
+
+  {
+    pattern: 'dam_safety_pmf' as PatternType,
+    name: 'Dam Safety PMF Storm',
+    category: 'cumulative',
+    equations: [
+      { label: '6-hr PMP', latex: 'M = [0, 0.045, 0.205, 0.710, 0.880, 0.955, 1.0]', description: '6-hr PMP distribution (US east of 105th meridian)' },
+      { label: '24-hr PMP', latex: 'M = [0,.005,.012,.020,.030,.043,.058,.080,.115,.170,.265,.500,.735,.830,.885,.920,.942,.958,.970,.978,.985,.990,.994,.997,1]', description: '24-hr PMP with extreme mid-storm peak' },
+      { label: '72-hr Nesting', latex: '\\text{First 24hr: 15\\%} \\;|\\; \\text{Middle 24hr: 65\\%} \\;|\\; \\text{Last 24hr: 20\\%}', description: '24-hr PMP nested within 72-hr envelope' },
+    ],
+    variables: [
+      { symbol: 'PMP', meaning: 'Probable Maximum Precipitation' },
+      { symbol: 'PMF', meaning: 'Probable Maximum Flood' },
+    ],
+    reference: { title: 'EM 1110-2-1411: Standard Project Flood Determination', citation: 'US Army Corps of Engineers', year: 1965 },
+    notes: 'Dam safety standard. Extreme mid-storm peak. 72-hr variant nests 24-hr pattern in middle day. East of 105th meridian (US).'
+  },
+
+  {
+    pattern: 'tropical_cyclone_rainband' as PatternType,
+    name: 'Tropical Cyclone Rainband',
+    category: 'cumulative',
+    equations: [
+      { label: 'Multi-Band Structure (24-hr)', latex: 'M = [0,.03,.07,.12,.15,.17,.22,.35,.52,.65,.70,.71,.74,.80,.86,.90,.93,.96,.98,.99,1]', description: 'Outer bands → moat → eye wall → eye → second wall → trailing' },
+      { label: 'Eye Wall', latex: 'i_{ew}(t) = 3.5\\bar{i} \\cdot e^{-(t-11)^2/4}', description: 'Primary eye wall passage — ~55% of total depth' },
+      { label: 'Second Eye Wall', latex: 'i_{ew2}(t) = 2.0\\bar{i} \\cdot e^{-(t-18)^2/4}', description: 'Secondary eye wall — ~20% of total depth' },
+    ],
+    variables: [
+      { symbol: '\\bar{i}', meaning: 'Average intensity (P/D)' },
+    ],
+    reference: { title: 'The Structure and Precipitation of Tropical Cyclones', citation: 'Houze, R.A., Q.J.R. Meteorol. Soc.', year: 2010 },
+    notes: 'Multi-band structure: outer bands 15%, moat 3%, eye wall 55%, eye 1%, second wall 20%, trailing 6%.'
+  },
+
+  {
+    pattern: 'derecho' as PatternType,
+    name: 'Derecho',
+    category: 'cumulative',
+    equations: [
+      { label: 'Mass Curve (2-hr)', latex: 'M = [0, 0.08, 0.28, 0.52, 0.70, 0.84, 0.90, 0.93, 0.95, 0.97, 0.98, 0.99, 1.0]', description: 'Extremely front-loaded — destructive straight-line wind event' },
+    ],
+    variables: [
+      { symbol: '\\tau', meaning: '13-point dimensionless time' },
+    ],
+    reference: { title: 'A Climatology and Model of Derechos', citation: 'Corfidi, S.F. et al., Weather and Forecasting', year: 2016 },
+    notes: 'Peak 5–15%. Peak ratio ~4.5×. Duration 1–3 hr at any point. Accompanied by destructive straight-line winds.'
+  },
+
+  // ════════════════════════════════════════════════════
+  // CLIMATE CHANGE VARIANTS (#171–#180)
+  // ════════════════════════════════════════════════════
+
+  {
+    pattern: 'ukcp18_enhanced' as PatternType,
+    name: 'UKCP18 Climate-Enhanced',
+    category: 'intensity',
+    equations: [
+      { label: 'Climate Factor', latex: 'i_{future}(t) = i_{baseline}(t) \\cdot CF(T, d, \\text{season}, \\text{scenario})', description: 'Baseline distribution scaled by climate change factor' },
+      { label: 'Shape-Preserving', latex: 'CF_{uniform} = 1 + \\Delta', description: 'Uniform scaling preserves temporal shape' },
+      { label: 'Peak-Preferential', latex: 'CF(t) = 1 + (CF-1) \\cdot \\frac{i_{base}(t)}{i_{max}}', description: 'Peak sharpening — higher intensities scaled more' },
+    ],
+    variables: [
+      { symbol: 'CF', meaning: '2050 RCP8.5 winter 1-hr: 1.20; summer 1-hr: 1.35; 2080 summer 1-hr: 1.55' },
+    ],
+    reference: { title: 'UKCP18 Climate Projections', citation: 'Met Office Hadley Centre', year: 2018, link: 'https://www.metoffice.gov.uk/research/approach/collaboration/ukcp' },
+    notes: 'UK Climate Projections 2018. Summer sub-daily intensities increase faster than winter or daily totals. Peak-preferential sharpens storms.'
+  },
+
+  {
+    pattern: 'rcp45_adjusted' as PatternType,
+    name: 'RCP 4.5 Adjusted (Generic)',
+    category: 'intensity',
+    equations: [
+      { label: 'Clausius-Clapeyron Scaling', latex: 'CF(d) = 1 + \\left(0.07 - 0.03\\log_{10}\\frac{d}{1\\text{hr}}\\right) \\cdot \\Delta T', description: 'Duration-dependent climate factor' },
+      { label: 'Short Duration', latex: 'CF_{<6hr} = 1 + 0.07 \\cdot 1.8 = 1.126', description: '12.6% increase for ΔT = 1.8°C (RCP 4.5 median 2100)' },
+      { label: 'Long Duration', latex: 'CF_{>24hr} = 1 + 0.04 \\cdot 1.8 = 1.072', description: '7.2% increase' },
+    ],
+    variables: [
+      { symbol: '\\Delta T', meaning: 'Global temperature change (°C); RCP 4.5 median 2100 = +1.8°C' },
+      { symbol: 'd', meaning: 'Storm duration (hours)' },
+    ],
+    reference: { title: 'IPCC AR5: Climate Change 2014', citation: 'Intergovernmental Panel on Climate Change', year: 2014 },
+    notes: 'RCP 4.5 moderate mitigation pathway. CC scaling ~7%/°C for sub-daily, ~4%/°C for multi-day. Duration-interpolated.'
+  },
+
+  {
+    pattern: 'rcp85_adjusted' as PatternType,
+    name: 'RCP 8.5 Adjusted',
+    category: 'intensity',
+    equations: [
+      { label: 'Short Duration', latex: 'CF_{<6hr} = 1 + 0.07 \\times 4.3 = 1.301', description: '30.1% increase for ΔT = 4.3°C (RCP 8.5 median 2100)' },
+      { label: 'Long Duration', latex: 'CF_{>24hr} = 1 + 0.04 \\times 4.3 = 1.172', description: '17.2% increase' },
+    ],
+    variables: [
+      { symbol: '\\Delta T', meaning: '+4.3°C by 2100 (RCP 8.5 median)' },
+    ],
+    reference: { title: 'IPCC AR5: Climate Change 2014', citation: 'IPCC Working Group I', year: 2014 },
+    notes: 'RCP 8.5 high-emissions pathway. Significant intensification of short-duration extreme rainfall.'
+  },
+
+  {
+    pattern: 'ssp245_cmip6' as PatternType,
+    name: 'SSP2-4.5 (CMIP6)',
+    category: 'intensity',
+    equations: [
+      { label: 'Short Duration', latex: 'CF_{<6hr} = 1 + 0.07 \\times 2.1 = 1.147', description: '14.7% increase (IPCC AR6 median)' },
+      { label: 'Long Duration', latex: 'CF_{>24hr} = 1 + 0.04 \\times 2.1 = 1.084', description: '8.4% increase' },
+    ],
+    variables: [
+      { symbol: '\\Delta T', meaning: '+2.1°C by 2100 (SSP2-4.5 median, IPCC AR6)' },
+    ],
+    reference: { title: 'IPCC AR6: Climate Change 2021', citation: 'IPCC Working Group I, Sixth Assessment', year: 2021 },
+    notes: 'CMIP6 successor to RCP 4.5. Updated climate sensitivity estimates. "Middle of the road" scenario.'
+  },
+
+  {
+    pattern: 'ssp585_cmip6' as PatternType,
+    name: 'SSP5-8.5 (CMIP6)',
+    category: 'intensity',
+    equations: [
+      { label: 'Short Duration', latex: 'CF_{<6hr} = 1 + 0.07 \\times 4.4 = 1.308', description: '30.8% increase (IPCC AR6 median)' },
+      { label: 'Long Duration', latex: 'CF_{>24hr} = 1 + 0.04 \\times 4.4 = 1.176', description: '17.6% increase' },
+    ],
+    variables: [
+      { symbol: '\\Delta T', meaning: '+4.4°C by 2100 (SSP5-8.5 median, IPCC AR6)' },
+    ],
+    reference: { title: 'IPCC AR6: Climate Change 2021', citation: 'IPCC Working Group I, Sixth Assessment', year: 2021 },
+    notes: 'CMIP6 high-emissions scenario. Fossil-fuelled development. Most extreme warming pathway.'
+  },
+
+  {
+    pattern: 'arr_climate' as PatternType,
+    name: 'ARR Climate Change Factor (Australia)',
+    category: 'intensity',
+    equations: [
+      { label: 'Short Duration', latex: 'CF_{best,<6hr} = 1 + 0.07 \\cdot \\Delta T_{local}', description: 'Best-estimate factor for short storms' },
+      { label: 'Range', latex: 'CF_{low} = 1 + 0.05\\Delta T, \\quad CF_{high} = 1 + 0.10\\Delta T', description: 'Low and high uncertainty bounds' },
+    ],
+    variables: [
+      { symbol: '\\Delta T_{local}', meaning: 'Local temperature change: Sydney +3.7, Melbourne +3.2, Brisbane +3.5, Perth +3.0 (2090 RCP8.5)' },
+    ],
+    reference: { title: 'Australian Rainfall and Runoff 2019', citation: 'Ball et al., Geoscience Australia', year: 2019, link: 'http://arr.ga.gov.au' },
+    notes: 'Australian interim factors. Three tiers (low/best/high). Sydney 2090 RCP8.5 best-estimate: +26% for short duration.'
+  },
+
+  {
+    pattern: 'intensity_amplification' as PatternType,
+    name: 'Intensity Amplification (Generic)',
+    category: 'intensity',
+    equations: [
+      { label: 'Amplification', latex: 'i_{amp}(t) = i(t) \\cdot \\left[1 + (A-1) \\cdot \\left(\\frac{i(t)}{i_{peak}}\\right)^n\\right]', description: 'Preferential amplification of peak intensities' },
+    ],
+    variables: [
+      { symbol: 'A', meaning: 'Amplification factor (e.g. 1.2 for 20% increase)' },
+      { symbol: 'n', meaning: 'Selectivity: n=0 uniform, n=1 linear, n=2 quadratic preferential' },
+    ],
+    reference: { title: 'Climate-Adjusted Design Storms', citation: 'General engineering practice', year: 2015 },
+    notes: 'Volume-preserving variant renormalises so ∫i·dt = P (peakier without depth change). n controls how much peak is amplified vs tails.'
+  },
+
+  {
+    pattern: 'duration_compression' as PatternType,
+    name: 'Duration Compression',
+    category: 'intensity',
+    equations: [
+      { label: 'Compressed Time', latex: 't_{comp} = t \\cdot \\frac{D_{new}}{D_{orig}}', description: 'Rescale time axis' },
+      { label: 'Compressed Intensity', latex: 'i_{comp}(t) = i_{orig}\\!\\left(t \\cdot \\frac{D_{orig}}{D_{new}}\\right) \\cdot \\frac{D_{orig}}{D_{new}}', description: 'Intensities increase by 1/CR' },
+    ],
+    variables: [
+      { symbol: 'CR', meaning: 'Compression ratio D_new/D_orig (CR < 1 means shorter, more intense)' },
+    ],
+    reference: { title: 'Duration-Adjusted Design Storms', citation: 'Climate adaptation methods', year: 2018 },
+    notes: 'Same total depth, shorter duration, higher peak. E.g. 6-hr → 4-hr (CR=0.667) increases all intensities by factor 1.5.'
+  },
+
+  {
+    pattern: 'clausius_clapeyron_super' as PatternType,
+    name: 'Clausius-Clapeyron Super-CC',
+    category: 'intensity',
+    equations: [
+      { label: 'Scaling Function', latex: 's(d) = 0.14 - 0.074 \\cdot \\log_{10}\\!\\left(\\frac{d}{0.25\\text{hr}}\\right)', description: 'Duration-dependent scaling rate (clamped to [0.03, 0.14])' },
+      { label: 'Climate Factor', latex: 'CF = 1 + s(d) \\cdot \\Delta T', description: 'Applied to baseline intensity' },
+    ],
+    variables: [
+      { symbol: 's(d)', meaning: 'd≤15min: 14%/°C (super-CC), 1hr: 10%/°C, 6hr: 7%/°C (CC), 24hr: 5%/°C, ≥72hr: 3%/°C' },
+      { symbol: '\\Delta T', meaning: 'Temperature change (°C)' },
+    ],
+    reference: { title: 'Increase in Hourly Precipitation Extremes Beyond Expectations', citation: 'Lenderink & van Meijgaard, Nature Geoscience', year: 2008, link: 'https://doi.org/10.1038/ngeo262' },
+    notes: 'Sub-hourly intensities scale at 2× the CC rate (14%/°C vs 7%/°C). Observed in Netherlands, Belgium. Critical for urban drainage future-proofing.'
+  },
+
+  // ════════════════════════════════════════════════════
+  // STOCHASTIC GENERATORS (#181–#190)
+  // ════════════════════════════════════════════════════
+
+  {
+    pattern: 'bartlett_lewis_gamma' as PatternType,
+    name: 'Modified Bartlett-Lewis Gamma',
+    category: 'intensity',
+    equations: [
+      { label: 'Storm Arrivals', latex: 'T_k \\sim \\text{Poisson}(\\lambda)', description: 'Storms arrive as Poisson process' },
+      { label: 'Cell Intensity', latex: 'X_c \\sim \\text{Gamma}(\\alpha,\\, \\mu_x/\\alpha)', description: 'Gamma-distributed cell intensity (mean μ_x)' },
+      { label: 'Superposition', latex: 'I(t) = \\sum_j X_{c,j} \\cdot \\mathbb{1}_{[t_{start},\\, t_{end}]}(t)', description: 'Sum of overlapping rectangular pulses' },
+      { label: 'Variable η', latex: '\\eta_k \\sim \\text{Gamma}(\\alpha_\\eta,\\, \\bar{\\eta}/\\alpha_\\eta)', description: 'Storm-to-storm variability in cell duration (Kaczmarska 2014)' },
+    ],
+    variables: [
+      { symbol: '\\lambda', meaning: 'Storm arrival rate (0.01–0.05 /hr)' },
+      { symbol: '\\beta', meaning: 'Cell arrival rate within storm (0.1–0.5 /hr)' },
+      { symbol: '\\gamma', meaning: 'Storm termination rate (0.02–0.10 /hr)' },
+      { symbol: '\\eta', meaning: 'Cell duration parameter (0.5–2.0 /hr)' },
+      { symbol: '\\alpha', meaning: 'Gamma shape for cell intensity (α=1 → exponential)' },
+    ],
+    reference: { title: 'A Point Process Model for Rainfall with Dependent Duration and Intensity', citation: 'Kaczmarska et al., Proc. R. Soc. A', year: 2014 },
+    notes: 'Extension of standard Bartlett-Lewis. α>1 thinner tails, α<1 heavier tails. Variable η allows storm-to-storm variability.'
+  },
+
+  {
+    pattern: 'multiplicative_cascade' as PatternType,
+    name: 'Multiplicative Random Cascade',
+    category: 'intensity',
+    equations: [
+      { label: 'Cascade Splitting', latex: 'W_j = \\exp(\\sigma Z_j - \\sigma^2/2), \\quad Z \\sim N(0,1)', description: 'Beta-lognormal weight generator at each level' },
+      { label: 'Variance Scaling', latex: '\\sigma^2 = C_1 \\ln(b) \\cdot l', description: 'Variance increases with cascade level l' },
+      { label: 'Universal Multifractal', latex: 'K(q) = \\frac{C_1}{\\alpha - 1}(q^\\alpha - q)', description: 'Moment scaling function with Lévy index α' },
+    ],
+    variables: [
+      { symbol: 'b', meaning: 'Branching number (usually 2)' },
+      { symbol: 'L', meaning: 'Number of cascade levels; resolution Δt = D/b^L' },
+      { symbol: 'C_1', meaning: 'Codimension of mean (~0.12 for Warsaw)' },
+      { symbol: '\\alpha', meaning: 'Multifractality index (1 < α ≤ 2; α=2 is log-normal)' },
+    ],
+    reference: { title: 'Multifractal Analysis of Rainfall Fields', citation: 'Licznar, P., Water Resources Research', year: 2024 },
+    notes: 'Downscaling method: starts with total depth, recursively splits. α=1.6, C₁=0.12, b=2, L=10 → ~1 min resolution for 17-hr storm.'
+  },
+
+  {
+    pattern: 'markov_chain_storm' as PatternType,
+    name: 'Markov Chain Storm',
+    category: 'intensity',
+    equations: [
+      { label: 'State Transition', latex: 's_{t+1} \\sim \\text{Categorical}(P[s_t, :])', description: 'Next state drawn from transition probability row' },
+      { label: 'Intensity Sampling', latex: 'i(t) \\sim U(\\text{band}[s_{t+1}])', description: 'Intensity sampled uniformly from state band' },
+    ],
+    variables: [
+      { symbol: 'S', meaning: 'States: {dry(0), light(0.1–2), moderate(2–10), heavy(10–30), extreme(30–100)} mm/hr' },
+      { symbol: 'P', meaning: '5×5 transition matrix (e.g. P[heavy→extreme]=0.25)' },
+    ],
+    reference: { title: 'Stochastic Weather Generators', citation: 'Richardson, C.W., Water Resources Research', year: 1981 },
+    notes: '5 states with transition matrix. Total depth rescaled to target P. Can model persistence and state transitions realistically.'
+  },
+
+  {
+    pattern: 'storm_model' as PatternType,
+    name: 'STORM Model (Singer)',
+    category: 'intensity',
+    equations: [
+      { label: 'Storm Arrivals', latex: 'N_m \\sim \\text{Poisson}(\\lambda_m \\cdot 30)', description: 'Monthly storm count from seasonal Poisson rate' },
+      { label: 'Duration', latex: 'D \\sim \\text{Gamma}(\\alpha_d, \\beta_d)', description: 'Storm duration from fitted Gamma' },
+      { label: 'Total Depth', latex: 'P \\sim \\text{Gamma}(\\alpha_p, \\beta_p)', description: 'Storm depth from fitted Gamma' },
+      { label: 'Temporal', latex: 'M(\\tau) = I_\\tau(a, b)', description: 'Within-storm pattern from regularised incomplete Beta function' },
+    ],
+    variables: [
+      { symbol: '\\lambda_m', meaning: 'Monthly storm arrival rate' },
+      { symbol: '\\alpha_d, \\beta_d', meaning: 'Gamma parameters for duration' },
+      { symbol: '\\alpha_p, \\beta_p', meaning: 'Gamma parameters for depth' },
+      { symbol: 'a, b', meaning: 'Beta distribution shape parameters for temporal pattern' },
+    ],
+    reference: { title: 'STORM: A Simple, Flexible Stochastic Rainfall Generator', citation: 'Singer, M.B. et al., Geoscientific Model Development', year: 2018 },
+    notes: 'STOchastic Rainfall Model. Parameters fitted monthly. Generates realistic sequences with seasonal variation. Place storms randomly within month.'
+  },
+
+  {
+    pattern: 'poisson_white_noise' as PatternType,
+    name: 'Poisson White Noise',
+    category: 'intensity',
+    equations: [
+      { label: 'Arrival Process', latex: 'N(j) \\sim \\text{Poisson}(\\lambda \\cdot \\Delta t)', description: 'Number of events per time step' },
+      { label: 'Intensity', latex: 'i(j) = \\mu_x \\cdot N(j)', description: 'Intensity proportional to event count' },
+      { label: 'Constrained', latex: 'i(j) = P \\cdot \\frac{r_j}{\\Delta t \\cdot \\sum r_k}, \\quad r_j \\sim \\text{Exp}(1)', description: 'Fixed total depth variant' },
+    ],
+    variables: [
+      { symbol: '\\lambda', meaning: 'Event rate per unit time' },
+      { symbol: '\\mu_x', meaning: 'Mean intensity per event' },
+    ],
+    reference: { title: 'Point Process Models of Rainfall', citation: 'Rodriguez-Iturbe et al., Proc. R. Soc. Lond.', year: 1987 },
+    notes: 'Simplest stochastic model. Constrained variant preserves total depth P exactly. Good for sensitivity testing.'
+  },
+
+  // ════════════════════════════════════════════════════
+  // HISTORICAL / CLASSICAL METHODS (#191–#198)
+  // ════════════════════════════════════════════════════
+
+  {
+    pattern: 'keifer_chu_1957' as PatternType,
+    name: 'Keifer-Chu (1957) Original',
+    category: 'empirical',
+    equations: [
+      { label: 'Before Peak', latex: 'i(t) = \\frac{a\\left[(1-c)\\frac{t_p-t}{r}+b\\right]}{\\left(\\frac{t_p-t}{r}+b\\right)^{c+1}}', description: 'Rising limb — original Chicago formulation' },
+      { label: 'After Peak', latex: 'i(t) = \\frac{a\\left[(1-c)\\frac{t-t_p}{1-r}+b\\right]}{\\left(\\frac{t-t_p}{1-r}+b\\right)^{c+1}}', description: 'Falling limb' },
+    ],
+    variables: [
+      { symbol: 'a, b, c', meaning: 'Original Chicago IL: a=30.8, b=9.56, c=0.776' },
+      { symbol: 'r', meaning: 'Advancement ratio = 0.375' },
+    ],
+    reference: { title: 'Synthetic Storm Pattern for Drainage Design', citation: 'Keifer, C.J. & Chu, H.H., J. Hydraulics Div., ASCE', year: 1957 },
+    notes: 'The original 1957 paper that defined the Chicago Design Storm. Parameters specific to Chicago, Illinois. Foundation of all modern CDS implementations.'
+  },
+
+  {
+    pattern: 'simons_1976_sa' as PatternType,
+    name: 'Simons (1976) South Africa',
+    category: 'cumulative',
+    equations: [
+      { label: 'Convective (<6hr)', latex: 'M = [0, 0.05, 0.14, 0.30, 0.54, 0.74, 0.86, 0.92, 0.96, 0.99, 1.0]', description: 'Short-duration convective storms' },
+      { label: 'Frontal (6–24hr)', latex: 'M = [0, 0.04, 0.10, 0.19, 0.32, 0.50, 0.67, 0.80, 0.90, 0.96, 1.0]', description: 'Long-duration frontal storms' },
+    ],
+    variables: [
+      { symbol: '\\tau', meaning: '[0, 0.1, 0.2, ..., 1.0] dimensionless time' },
+    ],
+    reference: { title: 'Design Flood Determination by Direct Statistical Methods', citation: 'Simons, D.B., Dept. Water Affairs, South Africa', year: 1976 },
+    notes: 'Original South African method. Distinct from SANRAL (2013 updates). Two profiles by storm mechanism.'
+  },
+
+  {
+    pattern: 'koutsoyiannis_greece' as PatternType,
+    name: 'Koutsoyiannis-Manetas (Greece)',
+    category: 'cumulative',
+    equations: [
+      { label: 'IDF Envelope', latex: 'i(d) = a(d + \\theta)^{\\eta - 1}', description: 'IDF-consistent intensity for duration d' },
+      { label: 'Incremental Depth', latex: '\\Delta P(k) = i(k\\Delta t) \\cdot k\\Delta t - i((k-1)\\Delta t) \\cdot (k-1)\\Delta t', description: 'Depth increments from IDF envelope' },
+    ],
+    variables: [
+      { symbol: 'a, \\theta, \\eta', meaning: 'Athens: a=49.5, θ=0.58hr, η=0.635; Thessaloniki: a=38.2, θ=0.50, η=0.620' },
+    ],
+    reference: { title: 'A Mathematical Framework for Studying Rainfall Intensity-Duration-Frequency Relationships', citation: 'Koutsoyiannis, D. & Manetas, A., J. Hydrol.', year: 1998 },
+    notes: 'IDF-consistent: design hyetograph reproduces IDF intensity for ALL sub-durations simultaneously. Then alternating-block rearrangement.'
+  },
+
+  {
+    pattern: 'wenzel_triangular' as PatternType,
+    name: 'Wenzel Asymmetric Triangular',
+    category: 'intensity',
+    equations: [
+      { label: 'Rising', latex: 'i(t) = i_{peak} \\cdot \\frac{t}{t_p}, \\quad t \\leq t_p', description: 'Linear rise to peak' },
+      { label: 'Falling', latex: 'i(t) = i_{peak} \\cdot \\frac{D-t}{D-t_p}, \\quad t > t_p', description: 'Linear recession' },
+      { label: 'Peak', latex: 'i_{peak} = 2P/D', description: 'Triangle always has peak = 2× average' },
+      { label: 'Cumulative (Rising)', latex: 'M(t) = P \\cdot \\frac{t^2}{D \\cdot t_p}, \\quad t \\leq t_p', description: 'Parabolic cumulative on rising limb' },
+      { label: 'Cumulative (Falling)', latex: 'M(t) = P\\left[1 - \\frac{(D-t)^2}{D(D-t_p)}\\right], \\quad t > t_p', description: 'Parabolic cumulative on falling limb' },
+    ],
+    variables: [
+      { symbol: 't_p', meaning: 'Time to peak = r·D; r<0.5 front-loaded, r=0.5 symmetric, r>0.5 back-loaded' },
+      { symbol: 'r', meaning: 'Advancement ratio (0 to 1)' },
+    ],
+    reference: { title: 'Rational Method Peak Flow Estimation', citation: 'Wenzel, H.G., Jr., Stormwater Management', year: 1982 },
+    notes: 'Generalisation of symmetric triangular with variable peak position. Peak ratio always exactly 2.0× average.'
+  },
+
+  {
+    pattern: 'izzard_1946' as PatternType,
+    name: 'Izzard (1946)',
+    category: 'intensity',
+    equations: [
+      { label: 'Intensity', latex: 'i(t) = \\frac{2P}{D}\\left[1 - \\left(\\frac{2t}{D} - 1\\right)^2\\right]', description: 'Parabolic profile derived from overland flow theory' },
+    ],
+    variables: [
+      { symbol: 'P', meaning: 'Total storm depth' },
+      { symbol: 'D', meaning: 'Total duration' },
+    ],
+    reference: { title: 'Hydraulics of Runoff from Developed Surfaces', citation: 'Izzard, C.F., Proc. Highway Research Board', year: 1946 },
+    notes: 'One of the earliest synthetic hyetographs. Derived from overland flow theory. Historical precursor to SCS method.'
+  },
+
+  {
+    pattern: 'sherman_1931' as PatternType,
+    name: 'Sherman (1931)',
+    category: 'empirical',
+    equations: [
+      { label: 'Standard IDF', latex: 'i = \\frac{a}{t + b}', description: 'Original Sherman IDF formula' },
+      { label: 'Modified', latex: 'i = \\frac{a}{(t + b)^c}', description: 'Generalised form with exponent' },
+      { label: 'Bernard', latex: 'i = a \\cdot t^{-b}', description: 'Power-law variant (no offset)' },
+    ],
+    variables: [
+      { symbol: 'a', meaning: 'Intensity coefficient (region-specific)' },
+      { symbol: 'b', meaning: 'Time offset (minutes)' },
+      { symbol: 'c', meaning: 'Decay exponent (Modified form only)' },
+    ],
+    reference: { title: 'Frequency and Intensity of Excessive Rainfalls at Boston', citation: 'Sherman, L.K., Trans. ASCE', year: 1931 },
+    notes: 'Foundation of ALL modern IDF-based temporal distributions. Talbot form identical. Apply alternating block method for temporal distribution.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {
