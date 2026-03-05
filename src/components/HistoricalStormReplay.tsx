@@ -116,6 +116,57 @@ const HISTORICAL_STORMS: HistoricalStorm[] = [
     timeStepMin: 15,
     color: "hsl(0, 70%, 45%)",
   },
+  {
+    id: "mumbai_2005",
+    name: "Mumbai Deluge",
+    category: "Mesoscale Convective System",
+    location: "Mumbai, Maharashtra, India",
+    date: "July 26, 2005",
+    totalDepthMm: 944,
+    durationHr: 24,
+    peakIntensityMmHr: 190,
+    description:
+      "Santa Cruz station recorded 944 mm in 24 hours, with an astonishing 644 mm falling in just 6 hours (14:30–20:30 IST). This remains one of the highest rainfall totals ever recorded in an Indian megacity.",
+    significance:
+      "Killed over 1,000 people and paralysed India's financial capital. Led to the Mithi River channelisation project and establishment of Mumbai's Integrated Flood Warning System (IFLOWS).",
+    cumulativeFractions: generateMumbaiCurve(),
+    timeStepMin: 15,
+    color: "hsl(280, 70%, 50%)",
+  },
+  {
+    id: "maria_2017",
+    name: "Hurricane Maria",
+    category: "Tropical Cyclone",
+    location: "Puerto Rico, USA",
+    date: "September 20, 2017",
+    totalDepthMm: 965,
+    durationHr: 48,
+    peakIntensityMmHr: 130,
+    description:
+      "Category 4 Hurricane Maria made landfall in southeast Puerto Rico with sustained winds of 250 km/h. Caguas and the central mountains received up to 965 mm (38 in) over 48 hours, triggering catastrophic landslides and flooding across the island.",
+    significance:
+      "Caused an estimated 2,975 deaths and $90 billion in damage — the deadliest US disaster in over a century. Exposed fragility of island infrastructure and prompted FEMA reform and NOAA Atlas 14 Vol. 13 development for Puerto Rico.",
+    cumulativeFractions: generateMariaCurve(),
+    timeStepMin: 30,
+    color: "hsl(190, 80%, 45%)",
+  },
+  {
+    id: "brisbane_2011",
+    name: "Brisbane Floods",
+    category: "La Niña / Monsoon Trough",
+    location: "Brisbane, Queensland, Australia",
+    date: "January 10–13, 2011",
+    totalDepthMm: 669,
+    durationHr: 72,
+    peakIntensityMmHr: 60,
+    description:
+      "A prolonged La Niña-driven monsoon trough dumped 669 mm over three days across the Brisbane River catchment, triggering releases from Wivenhoe Dam and inundating 28,000 properties in the CBD and inner suburbs.",
+    significance:
+      "Resulted in the Queensland Floods Commission of Inquiry which reformed dam operations and flood mapping standards. Total insured losses exceeded AUD $2.4 billion — Australia's costliest flood event at the time.",
+    cumulativeFractions: generateBrisbaneCurve(),
+    timeStepMin: 30,
+    color: "hsl(50, 80%, 45%)",
+  },
 ];
 
 // ── Characteristic cumulative curves ───────────────────────────────
@@ -184,6 +235,47 @@ function generateZhengzhouCurve(): number[] {
     const t = i / n;
     // Slow buildup then extreme spike
     const base = 0.15 * sigmoid(t, 0.3, 10) + 0.7 * sigmoid(t, 0.7, 30) + 0.15 * sigmoid(t, 0.9, 12);
+    fracs.push(Math.min(1, base));
+  }
+  const max = fracs[fracs.length - 1];
+  return fracs.map(f => f / max);
+}
+
+function generateMumbaiCurve(): number[] {
+  // 24-hr at 15-min = 96 steps, extreme convective burst around 60-75% of duration (afternoon)
+  const n = 96;
+  const fracs: number[] = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    // Slow morning then massive afternoon burst (644mm in 6hr window)
+    const base = 0.08 * sigmoid(t, 0.2, 10) + 0.75 * sigmoid(t, 0.65, 25) + 0.17 * sigmoid(t, 0.9, 15);
+    fracs.push(Math.min(1, base));
+  }
+  const max = fracs[fracs.length - 1];
+  return fracs.map(f => f / max);
+}
+
+function generateMariaCurve(): number[] {
+  // 48-hr at 30-min = 96 steps, intense landfall burst around 35% then sustained tail
+  const n = 96;
+  const fracs: number[] = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    const base = 0.5 * sigmoid(t, 0.3, 18) + 0.35 * sigmoid(t, 0.6, 12) + 0.15 * sigmoid(t, 0.85, 10);
+    fracs.push(Math.min(1, base));
+  }
+  const max = fracs[fracs.length - 1];
+  return fracs.map(f => f / max);
+}
+
+function generateBrisbaneCurve(): number[] {
+  // 72-hr at 30-min = 144 steps, prolonged multi-day event with broad peak around 50%
+  const n = 144;
+  const fracs: number[] = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    // Sustained frontal/monsoon rain with moderate peak
+    const base = 0.1 * t + 0.25 * sigmoid(t, 0.3, 10) + 0.45 * sigmoid(t, 0.55, 12) + 0.2 * sigmoid(t, 0.8, 8);
     fracs.push(Math.min(1, base));
   }
   const max = fracs[fracs.length - 1];
@@ -363,7 +455,7 @@ export function HistoricalStormReplay({ onLoadToEditor }: HistoricalStormReplayP
   return (
     <div className="space-y-6">
       {/* Storm Selector Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {HISTORICAL_STORMS.map((storm) => (
           <Card
             key={storm.id}
