@@ -3903,367 +3903,8 @@ export const patternEquations: PatternEquation[] = [
     notes: 'Illinois/Midwest standard. Uses Huff 2nd quartile median curve. Required for IDOT highway drainage. Peak at 25–50% of duration.'
   },
 
-  // ──── Mathematical/Parametric ────
-
-  {
-    pattern: 'parabolic',
-    name: 'Parabolic Storm',
-    category: 'intensity',
-    equations: [
-      { label: 'Parabolic Intensity', latex: 'i(t) = i_{peak} \\cdot \\left[1 - \\left(\\frac{2t - D}{D}\\right)^2\\right]', description: 'Inverted parabola with peak at center' },
-      { label: 'Peak Intensity', latex: 'i_{peak} = \\frac{3P}{2D}', description: 'Peak intensity for volume conservation' },
-    ],
-    variables: [
-      { symbol: 'i(t)', meaning: 'Intensity at time t' },
-      { symbol: 'i_{peak}', meaning: 'Peak intensity at t = D/2' },
-      { symbol: 'P', meaning: 'Total storm depth' },
-      { symbol: 'D', meaning: 'Storm duration' },
-    ],
-    reference: { title: 'Parametric Design Storm Methods', citation: 'Standard hydrologic practice', year: 1980 },
-    notes: 'Symmetric inverted parabola. Smooth peak at center. Peak ratio = 1.5×. Useful for moderate-peak design.'
-  },
-
-  {
-    pattern: 'cosine_storm',
-    name: 'Cosine Storm',
-    category: 'intensity',
-    equations: [
-      { label: 'Cosine Intensity', latex: 'i(t) = \\frac{P}{D} \\cdot \\frac{\\pi}{2} \\cdot \\sin\\left(\\frac{\\pi t}{D}\\right)', description: 'Half-sine intensity distribution' },
-    ],
-    variables: [
-      { symbol: 'i(t)', meaning: 'Intensity at time t' },
-      { symbol: 'P', meaning: 'Total storm depth' },
-      { symbol: 'D', meaning: 'Storm duration' },
-    ],
-    reference: { title: 'Parametric Design Storm Methods', citation: 'Standard hydrologic practice', year: 1975 },
-    notes: 'Smooth symmetric bell shape. Peak ratio = π/2 ≈ 1.57×. Natural-looking transition from onset to recession.'
-  },
-
-  {
-    pattern: 'lognormal_temporal',
-    name: 'Lognormal Temporal',
-    category: 'intensity',
-    equations: [
-      { label: 'Lognormal Intensity', latex: 'i(t) = \\frac{P}{t \\cdot \\sigma\\sqrt{2\\pi}} \\exp\\left(-\\frac{(\\ln t - \\mu)^2}{2\\sigma^2}\\right)', description: 'Lognormal-distributed intensity over storm duration' },
-    ],
-    variables: [
-      { symbol: '\\mu', meaning: 'Log-mean parameter (controls peak position)' },
-      { symbol: '\\sigma', meaning: 'Log-standard deviation (controls skewness)' },
-      { symbol: 'P', meaning: 'Total storm depth' },
-    ],
-    reference: { title: 'Stochastic Rainfall Models', citation: 'Various statistical hydrology texts', year: 1990 },
-    notes: 'Right-skewed (front-loaded) bell shape. Peak position controlled by μ. Useful for asymmetric convective storms.'
-  },
-
-  {
-    pattern: 'exponential_decay_storm',
-    name: 'Exponential Decay Storm',
-    category: 'intensity',
-    equations: [
-      { label: 'Exponential Decay', latex: 'i(t) = i_0 \\cdot e^{-\\lambda t}', description: 'Exponentially decaying intensity from initial burst' },
-      { label: 'Initial Intensity', latex: 'i_0 = \\frac{P \\cdot \\lambda}{1 - e^{-\\lambda D}}', description: 'Volume-conserving initial intensity' },
-    ],
-    variables: [
-      { symbol: 'i_0', meaning: 'Initial peak intensity' },
-      { symbol: '\\lambda', meaning: 'Decay rate constant' },
-      { symbol: 'P', meaning: 'Total storm depth' },
-      { symbol: 'D', meaning: 'Storm duration' },
-    ],
-    reference: { title: 'Exponential Rainfall Models', citation: 'Standard parametric methods', year: 1985 },
-    notes: 'Extremely front-loaded. Peak at t=0 by definition. Useful for convective burst modeling. Similar to post-wildfire pattern.'
-  },
-
-  {
-    pattern: 'power_curve_storm',
-    name: 'Power Curve Storm',
-    category: 'cumulative',
-    equations: [
-      { label: 'Power Law CDF', latex: 'F(t) = \\left(\\frac{t}{D}\\right)^n', description: 'Power-law cumulative distribution' },
-      { label: 'Intensity', latex: 'i(t) = \\frac{nP}{D} \\left(\\frac{t}{D}\\right)^{n-1}', description: 'Intensity derived from power law CDF' },
-    ],
-    variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
-      { symbol: 'n', meaning: 'Power exponent (n<1 front-loaded, n>1 rear-loaded)' },
-      { symbol: 'P', meaning: 'Total storm depth' },
-    ],
-    reference: { title: 'Parametric Rainfall Distribution Models', citation: 'Standard hydrologic practice', year: 1980 },
-    notes: 'Flexible shape: n=0.5 gives front-loaded, n=1 gives uniform (block), n=2 gives rear-loaded. Simple one-parameter model.'
-  },
-
-  {
-    pattern: 'weibull_temporal',
-    name: 'Weibull Temporal',
-    category: 'intensity',
-    equations: [
-      { label: 'Weibull Intensity', latex: 'i(t) = \\frac{P \\cdot k}{\\lambda} \\left(\\frac{t}{\\lambda}\\right)^{k-1} \\exp\\left[-\\left(\\frac{t}{\\lambda}\\right)^k\\right]', description: 'Weibull-distributed temporal rainfall intensity' },
-    ],
-    variables: [
-      { symbol: 'k', meaning: 'Shape parameter (k<1 front-loaded, k>1 peaked)' },
-      { symbol: '\\lambda', meaning: 'Scale parameter (controls timing)' },
-      { symbol: 'P', meaning: 'Total storm depth' },
-    ],
-    reference: { title: 'Weibull Distribution in Hydrology', citation: 'Various statistical hydrology texts', year: 1995 },
-    notes: 'Very flexible 2-parameter distribution. k=1 reduces to exponential decay. k=2 gives Rayleigh distribution. Widely used in reliability/hydrology.'
-  },
-
-  {
-    pattern: 'instantaneous_burst',
-    name: 'Instantaneous Burst',
-    category: 'intensity',
-    equations: [
-      { label: 'Burst + Residual', latex: 'i(t) = \\begin{cases} i_{burst} & t \\leq \\Delta t \\\\ i_{base} & t > \\Delta t \\end{cases}', description: 'Single-step burst followed by low-intensity residual' },
-      { label: 'Burst Intensity', latex: 'i_{burst} = \\frac{f \\cdot P}{\\Delta t}', description: 'Burst fraction f of total depth concentrated in Δt' },
-    ],
-    variables: [
-      { symbol: 'i_{burst}', meaning: 'Burst intensity (very high)' },
-      { symbol: 'i_{base}', meaning: 'Residual base intensity' },
-      { symbol: 'f', meaning: 'Fraction of depth in burst (typically 0.5–0.8)' },
-      { symbol: '\\Delta t', meaning: 'Burst duration (typically 5–15 min)' },
-    ],
-    reference: { title: 'Flash Flood Design Methods', citation: 'Standard engineering practice', year: 2000 },
-    notes: 'Worst-case design for small catchments and inlet sizing. 50–80% of depth in first time step. Peak ratio can exceed 10×.'
-  },
-
-  {
-    pattern: 'sigmoid_mass',
-    name: 'Sigmoid / Logistic Mass Curve',
-    category: 'cumulative',
-    equations: [
-      { label: 'Logistic CDF', latex: 'F(t) = \\frac{1}{1 + e^{-k(t - t_0)}}', description: 'Logistic (sigmoid) cumulative mass curve' },
-      { label: 'Intensity', latex: 'i(t) = \\frac{Pk \\cdot e^{-k(t-t_0)}}{[1 + e^{-k(t-t_0)}]^2}', description: 'Logistic PDF — bell-shaped intensity' },
-    ],
-    variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction (0–1)' },
-      { symbol: 'k', meaning: 'Steepness parameter (higher = sharper peak)' },
-      { symbol: 't_0', meaning: 'Inflection point / peak time' },
-      { symbol: 'P', meaning: 'Total storm depth' },
-    ],
-    reference: { title: 'Logistic Distribution in Hydrological Design', citation: 'Various parametric methods', year: 1990 },
-    notes: 'S-shaped mass curve producing symmetric bell intensity. k controls peakiness. Similar to Gaussian but with heavier tails.'
-  },
-
-  // ──── Storm Mechanism Types ────
-
-  {
-    pattern: 'medicane',
-    name: 'Medicane',
-    category: 'intensity',
-    equations: [
-      { label: 'Mediterranean Hurricane', latex: 'i(t) = i_{bg} + \\sum_{k=1}^{3} A_k \\exp\\left(-\\frac{(t-\\mu_k)^2}{2\\sigma_k^2}\\right)', description: 'Multiple embedded convective peaks within sustained cyclonic circulation' },
-    ],
-    variables: [
-      { symbol: 'i_{bg}', meaning: 'Background stratiform intensity' },
-      { symbol: 'A_k', meaning: 'Amplitude of convective peak k' },
-      { symbol: '\\mu_k', meaning: 'Position of peak k' },
-      { symbol: '\\sigma_k', meaning: 'Width of peak k' },
-    ],
-    reference: { title: 'Medicanes: Mediterranean Tropical-Like Cyclones', citation: 'Miglietta, M.M. & Rotunno, R., Bull. Amer. Meteor. Soc.', year: 2019, link: 'https://doi.org/10.1175/BAMS-D-18-0337.1' },
-    notes: 'Mediterranean hurricane. 6–18 hr multi-peak events. Affects Greece, southern Italy, North Africa. 2–3 events per year.'
-  },
-
-  {
-    pattern: 'polar_low',
-    name: 'Polar Low',
-    category: 'intensity',
-    equations: [
-      { label: 'Arctic Convective', latex: 'i(t) = \\frac{P}{D} \\cdot \\alpha \\cdot \\exp\\left(-\\frac{(t-\\mu)^2}{2\\sigma^2}\\right)', description: 'Short-lived Arctic mesoscale low-pressure system' },
-    ],
-    variables: [
-      { symbol: '\\mu', meaning: 'Peak position (typically 0.4–0.5 of duration)' },
-      { symbol: '\\sigma', meaning: 'Storm width parameter' },
-      { symbol: '\\alpha', meaning: 'Normalization for volume conservation' },
-    ],
-    reference: { title: 'Polar Lows: Mesoscale Weather Systems in the Polar Regions', citation: 'Rasmussen, E.A. & Turner, J., Cambridge University Press', year: 2003 },
-    notes: 'Arctic/subarctic maritime. Short-lived (6–12 hr). Single center peak. Norway, Iceland, Barents Sea. Mixed rain/snow.'
-  },
-
-  {
-    pattern: 'cutoff_low',
-    name: 'Cut-Off Low',
-    category: 'cumulative',
-    equations: [
-      { label: 'Slow-Moving Frontal', latex: 'F(t) = \\frac{1 - \\cos(\\pi t)}{2} + 0.15 \\sin(3\\pi t)', description: 'Sustained rainfall with embedded convective pulses from stalled upper-level low' },
-    ],
-    variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
-      { symbol: 't', meaning: 'Dimensionless time (t/D)' },
-    ],
-    reference: { title: 'Cut-Off Low Systems and Associated Precipitation', citation: 'Nieto, R. et al., Meteorol. Atmos. Phys.', year: 2005 },
-    notes: 'Slow-moving upper-level low. 24–72 hr events. Multiple intensity pulses. Mediterranean, South Africa, Australia. Flood-producing.'
-  },
-
-  {
-    pattern: 'mcs_storm',
-    name: 'Mesoscale Convective System (MCS)',
-    category: 'intensity',
-    equations: [
-      { label: 'MCS Intensity', latex: 'i(t) = i_{conv} \\cdot \\exp\\left(-\\frac{(t-t_1)^2}{2\\sigma_c^2}\\right) + i_{strat} \\cdot \\left[1 - \\exp\\left(-\\frac{t}{\\tau}\\right)\\right]', description: 'Convective core followed by trailing stratiform region' },
-    ],
-    variables: [
-      { symbol: 'i_{conv}', meaning: 'Convective core peak intensity' },
-      { symbol: 'i_{strat}', meaning: 'Stratiform trailing intensity' },
-      { symbol: 't_1', meaning: 'Time of convective peak' },
-      { symbol: '\\sigma_c', meaning: 'Convective core width' },
-      { symbol: '\\tau', meaning: 'Stratiform ramp-up time constant' },
-    ],
-    reference: { title: 'Mesoscale Convective Systems', citation: 'Houze, R.A., Rev. Geophys.', year: 2004, link: 'https://doi.org/10.1029/2004RG000150' },
-    notes: 'Leading convective line + trailing stratiform. 3–12 hr events. US Great Plains, Sahel, La Plata basin. Peak ratio ~4×.'
-  },
-
-  {
-    pattern: 'supercell',
-    name: 'Supercell',
-    category: 'intensity',
-    equations: [
-      { label: 'Supercell Intensity', latex: 'i(t) = i_{peak} \\cdot \\exp\\left(-\\frac{|t - t_p|}{\\sigma}\\right)', description: 'Laplacian (double-exponential) intensity centered on mesocyclone passage' },
-      { label: 'Peak Intensity', latex: 'i_{peak} = \\frac{P}{2\\sigma}', description: 'Volume-conserving peak for Laplacian distribution' },
-    ],
-    variables: [
-      { symbol: 'i_{peak}', meaning: 'Extreme peak intensity' },
-      { symbol: 't_p', meaning: 'Time of mesocyclone passage (peak)' },
-      { symbol: '\\sigma', meaning: 'Peak width parameter (very small — 5–15 min)' },
-      { symbol: 'P', meaning: 'Total storm depth' },
-    ],
-    reference: { title: 'The Structure and Classification of Supercell Storms', citation: 'Doswell, C.A. & Burgess, D.W., Mon. Wea. Rev.', year: 1993 },
-    notes: 'Extremely intense single peak. 30–90 min core passage. Worst-case for small catchments. Peak ratio can exceed 8×. Hail and tornado risk.'
-  },
-
-  {
-    pattern: 'orographic_enhanced',
-    name: 'Orographic Enhanced',
-    category: 'cumulative',
-    equations: [
-      { label: 'Orographic Uplift Factor', latex: 'P_{oro} = P_{base} \\cdot (1 + \\alpha \\cdot \\nabla z)', description: 'Elevation-gradient based rainfall enhancement' },
-      { label: 'Sustained Profile', latex: 'F(t) = \\frac{1 - \\cos(\\pi t)}{2}', description: 'Sustained cosine mass curve with orographic depth uplift' },
-    ],
-    variables: [
-      { symbol: 'P_{oro}', meaning: 'Orographically enhanced rainfall depth' },
-      { symbol: 'P_{base}', meaning: 'Base (flat-terrain) rainfall depth' },
-      { symbol: '\\alpha', meaning: 'Orographic enhancement factor' },
-      { symbol: '\\nabla z', meaning: 'Elevation gradient (m/km)' },
-    ],
-    reference: { title: 'Orographic Precipitation', citation: 'Smith, R.B., Rev. Geophys.', year: 1979 },
-    notes: 'Mountain-enhanced sustained rainfall. Nearly symmetric. Applies to any windward mountain slope. Peak ratio ~1.6×.'
-  },
-
-  {
-    pattern: 'urban_heat_island',
-    name: 'Urban Heat Island Storm',
-    category: 'intensity',
-    equations: [
-      { label: 'UHI-Enhanced Profile', latex: 'i(t) = i_{rural}(t) \\cdot (1 + \\Delta_{UHI})', description: 'Rural storm profile amplified by urban heat island effect' },
-      { label: 'UHI Enhancement', latex: '\\Delta_{UHI} = 0.1 \\text{ to } 0.3', description: '10–30% intensity increase over urban areas' },
-    ],
-    variables: [
-      { symbol: 'i_{rural}(t)', meaning: 'Base rural storm intensity profile' },
-      { symbol: '\\Delta_{UHI}', meaning: 'Urban heat island enhancement factor' },
-    ],
-    reference: { title: 'Urban Effects on Precipitation', citation: 'Shepherd, J.M., J. Appl. Meteor. Climatol.', year: 2005 },
-    notes: 'Urban areas can increase rainfall 10–30% downwind. More convective triggering. Used for megacity flood design. Peak ratio ~3.5×.'
-  },
-
-  {
-    pattern: 'monsoon_burst',
-    name: 'Monsoon Burst',
-    category: 'intensity',
-    equations: [
-      { label: 'Burst-Pause-Burst', latex: 'i(t) = \\sum_{k=1}^{N} A_k \\cdot \\exp\\left(-\\frac{(t-\\mu_k)^2}{2\\sigma_k^2}\\right) + i_{bg}', description: 'Multiple monsoon convective bursts with sustained background' },
-    ],
-    variables: [
-      { symbol: 'A_k', meaning: 'Amplitude of burst k' },
-      { symbol: '\\mu_k', meaning: 'Timing of burst k' },
-      { symbol: '\\sigma_k', meaning: 'Duration of burst k' },
-      { symbol: 'i_{bg}', meaning: 'Background monsoon drizzle intensity' },
-      { symbol: 'N', meaning: 'Number of bursts (typically 2–4)' },
-    ],
-    reference: { title: 'Indian Monsoon Rainfall Variability', citation: 'Rajeevan, M. et al., Current Science', year: 2010 },
-    notes: 'Active monsoon phase multi-burst pattern. 6–24 hr events. South/Southeast Asia. Embedded convective cells within monsoon flow.'
-  },
-
-  {
-    pattern: 'squall_line',
-    name: 'Squall Line',
-    category: 'intensity',
-    equations: [
-      { label: 'Frontal Squall Passage', latex: 'i(t) = i_{peak} \\cdot \\exp\\left(-\\frac{(t-t_p)^2}{2\\sigma^2}\\right) + i_{trail} \\cdot H(t-t_p)', description: 'Sharp convective leading edge followed by moderate trailing rain' },
-    ],
-    variables: [
-      { symbol: 'i_{peak}', meaning: 'Peak intensity at squall front passage' },
-      { symbol: 't_p', meaning: 'Time of frontal passage' },
-      { symbol: '\\sigma', meaning: 'Frontal width (narrow, 10–30 min)' },
-      { symbol: 'i_{trail}', meaning: 'Trailing stratiform intensity' },
-      { symbol: 'H(t)', meaning: 'Heaviside step function' },
-    ],
-    reference: { title: 'Linear Mesoscale Convective Systems', citation: 'Parker, M.D. & Johnson, R.H., Mon. Wea. Rev.', year: 2000 },
-    notes: 'Linear convective system passage. Very front-loaded. 1–4 hr. Common in midlatitudes. Peak ratio ~5×.'
-  },
-
-  {
-    pattern: 'sea_breeze',
-    name: 'Sea Breeze Storm',
-    category: 'intensity',
-    equations: [
-      { label: 'Afternoon Convective', latex: 'i(t) = i_{peak} \\cdot \\exp\\left(-\\frac{(t - t_{afternoon})^2}{2\\sigma^2}\\right)', description: 'Sea breeze convergence-triggered afternoon convection' },
-    ],
-    variables: [
-      { symbol: 'i_{peak}', meaning: 'Peak intensity' },
-      { symbol: 't_{afternoon}', meaning: 'Typical afternoon peak (14:00–17:00 local)' },
-      { symbol: '\\sigma', meaning: 'Storm width (30–60 min typical)' },
-    ],
-    reference: { title: 'Sea-Breeze Convection', citation: 'Simpson, J.E., Annual Review of Fluid Mechanics', year: 1994 },
-    notes: 'Diurnal sea breeze convergence. Florida, tropical coasts. Short intense burst (30–90 min). Peak ratio ~4×.'
-  },
-
-  {
-    pattern: 'nocturnal_mcs',
-    name: 'Nocturnal MCS',
-    category: 'intensity',
-    equations: [
-      { label: 'Nocturnal Elevated Convection', latex: 'i(t) = i_{bg} + A \\cdot \\sin^2\\left(\\frac{\\pi(t - t_{onset})}{D_{core}}\\right) \\cdot H(t-t_{onset})', description: 'Elevated nocturnal convection with smooth onset' },
-    ],
-    variables: [
-      { symbol: 'i_{bg}', meaning: 'Background low-level jet moisture' },
-      { symbol: 'A', meaning: 'Convective core amplitude' },
-      { symbol: 't_{onset}', meaning: 'Nocturnal onset time (typically 21:00–01:00)' },
-      { symbol: 'D_{core}', meaning: 'Core convective duration (3–6 hr)' },
-    ],
-    reference: { title: 'Nocturnal Convection Over the Central United States', citation: 'Carbone, R.E. & Tuttle, J.D., Mon. Wea. Rev.', year: 2008 },
-    notes: 'Elevated convection from nocturnal low-level jet. US Great Plains warm season. Center-peaked nocturnal. Peak ratio ~3×.'
-  },
-
-  {
-    pattern: 'rain_on_snow',
-    name: 'Rain-on-Snow',
-    category: 'cumulative',
-    equations: [
-      { label: 'Sustained Warm Front', latex: 'F(t) = \\frac{1 - \\cos(\\pi t)}{2}', description: 'Sustained frontal rainfall on existing snowpack (cosine distribution)' },
-      { label: 'Combined Water Input', latex: 'Q_{total} = P + M_{snow}', description: 'Total water input = liquid precipitation + snowmelt' },
-    ],
-    variables: [
-      { symbol: 'F(t)', meaning: 'Cumulative rainfall fraction' },
-      { symbol: 'P', meaning: 'Liquid precipitation depth' },
-      { symbol: 'M_{snow}', meaning: 'Snowmelt contribution (T-index or energy balance)' },
-      { symbol: 'Q_{total}', meaning: 'Total water input to soil/runoff' },
-    ],
-    reference: { title: 'Rain-on-Snow Events in the Western United States', citation: 'McCabe, G.J. et al., Bull. Amer. Meteor. Soc.', year: 2007 },
-    notes: 'Warm atmospheric river over snowpack. Dominant flood mechanism for mountain regions. Sustained low-peak. Peak ratio ~1.6×.'
-  },
-
-  {
-    pattern: 'derecho',
-    name: 'Derecho',
-    category: 'intensity',
-    equations: [
-      { label: 'Bow Echo Passage', latex: 'i(t) = i_{peak} \\cdot \\exp\\left(-\\frac{|t-t_p|}{\\sigma}\\right)', description: 'Very brief extreme intensity during bow echo passage' },
-    ],
-    variables: [
-      { symbol: 'i_{peak}', meaning: 'Extreme peak intensity (very high)' },
-      { symbol: 't_p', meaning: 'Time of bow echo passage (very brief)' },
-      { symbol: '\\sigma', meaning: 'Core width (typically 10–20 min)' },
-    ],
-    reference: { title: 'Derechos: Widespread Convectively Induced Windstorms', citation: 'Johns, R.H. & Hirt, W.D., Wea. Forecasting', year: 1987 },
-    notes: 'Long-lived bow echo. Extremely brief but intense rainfall. Wind damage dominant hazard. 15–45 min rainfall core. Peak ratio ~8×.'
-  },
+  // ──── Mathematical/Parametric & Storm Mechanisms ────
+  // (Detailed entries with full LaTeX, mass curves, and IDF parameters are in the sections below)
 
   // ──── Climate Change Variants ────
 
@@ -4413,7 +4054,7 @@ export const patternEquations: PatternEquation[] = [
   },
 
   {
-    pattern: 'exponential_decay' as PatternType,
+    pattern: 'exponential_decay_storm' as PatternType,
     name: 'Exponential Decay',
     category: 'intensity',
     equations: [
@@ -4449,7 +4090,7 @@ export const patternEquations: PatternEquation[] = [
   },
 
   {
-    pattern: 'power_curve' as PatternType,
+    pattern: 'power_curve_storm' as PatternType,
     name: 'Power Curve (Beta-type)',
     category: 'intensity',
     equations: [
@@ -4587,7 +4228,7 @@ export const patternEquations: PatternEquation[] = [
   },
 
   {
-    pattern: 'sigmoid_logistic' as PatternType,
+    pattern: 'sigmoid_mass' as PatternType,
     name: 'Sigmoid / Logistic Mass Curve',
     category: 'cumulative',
     equations: [
@@ -4685,7 +4326,7 @@ export const patternEquations: PatternEquation[] = [
   },
 
   {
-    pattern: 'mcs' as PatternType,
+    pattern: 'mcs_storm' as PatternType,
     name: 'Mesoscale Convective System (MCS)',
     category: 'cumulative',
     equations: [
@@ -4870,7 +4511,7 @@ export const patternEquations: PatternEquation[] = [
   },
 
   {
-    pattern: 'tropical_cyclone_rainband' as PatternType,
+    pattern: 'tropical_cyclone' as PatternType,
     name: 'Tropical Cyclone Rainband',
     category: 'cumulative',
     equations: [
@@ -5027,7 +4668,7 @@ export const patternEquations: PatternEquation[] = [
   },
 
   {
-    pattern: 'clausius_clapeyron_super' as PatternType,
+    pattern: 'super_cc' as PatternType,
     name: 'Clausius-Clapeyron Super-CC',
     category: 'intensity',
     equations: [
