@@ -58,7 +58,9 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   | 'medicane' | 'polar_low' | 'cutoff_low' | 'mcs_storm' | 'supercell'
   | 'orographic_enhanced' | 'urban_heat_island' | 'monsoon_burst' | 'squall_line'
   | 'sea_breeze' | 'nocturnal_mcs' | 'rain_on_snow' | 'derecho'
-  | 'ukcp18_enhanced' | 'super_cc' | 'neyman_scott' | 'temez_spain' | 'bonta_usda';
+  | 'ukcp18_enhanced' | 'super_cc' | 'neyman_scott' | 'temez_spain' | 'bonta_usda'
+  // v12 addition
+  | 'georgian_nea';
 
 // ─── Helper functions for pattern generation ───
 
@@ -4101,6 +4103,12 @@ export function generateRainfallData(
       // USDA ARS dimensionless hyetographs from 6000+ Midwest storms
       const t = [0, 0.05, 0.10, 0.15, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
       const p = [0, 0.02, 0.06, 0.12, 0.20, 0.40, 0.60, 0.76, 0.87, 0.93, 0.97, 0.99, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'georgian_nea': {
+      // Georgia (Caucasus) — Tbilisi/Batumi convective, front-loaded with Mediterranean influence
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const p = [0, 0.08, 0.22, 0.38, 0.52, 0.70, 0.82, 0.89, 0.93, 0.96, 0.98, 0.99, 1.0];
       return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
     }
   }
