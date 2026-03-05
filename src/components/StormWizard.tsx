@@ -301,6 +301,7 @@ const patternNames: Record<PatternType, string> = {
   'temez_spain': 'Témez (Spain)',
   'bonta_usda': 'Bonta (USDA)',
   'georgian_nea': 'Georgia NEA',
+  'albanian_igewe': 'Albanian IGEWE',
 };
 
 interface WizardStep {

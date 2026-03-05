@@ -1430,6 +1430,7 @@ export const patterns: PatternOption[] = [
   { id: 'bonta_usda', name: 'Bonta (USDA)', icon: '🌾', description: 'USDA ARS synthetic dimensionless hyetographs from 6,000+ Midwest storms. Agricultural Research Service.', category: 'us_agency' },
   // v12 addition
   { id: 'georgian_nea', name: 'Georgia NEA', icon: '🇬🇪', description: 'National Environment Agency (Caucasus). Tbilisi convective + Batumi subtropical Black Sea coast. Front-loaded Mediterranean-influenced storms.', category: 'european' },
+  { id: 'albanian_igewe', name: 'Albanian IGEWE', icon: '🇦🇱', description: 'Institute of GeoSciences, Energy, Water and Environment. Tirana + Adriatic coast. Mediterranean front-loaded with orographic influence.', category: 'european' },
 ];
 
 interface PatternSelectorProps {

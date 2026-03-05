@@ -17,7 +17,7 @@ import { ApiPlayground } from "@/components/ApiPlayground";
 import { toast } from "sonner";
 
 const PATTERN_BADGES = [
-  "Abu Dhabi ADM", "AES Canada 30%", "AES Canada 40%", "Algeria ANRH", "Argentina SMN",
+  "Abu Dhabi ADM", "AES Canada 30%", "AES Canada 40%", "Albanian IGEWE", "Algeria ANRH", "Argentina SMN",
   "Arid Flash Flood", "Arnell (Sweden)", "ARR 2019 Ensemble", "ARR87 Legacy",
   "Atmospheric River", "ATV A-121", "Auckland TP108",
   "Australian ARR", "Austria ÖKOSTRA", "Average Variability", "Azores/Madeira IPMA",
