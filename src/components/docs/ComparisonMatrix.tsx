@@ -74,7 +74,7 @@ export function ComparisonMatrix() {
       'Nested IDF', 'Dimensionless', 'Source Document', 'Equation Family',
       'Use Case', 'SWMM Compatible', 'ICM Compatible',
     ];
-    const rows = COMPARISON_DATA.map(r => [
+    const rows = filtered.map(r => [
       r.id, r.name, r.taxonomyClass, r.region, r.idfRequired, r.temporalRes,
       r.durationRange, r.keyParams, PEAK_POSITION_LABELS[r.peakPosition], r.advancementRatio,
       r.nestedIdf === null ? 'N/A' : r.nestedIdf ? 'Yes' : 'No',
