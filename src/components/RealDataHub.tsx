@@ -186,7 +186,10 @@ export function RealDataHub() {
         </TabsContent>
 
         <TabsContent value="replay" className="mt-6">
-          <HistoricalStormReplay />
+          <HistoricalStormReplay onLoadToEditor={(data) => {
+            setCurrentData(data);
+            setActiveTab('edit');
+          }} />
         </TabsContent>
 
         <TabsContent value="library" className="mt-6">

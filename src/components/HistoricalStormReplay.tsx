@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CloudRain, Download, Play, Info, MapPin, Calendar, Droplets, Clock, FileDown } from "lucide-react";
+import { CloudRain, Download, Play, Info, MapPin, Calendar, Droplets, Clock, FileDown, ArrowRight } from "lucide-react";
+import { type ParsedRainfallData } from "@/lib/rainfallParsers";
 import {
   ComposedChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from "recharts";
@@ -291,7 +292,11 @@ function exportToCsv(storm: HistoricalStorm, timeseries: TimeseriesPoint[]): str
 
 // ── Component ──────────────────────────────────────────────────────
 
-export function HistoricalStormReplay() {
+interface HistoricalStormReplayProps {
+  onLoadToEditor?: (data: ParsedRainfallData) => void;
+}
+
+export function HistoricalStormReplay({ onLoadToEditor }: HistoricalStormReplayProps) {
   const [selectedStorm, setSelectedStorm] = useState<HistoricalStorm>(HISTORICAL_STORMS[0]);
   const [showDetails, setShowDetails] = useState(false);
 
@@ -328,6 +333,31 @@ export function HistoricalStormReplay() {
     a.click();
     URL.revokeObjectURL(url);
     toast.success(`Exported ${selectedStorm.name} to CSV`);
+  };
+
+  const handleLoadToEditor = () => {
+    if (!onLoadToEditor) return;
+    const data: ParsedRainfallData = {
+      data: timeseries.map((pt) => ({
+        time: pt.time,
+        intensity: pt.intensity,
+        cumulative: pt.cumulative,
+      })),
+      metadata: {
+        source: 'csv' as const,
+        filename: `${selectedStorm.name} (${selectedStorm.date})`,
+        station: selectedStorm.location,
+        units: 'mm',
+        timeStep: selectedStorm.timeStepMin,
+        totalDepth: selectedStorm.totalDepthMm,
+        peakIntensity: selectedStorm.peakIntensityMmHr,
+        peakTime: timeseries.reduce((best, pt) => pt.intensity > best.intensity ? pt : best, timeseries[0]).time,
+      },
+      warnings: [],
+      errors: [],
+    };
+    onLoadToEditor(data);
+    toast.success(`Loaded ${selectedStorm.name} into Editor`);
   };
 
   return (
@@ -393,6 +423,12 @@ export function HistoricalStormReplay() {
                 <FileDown className="w-4 h-4 mr-1" />
                 SWMM5 .inp
               </Button>
+              {onLoadToEditor && (
+                <Button size="sm" variant="secondary" onClick={handleLoadToEditor}>
+                  <ArrowRight className="w-4 h-4 mr-1" />
+                  Load to Editor
+                </Button>
+              )}
             </div>
           </div>
         </CardHeader>
