@@ -1,320 +1,284 @@
-# Rainfall Pattern Painter – Handover Document
+# World Rainfall Pattern Painter – Handover Document
 
-## Overview
-
-**Rainfall Pattern Painter** is a client-side web application for generating, visualizing, and exporting synthetic rainfall patterns used in stormwater modeling. It targets hydrologists and civil engineers who need design storm hyetographs for tools like EPA SWMM5 and Innovyze ICM.
-
+**Version**: March 2026  
 **Live URL**: https://rain-canvas-studio.lovable.app  
-**No backend or database** – everything runs in the browser with localStorage for preferences.
+**API Documentation**: https://rain-canvas-studio.lovable.app/API.md
 
 ---
 
-## Tech Stack
+## 1. Overview
+
+**World Rainfall Pattern Painter** is a web application for generating, visualizing, comparing, and exporting synthetic rainfall hyetographs used in stormwater modeling worldwide. It targets hydrologists, civil engineers, and urban planners who need design storm distributions for software like EPA SWMM5, HEC-HMS, InfoWorks ICM, PCSWMM, XP-SWMM, and HydroCAD.
+
+The app is primarily client-side with three serverless backend functions for the public API, AI chatbot, and NOAA IDF proxy.
+
+---
+
+## 2. Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
 | Framework | React 18 + TypeScript |
-| Build | Vite |
-| Styling | Tailwind CSS + shadcn/ui (Radix primitives) |
+| Build | Vite 5 |
+| Styling | Tailwind CSS 3 + shadcn/ui (Radix primitives) |
 | Charts | Recharts |
 | Math rendering | KaTeX |
 | PDF export | jsPDF |
 | Screenshot/GIF | html2canvas, gif.js |
 | Routing | react-router-dom v6 |
+| State | React hooks + URL search params (no global store) |
+| Theme | next-themes (class-based dark mode) |
+| Backend | Lovable Cloud (Supabase Edge Functions) |
+| Maps | react-simple-maps |
+| Testing | Vitest |
 
-## Project Structure
+---
+
+## 3. Architecture
+
+### 3.1 Frontend (Single-Page App)
+
+One main route (`/`) with a 5-tab layout:
+
+| Tab | Component | Purpose |
+|-----|-----------|---------|
+| **Storm Generator** | `StormWizard` | 3-step workflow: Parameters → Pattern → Export |
+| **Real Data Hub** | `RealDataHub` | Import/parse observed rainfall files |
+| **Advanced Tools** | `AdvancedTools` | 12+ engineering calculators |
+| **API Playground** | `ApiPlayground` | Interactive REST API tester |
+| **Documentation** | `Documentation` | Methodology, glossary, references |
+
+### 3.2 Backend (Edge Functions)
+
+Three serverless functions deployed automatically via Lovable Cloud:
+
+| Function | Path | Purpose |
+|----------|------|---------|
+| `storm-api` | `/functions/v1/storm-api` | Public REST API (generate hyetographs, list patterns, analyze data) |
+| `storm-chat` | `/functions/v1/storm-chat` | AI chatbot for hydrology Q&A (uses Lovable AI gateway) |
+| `noaa-idf-proxy` | `/functions/v1/noaa-idf-proxy` | CORS proxy for NOAA Atlas 14 PFDS lookups |
+
+### 3.3 No Database
+
+The application has **no database tables**. All computation is stateless. User preferences (unit system) persist via `localStorage`. The Supabase project exists solely to host the edge functions.
+
+---
+
+## 4. Project Structure
 
 ```
 src/
 ├── pages/
-│   ├── Index.tsx              # Main page with 4-tab layout
+│   ├── Index.tsx              # Main page – 5-tab layout, hero section, pattern badges
 │   └── NotFound.tsx
+│
 ├── components/
 │   ├── StormWizard.tsx        # 3-step wizard (Parameters → Pattern → Export)
 │   ├── StormParameters.tsx    # Depth, duration, timestep, unit system inputs
-│   ├── PatternSelector.tsx    # Grid of 22 rainfall patterns
-│   ├── RainfallChart.tsx      # Recharts bar chart for hyetograph
+│   ├── PatternSelector.tsx    # Grid of 250+ rainfall patterns (12 categories)
+│   ├── RainfallChart.tsx      # Recharts bar chart for hyetograph visualization
 │   ├── ExportButtons.tsx      # CSV, JSON, TXT, PDF, clipboard export
-│   ├── SwmmFileIntegration.tsx # SWMM5 .inp file read/write
+│   ├── HecHmsExportPanel.tsx  # HEC-HMS export support
+│   ├── SwmmFileIntegration.tsx # SWMM5 .inp file read/write/batch
 │   ├── CustomPatternEditor.tsx # Draw-your-own pattern via interactive chart
-│   ├── IdfComparison.tsx      # Compare storm vs IDF curves
-│   ├── IdfGuidedSelector.tsx  # IDF-based storm parameter selection
-│   ├── InteractiveEquationExplorer.tsx # Real-time equation calculator
-│   ├── PatternEquationDisplay.tsx      # LaTeX equations per pattern
-│   ├── AdvancedTools.tsx      # Tab: comparisons, unit hydro, routing, etc.
-│   ├── Documentation.tsx      # Tab: methodology, glossary, examples
-│   ├── RealDataHub.tsx        # Tab: import observed rainfall data
-│   ├── RealDataImporter.tsx   # Parse CSV/GAGE/DAT files
 │   │
-│   │  # Advanced calculators
-│   ├── CurveNumberCalculator.tsx
-│   ├── DetentionPondCalculator.tsx
-│   ├── LIDCalculator.tsx
-│   ├── ModifiedPulsRouting.tsx
-│   ├── OutletStructureCalculator.tsx
-│   ├── PrePostDevelopmentComparison.tsx
-│   ├── RationalMethodCalculator.tsx
-│   ├── RunoffCalculator.tsx
-│   ├── StageStorageDischarge.tsx
-│   ├── TcCalculator.tsx
-│   ├── TreatmentTrainCalculator.tsx
-│   ├── UnitHydrographCalculator.tsx
-│   ├── UnitConversionCalculator.tsx
+│   │  # Hero & Visual
+│   ├── HeroHyetograph.tsx     # Animated hero chart preview
+│   ├── HeroGifExport.tsx      # GIF export of hero animation
+│   ├── RainParticles.tsx      # Animated rain particle effect in header
+│   ├── ThemeToggle.tsx        # Dark/light mode toggle
 │   │
-│   │  # Supporting UI
-│   ├── AnimationExport.tsx
-│   ├── NumericalPatternTable.tsx
-│   ├── PatternComparison.tsx
-│   ├── PatternDerivationEngine.tsx
-│   ├── ScsRegionalGuide.tsx
-│   ├── StormEventLibrary.tsx
-│   ├── TimeseriesEditor.tsx
-│   ├── UnitComparisonTable.tsx
-│   ├── ValidationFeedback.tsx
-│   └── ui/                    # shadcn/ui primitives (do not edit)
+│   │  # Pattern Analysis
+│   ├── PatternComparison.tsx       # Side-by-side overlay of distributions
+│   ├── PatternDerivationEngine.tsx # Derive patterns from observed data
+│   ├── PatternEquationDisplay.tsx  # LaTeX equations per pattern
+│   ├── PatternDecisionGuide.tsx    # Decision tree for pattern selection
+│   ├── PatternSectionSearch.tsx    # Search/filter patterns
+│   ├── InteractiveEquationExplorer.tsx # Slider-driven real-time computation
+│   ├── NumericalPatternTable.tsx   # Tabular pattern data
+│   ├── SensitivityTable.tsx        # Parameter sensitivity analysis
+│   │
+│   │  # IDF & Regional
+│   ├── IdfLookup.tsx               # NOAA Atlas 14 manual IDF entry
+│   ├── IdfComparison.tsx           # Compare storm vs IDF curves
+│   ├── IdfGuidedSelector.tsx       # Region-based IDF parameter selection
+│   ├── WorldMapSelector.tsx        # Interactive world map for region selection
+│   ├── CanadaIdfCalculator.tsx     # Canadian IDF lookup
+│   ├── ChinaRainstormCalculator.tsx # China GB 50014 calculator
+│   ├── ChinaCityComparison.tsx     # China regional comparison
+│   ├── DubaiDdfLookup.tsx          # Dubai DM depth-duration-frequency
+│   ├── ScsRegionalGuide.tsx        # SCS pattern selection guide
+│   │
+│   │  # Advanced Calculators
+│   ├── CurveNumberCalculator.tsx        # SCS CN composite calculation
+│   ├── RunoffCalculator.tsx             # SCS runoff volume
+│   ├── RationalMethodCalculator.tsx     # Rational method peak Q
+│   ├── UnitHydrographCalculator.tsx     # NRCS unit hydrograph
+│   ├── DetentionPondCalculator.tsx      # Detention pond sizing
+│   ├── ModifiedPulsRouting.tsx          # Level-pool routing
+│   ├── OutletStructureCalculator.tsx    # Orifice/weir discharge
+│   ├── StageStorageDischarge.tsx        # Stage-storage-outflow curves
+│   ├── PrePostDevelopmentComparison.tsx # Pre/post development analysis
+│   ├── LIDCalculator.tsx               # Low-impact development BMPs
+│   ├── TreatmentTrainCalculator.tsx     # Sequential BMP pollutant removal
+│   ├── TcCalculator.tsx                # Time of concentration (3 methods)
+│   ├── UnitConversionCalculator.tsx     # USA ↔ SI conversion
+│   │
+│   │  # Data Import/Export
+│   ├── RealDataHub.tsx          # Tab: import observed rainfall
+│   ├── RealDataImporter.tsx     # Parse CSV/GAGE/DAT files
+│   ├── EventHyetograph.tsx      # Visualize imported events
+│   ├── HistoricalStormMatching.tsx   # Match observed to synthetic
+│   ├── HistoricalStormReplay.tsx     # Replay historical storms
+│   ├── StormEventLibrary.tsx    # Curated storm event database
+│   ├── TimeseriesEditor.tsx     # Manual timeseries editing
+│   ├── AnimationExport.tsx      # GIF export of animations
+│   ├── PdfReportGenerator.tsx   # Full PDF report generation
+│   ├── AllPatternsReportPdf.tsx # All-patterns comparison PDF
+│   │
+│   │  # API & AI
+│   ├── ApiPlayground.tsx        # Interactive API tester with visualization
+│   ├── StormChatbot.tsx         # AI hydrology assistant (floating widget)
+│   ├── ParametricStormEngine.tsx # Parametric storm generation
+│   ├── ValidationFeedback.tsx   # Input validation display
+│   │
+│   │  # Documentation subcomponents
+│   ├── docs/
+│   │   ├── ComparisonMatrix.tsx
+│   │   ├── EquationFamilyRegistry.tsx
+│   │   ├── PatternCoverageMap.tsx
+│   │   ├── PatternDecisionFlowchart.tsx
+│   │   ├── PatternReferenceCard.tsx
+│   │   ├── PatternReferenceList.tsx
+│   │   ├── PatternSearchTable.tsx
+│   │   ├── RegionComparisonChart.tsx
+│   │   ├── RegulatoryMatrix.tsx
+│   │   ├── SavedFilters.tsx
+│   │   ├── TaxonomyTree.tsx
+│   │   ├── patternReferenceData.ts
+│   │   └── taxonomyData.ts
+│   │
+│   └── ui/                      # shadcn/ui primitives (auto-generated, do not edit)
 │
 ├── lib/
-│   ├── rainfallPatterns.ts    # Core: 22 pattern generators + chart/export helpers
-│   ├── patternEquations.ts    # LaTeX strings & metadata per pattern
-│   ├── patternStatistics.ts   # Statistical analysis of distributions
-│   ├── rainfallParsers.ts     # CSV/GAGE/DAT file parsers
-│   ├── stormAnalysis.ts       # Peak intensity, volume, centroid calcs
-│   ├── stormValidation.ts     # Input validation rules
-│   ├── unitConversions.ts     # USA ↔ SI unit helpers
-│   └── utils.ts               # Tailwind cn() helper
+│   ├── rainfallPatterns.ts      # Core: 250+ pattern generators (4,154 lines)
+│   ├── patternEquations.ts      # LaTeX strings & metadata per pattern
+│   ├── patternStatistics.ts     # Statistical analysis of distributions
+│   ├── rainfallParsers.ts       # CSV/GAGE/DAT file parsers
+│   ├── stormAnalysis.ts         # Peak intensity, volume, centroid calcs
+│   ├── stormEventExtractor.ts   # Extract events from continuous data
+│   ├── stormValidation.ts       # Input validation rules
+│   ├── unitConversions.ts       # USA ↔ SI unit helpers
+│   ├── hecHmsExport.ts          # HEC-HMS export formatting
+│   ├── markdownExport.ts        # Markdown report generation
+│   ├── equationsMarkdownExport.ts # Equation documentation export
+│   ├── canadaIdfData.ts         # Canadian IDF lookup tables
+│   ├── chinaRainstormData.ts    # China design storm parameters
+│   ├── countryRegionMapping.ts  # Country-to-region mappings
+│   ├── zipLookup.ts             # US ZIP code lookup
+│   └── utils.ts                 # Tailwind cn() helper
 │
 ├── hooks/
-│   ├── use-mobile.tsx
-│   └── use-toast.ts
+│   ├── use-mobile.tsx           # Mobile breakpoint detection
+│   ├── use-toast.ts             # Toast notification hook
+│   └── useStormApi.ts           # API client hook
 │
-├── index.css                  # Tailwind config + CSS custom properties
-├── App.tsx                    # Router setup
-└── main.tsx                   # Entry point
+├── integrations/supabase/
+│   ├── client.ts                # Supabase client (auto-generated)
+│   └── types.ts                 # Database types (auto-generated, empty schema)
+│
+├── index.css                    # Tailwind config + CSS custom properties (design system)
+├── App.tsx                      # Router + providers setup
+└── main.tsx                     # Entry point
+
+public/
+├── API.md                       # Public API documentation (downloadable)
+├── og-image.png                 # Social sharing preview image (1200×630)
+├── favicon.ico
+├── robots.txt
+└── sample-data/
+    ├── sample-hec.gage          # HEC-DSS gauge format sample
+    ├── sample-noaa.dat          # NOAA precipitation data sample
+    ├── sample-rainfall.csv      # Generic CSV timeseries sample
+    ├── sample-month.csv         # Monthly data sample
+    └── sample-swmm.inp          # EPA SWMM5 input file sample
+
+supabase/
+├── config.toml                  # Supabase project configuration (auto-managed)
+└── functions/
+    ├── storm-api/index.ts       # Public REST API (65+ patterns)
+    ├── storm-chat/index.ts      # AI chatbot edge function
+    └── noaa-idf-proxy/index.ts  # NOAA PFDS CORS proxy
 ```
 
-## Supported Rainfall Patterns (22)
+---
 
-| Category | Patterns |
-|----------|----------|
-| SCS/NRCS | Type IA, I, II, III |
-| Huff Quartiles | 1st, 2nd, 3rd, 4th |
-| Synthetic | Chicago, Block, Triangular, Trapezoidal, Double Peak |
-| International | Desbordes (France), ARR (Australia), DWA (Germany), FSR (UK), JMA (Japan), China, South African Huff, Dutch, Italian |
-| Custom | User-drawn via interactive editor |
+## 5. Rainfall Patterns
 
-## Key Features
+The application supports **250+ design storm patterns** organized into 12 categories:
 
-1. **3-Step Storm Wizard** – Parameters → Pattern → Review/Export
-2. **IDF-Guided Selection** – Derive depth/duration from IDF curves
-3. **22 Built-in Patterns** – With LaTeX equations and methodology citations
-4. **Interactive Equation Explorer** – Slider-driven real-time computation of F(t), i(t), P(t)
-5. **Custom Pattern Editor** – Draw distributions interactively
-6. **Multi-format Export** – CSV, JSON, TXT, PDF, SWMM5 .inp
-7. **SWMM File Integration** – Read/inject patterns into existing .inp files
-8. **Real Data Import** – Parse HEC .gage, NOAA .dat, generic .csv
-9. **Advanced Calculators** – Rational method, curve number, unit hydrograph, detention pond, modified Puls routing, LID, treatment trains, stage-storage-discharge
-10. **Unit System Toggle** – USA (in, in/hr) ↔ SI (mm, mm/hr) with localStorage persistence
-11. **Pattern Comparison** – Side-by-side overlay of multiple distributions
-12. **Animation Export** – GIF export of progressive rainfall accumulation
-13. **Comprehensive Documentation** – Methodology, glossary, worked examples
+| Category | Example Patterns |
+|----------|-----------------|
+| **SWMM/Universal** | Block, SCS Types I/IA/II/III, Chicago, Balanced, Triangular, Trapezoidal |
+| **US Agency** | FDOT Zones 1–5, TxDOT, NOAA Atlas 14/15/16, UDFCD Denver, USACE SPS, NYC DEP, Harris County FCD, Clark County NV |
+| **European** | DWA A-118, ATV A-121, Euler I/II, KOSTRA-DWD, FSR, FEH22/ReFH2, Danish SVK, SHYREG, Belgium IRM/Willems, CEDEX |
+| **Scandinavian** | Arnell (Sweden), SMHI, Norwegian NVE, Finnish FMI |
+| **Asian** | Japan AMeDAS/Baiu/Typhoon/JMA, China GB 50014/PRD, Korea KMA/MOLIT, HK DSD, Taiwan CWA, Singapore PUB, Malaysia MSMA/HP1, India IMD, Bangladesh BMD |
+| **Middle East** | Dubai Municipality/DM Combined, Abu Dhabi ADM, UAE NCMS, Saudi PME, Qatar Kahramaa, Oman DGMAN, Kuwait MEW, Bahrain MET, Iran IRIMO, Iraq MoS |
+| **African** | South Africa SANRAL/SCS Types 1–4/WRC/Huff, Kenya KMD, Nigeria NiMet, Ethiopia NMA, Ghana GMet, Morocco DMN, Egypt HCWW, Algeria ANRH, West Africa CIEH/CILSS |
+| **Latin American** | Brazil ANA, Mexico CONAGUA, Colombia IDEAM, Chile DGA, Argentina SMN, Peru SENAMHI, Ecuador INAMHI, Venezuela INAMEH, Costa Rica IMN, Bogotá EAAB |
+| **Oceania** | ARR 2019 Ensemble, ARR87 Legacy, HIRDS NZ, NZ NIWA, Auckland TP108, Wellington, Christchurch, Fiji FMS, Pacific SPREP |
+| **Americas** | Canadian CDA, AES 30%/40%, CSA W231, ECCC IDF, Puerto Rico, OECS Caribbean, Barbados BMS |
+| **Statistical** | Huff Quartiles 1–4, Beta Distribution, G2P Gamma, Bartlett-Lewis, Neyman-Scott, Weibull, LogNormal, Fourier Multipeak |
+| **Extreme/Special** | PMP (HMR 51/52), PMP WMO, Atmospheric River, Tropical Cyclone, Monsoon Burst, Derecho, Supercell, MCS Storm, Post-Wildfire, Rain on Snow, Clausius-Clapeyron scaled |
 
-## Design System
+---
 
-- **CSS Variables**: Defined in `src/index.css` using HSL format
-- **Tailwind Config**: Extended in `tailwind.config.ts` with semantic tokens
-- **Theme**: Custom gradient `bg-gradient-rain` for header; card shadows via `shadow-card`
-- **Dark mode**: Supported via `next-themes` (class-based)
-- **Components**: All from shadcn/ui – do not edit files in `src/components/ui/`
-
-## Data Flow
+## 6. Core Data Flow
 
 ```
-User Input (depth, duration, timeStep, pattern)
-  → rainfallPatterns.ts::generateRainfallData()
-  → returns number[] of intensities
+User Input (depth, duration, timeStep, pattern, unitSystem)
+  → rainfallPatterns.ts :: generateRainfallData()
+  → returns number[] of fractional cumulative values
+  → differencing → intensity per interval
   → prepareChartData() → RainfallChart (Recharts)
-  → prepareExportData() → ExportButtons / SwmmFileIntegration
+  → prepareExportData() → ExportButtons / SwmmFileIntegration / HecHmsExport
 ```
 
-## Sample Data Files
+### Pattern Generator Interface
 
-Located in `public/sample-data/`:
-- `sample-hec.gage` – HEC-DSS gauge format
-- `sample-noaa.dat` – NOAA precipitation data
-- `sample-rainfall.csv` – Generic CSV timeseries
-- `sample-swmm.inp` – EPA SWMM5 input file
-
-## localStorage Keys
-
-| Key | Purpose |
-|-----|---------|
-| `preferredUnitSystem` | `"USA"` or `"SI"` – persists unit toggle |
-
-## Advanced Calculators – Formulas & I/O Specifications
-
-### 1. Time of Concentration (`TcCalculator.tsx`)
-
-Three methods, all outputting Tc in **minutes**:
-
-| Method | Formula | Inputs |
-|--------|---------|--------|
-| **Kirpich** | `Tc = 0.0078 × L^0.77 × S^(−0.385)` | L = flow length (ft), S = slope (%, converted to ft/ft) |
-| **FAA** | `Tc = 1.8 × (1.1 − C) × √L / S^(1/3)` | C = runoff coeff, L = flow length (ft), S = slope (%, converted to ft/ft) |
-| **TR-55** | Sum of sheet flow + shallow concentrated + channel flow travel times | Sheet: n, L (≤100 ft), P₂ (in), S; Shallow: L, S, surface type; Channel: L, S, A, WP, n |
-
-**Outputs**: Tc (min), intermediate travel times per segment.
+Each pattern is a function `(steps: number) => number[]` returning an array of cumulative fractions (0 to 1). The framework scales these by total depth and time step to produce intensities.
 
 ---
 
-### 2. SCS Curve Number (`CurveNumberCalculator.tsx`)
+## 7. Public REST API
 
-**Purpose**: Area-weighted composite CN from multiple land uses.
+**Base URL**: `https://psbaxqgkhunxkdrecknh.supabase.co/functions/v1/storm-api`
 
-- **Inputs**: Land use category + HSG (A/B/C/D) + area (acres) — multiple rows
-- **Lookup table**: 31 land-use categories with CN values per HSG (from TR-55 Table 2-2a)
-- **Formula**: `CN_composite = Σ(CN_i × A_i) / Σ(A_i)`
-- **Outputs**: Composite CN, total area, per-row CN values
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/` | GET | Health check |
+| `/patterns` | GET | List all 65+ API-available patterns |
+| `/generate` | POST | Generate hyetograph (pattern, depth, duration, timestep) |
+| `/analyze` | POST | Compute storm statistics from raw timeseries |
 
----
-
-### 3. SCS Runoff Volume (`RunoffCalculator.tsx`)
-
-| Variable | Formula |
-|----------|---------|
-| Potential retention | US: `S = (1000/CN) − 10`; SI: `S = (25400/CN) − 254` |
-| Initial abstraction | `Ia = λ × S` (λ = 0.2 or 0.05) |
-| Runoff depth | `Q = (P − Ia)² / (P − Ia + S)` when P > Ia, else 0 |
-| Runoff volume | `V = Q × A` (acre-in or ha-mm) |
-
-- **Inputs**: CN, rainfall depth (in/mm), area (acres/ha), Ia ratio (0.2 or 0.05), unit system
-- **Outputs**: S, Ia, Q (depth), V (volume), runoff ratio
-- **Linkable**: Accepts CN from CurveNumberCalculator, exports runoff depth to DetentionPondCalculator
+No authentication required. Full documentation at `/API.md`.
 
 ---
 
-### 4. Rational Method (`RationalMethodCalculator.tsx`)
+## 8. AI Chatbot
 
-**Formula**: `Q = C × i × A` (Q in cfs when i in in/hr and A in acres)
-
-- **Inputs**: Runoff coefficient C (0–1), rainfall intensity i (in/hr), drainage area A (acres)
-- **Lookup table**: 23 land-use categories with C ranges and typical values
-- **Outputs**: Peak discharge Q (cfs), equivalent SI values (m³/s)
-
----
-
-### 5. Unit Hydrograph (`UnitHydrographCalculator.tsx`)
-
-**Methods**: Triangular UH and NRCS Dimensionless UH (33-point t/Tp vs q/Qp table).
-
-| Variable | Formula |
-|----------|---------|
-| Lag time | `T_lag = 0.6 × Tc` |
-| Time to peak | `Tp = Δt/2 + T_lag` |
-| Base time | `Tb = 2.67 × Tp` (triangular method) |
-| Peak discharge | `Qp = 484 × A_mi² × Q / Tp` (A converted from acres via `÷ 640`) |
-| Runoff depth | SCS method internally: `Q = (P − 0.2S)² / (P − 0.2S + S)` |
-
-- **Inputs**: Drainage area (acres), CN, Tc (hr), rainfall depth (in), storm duration (hr), computation interval (hr)
-- **Outputs**: Full hydrograph table (time vs flow in cfs), peak Q, time to peak, base time, runoff volume (acre-ft), chart
-- **Linkable**: Exports hydrograph to Modified Puls Routing
+The `StormChatbot` component provides a floating AI assistant that:
+- Answers hydrology and stormwater questions
+- Is context-aware of the current storm configuration
+- Uses the Lovable AI gateway (no API key needed)
+- Has input sanitization for prompt injection prevention (600-char limit, allowlisted characters)
 
 ---
 
-### 6. Detention Pond Sizing (`DetentionPondCalculator.tsx`)
+## 9. Advanced Engineering Calculators
 
-**Formula**: `V_required = (Q_post − Q_pre) × A × safety_factor`
-
-- **Inputs**: Pre-dev runoff (in), post-dev runoff (in), pond area (acres), average depth (ft), safety factor (default 1.1), method (simple/modified)
-- **Outputs**: Required storage (acre-in, acre-ft, ft³, m³), surface area needed, depth check
-- **Linkable**: Accepts post-dev runoff from RunoffCalculator
-
----
-
-### 7. Outlet Structure (`OutletStructureCalculator.tsx`)
-
-Three structure types with forward and reverse calculations:
-
-| Structure | Discharge Formula |
-|-----------|------------------|
-| **Orifice** | `Q = Cd × A × √(2gH)` — circular or rectangular |
-| **Rectangular Weir** | `Q = Cw × L × H^1.5` (suppressed or contracted) |
-| **V-Notch Weir** | `Q = Cw × tan(θ/2) × H^2.5` |
-
-- **Inputs**: Dimensions (in/ft), head (ft), discharge coefficients, target Q for reverse calc
-- **Outputs**: Discharge (cfs), velocity (fps), required dimensions for target Q
-
----
-
-### 8. Stage-Storage-Discharge (`StageStorageDischarge.tsx`)
-
-**Pond geometry**: Prismoidal formula with side slopes.
-
-| Variable | Formula |
-|----------|---------|
-| Area at depth d | `A(d) = (L + 2zd)(W + 2zd)` where z = side slope (H:V) |
-| Storage at depth d | `V(d) = d/3 × [A_bot + A_top + √(A_bot × A_top)]` |
-| Composite outflow | Sum of all outlet structures (orifice + weir) active at each stage |
-
-- **Inputs**: Bottom length/width (ft), side slope (H:V), max depth (ft), depth increment, outlet configurations (multiple orifices/weirs with invert elevations)
-- **Outputs**: Stage-storage-outflow table, rating curves (chart), CSV export
-- **Linkable**: Exports SSO data to Modified Puls Routing
-
----
-
-### 9. Modified Puls Routing (`ModifiedPulsRouting.tsx`)
-
-**Method**: Level-pool routing using the storage-indication curve `(2S/Δt + O)` vs `O`.
-
-| Step | Formula |
-|------|---------|
-| Storage indication | `(2S₂/Δt + O₂) = (2S₁/Δt − O₁) + I₁ + I₂` |
-| Interpolation | O₂ found from S-O relationship at each time step |
-
-- **Inputs**: Time step (hr), stage-storage-outflow table, inflow hydrograph (time vs Q)
-- **Outputs**: Routed outflow hydrograph, peak inflow/outflow, peak attenuation %, peak lag time, storage utilization, chart
-- **Linkable**: Imports SSO from StageStorageDischarge, imports inflow from UnitHydrographCalculator
-
----
-
-### 10. Pre/Post Development Comparison (`PrePostDevelopmentComparison.tsx`)
-
-**Methods**: SCS or Rational (user-selectable) for multiple return periods.
-
-- **Inputs**: Pre/post area (acres), CN, Tc (min), rational C; design storms (2/10/25/100-yr rainfall depths); safety factor
-- **Outputs**: Per-storm: pre/post runoff depth, peak Q, required detention storage; summary table and chart
-
----
-
-### 11. LID Calculator (`LIDCalculator.tsx`)
-
-**8 BMP Types**: Bioretention, permeable pavement, green roof, infiltration trench, bioswale, sand filter, rain barrel, tree box filter.
-
-| Variable | Formula |
-|----------|---------|
-| Storage volume | `V = Surface_area × Depth × Porosity` |
-| Capture volume | `V_capture = BMP_area × capture_depth` |
-| Percent managed | `V_capture / V_design_storm × 100` |
-
-- **Inputs per BMP**: Type, surface area (ft²), media depth (in), porosity, infiltration rate (in/hr)
-- **Pollutant removal**: Default TSS/TN/TP percentages per BMP type
-- **Outputs**: Total capture volume, percent of design storm managed, pollutant removal estimates, cost estimates
-- **Linkable**: Feeds selected BMPs to Treatment Train Calculator
-
----
-
-### 12. Treatment Train Calculator (`TreatmentTrainCalculator.tsx`)
-
-**Purpose**: Cumulative pollutant removal through sequential BMPs.
-
-**Formula**: `R_cumulative = 1 − Π(1 − R_i)` for each pollutant across the BMP chain.
-
-- **12 BMP types** with removal rates for 6 pollutants: TSS, TN, TP, heavy metals, bacteria, oil & grease
-- **Inputs**: Ordered list of BMPs in the treatment train
-- **Outputs**: Per-stage and cumulative removal percentages, pollutant breakthrough chart, compliance check
-
----
-
-### Calculator Data Flow
+### Calculator Chain
 
 ```
 CurveNumberCalculator ──→ RunoffCalculator ──→ DetentionPondCalculator
@@ -322,155 +286,199 @@ CurveNumberCalculator ──→ RunoffCalculator ──→ DetentionPondCalculat
 UnitHydrographCalculator ──→ ModifiedPulsRouting ←── StageStorageDischarge
                                                         ↑
                                         OutletStructureCalculator
-                                        
+
 LIDCalculator ──→ TreatmentTrainCalculator
 
-PrePostDevelopmentComparison (standalone, uses SCS or Rational internally)
-TcCalculator (standalone, feeds Tc into UnitHydrographCalculator manually)
+PrePostDevelopmentComparison (standalone)
+TcCalculator (standalone, 3 methods: Kirpich, FAA, TR-55)
 RationalMethodCalculator (standalone)
+UnitConversionCalculator (standalone)
 ```
+
+### Key Formulas
+
+| Calculator | Core Formula |
+|-----------|-------------|
+| **SCS Runoff** | `Q = (P − 0.2S)² / (P − 0.2S + S)`, `S = 1000/CN − 10` |
+| **Rational Method** | `Q = CiA` (cfs) |
+| **Unit Hydrograph** | `Qp = 484 × A × Q / Tp` (NRCS dimensionless) |
+| **Modified Puls** | `(2S₂/Δt + O₂) = (2S₁/Δt − O₁) + I₁ + I₂` |
+| **Orifice** | `Q = Cd × A × √(2gH)` |
+| **Weir** | `Q = Cw × L × H^1.5` |
+| **Detention** | `V = (Q_post − Q_pre) × A × SF` |
 
 ---
 
-## IDF Lookup & Guided Selection
+## 10. Export Formats
 
-### NOAA Atlas 14 IDF Lookup (`IdfLookup.tsx`)
-
-**Purpose**: Manual entry and reference table for site-specific precipitation frequency data.
-
-- **Inputs**: Latitude, longitude (manual or browser geolocation), location name
-- **Grid dimensions**: 10 durations × 6 return periods
-  - **Durations**: 5-min, 10-min, 15-min, 30-min, 1-hr, 2-hr, 3-hr, 6-hr, 12-hr, 24-hr
-  - **Return periods**: 2, 5, 10, 25, 50, 100 years
-- **Data entry**: User manually enters precipitation depths (in) from NOAA PFDS website
-- **Computed output**: Intensity table (in/hr) via `i = depth / (duration_min / 60)`
-- **Features**: Deep-link to NOAA PFDS for the entered lat/lon, 8 quick-select US cities, copy table to clipboard
-- **External URL pattern**: `https://hdsc.nws.noaa.gov/pfds/pfds_map_cont.html?lat={lat}&lon={lon}&data=depth&units=english&series=pds`
-
-### IDF-Guided Design Storm Selector (`IdfGuidedSelector.tsx`)
-
-**Purpose**: Auto-populate storm depth and duration from built-in regional lookup tables.
-
-- **8 US Climate Regions** with representative NOAA Atlas 14 data:
-
-| Region Key | Representative Cities | Recommended SCS Type |
-|------------|----------------------|---------------------|
-| `southeast` | Atlanta, Charlotte | Type II or III |
-| `gulfCoast` | Houston, New Orleans | Type III |
-| `northeast` | New York, Boston | Type II |
-| `midwest` | Chicago, St. Louis | Type II |
-| `southwest` | Phoenix, Las Vegas | Type II |
-| `pacificNorthwest` | Seattle, Portland | Type IA |
-| `california` | San Francisco, LA | Type I |
-| `mountainWest` | Denver, Salt Lake | Type II |
-
-- **Lookup table structure**: `depths[duration_hr][return_period_yr] → depth (inches)`
-  - Durations: 1, 2, 6, 12, 24 hours
-  - Return periods: 2, 5, 10, 25, 50, 100 years
-- **Outputs**: Selected depth (converted to SI if needed), recommended SCS type
-- **Action**: "Apply to Storm" populates StormParameters with depth + duration
+| Format | Target Software | Component |
+|--------|----------------|-----------|
+| SWMM5 Time Series | EPA SWMM5, PCSWMM, XP-SWMM | `SwmmFileIntegration` |
+| ICM Event | InfoWorks ICM | `SwmmFileIntegration` |
+| HEC-HMS .gage | HEC-HMS | `HecHmsExportPanel` |
+| Full SWMM .inp | EPA SWMM5 | `SwmmFileIntegration` |
+| CSV | Universal | `ExportButtons` |
+| JSON | Programmatic | `ExportButtons` |
+| TXT (tabular) | Any | `ExportButtons` |
+| PDF Report | Documentation | `PdfReportGenerator` |
+| Clipboard | Quick paste | `ExportButtons` |
+| GIF Animation | Presentations | `AnimationExport` |
 
 ---
 
-## SWMM File Integration (`SwmmFileIntegration.tsx`)
+## 11. Design System
 
-### Overview
+### CSS Custom Properties (index.css)
 
-2,130-line component providing full EPA SWMM5 `.inp` file read/write capabilities with batch processing, import/repair, and template generation.
+All colors use HSL values. Key tokens:
 
-### Export Formats
+| Token | Light | Dark |
+|-------|-------|------|
+| `--background` | `210 40% 98%` | `222 47% 11%` |
+| `--primary` | `204 70% 53%` | `204 70% 53%` |
+| `--secondary` | `146 65% 58%` | `146 65% 58%` |
+| `--gradient-rain` | Blue gradient for header | Same |
+| `--shadow-card` | Subtle card shadow | Adapted |
 
-| Format | Target Software | Details |
-|--------|----------------|---------|
-| **SWMM5 Time Series** | EPA SWMM5 | `[TIMESERIES]` section, format: `Name Date Time Value` |
-| **ICM Event** | Innovyze InfoWorks ICM | SWMM5-compatible format with ICM-specific naming |
-| **XP-SWMM / PCSWMM** | XP Solutions / CHI | Standard SWMM5 format (compatible) |
-| **HEC-HMS .gage** | HEC-HMS | HEC-DSS gauge format for HMS import |
-| **Full SWMM Model** | EPA SWMM5 | Complete `.inp` with subcatchment, conduits, junctions, infiltration |
+### Theme
 
-### SWMM5 Time Series Format
-
-```
-[TIMESERIES]
-;Name           Date       Time       Value
-TS_SCS_Type_II  01/01/2024 00:00      0.012
-TS_SCS_Type_II  01/01/2024 00:15      0.018
-...
-```
-
-### Import & Validation
-
-- **Reads**: Existing `.inp` files, parses `[TIMESERIES]` section
-- **Parse format**: `Name Date(MM/DD/YYYY) Time(HH:MM[:SS]) Value(float)`
-- **Validation checks**:
-  - Numeric validity of all values
-  - No negative rainfall values
-  - Monotonic time progression
-  - Reasonable value ranges (max < 50, total < 100)
-  - Minimum data point count (≥ 3)
-- **Auto-repair tools**:
-  - Fix negative values (clamp to 0)
-  - Sort non-monotonic timestamps
-  - Normalize units (mm → in when max > 50)
-  - Remove zero-value entries
-  - Interpolate missing timesteps (default 5-min)
-
-### Batch Processing
-
-- Select multiple patterns from all 22 available
-- Generates one `[TIMESERIES]` block per pattern
-- Naming convention: `TS_{PatternName}` (spaces replaced with underscores)
-
-### EPA SWMM Model Template
-
-Generates a complete `.inp` file with customizable parameters:
-
-**10 Land-Use Presets**: Low/Med/High-Density Residential, Commercial, Industrial, Park, Agricultural, Parking Lot, Forest, Highway
-
-**4 Soil-Type Presets** (USDA/NRCS HSG):
-
-| Soil Group | Name | Max Infil (in/hr) | Min Infil (in/hr) |
-|------------|------|-------------------|--------------------|
-| A | Sand/Gravel | 5.0 | 1.2 |
-| B | Sandy Loam | 3.0 | 0.6 |
-| C | Clay Loam | 1.5 | 0.3 |
-| D | Clay | 0.8 | 0.1 |
-
-**Customizable SWMM Parameters**:
-
-| Category | Parameters |
-|----------|-----------|
-| Subcatchment | Area (acres), imperviousness (%), width (ft), slope (%) |
-| Surface | n-Imperv, n-Perv, S-Imperv (in), S-Perv (in), %Zero-Imperv |
-| Infiltration (Horton) | Max rate (in/hr), min rate (in/hr), decay (1/hr), dry time (days) |
-| Conduit | Length (ft), Manning's n, diameter (ft) |
-| Junction | Depth (ft) |
-
-All parameters include built-in validation with realistic range checks and warning/error severity levels.
+- Dark mode default via `next-themes` with `attribute="class"`
+- `ThemeToggle` component in header for manual switching
+- All components use semantic Tailwind tokens (`bg-background`, `text-foreground`, etc.)
 
 ---
 
-## Migration Notes
+## 12. Testing
 
-- **No backend dependencies** – pure client-side app
-- **No environment variables or secrets** needed
-- **No database** – all computation is stateless
-- Install dependencies: `npm install`
-- Dev server: `npm run dev`
-- Build: `npm run build` (outputs to `dist/`)
-- The `components.json` file configures shadcn/ui CLI if you need to add more primitives
+### Unit Tests
 
-## Dependencies to Note
+Located in `src/lib/__tests__/`:
 
-- `katex` – renders LaTeX math; CSS imported in components
-- `gif.js` – Web Worker-based GIF encoder; may need worker file serving config
-- `jspdf` – PDF generation client-side
-- `html2canvas` – DOM-to-canvas for screenshots
-- `recharts` – all chart rendering
+| Test File | What It Tests |
+|-----------|--------------|
+| `batchExportCount.test.ts` | Batch SWMM export pattern count |
+| `dubaiDmCombined.test.ts` | Dubai DM combined pattern generation |
+| `japanTyphoonVolume.test.ts` | Japan typhoon pattern volume conservation |
+| `saScsVolume.test.ts` | South African SCS pattern volumes |
+| `volumeConservation.test.ts` | General volume conservation across patterns |
 
-## Known Considerations
+Run: `npx vitest` or `npm test`
 
-- `StormWizard.tsx` (433 lines) is the largest component – consider splitting if extending
-- Pattern equations in `patternEquations.ts` use raw LaTeX strings consumed by KaTeX
-- The Chicago Storm pattern uses IDF coefficients (a, b, c) that are hardcoded defaults
-- All 22 pattern generators live in `rainfallPatterns.ts` – this is the core algorithmic file
+---
+
+## 13. Sample Data Files
+
+Located in `public/sample-data/`:
+
+| File | Format | Purpose |
+|------|--------|---------|
+| `sample-hec.gage` | HEC-DSS gauge | HEC-HMS import testing |
+| `sample-noaa.dat` | NOAA tabular | NOAA data import testing |
+| `sample-rainfall.csv` | CSV timeseries | Generic import testing |
+| `sample-month.csv` | Monthly CSV | Monthly aggregation testing |
+| `sample-swmm.inp` | SWMM5 .inp | SWMM import/repair testing |
+
+---
+
+## 14. localStorage Keys
+
+| Key | Values | Purpose |
+|-----|--------|---------|
+| `preferredUnitSystem` | `"USA"` / `"SI"` | Persists unit toggle selection |
+
+---
+
+## 15. URL Parameters
+
+| Parameter | Purpose | Example |
+|-----------|---------|---------|
+| `storm` | Shared storm configuration (base64 encoded) | `?storm=eyJ...` |
+
+The `decodeStormParams` function in `StormWizard` decodes shared configurations and pre-populates the wizard.
+
+---
+
+## 16. SEO & Social Sharing
+
+- **OG Image**: `public/og-image.png` (1200×630)
+- **Meta tags**: Title, description, OG, Twitter Card configured in `index.html`
+- **Canonical URL**: `https://rain-canvas-studio.lovable.app`
+- Single H1 tag, semantic HTML structure
+
+---
+
+## 17. Dependencies of Note
+
+| Package | Purpose | Notes |
+|---------|---------|-------|
+| `katex` | LaTeX math rendering | CSS imported in components using it |
+| `gif.js` | Web Worker-based GIF encoder | May need worker file serving config |
+| `jspdf` | Client-side PDF generation | |
+| `html2canvas` | DOM-to-canvas screenshots | |
+| `recharts` | All chart rendering | |
+| `react-simple-maps` | World map for region selection | |
+| `@supabase/supabase-js` | Edge function client | Only for API/chat calls |
+
+---
+
+## 18. Development
+
+```bash
+# Install dependencies
+npm install
+
+# Development server
+npm run dev
+
+# Production build
+npm run build    # outputs to dist/
+
+# Run tests
+npx vitest
+
+# Lint
+npm run lint
+```
+
+### Environment Variables (auto-managed)
+
+| Variable | Purpose |
+|----------|---------|
+| `VITE_SUPABASE_URL` | Supabase project URL (edge function base) |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon key |
+| `VITE_SUPABASE_PROJECT_ID` | Project identifier |
+
+These are auto-configured by Lovable Cloud. Do not edit `.env` manually.
+
+---
+
+## 19. Known Considerations
+
+1. **`rainfallPatterns.ts` (4,154 lines)** is the largest file — contains all 250+ pattern generator functions. Consider splitting by region if extending further.
+2. **`PatternSelector.tsx` (1,550 lines)** contains all pattern metadata — could be split into a data file.
+3. **Storm API** only exposes 65 patterns (the original core set). The full 250+ are available client-side only.
+4. **No authentication** — the app is fully public with no user accounts.
+5. **No database** — all state is ephemeral or in localStorage.
+6. Pattern equations in `patternEquations.ts` use raw LaTeX strings consumed by KaTeX.
+7. The Chicago Storm pattern uses hardcoded IDF coefficients (a, b, c) as defaults.
+8. The `components.json` file configures shadcn/ui CLI for adding new Radix primitives.
+
+---
+
+## 20. Deployment
+
+- **Frontend**: Deployed via Lovable publish. Click "Update" in the publish dialog to push changes.
+- **Backend (Edge Functions)**: Deploy automatically on code changes — no manual action needed.
+- **Custom domain**: Can be connected via Project Settings → Domains.
+
+---
+
+## 21. File Restrictions
+
+These files are auto-generated and must **never** be edited manually:
+
+- `supabase/config.toml`
+- `src/integrations/supabase/client.ts`
+- `src/integrations/supabase/types.ts`
+- `.env`
+- `bun.lock` / `bun.lockb` / `package-lock.json`
