@@ -138,6 +138,12 @@ export function ApiPlayground() {
               BASE: {API_BASE}
             </Badge>
             <Badge variant="secondary">No Auth Required</Badge>
+            <Button variant="outline" size="sm" className="ml-auto" asChild>
+              <a href="/API.md" download="Storm-API-Documentation.md">
+                <Download className="w-4 h-4 mr-1" />
+                Download API Docs
+              </a>
+            </Button>
           </div>
         </CardHeader>
       </Card>
