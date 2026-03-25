@@ -1,6 +1,5 @@
 import { useEffect, useRef, memo, useState } from "react";
-import katex from "katex";
-import "katex/dist/katex.min.css";
+
 import { ExternalLink, BookOpen, FlaskConical, Info, Calculator, ChevronDown, ChevronUp } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,17 +24,26 @@ const LatexRenderer = memo(function LatexRenderer({
 
   useEffect(() => {
     if (containerRef.current && latex) {
-      try {
-        katex.render(latex, containerRef.current, {
-          throwOnError: false,
-          displayMode: displayMode,
-          trust: true,
-          strict: false
-        });
-      } catch (err) {
-        console.error("KaTeX render error:", err);
-        containerRef.current.innerHTML = `<span class="text-destructive text-sm">${latex}</span>`;
-      }
+      (async () => {
+        try {
+          const [katexModule] = await Promise.all([
+            import("katex"),
+            import("katex/dist/katex.min.css"),
+          ]);
+          const katex = katexModule.default;
+          katex.render(latex, containerRef.current!, {
+            throwOnError: false,
+            displayMode: displayMode,
+            trust: true,
+            strict: false
+          });
+        } catch (err) {
+          console.error("KaTeX render error:", err);
+          if (containerRef.current) {
+            containerRef.current.innerHTML = `<span class="text-destructive text-sm">${latex}</span>`;
+          }
+        }
+      })();
     }
   }, [latex, displayMode]);
 

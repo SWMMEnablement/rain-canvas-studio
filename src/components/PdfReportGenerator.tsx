@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+
 import { type UnitSystem, convertIntensity, convertDepth, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
 import { type PatternType } from "@/lib/rainfallPatterns";
 import { getPatternEquation } from "@/lib/patternEquations";
@@ -35,6 +34,10 @@ export function PdfReportGenerator({
   const generatePdf = async () => {
     setGenerating(true);
     try {
+      const [{ default: jsPDF }, { default: html2canvas }] = await Promise.all([
+        import("jspdf"),
+        import("html2canvas"),
+      ]);
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "letter" });
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight();

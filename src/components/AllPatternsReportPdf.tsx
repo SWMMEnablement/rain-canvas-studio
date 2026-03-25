@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import jsPDF from "jspdf";
+
 import { generateRainfallData } from "@/lib/rainfallPatterns";
 import { patterns as allPatterns } from "@/components/PatternSelector";
 import { type UnitSystem, convertIntensity, getIntensityUnit, getDepthUnit, convertDepth } from "@/lib/unitConversions";
@@ -81,6 +81,7 @@ export function AllPatternsReportPdf({ depth, duration, timeStep, unitSystem }: 
       const timestamp = new Date().toLocaleString();
       const reportId = `RCS-QA-${Date.now().toString(36).toUpperCase()}`;
 
+      const { default: jsPDF } = await import("jspdf");
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "letter" });
       const pageW = pdf.internal.pageSize.getWidth();
       const margin = 14;
