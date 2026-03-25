@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import type jsPDF from "jspdf";
+
 import { type UnitSystem, convertIntensity, convertDepth, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
 import { type PatternType } from "@/lib/rainfallPatterns";
 import { getPatternEquation } from "@/lib/patternEquations";
