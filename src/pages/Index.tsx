@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useRef } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { StormWizard, decodeStormParams } from "@/components/StormWizard";
 import { patterns } from "@/components/PatternSelector";
@@ -94,15 +94,18 @@ const Index = () => {
   const sharedStorm = useMemo(() => {
     const stormParam = searchParams.get('storm');
     if (stormParam) {
-      const decoded = decodeStormParams(stormParam);
-      if (decoded) {
-        toast.info("Shared storm loaded! Review the configuration below.");
-        return decoded;
-      }
+      return decodeStormParams(stormParam) || null;
     }
     return null;
   }, []);
-  const [activeTab, setActiveTab] = useState(sharedStorm ? "generator" : "generator");
+
+  useEffect(() => {
+    if (sharedStorm) {
+      toast.info("Shared storm loaded! Review the configuration below.");
+    }
+  }, [sharedStorm]);
+
+  const [activeTab, setActiveTab] = useState("generator");
   const [externalStormParams, setExternalStormParams] = useState<{ depth: number; duration: number } | null>(null);
   const [idfCityData, setIdfCityData] = useState<{ name: string; lat: string; lon: string } | null>(null);
   const [heroPattern, setHeroPattern] = useState<string | undefined>(undefined);
