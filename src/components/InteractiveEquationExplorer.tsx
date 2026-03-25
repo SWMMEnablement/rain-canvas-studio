@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import katex from "katex";
-import "katex/dist/katex.min.css";
+import type katexType from "katex";
 import { Calculator, Play, RotateCcw, Info } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

@@ -1,6 +1,5 @@
 import { useEffect, useRef, memo, useState } from "react";
-import katex from "katex";
-import "katex/dist/katex.min.css";
+import type katexType from "katex";
 import { ExternalLink, BookOpen, FlaskConical, Info, Calculator, ChevronDown, ChevronUp } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

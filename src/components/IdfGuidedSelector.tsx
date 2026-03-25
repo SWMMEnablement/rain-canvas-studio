@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MapPin, CloudRain, ExternalLink, ChevronDown, ChevronUp, Zap, Target, Info, Search, Loader2, CheckCircle, AlertTriangle, BarChart3, Download } from "lucide-react";
-import html2canvas from "html2canvas";
+
 import { Area, AreaChart, Line, LineChart, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, ReferenceLine, Legend } from "recharts";
 import { toast } from "sonner";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
