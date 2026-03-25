@@ -196,28 +196,28 @@ const Index = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-5 mb-8">
-            <TabsTrigger value="generator" className="flex items-center gap-2">
+        <TabsList className="flex w-full mb-8 overflow-x-auto scrollbar-thin sm:grid sm:grid-cols-5">
+            <TabsTrigger value="generator" className="flex items-center gap-2 min-w-max">
               <CloudRain className="w-4 h-4" />
               <span className="hidden sm:inline">Storm Generator</span>
               <span className="sm:hidden">Generator</span>
             </TabsTrigger>
-            <TabsTrigger value="realdata" className="flex items-center gap-2">
+            <TabsTrigger value="realdata" className="flex items-center gap-2 min-w-max">
               <Database className="w-4 h-4" />
               <span className="hidden sm:inline">Real Data Hub</span>
               <span className="sm:hidden">Real Data</span>
             </TabsTrigger>
-            <TabsTrigger value="advanced" className="flex items-center gap-2">
+            <TabsTrigger value="advanced" className="flex items-center gap-2 min-w-max">
               <Wrench className="w-4 h-4" />
               <span className="hidden sm:inline">Advanced Tools</span>
               <span className="sm:hidden">Advanced</span>
             </TabsTrigger>
-            <TabsTrigger value="api" className="flex items-center gap-2">
+            <TabsTrigger value="api" className="flex items-center gap-2 min-w-max">
               <Code2 className="w-4 h-4" />
               <span className="hidden sm:inline">API Playground</span>
               <span className="sm:hidden">API</span>
             </TabsTrigger>
-            <TabsTrigger value="docs" className="flex items-center gap-2">
+            <TabsTrigger value="docs" className="flex items-center gap-2 min-w-max">
               <BookOpen className="w-4 h-4" />
               <span className="hidden sm:inline">Documentation</span>
               <span className="sm:hidden">Docs</span>
