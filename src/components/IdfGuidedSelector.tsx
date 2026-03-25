@@ -156,6 +156,7 @@ export function IdfGuidedSelector({ unitSystem, onApplyDesignStorm }: IdfGuidedS
   const exportChartAsPng = useCallback(async () => {
     if (!idfChartRef.current) return;
     try {
+      const { default: html2canvas } = await import("html2canvas");
       const canvas = await html2canvas(idfChartRef.current, { backgroundColor: '#1a1a2e', scale: 2 });
       const link = document.createElement('a');
       link.download = 'idf-curves.png';

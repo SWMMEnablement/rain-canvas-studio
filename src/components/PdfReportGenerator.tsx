@@ -34,6 +34,10 @@ export function PdfReportGenerator({
   const generatePdf = async () => {
     setGenerating(true);
     try {
+      const [{ default: jsPDF }, { default: html2canvas }] = await Promise.all([
+        import("jspdf"),
+        import("html2canvas"),
+      ]);
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "letter" });
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight();

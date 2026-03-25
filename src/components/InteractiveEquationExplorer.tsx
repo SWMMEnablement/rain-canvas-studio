@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import type katexType from "katex";
+
 import { Calculator, Play, RotateCcw, Info } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -21,17 +21,26 @@ function LatexInline({ latex, className = "" }: LatexInlineProps) {
 
   useEffect(() => {
     if (containerRef.current && latex) {
-      try {
-        katex.render(latex, containerRef.current, {
-          throwOnError: false,
-          displayMode: false,
-          trust: true,
-          strict: false
-        });
-      } catch (err) {
-        console.error("KaTeX render error:", err);
-        containerRef.current.innerHTML = `<span class="text-destructive text-sm">${latex}</span>`;
-      }
+      (async () => {
+        try {
+          const [katexModule] = await Promise.all([
+            import("katex"),
+            import("katex/dist/katex.min.css"),
+          ]);
+          const katex = katexModule.default;
+          katex.render(latex, containerRef.current!, {
+            throwOnError: false,
+            displayMode: false,
+            trust: true,
+            strict: false
+          });
+        } catch (err) {
+          console.error("KaTeX render error:", err);
+          if (containerRef.current) {
+            containerRef.current.innerHTML = `<span class="text-destructive text-sm">${latex}</span>`;
+          }
+        }
+      })();
     }
   }, [latex]);
 

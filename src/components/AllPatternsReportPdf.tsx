@@ -81,6 +81,7 @@ export function AllPatternsReportPdf({ depth, duration, timeStep, unitSystem }: 
       const timestamp = new Date().toLocaleString();
       const reportId = `RCS-QA-${Date.now().toString(36).toUpperCase()}`;
 
+      const { default: jsPDF } = await import("jspdf");
       const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "letter" });
       const pageW = pdf.internal.pageSize.getWidth();
       const margin = 14;
