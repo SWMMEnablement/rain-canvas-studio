@@ -192,7 +192,7 @@ export function AdvancedTools({ onSendToGenerator, onViewIdf }: AdvancedToolsPro
           </Card>
           <GlobalIdfCalculator onSendToGenerator={onSendToGenerator} />
         </TabsContent>
-
+        <TabsContent value="regional" className="space-y-6">
           <Card className="bg-accent/30 border-primary/20">
             <CardContent className="pt-4">
               <p className="text-sm text-muted-foreground">
