@@ -1,6 +1,7 @@
-# Storm API Documentation
+# Storm API Documentation — v3.0.0
 
 > Public REST API for generating synthetic rainfall hyetographs and analyzing storm data.
+> Supports **265 rainfall distribution patterns** spanning global standards, regional codes, climate-adjusted variants, and specialized storm scenarios.
 >
 > **Base URL:** `https://psbaxqgkhunxkdrecknh.supabase.co/functions/v1/storm-api`
 
@@ -36,7 +37,7 @@ curl https://psbaxqgkhunxkdrecknh.supabase.co/functions/v1/storm-api
 GET /storm-api/patterns
 ```
 
-Returns all 65+ available rainfall distribution patterns with metadata.
+Returns all 265 available rainfall distribution patterns with metadata.
 
 **Response:**
 
@@ -50,7 +51,7 @@ Returns all 65+ available rainfall distribution patterns with metadata.
       "description": "Most of US (moderate climate)"
     }
   ],
-  "count": 65
+  "count": 265
 }
 ```
 
@@ -206,29 +207,62 @@ All errors return a JSON object with an `error` field:
 
 ---
 
-## Common Patterns Quick Reference
+## Pattern Categories
 
-| ID          | Name             | Region       |
-|-------------|------------------|--------------|
-| `scs2`      | SCS Type II      | US General   |
-| `scs1`      | SCS Type I       | US Pacific   |
-| `scs3`      | SCS Type III     | US Gulf Coast|
-| `chicago`   | Chicago          | US Urban     |
-| `block`     | Uniform Block    | Universal    |
-| `triangular`| Triangular       | UK           |
-| `huff1`     | Huff Q1          | US Midwest   |
-| `huff2`     | Huff Q2          | US Midwest   |
-| `fsr`       | FSR (UK)         | UK           |
-| `arr`       | ARR (Australia)  | Australia    |
-| `balanced`  | Balanced Storm   | Universal    |
+The 265 patterns are organized into the following categories:
 
-For the full list of 65+ patterns, call `GET /storm-api/patterns`.
+### US Standards (SCS/NRCS)
+`scs1`, `scs1a`, `scs2`, `scs3`, `scs2a`
+
+### Chicago / Alternating Block Variants
+`chicago`, `chicago_sym`, `sifalda`, `danish_svk`, `temez_spain`, `desbordes`, `santa_barbara`, `turkey_dsi`, `iran_irimet`, `hong_kong_dsd`, `malaysia_msma`, `colombia_ideam`, `indonesia_bmkg`
+
+### Euler Types
+`euler1`, `euler2`
+
+### Huff Quartile Distributions
+`huff1`, `huff2`, `huff3`, `huff4`
+
+### UK / Europe
+`fsr`, `feh`, `wallingford`, `uk_feh_winter`, `uk_feh_summer`, `netherlands_knmi`, `belgium_willems`, `poland_bs`, `blaszczyk`, `italy_vapi`, `greece_ntua`, `portugal_lnec`, `romania_inmh`, `czech_chmi`, `hungary_omsz`, `austria_ehyd`, `switzerland_idf`, `norway_met`, `sweden_smhi`, `finland_fmi`, `denmark_dmi`, `iceland_imo`, `ireland_opw`, `scotland_sepa`, `balkan_composite`, `baltic_composite`, `iberian_composite`, `alpine_composite`, `nordic_composite`, `france_montana`, `germany_kostra`
+
+### Australia / Oceania
+`arr`, `australia_bom`, `arr_arid`, `new_zealand_hirds`, `pacific_island`
+
+### Asia
+`japan_mlit`, `korea_molit`, `india_imd`, `india_imd_sw_monsoon`, `taiwan_wra`, `philippines_pagasa`, `thailand_tmd`, `vietnam_monre`, `nepal_dhm`, `bangladesh_bmd`, `sri_lanka_dom`, `myanmar_dmh`, `pakistan_pmd`, `singapore_pub`, `japan_mlit_typhoon`
+
+### Middle East / Africa
+`dubai_municipality`, `dubai_dm_combined`, `saudi_mewa`, `qatar_kahramaa`, `oman_mhews`, `bahrain_mow`, `kuwait_mpw`, `egypt_nwrc`, `ethiopia_nmsa`, `kenya_kmd`, `nigeria_nimet`, `south_africa_saws`, `morocco_dmn`, `tunisia_inm`, `israel_ims`, `jordan_jmd`, `lebanon_beirut_aub`, `iraq_imo`, `iran_irimo_tehran`, `uae_ncm`, `gcc_composite`
+
+### Americas
+`brazil_cetesb`, `argentina_ina`, `chile_dga`, `mexico_conagua`, `peru_senamhi`, `venezuela_inameh`, `ecuador_inamhi`, `uruguay_dinagua`, `paraguay_dinac`, `bolivia_altiplano`, `canada_scs2_mod`
+
+### Climate-Adjusted
+`rcp45_mid`, `rcp85_late`, `ssp245_2050`, `ssp585_2100`, `super_cc_plus20`, `super_cc_plus30`, `cc_idf_scaled`
+
+### Specialized Storm Scenarios
+`medicane`, `derecho`, `atmospheric_river`, `pineapple_express`, `bomb_cyclone`, `lake_effect`, `nor_easter`, `mesoscale_convective`, `supercell`, `tropical_band`, `post_wildfire`, `urban_heat_island`, `orographic_enhanced`
+
+### Mathematical / Theoretical
+`block`, `triangular`, `balanced`, `alternating_block`, `ietd`, `double_triangle`, `exponential_decay`, `beta_sym`, `cosine_storm`, `parabolic`, `bimodal_tropical`, `lognormal`, `weibull`, `pearson3`, `gev_storm`, `composite_design`, `fourier_multipeak`, `g2p_gamma`, `copula_bivariate`, `stochastic_bartlett_lewis`
+
+### Former Soviet / Central Asia
+`russia_snip`, `caucasus_nea`, `central_asia_kazhydromet`, `albania_igewe`, `former_soviet_snip`
+
+For the complete list with descriptions, call `GET /storm-api/patterns`.
 
 ---
 
 ## Rate Limits
 
 There are no rate limits currently enforced. Please use responsibly.
+
+---
+
+## Volume Conservation
+
+All patterns are verified to conserve total rainfall depth within a 2% tolerance. The sum of `intensity × time_step` across all data points equals the requested `total_depth`. All intensities are non-negative and cumulative values are monotonically non-decreasing.
 
 ---
 
