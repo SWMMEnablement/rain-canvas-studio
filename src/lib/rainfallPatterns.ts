@@ -63,7 +63,10 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   | 'georgian_nea' | 'albanian_igewe'
   // v13 — Canadian expansion
   | 'aes_50' | 'ontario_mto_4hr' | 'marsalek_1978' | 'quebec_melccfp'
-  | 'alberta_transportation' | 'prairie_short' | 'bc_moe_coastal' | 'pilgrim_cordery_ca';
+  | 'alberta_transportation' | 'prairie_short' | 'bc_moe_coastal' | 'pilgrim_cordery_ca'
+  // v14 — Adamowski-Alila regional + Winnipeg
+  | 'adamowski_pacific' | 'adamowski_prairie' | 'adamowski_greatlakes' | 'adamowski_stlawrence'
+  | 'adamowski_atlantic' | 'adamowski_northern' | 'winnipeg_maclaren';
 
 // ─── Helper functions for pattern generation ───
 
@@ -4186,12 +4189,76 @@ export function generateRainfallData(
     }
 
     case 'pilgrim_cordery_ca': {
-      // Pilgrim-Cordery adapted for Canadian practice
-      // Originally Australian, adopted by some Canadian jurisdictions (Alberta, Saskatchewan)
-      // Empirical dimensionless ordinates with slight Canadian calibration
       const t = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
       const p = [0, 0.05, 0.13, 0.25, 0.42, 0.60, 0.74, 0.85, 0.92, 0.97, 1.0];
       return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    // ── v14 — Adamowski-Alila Regional (1996) + Winnipeg MacLaren ──
+
+    case 'adamowski_pacific': {
+      // Adamowski & Alila (1996) Pacific region — prolonged frontal/orographic, gentle central peak
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.06, 0.10, 0.15, 0.21, 0.27, 0.34, 0.41, 0.48, 0.55, 0.62, 0.69, 0.75, 0.81, 0.86, 0.91, 0.94, 0.97, 0.99, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'adamowski_prairie': {
+      // Adamowski & Alila (1996) Prairie region — sharp convective peak early-mid storm
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.10, 0.18, 0.28, 0.40, 0.52, 0.62, 0.71, 0.78, 0.83, 0.87, 0.90, 0.92, 0.94, 0.95, 0.97, 0.98, 0.99, 0.995, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'adamowski_greatlakes': {
+      // Adamowski & Alila (1996) Great Lakes region — moderate frontal/convective mix
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.07, 0.13, 0.20, 0.28, 0.37, 0.46, 0.55, 0.63, 0.70, 0.76, 0.81, 0.86, 0.90, 0.93, 0.95, 0.97, 0.98, 0.99, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'adamowski_stlawrence': {
+      // Adamowski & Alila (1996) St. Lawrence region — moderate intensity, central peak
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.06, 0.11, 0.17, 0.24, 0.32, 0.40, 0.48, 0.56, 0.64, 0.71, 0.77, 0.83, 0.88, 0.92, 0.95, 0.97, 0.98, 0.99, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'adamowski_atlantic': {
+      // Adamowski & Alila (1996) Atlantic region — maritime frontal, gradual uniform
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.07, 0.11, 0.16, 0.22, 0.28, 0.35, 0.42, 0.49, 0.56, 0.63, 0.70, 0.76, 0.82, 0.87, 0.91, 0.95, 0.97, 0.99, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'adamowski_northern': {
+      // Adamowski & Alila (1996) Northern region — low intensity, very uniform spread
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.08, 0.13, 0.18, 0.23, 0.29, 0.35, 0.42, 0.49, 0.55, 0.62, 0.68, 0.74, 0.80, 0.85, 0.90, 0.94, 0.97, 0.99, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'winnipeg_maclaren': {
+      // City of Winnipeg Drainage Criteria Manual — modified Chicago-type distribution
+      // r = 0.40 advancement coefficient, adapted for Red River basin climate
+      const r = 0.40;
+      const a_b = 25.0, c_b = 0.80, b_b = 0.72;
+      const a_a = 25.0, c_a = 0.80, b_a = 0.72;
+      const peakStep = Math.floor(numSteps * r);
+      for (let i = 0; i < numSteps; i++) {
+        const tMin = i * timeStep;
+        let intensity: number;
+        if (i <= peakStep) {
+          const tb = (peakStep - i) * timeStep;
+          intensity = a_b * (c_b * Math.pow(tb, b_b - 1)) / Math.pow(Math.pow(tb, b_b) + c_b, 2);
+        } else {
+          const ta = (i - peakStep) * timeStep;
+          intensity = a_a * (c_a * Math.pow(ta, b_a - 1)) / Math.pow(Math.pow(ta, b_a) + c_a, 2);
+        }
+        data.push(Math.max(0, intensity));
+      }
+      // Volume normalize below
+      break;
     }
   }
 

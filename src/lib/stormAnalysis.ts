@@ -336,6 +336,13 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   prairie_short: { name: 'Prairie Short-Duration', peakPosition: 0.20, description: 'Canadian Prairie convective thunderstorm burst pattern' },
   bc_moe_coastal: { name: 'BC MOE Coastal', peakPosition: 0.50, description: 'British Columbia coastal orographic/frontal rainfall pattern' },
   pilgrim_cordery_ca: { name: 'Pilgrim-Cordery (Canada)', peakPosition: 0.50, description: 'Pilgrim-Cordery method adapted for Canadian jurisdictions' },
+  adamowski_pacific: { name: 'Adamowski-Alila Pacific', peakPosition: 0.50, description: 'Adamowski & Alila (1996) Pacific region — prolonged frontal/orographic rainfall' },
+  adamowski_prairie: { name: 'Adamowski-Alila Prairie', peakPosition: 0.30, description: 'Adamowski & Alila (1996) Prairie region — sharp convective peak' },
+  adamowski_greatlakes: { name: 'Adamowski-Alila Great Lakes', peakPosition: 0.45, description: 'Adamowski & Alila (1996) Great Lakes region — frontal/convective mix' },
+  adamowski_stlawrence: { name: 'Adamowski-Alila St. Lawrence', peakPosition: 0.50, description: 'Adamowski & Alila (1996) St. Lawrence region — moderate central peak' },
+  adamowski_atlantic: { name: 'Adamowski-Alila Atlantic', peakPosition: 0.50, description: 'Adamowski & Alila (1996) Atlantic region — maritime frontal, gradual' },
+  adamowski_northern: { name: 'Adamowski-Alila Northern', peakPosition: 0.50, description: 'Adamowski & Alila (1996) Northern region — low intensity, uniform' },
+  winnipeg_maclaren: { name: 'Winnipeg MacLaren', peakPosition: 0.40, description: 'City of Winnipeg Drainage Criteria Manual modified Chicago distribution' },
 };
 
 /**
