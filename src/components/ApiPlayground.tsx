@@ -240,7 +240,7 @@ export function ApiPlayground() {
           <EndpointHeader
             method="GET"
             path="/storm-api/patterns"
-            description="List all 65+ available rainfall distribution patterns with metadata."
+            description="List all 265+ available rainfall distribution patterns with metadata."
           />
 
           <Card>

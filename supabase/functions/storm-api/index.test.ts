@@ -21,7 +21,7 @@ Deno.test("GET /patterns returns pattern list", async () => {
   const body = await res.json();
   assertEquals(res.status, 200);
   assert(Array.isArray(body.patterns));
-  assert(body.count >= 65, `Expected >=65 patterns, got ${body.count}`);
+  assert(body.count >= 265, `Expected >=265 patterns, got ${body.count}`);
 });
 
 // Volume conservation for every pattern
