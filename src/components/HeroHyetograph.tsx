@@ -65,7 +65,7 @@ function triangularShape(n: number, peak = 0.375): number[] {
   return normalizeToCumulative(clamped);
 }
 
-/** All 66 pattern shapes keyed by their badge name */
+/** All pattern shapes keyed by their badge name */
 const PATTERN_SHAPES: Record<string, { label: string; ratios: number[] }> = {
   // === SWMM / Core ===
   "Block Pattern": {
