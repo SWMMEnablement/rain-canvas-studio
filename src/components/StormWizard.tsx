@@ -310,6 +310,13 @@ const patternNames: Record<PatternType, string> = {
   'prairie_short': 'Prairie Short-Duration',
   'bc_moe_coastal': 'BC MOE Coastal',
   'pilgrim_cordery_ca': 'Pilgrim-Cordery (Canada)',
+  'adamowski_pacific': 'Adamowski-Alila Pacific',
+  'adamowski_prairie': 'Adamowski-Alila Prairie',
+  'adamowski_greatlakes': 'Adamowski-Alila Great Lakes',
+  'adamowski_stlawrence': 'Adamowski-Alila St. Lawrence',
+  'adamowski_atlantic': 'Adamowski-Alila Atlantic',
+  'adamowski_northern': 'Adamowski-Alila Northern',
+  'winnipeg_maclaren': 'Winnipeg MacLaren',
 };
 
 interface WizardStep {
@@ -323,7 +330,7 @@ const steps: WizardStep[] = [
   { id: 1, title: "Storm Parameters", description: "Set depth, duration & units", icon: <Settings className="w-5 h-5" /> },
   { id: 2, title: "Select Pattern", description: "Choose rainfall distribution", icon: <Layers className="w-5 h-5" /> },
   { id: 3, title: "Review & Export", description: "Visualize and download data", icon: <Download className="w-5 h-5" /> },
-  { id: 4, title: "Test All", description: "Compare all 274 patterns", icon: <FlaskRound className="w-5 h-5" /> },
+  { id: 4, title: "Test All", description: "Compare all 281 patterns", icon: <FlaskRound className="w-5 h-5" /> },
 ];
 
 export interface StormShareParams {

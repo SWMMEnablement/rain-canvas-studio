@@ -84,6 +84,9 @@ const VALID_PATTERNS = [
   // v13 — Canadian expansion
   'aes_50','ontario_mto_4hr','marsalek_1978','quebec_melccfp',
   'alberta_transportation','prairie_short','bc_moe_coastal','pilgrim_cordery_ca',
+  // v14 — Adamowski-Alila + Winnipeg
+  'adamowski_pacific','adamowski_prairie','adamowski_greatlakes','adamowski_stlawrence',
+  'adamowski_atlantic','adamowski_northern','winnipeg_maclaren',
 ] as const;
 
 type PatternType = typeof VALID_PATTERNS[number];
@@ -388,6 +391,13 @@ const patternMeta: Record<string, { name: string; region: string; description: s
   prairie_short:     { name: "Prairie Short-Duration",      region: "Canada Prairies",  description: "Convective thunderstorm burst" },
   bc_moe_coastal:    { name: "BC MOE Coastal",              region: "Canada BC",        description: "Pacific coast orographic/frontal" },
   pilgrim_cordery_ca:{ name: "Pilgrim-Cordery (Canada)",    region: "Canada",           description: "Australian method Canadian adaptation" },
+  adamowski_pacific: { name: "Adamowski-Alila Pacific",    region: "Canada BC/Yukon",  description: "Frontal/orographic prolonged rainfall" },
+  adamowski_prairie: { name: "Adamowski-Alila Prairie",    region: "Canada Prairies",  description: "Sharp convective peak distribution" },
+  adamowski_greatlakes:{ name: "Adamowski-Alila Great Lakes", region: "Canada Ontario", description: "Frontal/convective mix" },
+  adamowski_stlawrence:{ name: "Adamowski-Alila St. Lawrence", region: "Canada Quebec", description: "Moderate central peak" },
+  adamowski_atlantic:{ name: "Adamowski-Alila Atlantic",   region: "Canada Maritimes", description: "Maritime frontal gradual rainfall" },
+  adamowski_northern:{ name: "Adamowski-Alila Northern",   region: "Canada North",     description: "Low intensity uniform spread" },
+  winnipeg_maclaren: { name: "Winnipeg MacLaren",          region: "Canada Manitoba",  description: "Modified Chicago r=0.40 for Winnipeg" },
 };
 
 // ── Utility helpers ─────────────────────────────────────────────────────
@@ -1294,6 +1304,20 @@ function generateHyetograph(
       intensities = cumCurve([[0,0],[0.10,0.06],[0.20,0.14],[0.30,0.24],[0.40,0.36],[0.50,0.50],[0.60,0.64],[0.70,0.76],[0.80,0.86],[0.90,0.94],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
     case 'pilgrim_cordery_ca':
       intensities = cumCurve([[0,0],[0.10,0.05],[0.20,0.13],[0.30,0.25],[0.40,0.42],[0.50,0.60],[0.60,0.74],[0.70,0.85],[0.80,0.92],[0.90,0.97],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'adamowski_pacific':
+      intensities = cumCurve([[0,0],[0.05,0.03],[0.10,0.06],[0.15,0.10],[0.20,0.15],[0.25,0.21],[0.30,0.27],[0.35,0.34],[0.40,0.41],[0.45,0.48],[0.50,0.55],[0.55,0.62],[0.60,0.69],[0.65,0.75],[0.70,0.81],[0.75,0.86],[0.80,0.91],[0.85,0.94],[0.90,0.97],[0.95,0.99],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'adamowski_prairie':
+      intensities = cumCurve([[0,0],[0.05,0.04],[0.10,0.10],[0.15,0.18],[0.20,0.28],[0.25,0.40],[0.30,0.52],[0.35,0.62],[0.40,0.71],[0.45,0.78],[0.50,0.83],[0.55,0.87],[0.60,0.90],[0.65,0.92],[0.70,0.94],[0.75,0.95],[0.80,0.97],[0.85,0.98],[0.90,0.99],[0.95,0.995],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'adamowski_greatlakes':
+      intensities = cumCurve([[0,0],[0.05,0.03],[0.10,0.07],[0.15,0.13],[0.20,0.20],[0.25,0.28],[0.30,0.37],[0.35,0.46],[0.40,0.55],[0.45,0.63],[0.50,0.70],[0.55,0.76],[0.60,0.81],[0.65,0.86],[0.70,0.90],[0.75,0.93],[0.80,0.95],[0.85,0.97],[0.90,0.98],[0.95,0.99],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'adamowski_stlawrence':
+      intensities = cumCurve([[0,0],[0.05,0.02],[0.10,0.06],[0.15,0.11],[0.20,0.17],[0.25,0.24],[0.30,0.32],[0.35,0.40],[0.40,0.48],[0.45,0.56],[0.50,0.64],[0.55,0.71],[0.60,0.77],[0.65,0.83],[0.70,0.88],[0.75,0.92],[0.80,0.95],[0.85,0.97],[0.90,0.98],[0.95,0.99],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'adamowski_atlantic':
+      intensities = cumCurve([[0,0],[0.05,0.03],[0.10,0.07],[0.15,0.11],[0.20,0.16],[0.25,0.22],[0.30,0.28],[0.35,0.35],[0.40,0.42],[0.45,0.49],[0.50,0.56],[0.55,0.63],[0.60,0.70],[0.65,0.76],[0.70,0.82],[0.75,0.87],[0.80,0.91],[0.85,0.95],[0.90,0.97],[0.95,0.99],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'adamowski_northern':
+      intensities = cumCurve([[0,0],[0.05,0.04],[0.10,0.08],[0.15,0.13],[0.20,0.18],[0.25,0.23],[0.30,0.29],[0.35,0.35],[0.40,0.42],[0.45,0.49],[0.50,0.55],[0.55,0.62],[0.60,0.68],[0.65,0.74],[0.70,0.80],[0.75,0.85],[0.80,0.90],[0.85,0.94],[0.90,0.97],[0.95,0.99],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'winnipeg_maclaren':
+      intensities = chicagoVariant(totalDepth, numSteps, timeStepMin, durationHr, 0.40); break;
 
     default: {
       intensities = fromShape(t => gaussian(t, 0.4, 0.12), numSteps, totalDepth, timeStepMin);
