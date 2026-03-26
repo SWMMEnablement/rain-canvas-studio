@@ -19,7 +19,6 @@ async function generate(pattern: string, depth: number, duration: number, timeSt
 Deno.test("GET /patterns returns pattern list", async () => {
   const res = await fetch(`${BASE}/patterns`, { headers: { apikey: SUPABASE_ANON_KEY } });
   const body = await res.json();
-  await res.body?.cancel();
   assertEquals(res.status, 200);
   assert(Array.isArray(body.patterns));
   assert(body.count >= 65, `Expected >=65 patterns, got ${body.count}`);
