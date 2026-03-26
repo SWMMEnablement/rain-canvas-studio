@@ -57,6 +57,7 @@ import {
 import { TaxonomyTree } from "./docs/TaxonomyTree";
 import { ComparisonMatrix } from "./docs/ComparisonMatrix";
 import { EquationFamilyRegistry } from "./docs/EquationFamilyRegistry";
+import { CanadianDesignStormsRef } from "./docs/CanadianDesignStormsRef";
 
 // Calculator categories
 type CalculatorCategory = 'hydrology' | 'hydraulics' | 'water-quality';
