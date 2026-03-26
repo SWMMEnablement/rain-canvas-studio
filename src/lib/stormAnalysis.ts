@@ -328,6 +328,14 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   bonta_usda: { name: 'Bonta (USDA)', peakPosition: 0.42, description: 'ARS 6000+ Midwest storm analysis' },
   georgian_nea: { name: 'Georgia NEA', peakPosition: 0.25, description: 'Caucasus front-loaded Mediterranean-influenced storms' },
   albanian_igewe: { name: 'Albanian IGEWE', peakPosition: 0.28, description: 'Adriatic Mediterranean front-loaded storms' },
+  aes_50: { name: 'AES Canada 50%', peakPosition: 0.50, description: 'AES/ECCC 50% center-peaked distribution (Hogg 1980)' },
+  ontario_mto_4hr: { name: 'Ontario MTO 4-hr', peakPosition: 0.25, description: 'Ontario Ministry of Transportation 4-hour highway design storm' },
+  marsalek_1978: { name: 'Marsalek (1978)', peakPosition: 0.50, description: 'NRC Canada dimensionless urban drainage design storm' },
+  quebec_melccfp: { name: 'Quebec MELCCFP', peakPosition: 0.50, description: 'Quebec provincial design storm for Great Lakes/St. Lawrence climate' },
+  alberta_transportation: { name: 'Alberta Transportation', peakPosition: 0.35, description: 'Alberta highway drainage design for continental prairie climate' },
+  prairie_short: { name: 'Prairie Short-Duration', peakPosition: 0.20, description: 'Canadian Prairie convective thunderstorm burst pattern' },
+  bc_moe_coastal: { name: 'BC MOE Coastal', peakPosition: 0.50, description: 'British Columbia coastal orographic/frontal rainfall pattern' },
+  pilgrim_cordery_ca: { name: 'Pilgrim-Cordery (Canada)', peakPosition: 0.50, description: 'Pilgrim-Cordery method adapted for Canadian jurisdictions' },
 };
 
 /**

@@ -302,6 +302,14 @@ const patternNames: Record<PatternType, string> = {
   'bonta_usda': 'Bonta (USDA)',
   'georgian_nea': 'Georgia NEA',
   'albanian_igewe': 'Albanian IGEWE',
+  'aes_50': 'AES Canada 50%',
+  'ontario_mto_4hr': 'Ontario MTO 4-hr',
+  'marsalek_1978': 'Marsalek (1978)',
+  'quebec_melccfp': 'Quebec MELCCFP',
+  'alberta_transportation': 'Alberta Transportation',
+  'prairie_short': 'Prairie Short-Duration',
+  'bc_moe_coastal': 'BC MOE Coastal',
+  'pilgrim_cordery_ca': 'Pilgrim-Cordery (Canada)',
 };
 
 interface WizardStep {
