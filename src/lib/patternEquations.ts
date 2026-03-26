@@ -4881,6 +4881,119 @@ export const patternEquations: PatternEquation[] = [
     reference: { title: 'Frequency and Intensity of Excessive Rainfalls at Boston', citation: 'Sherman, L.K., Trans. ASCE', year: 1931 },
     notes: 'Foundation of ALL modern IDF-based temporal distributions. Talbot form identical. Apply alternating block method for temporal distribution.'
   },
+  // ============ v13 — Canadian Expansion ============
+  {
+    pattern: 'aes_50',
+    name: 'AES Canada 50%',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{AES50}})', description: 'AES 50% dimensionless mass curve — peak at 50% of duration' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Time Distribution of Rainfall in Heavy Storms', citation: 'Hogg, W.D., Proc. Canadian Hydrology Symposium', year: 1980 },
+    notes: 'Third AES variant — center-peaked, used in Maritime provinces and Eastern Canada.'
+  },
+  {
+    pattern: 'ontario_mto_4hr',
+    name: 'Ontario MTO 4-hr',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{MTO}})', description: 'Ontario MTO dimensionless 4-hour mass curve' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h), typically 4 hours' },
+    ],
+    reference: { title: 'MTO Drainage Management Technical Guidelines', citation: 'Ontario Ministry of Transportation', year: 1997 },
+    notes: 'Standard for Ontario highway drainage design. Front-loaded with sharper peak than CDA.'
+  },
+  {
+    pattern: 'marsalek_1978',
+    name: 'Marsalek (1978)',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{Marsalek}})', description: 'Marsalek dimensionless mass curve — 16-point resolution' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Research on the Design Storm Concept', citation: 'Marsalek, J., National Research Council Canada, NRCC-17539', year: 1978 },
+    notes: 'Widely cited Canadian urban drainage design storm. Symmetrical center-peaked at t/D=0.5.'
+  },
+  {
+    pattern: 'quebec_melccfp',
+    name: 'Quebec MELCCFP',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{QC}})', description: 'Quebec provincial mass curve' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Guide de gestion des eaux pluviales', citation: 'MELCCFP, Gouvernement du Québec', year: 2014 },
+    notes: 'Center-peaked, influenced by Great Lakes and St. Lawrence Valley synoptic patterns.'
+  },
+  {
+    pattern: 'alberta_transportation',
+    name: 'Alberta Transportation',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{AB}})', description: 'Alberta Transportation mass curve for prairie climate' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Highway Geometric Design Guide', citation: 'Alberta Transportation', year: 1999 },
+    notes: 'Adapted for continental prairie climate with intense summer convective thunderstorms.'
+  },
+  {
+    pattern: 'prairie_short',
+    name: 'Prairie Short-Duration',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{Prairie}})', description: 'Prairie thunderstorm mass curve — very front-loaded' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Prairie Thunderstorm Rainfall Analysis', citation: 'Watt, W.E. & Nozdryn-Plotnicki, M.J.', year: 1983 },
+    notes: 'Very front-loaded convective burst characteristic of prairie thunderstorm cells.'
+  },
+  {
+    pattern: 'bc_moe_coastal',
+    name: 'BC MOE Coastal',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{BC}})', description: 'BC coastal orographic mass curve — nearly linear' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Stormwater Planning: A Guidebook for British Columbia', citation: 'BC Ministry of Environment', year: 2002 },
+    notes: 'Prolonged orographic/frontal rainfall on Pacific coast. Nearly uniform distribution with gentle central peak.'
+  },
+  {
+    pattern: 'pilgrim_cordery_ca',
+    name: 'Pilgrim-Cordery (Canada)',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{PC-CA}})', description: 'Pilgrim-Cordery Canadian adaptation mass curve' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Flood Estimation from Chimney Pot to Computer', citation: 'Pilgrim, D.H. & Cordery, I., Civil Eng Trans IEAust', year: 1975 },
+    notes: 'Originally Australian, adopted by some Alberta and Saskatchewan jurisdictions with slight Canadian calibration.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {

@@ -81,6 +81,9 @@ const VALID_PATTERNS = [
   'sea_breeze','nocturnal_mcs','rain_on_snow','derecho',
   'ukcp18_enhanced','super_cc','neyman_scott','temez_spain','bonta_usda',
   'georgian_nea','albanian_igewe',
+  // v13 — Canadian expansion
+  'aes_50','ontario_mto_4hr','marsalek_1978','quebec_melccfp',
+  'alberta_transportation','prairie_short','bc_moe_coastal','pilgrim_cordery_ca',
 ] as const;
 
 type PatternType = typeof VALID_PATTERNS[number];
@@ -376,6 +379,15 @@ const patternMeta: Record<string, { name: string; region: string; description: s
   bonta_usda:        { name: "Bonta USDA",                 region: "US Midwest",       description: "USDA ARS dimensionless hyetographs" },
   georgian_nea:      { name: "Georgian NEA",               region: "Georgia",          description: "Caucasus convective front-loaded" },
   albanian_igewe:    { name: "Albanian IGEWE",             region: "Albania",          description: "Adriatic coastal Mediterranean" },
+  // v13 — Canadian expansion
+  aes_50:            { name: "AES Canada 50%",             region: "Canada",           description: "AES/ECCC 50% center-peaked (Hogg 1980)" },
+  ontario_mto_4hr:   { name: "Ontario MTO 4-hr",           region: "Canada Ontario",   description: "Ontario Ministry of Transportation highway" },
+  marsalek_1978:     { name: "Marsalek (1978)",             region: "Canada",           description: "NRC Canada urban drainage design storm" },
+  quebec_melccfp:    { name: "Quebec MELCCFP",              region: "Canada Quebec",    description: "Quebec provincial design storm" },
+  alberta_transportation: { name: "Alberta Transportation", region: "Canada Alberta",   description: "Prairie highway drainage design" },
+  prairie_short:     { name: "Prairie Short-Duration",      region: "Canada Prairies",  description: "Convective thunderstorm burst" },
+  bc_moe_coastal:    { name: "BC MOE Coastal",              region: "Canada BC",        description: "Pacific coast orographic/frontal" },
+  pilgrim_cordery_ca:{ name: "Pilgrim-Cordery (Canada)",    region: "Canada",           description: "Australian method Canadian adaptation" },
 };
 
 // ── Utility helpers ─────────────────────────────────────────────────────
@@ -1265,6 +1277,23 @@ function generateHyetograph(
       intensities = cumCurve([[0,0],[0.05,0.08],[0.10,0.22],[0.15,0.38],[0.20,0.52],[0.30,0.70],[0.40,0.82],[0.50,0.89],[0.60,0.93],[0.70,0.96],[0.80,0.98],[0.90,0.99],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
     case 'albanian_igewe':
       intensities = cumCurve([[0,0],[0.05,0.07],[0.10,0.19],[0.15,0.34],[0.20,0.48],[0.30,0.66],[0.40,0.78],[0.50,0.86],[0.60,0.91],[0.70,0.95],[0.80,0.98],[0.90,0.99],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    // v13 — Canadian expansion
+    case 'aes_50':
+      intensities = cumCurve([[0,0],[0.10,0.03],[0.20,0.07],[0.30,0.14],[0.40,0.26],[0.50,0.55],[0.60,0.74],[0.70,0.86],[0.80,0.93],[0.90,0.97],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'ontario_mto_4hr':
+      intensities = cumCurve([[0,0],[0.05,0.04],[0.10,0.10],[0.15,0.20],[0.20,0.38],[0.25,0.58],[0.30,0.72],[0.40,0.83],[0.50,0.89],[0.60,0.93],[0.70,0.96],[0.80,0.98],[0.90,0.99],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'marsalek_1978':
+      intensities = cumCurve([[0,0],[0.0625,0.01],[0.125,0.03],[0.1875,0.05],[0.25,0.08],[0.3125,0.12],[0.375,0.18],[0.4375,0.30],[0.50,0.54],[0.5625,0.72],[0.625,0.82],[0.6875,0.88],[0.75,0.92],[0.8125,0.95],[0.875,0.97],[0.9375,0.99],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'quebec_melccfp':
+      intensities = cumCurve([[0,0],[0.10,0.04],[0.20,0.09],[0.30,0.17],[0.40,0.28],[0.45,0.37],[0.50,0.52],[0.55,0.66],[0.60,0.76],[0.70,0.87],[0.80,0.94],[0.90,0.98],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'alberta_transportation':
+      intensities = cumCurve([[0,0],[0.05,0.02],[0.10,0.06],[0.15,0.12],[0.20,0.22],[0.30,0.42],[0.35,0.58],[0.40,0.72],[0.50,0.84],[0.60,0.91],[0.70,0.95],[0.80,0.98],[0.90,0.99],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'prairie_short':
+      intensities = cumCurve([[0,0],[0.05,0.06],[0.10,0.18],[0.15,0.35],[0.20,0.52],[0.25,0.65],[0.30,0.75],[0.40,0.85],[0.50,0.91],[0.60,0.94],[0.70,0.96],[0.80,0.98],[0.90,0.99],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'bc_moe_coastal':
+      intensities = cumCurve([[0,0],[0.10,0.06],[0.20,0.14],[0.30,0.24],[0.40,0.36],[0.50,0.50],[0.60,0.64],[0.70,0.76],[0.80,0.86],[0.90,0.94],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
+    case 'pilgrim_cordery_ca':
+      intensities = cumCurve([[0,0],[0.10,0.05],[0.20,0.13],[0.30,0.25],[0.40,0.42],[0.50,0.60],[0.60,0.74],[0.70,0.85],[0.80,0.92],[0.90,0.97],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
 
     default: {
       intensities = fromShape(t => gaussian(t, 0.4, 0.12), numSteps, totalDepth, timeStepMin);
