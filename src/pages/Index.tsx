@@ -193,7 +193,7 @@ const Index = () => {
 
           {/* Social Proof / Compatibility */}
           <p className="text-xs mt-3 opacity-80">
-            Compatible with EPA SWMM · HEC-HMS · InfoWorks ICM · PCSWMM · XP-SWMM · HydroCAD
+            Compatible with EPA SWMM · HEC-HMS · InfoWorks ICM · InfoDrainage · PCSWMM · XP-SWMM · HydroCAD
           </p>
         </div>
       </header>
