@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { DubaiDdfLookup } from "@/components/DubaiDdfLookup";
-import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck, FlaskRound, AlertTriangle } from "lucide-react";
+import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck, FlaskRound, AlertTriangle, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -645,20 +645,27 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
                 onUnitSystemChange={setUnitSystem}
               />
 
-              {/* Dubai DDF Lookup */}
-              <DubaiDdfLookup
-                unitSystem={unitSystem}
-                onApply={(depthMm, durationHr) => {
-                  const depthVal = unitSystem === 'SI' ? depthMm : convertDepth(depthMm, 'SI', 'USA');
-                  setDepth(depthVal);
-                  setDuration(durationHr);
-                  // Auto-select timestep
-                  if (durationHr <= 0.5) setTimeStep(5);
-                  else if (durationHr <= 1) setTimeStep(5);
-                  else if (durationHr <= 6) setTimeStep(15);
-                  else setTimeStep(30);
-                }}
-              />
+              {/* Dubai DDF Lookup — collapsed by default */}
+              <details className="group">
+                <summary className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer hover:text-foreground transition-colors select-none">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  Dubai Municipality DDF Lookup (2024)
+                </summary>
+                <div className="mt-3">
+                  <DubaiDdfLookup
+                    unitSystem={unitSystem}
+                    onApply={(depthMm, durationHr) => {
+                      const depthVal = unitSystem === 'SI' ? depthMm : convertDepth(depthMm, 'SI', 'USA');
+                      setDepth(depthVal);
+                      setDuration(durationHr);
+                      if (durationHr <= 0.5) setTimeStep(5);
+                      else if (durationHr <= 1) setTimeStep(5);
+                      else if (durationHr <= 6) setTimeStep(15);
+                      else setTimeStep(30);
+                    }}
+                  />
+                </div>
+              </details>
             </div>
           </div>
         )}
