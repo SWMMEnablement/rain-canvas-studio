@@ -53,6 +53,7 @@ import {
   PipetteIcon,
   type LucideIcon,
   FolderTree,
+  Snowflake,
 } from "lucide-react";
 import { TaxonomyTree } from "./docs/TaxonomyTree";
 import { ComparisonMatrix } from "./docs/ComparisonMatrix";
@@ -3065,6 +3066,11 @@ export function Documentation({ idfCity }: DocumentationProps = {}) {
           <TaxonomyTree />
           <ComparisonMatrix />
           <EquationFamilyRegistry />
+        </TabsContent>
+
+        {/* Canadian Design Storms Reference Tab */}
+        <TabsContent value="canada-ref" className="space-y-6">
+          <CanadianDesignStormsRef />
         </TabsContent>
       </Tabs>
 
