@@ -268,6 +268,10 @@ export function Documentation({ idfCity }: DocumentationProps = {}) {
             <FolderTree className="w-4 h-4" />
             <span className="hidden sm:inline">Taxonomy</span>
           </TabsTrigger>
+          <TabsTrigger value="canada-ref" className="flex items-center gap-1">
+            <Snowflake className="w-4 h-4" />
+            <span className="hidden sm:inline">Canada</span>
+          </TabsTrigger>
         </TabsList>
 
         {/* Pattern Reference Cards Tab */}
