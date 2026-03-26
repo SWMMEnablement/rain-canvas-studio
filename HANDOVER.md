@@ -8,7 +8,7 @@
 
 ## 1. Overview
 
-**World Rainfall Pattern Painter** is a web application for generating, visualizing, comparing, and exporting synthetic rainfall hyetographs used in stormwater modeling worldwide. It targets hydrologists, civil engineers, and urban planners who need design storm distributions for software like EPA SWMM5, HEC-HMS, InfoWorks ICM, PCSWMM, XP-SWMM, and HydroCAD.
+**World Rainfall Pattern Painter** is a web application for generating, visualizing, comparing, and exporting synthetic rainfall hyetographs used in stormwater modeling worldwide. It targets hydrologists, civil engineers, and urban planners who need design storm distributions for software like EPA SWMM5, HEC-HMS, InfoWorks ICM, InfoDrainage, PCSWMM, XP-SWMM, and HydroCAD.
 
 The app is primarily client-side with three serverless backend functions for the public API, AI chatbot, and NOAA IDF proxy.
 
