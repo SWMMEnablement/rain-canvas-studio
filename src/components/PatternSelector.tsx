@@ -203,7 +203,7 @@ export const patterns: PatternOption[] = [
     name: 'Canadian CDA',
     icon: '🇨🇦',
     description: 'Canadian Dam Association / Ontario MTO temporal pattern. Modified Type II adapted for Canadian climate with broader central peak and extended tails.',
-    category: 'international',
+    category: 'americas',
   },
   {
     id: 'chicago',
@@ -851,7 +851,7 @@ export const patterns: PatternOption[] = [
     name: 'ECCC IDF',
     icon: '🇨🇦',
     description: 'Environment and Climate Change Canada engineering climate datasets. Official IDF tables/graphs for Canadian design rainfall.',
-    category: 'international',
+    category: 'americas',
   },
   {
     id: 'shyreg_fr',
@@ -971,7 +971,7 @@ export const patterns: PatternOption[] = [
     name: 'CSA W231 (Canada)',
     icon: '🍁',
     description: 'Canadian Standards Association W231 climate-adjusted IDF standard (2024). Non-stationary rainfall accounting for future climate intensification.',
-    category: 'international',
+    category: 'americas',
   },
   {
     id: 'sa_wrc',
