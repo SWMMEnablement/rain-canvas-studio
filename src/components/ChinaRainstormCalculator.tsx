@@ -239,7 +239,7 @@ export function ChinaRainstormCalculator({ onSendToGenerator }: ChinaRainstormCa
                     <p className="text-lg">
                       q = 167 × <span className="text-primary font-bold">{selectedCity.A1}</span> × (1 + <span className="text-primary font-bold">{selectedCity.C}</span> × lgP) / (t + <span className="text-primary font-bold">{selectedCity.b}</span>)<sup className="text-primary font-bold">{selectedCity.n}</sup>
                     </p>
-                    <div className="grid grid-cols-4 gap-3 mt-3 text-xs">
+                    <div className="grid grid-cols-5 gap-3 mt-3 text-xs">
                       <div className="bg-background rounded p-2">
                         <p className="text-muted-foreground">A₁</p>
                         <p className="font-bold text-primary">{selectedCity.A1}</p>
@@ -255,6 +255,15 @@ export function ChinaRainstormCalculator({ onSendToGenerator }: ChinaRainstormCa
                       <div className="bg-background rounded p-2">
                         <p className="text-muted-foreground">n</p>
                         <p className="font-bold text-primary">{selectedCity.n}</p>
+                      </div>
+                      <div className="bg-background rounded p-2 border border-primary/20">
+                        <p className="text-muted-foreground">r (peak)</p>
+                        <p className="font-bold text-primary">
+                          {selectedCity.r ?? 0.40}
+                          {selectedCity.rSampleSize && (
+                            <span className="text-[10px] font-normal text-muted-foreground ml-0.5">({selectedCity.rSampleSize})</span>
+                          )}
+                        </p>
                       </div>
                     </div>
                   </div>
