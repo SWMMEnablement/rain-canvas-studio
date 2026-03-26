@@ -7,6 +7,7 @@ import { AllPatternsTest } from "@/components/AllPatternsTest";
 import { PatternDecisionGuide } from "@/components/PatternDecisionGuide";
 import { ChinaRainstormCalculator } from "@/components/ChinaRainstormCalculator";
 import { CanadaIdfCalculator } from "@/components/CanadaIdfCalculator";
+import { GlobalIdfCalculator } from "@/components/GlobalIdfCalculator";
 import { ParametricStormEngine } from "@/components/ParametricStormEngine";
 import { WorldMapSelector } from "@/components/WorldMapSelector";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -46,7 +47,7 @@ export function AdvancedTools({ onSendToGenerator, onViewIdf }: AdvancedToolsPro
       </div>
 
       <Tabs defaultValue="comparison" className="w-full">
-        <TabsList className="grid w-full grid-cols-5 sm:grid-cols-10 mb-6">
+        <TabsList className="flex w-full overflow-x-auto scrollbar-thin mb-6">
           <TabsTrigger value="map" className="flex items-center gap-2">
             <Globe className="w-4 h-4" />
             <span className="hidden sm:inline">Map</span>
@@ -70,6 +71,10 @@ export function AdvancedTools({ onSendToGenerator, onViewIdf }: AdvancedToolsPro
           <TabsTrigger value="canada_idf" className="flex items-center gap-2">
             <Snowflake className="w-4 h-4" />
             <span className="hidden sm:inline">Canada IDF</span>
+          </TabsTrigger>
+          <TabsTrigger value="global_idf" className="flex items-center gap-2 min-w-max">
+            <Globe className="w-4 h-4" />
+            <span className="hidden sm:inline">Global IDF</span>
           </TabsTrigger>
           <TabsTrigger value="regional" className="flex items-center gap-2">
             <Map className="w-4 h-4" />
