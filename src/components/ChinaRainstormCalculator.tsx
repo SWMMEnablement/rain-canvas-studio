@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Search, MapPin, Download, BarChart3, Table as TableIcon, Zap, GitCompareArrows, Send } from "lucide-react";
+import { Search, MapPin, Download, BarChart3, Table as TableIcon, Zap, GitCompareArrows, Send, Info, ChevronDown, ChevronUp } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChinaCityComparison } from "./ChinaCityComparison";
 import {
   chinaRainstormDatabase,
@@ -35,6 +36,7 @@ export function ChinaRainstormCalculator({ onSendToGenerator }: ChinaRainstormCa
   const [duration, setDuration] = useState(60);
   const [timeStep, setTimeStep] = useState(5);
   const [activeTab, setActiveTab] = useState("formula");
+  const [showGuide, setShowGuide] = useState(false);
 
   const provinces = useMemo(() => getProvinces(), []);
 
@@ -256,6 +258,75 @@ export function ChinaRainstormCalculator({ onSendToGenerator }: ChinaRainstormCa
                       </div>
                     </div>
                   </div>
+
+                  {/* Parameter Guide Panel */}
+                  <Collapsible open={showGuide} onOpenChange={setShowGuide}>
+                    <CollapsibleTrigger asChild>
+                      <Button variant="ghost" size="sm" className="w-full justify-between text-muted-foreground hover:text-foreground">
+                        <span className="flex items-center gap-2">
+                          <Info className="w-4 h-4" />
+                          Understanding the formula parameters
+                        </span>
+                        {showGuide ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                      </Button>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <div className="rounded-lg border bg-muted/30 p-4 space-y-4 text-sm">
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-1">What is "t" (duration)?</h4>
+                          <p className="text-muted-foreground">
+                            <strong className="text-foreground font-mono">t</strong> is the total rainfall duration in minutes. The formula breaks this into time before the peak (<span className="font-mono">t₁ = r × t</span>) and time after the peak (<span className="font-mono">t₂ = (1−r) × t</span>) to shape the hyetograph.
+                          </p>
+                        </div>
+
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-1">What is "r" (storm advancement coefficient)?</h4>
+                          <p className="text-muted-foreground">
+                            <strong className="text-foreground font-mono">r</strong> controls <em>when</em> the heaviest rainfall occurs within the storm. It's always between 0 and 1:
+                          </p>
+                          <ul className="mt-1.5 ml-4 space-y-1 text-muted-foreground list-disc">
+                            <li><span className="font-mono">r = 0.375</span> (Chicago) — peak at 37.5% of duration, from Keifer & Chu's 1957 analysis of <strong>83 storms</strong></li>
+                            <li><span className="font-mono">r = 0.355</span> (Beijing) — derived from <strong>57 historical events</strong></li>
+                            <li><span className="font-mono">r = 0.40</span> — peak at 40%, common in many Chinese cities</li>
+                            <li><span className="font-mono">r = 0.50</span> — peak exactly in the middle of the storm</li>
+                          </ul>
+                        </div>
+
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-1">What about "(times)" or sample sizes?</h4>
+                          <p className="text-muted-foreground">
+                            In Chinese hydrology literature, the notation like <span className="font-mono">r = 0.375(83)</span> means the <strong className="text-foreground">r</strong> value was computed by analyzing <strong>83 historical rainstorms</strong>. The number in parentheses is the <em>statistical sample size</em> — how many real storms were studied to determine when peak intensity typically occurs. A larger sample generally means more reliable results.
+                          </p>
+                        </div>
+
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-1">Other formula parameters</h4>
+                          <div className="grid grid-cols-2 gap-2 mt-1.5">
+                            <div className="bg-background rounded p-2">
+                              <p className="font-mono font-semibold text-foreground">A₁</p>
+                              <p className="text-xs text-muted-foreground">Rainfall intensity parameter — reflects local rainfall magnitude</p>
+                            </div>
+                            <div className="bg-background rounded p-2">
+                              <p className="font-mono font-semibold text-foreground">C</p>
+                              <p className="text-xs text-muted-foreground">Return period coefficient — how intensity scales with rarer storms</p>
+                            </div>
+                            <div className="bg-background rounded p-2">
+                              <p className="font-mono font-semibold text-foreground">b</p>
+                              <p className="text-xs text-muted-foreground">Duration correction (min) — shifts the intensity-duration curve</p>
+                            </div>
+                            <div className="bg-background rounded p-2">
+                              <p className="font-mono font-semibold text-foreground">n</p>
+                              <p className="text-xs text-muted-foreground">Attenuation index — how quickly intensity drops for longer storms</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <p className="text-xs text-muted-foreground italic border-t pt-3">
+                          Based on GB 50014-2021 and the Chicago Design Storm method (Keifer & Chu, 1957). City-specific parameters are derived from local rainfall records by meteorological bureaus.
+                        </p>
+                      </div>
+                    </CollapsibleContent>
+                  </Collapsible>
 
                   {/* Inputs */}
                   <div className="grid grid-cols-2 gap-4">
