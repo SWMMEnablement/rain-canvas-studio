@@ -60,7 +60,10 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   | 'sea_breeze' | 'nocturnal_mcs' | 'rain_on_snow' | 'derecho'
   | 'ukcp18_enhanced' | 'super_cc' | 'neyman_scott' | 'temez_spain' | 'bonta_usda'
   // v12 addition
-  | 'georgian_nea' | 'albanian_igewe';
+  | 'georgian_nea' | 'albanian_igewe'
+  // v13 — Canadian expansion
+  | 'aes_50' | 'ontario_mto_4hr' | 'marsalek_1978' | 'quebec_melccfp'
+  | 'alberta_transportation' | 'prairie_short' | 'bc_moe_coastal' | 'pilgrim_cordery_ca';
 
 // ─── Helper functions for pattern generation ───
 
@@ -4115,6 +4118,79 @@ export function generateRainfallData(
       // Albania — Mediterranean front-loaded with Adriatic coastal influence, Tirana records
       const t = [0, 0.05, 0.10, 0.15, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
       const p = [0, 0.07, 0.19, 0.34, 0.48, 0.66, 0.78, 0.86, 0.91, 0.95, 0.98, 0.99, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    // ─── v13 — Canadian Expansion ───
+
+    case 'aes_50': {
+      // AES (Atmospheric Environment Service) Canada 50% distribution (Hogg 1980)
+      // Peak at 50% of duration — center-peaked, used in Maritime provinces
+      const t = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const p = [0, 0.03, 0.07, 0.14, 0.26, 0.55, 0.74, 0.86, 0.93, 0.97, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'ontario_mto_4hr': {
+      // Ontario Ministry of Transportation 4-hour design storm
+      // Standard for highway drainage design in Ontario (MTO Drainage Management Manual)
+      // Front-loaded with sharper peak than CDA, typically used with 4-hr duration
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const p = [0, 0.04, 0.10, 0.20, 0.38, 0.58, 0.72, 0.83, 0.89, 0.93, 0.96, 0.98, 0.99, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'marsalek_1978': {
+      // Marsalek (1978) NRC Canada dimensionless urban drainage design storm
+      // Widely cited in Canadian urban stormwater practice
+      // Symmetrical center-peaked distribution for short-duration urban storms
+      const t = [0, 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375, 0.5, 0.5625, 0.625, 0.6875, 0.75, 0.8125, 0.875, 0.9375, 1.0];
+      const p = [0, 0.01, 0.03, 0.05, 0.08, 0.12, 0.18, 0.30, 0.54, 0.72, 0.82, 0.88, 0.92, 0.95, 0.97, 0.99, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'quebec_melccfp': {
+      // Quebec MELCCFP (Ministère de l'Environnement) provincial design storm
+      // Center-peaked, influenced by Great Lakes and St. Lawrence Valley climate
+      // Slightly broader peak than Ontario patterns due to larger-scale synoptic systems
+      const t = [0, 0.10, 0.20, 0.30, 0.40, 0.45, 0.50, 0.55, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const p = [0, 0.04, 0.09, 0.17, 0.28, 0.37, 0.52, 0.66, 0.76, 0.87, 0.94, 0.98, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'alberta_transportation': {
+      // Alberta Transportation design storm for highway/bridge drainage
+      // Adapted for continental prairie climate with convective thunderstorms
+      // Sharper peak than AES due to intense convective events in summer
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.30, 0.35, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const p = [0, 0.02, 0.06, 0.12, 0.22, 0.42, 0.58, 0.72, 0.84, 0.91, 0.95, 0.98, 0.99, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'prairie_short': {
+      // Canadian Prairie Short-Duration Convective Storm
+      // Based on Watt & Nozdryn-Plotnicki analysis of prairie thunderstorms
+      // Very front-loaded, intense burst characteristic of prairie convective cells
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const p = [0, 0.06, 0.18, 0.35, 0.52, 0.65, 0.75, 0.85, 0.91, 0.94, 0.96, 0.98, 0.99, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'bc_moe_coastal': {
+      // British Columbia Ministry of Environment Coastal Rainfall Pattern
+      // Orographic/frontal rainfall on Pacific coast — prolonged, lower intensity
+      // Characterized by gradual build-up and sustained mid-duration peak
+      const t = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const p = [0, 0.06, 0.14, 0.24, 0.36, 0.50, 0.64, 0.76, 0.86, 0.94, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'pilgrim_cordery_ca': {
+      // Pilgrim-Cordery adapted for Canadian practice
+      // Originally Australian, adopted by some Canadian jurisdictions (Alberta, Saskatchewan)
+      // Empirical dimensionless ordinates with slight Canadian calibration
+      const t = [0, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.0];
+      const p = [0, 0.05, 0.13, 0.25, 0.42, 0.60, 0.74, 0.85, 0.92, 0.97, 1.0];
       return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
     }
   }
