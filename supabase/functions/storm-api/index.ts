@@ -84,6 +84,9 @@ const VALID_PATTERNS = [
   // v13 — Canadian expansion
   'aes_50','ontario_mto_4hr','marsalek_1978','quebec_melccfp',
   'alberta_transportation','prairie_short','bc_moe_coastal','pilgrim_cordery_ca',
+  // v14 — Adamowski-Alila + Winnipeg
+  'adamowski_pacific','adamowski_prairie','adamowski_greatlakes','adamowski_stlawrence',
+  'adamowski_atlantic','adamowski_northern','winnipeg_maclaren',
 ] as const;
 
 type PatternType = typeof VALID_PATTERNS[number];

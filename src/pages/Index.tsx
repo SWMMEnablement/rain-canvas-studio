@@ -89,7 +89,7 @@ const PATTERN_BADGES = [
   "Uruguay INUMET", "USACE SPS", "Uzbekistan UHM",
   "Venezuela INAMEH", "Vietnam IMHEN",
   "Watt's Curve (UK)", "Weibull Temporal", "Wellington Regional",
-  "West Africa CIEH", "West Africa CILSS", "Wrocław 2050",
+  "West Africa CIEH", "West Africa CILSS", "Winnipeg MacLaren", "Wrocław 2050",
   "Yen & Chow", "Yemen CAMA",
   "Šamaj-Valovič",
 ];
