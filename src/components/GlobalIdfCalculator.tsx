@@ -24,7 +24,6 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
   const [rValue, setRValue] = useState(0.4);
   const [selectedRp, setSelectedRp] = useState<number | null>(null);
   const [selectedDur, setSelectedDur] = useState<number | null>(null);
-  const [rValue, setRValue] = useState(0.4);
 
   const country = COUNTRIES[activeCountry];
   const cityNames = Object.keys(country.cities);
