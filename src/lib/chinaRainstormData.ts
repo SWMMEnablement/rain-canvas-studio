@@ -35,6 +35,10 @@ export interface CityRainstormParams {
   b: number;
   /** n coefficient (attenuation index) */
   n: number;
+  /** Storm advancement coefficient r (peak position ratio, 0–1). Default ~0.40 if not specified. */
+  r?: number;
+  /** Number of historical storms analyzed to derive r (sample size). */
+  rSampleSize?: number;
   /** Valid return period range [min, max] in years */
   validReturnPeriods: [number, number];
   /** Valid duration range [min, max] in minutes */
