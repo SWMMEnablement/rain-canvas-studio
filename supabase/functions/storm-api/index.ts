@@ -925,8 +925,8 @@ function generateHyetograph(
     case 'bolivia_altiplano':
       intensities = cumCurve([[0,0],[0.10,0.05],[0.20,0.14],[0.30,0.28],[0.40,0.48],[0.50,0.66],[0.60,0.80],[0.70,0.89],[0.80,0.95],[0.90,0.98],[1,1]], numSteps, totalDepth, durationHr, timeStepMin); break;
     case 'fourier_multipeak':
-      // Fourier multi-peak: 3 harmonics
-      intensities = fromShape(t => 1 + 0.8 * Math.sin(2 * Math.PI * t) + 0.4 * Math.sin(4 * Math.PI * t) + 0.2 * Math.sin(6 * Math.PI * t), numSteps, totalDepth, timeStepMin); break;
+      // Fourier multi-peak: 3 harmonics (clamped to avoid negatives)
+      intensities = fromShape(t => Math.max(0.01, 1 + 0.8 * Math.sin(2 * Math.PI * t) + 0.4 * Math.sin(4 * Math.PI * t) + 0.2 * Math.sin(6 * Math.PI * t)), numSteps, totalDepth, timeStepMin); break;
     case 'cc_idf_scaled':
       // Climate-change scaled IDF — intensified peak at 40%
       intensities = fromShape(t => gaussian(t, 0.40, 0.08), numSteps, totalDepth, timeStepMin); break;
