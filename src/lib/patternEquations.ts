@@ -4994,6 +4994,107 @@ export const patternEquations: PatternEquation[] = [
     reference: { title: 'Flood Estimation from Chimney Pot to Computer', citation: 'Pilgrim, D.H. & Cordery, I., Civil Eng Trans IEAust', year: 1975 },
     notes: 'Originally Australian, adopted by some Alberta and Saskatchewan jurisdictions with slight Canadian calibration.'
   },
+  {
+    pattern: 'adamowski_pacific',
+    name: 'Adamowski-Alila Pacific Region',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{Pacific}})', description: 'Dimensionless mass curve for Pacific climate zone (BC, Yukon)' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Regional Rainfall Distributions for Canada', citation: 'Adamowski, K. & Alila, Y., Atmospheric Research', year: 1996 },
+    notes: 'Prolonged frontal/orographic rainfall with gentle central peak. Derived from Environment Canada rain gauge networks.'
+  },
+  {
+    pattern: 'adamowski_prairie',
+    name: 'Adamowski-Alila Prairie Region',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{Prairie}})', description: 'Dimensionless mass curve for Prairie climate zone (AB, SK, MB)' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Regional Rainfall Distributions for Canada', citation: 'Adamowski, K. & Alila, Y., Atmospheric Research', year: 1996 },
+    notes: 'Sharp convective peak in early-to-mid storm. Reflects continental thunderstorm climatology.'
+  },
+  {
+    pattern: 'adamowski_greatlakes',
+    name: 'Adamowski-Alila Great Lakes Region',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{GL}})', description: 'Dimensionless mass curve for Great Lakes zone (southern Ontario)' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Regional Rainfall Distributions for Canada', citation: 'Adamowski, K. & Alila, Y., Atmospheric Research', year: 1996 },
+    notes: 'Moderate frontal/convective mix influenced by Great Lakes moisture.'
+  },
+  {
+    pattern: 'adamowski_stlawrence',
+    name: 'Adamowski-Alila St. Lawrence Region',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{StL}})', description: 'Dimensionless mass curve for St. Lawrence zone (Quebec, eastern Ontario)' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Regional Rainfall Distributions for Canada', citation: 'Adamowski, K. & Alila, Y., Atmospheric Research', year: 1996 },
+    notes: 'Moderate intensity with central peak. Mixed continental and maritime influences.'
+  },
+  {
+    pattern: 'adamowski_atlantic',
+    name: 'Adamowski-Alila Atlantic Region',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{Atl}})', description: 'Dimensionless mass curve for Atlantic zone (NB, NS, PEI, NL)' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Regional Rainfall Distributions for Canada', citation: 'Adamowski, K. & Alila, Y., Atmospheric Research', year: 1996 },
+    notes: 'Maritime frontal rainfall with gradual, nearly uniform distribution.'
+  },
+  {
+    pattern: 'adamowski_northern',
+    name: 'Adamowski-Alila Northern Region',
+    category: 'empirical',
+    equations: [
+      { label: 'Cumulative', latex: 'P(t) = \\text{interp}(t/D,\\; \\mathbf{p}_{\\text{North}})', description: 'Dimensionless mass curve for Northern zone (NWT, Nunavut, northern provinces)' },
+    ],
+    variables: [
+      { symbol: 't', meaning: 'Elapsed time (h)' },
+      { symbol: 'D', meaning: 'Storm duration (h)' },
+    ],
+    reference: { title: 'Regional Rainfall Distributions for Canada', citation: 'Adamowski, K. & Alila, Y., Atmospheric Research', year: 1996 },
+    notes: 'Low intensity, very uniform spread. Reflects Arctic and subarctic precipitation patterns.'
+  },
+  {
+    pattern: 'winnipeg_maclaren',
+    name: 'Winnipeg MacLaren Drainage',
+    category: 'intensity',
+    equations: [
+      { label: 'Chicago IDF (before peak)', latex: 'i(t_b) = \\frac{a\\,(c\\,t_b^{\\,b-1})}{(t_b^{\\,b}+c)^2}', description: 'Intensity before peak using advancement coefficient r = 0.40' },
+      { label: 'Chicago IDF (after peak)', latex: 'i(t_a) = \\frac{a\\,(c\\,t_a^{\\,b-1})}{(t_a^{\\,b}+c)^2}', description: 'Intensity after peak' },
+    ],
+    variables: [
+      { symbol: 'r', meaning: 'Storm advancement coefficient = 0.40' },
+      { symbol: 'a,b,c', meaning: 'IDF curve parameters for Winnipeg region' },
+      { symbol: 't_b', meaning: 'Time before peak (min)' },
+      { symbol: 't_a', meaning: 'Time after peak (min)' },
+    ],
+    reference: { title: 'City of Winnipeg Drainage Criteria Manual', citation: 'MacLaren Engineers, City of Winnipeg', year: 1984 },
+    notes: 'Modified Chicago-type distribution with r=0.40, calibrated for Red River basin climate and Winnipeg IDF curves.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {
