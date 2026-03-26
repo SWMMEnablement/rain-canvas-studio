@@ -310,6 +310,13 @@ const patternNames: Record<PatternType, string> = {
   'prairie_short': 'Prairie Short-Duration',
   'bc_moe_coastal': 'BC MOE Coastal',
   'pilgrim_cordery_ca': 'Pilgrim-Cordery (Canada)',
+  'adamowski_pacific': 'Adamowski-Alila Pacific',
+  'adamowski_prairie': 'Adamowski-Alila Prairie',
+  'adamowski_greatlakes': 'Adamowski-Alila Great Lakes',
+  'adamowski_stlawrence': 'Adamowski-Alila St. Lawrence',
+  'adamowski_atlantic': 'Adamowski-Alila Atlantic',
+  'adamowski_northern': 'Adamowski-Alila Northern',
+  'winnipeg_maclaren': 'Winnipeg MacLaren',
 };
 
 interface WizardStep {
