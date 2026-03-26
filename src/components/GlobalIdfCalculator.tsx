@@ -141,6 +141,26 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
     toast.success(`Sent ${depthMm.toFixed(1)} mm / ${durationMin} min storm to generator`);
   }, [onSendToGenerator, totalDepth, stormDuration]);
 
+  // Compute depth for selected cell in IDF/table view (intensity × duration)
+  const selectedCellDepthMm = useMemo(() => {
+    if (selectedRp === null || selectedDur === null) return null;
+    let intensity: number;
+    if (country.calcWithT) {
+      intensity = country.calc(cityData.params, selectedDur, selectedRp);
+    } else {
+      if (!cityData.params[selectedRp]) return null;
+      intensity = country.calc(cityData.params[selectedRp], selectedDur);
+    }
+    if (country.isDepth) return intensity; // already mm
+    return intensity * (selectedDur / 60); // mm/hr → mm
+  }, [selectedRp, selectedDur, activeCountry, currentCity]);
+
+  const handleIdfSendToGenerator = useCallback(() => {
+    if (!onSendToGenerator || selectedCellDepthMm === null || selectedDur === null) return;
+    onSendToGenerator(selectedCellDepthMm, selectedDur / 60);
+    toast.success(`Sent ${selectedCellDepthMm.toFixed(1)} mm / ${selectedDur} min (${selectedRp}-yr) to generator`);
+  }, [onSendToGenerator, selectedCellDepthMm, selectedDur, selectedRp]);
+
   const countryCount = Object.keys(COUNTRIES).length;
   const totalCities = Object.values(COUNTRIES).reduce((s, c) => s + Object.keys(c.cities).length, 0);
 
