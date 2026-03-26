@@ -53,10 +53,12 @@ import {
   PipetteIcon,
   type LucideIcon,
   FolderTree,
+  Snowflake,
 } from "lucide-react";
 import { TaxonomyTree } from "./docs/TaxonomyTree";
 import { ComparisonMatrix } from "./docs/ComparisonMatrix";
 import { EquationFamilyRegistry } from "./docs/EquationFamilyRegistry";
+import { CanadianDesignStormsRef } from "./docs/CanadianDesignStormsRef";
 
 // Calculator categories
 type CalculatorCategory = 'hydrology' | 'hydraulics' | 'water-quality';
@@ -214,7 +216,7 @@ export function Documentation({ idfCity }: DocumentationProps = {}) {
 
       {/* Main Documentation Tabs */}
       <Tabs defaultValue="patterns" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-12 h-auto">
+        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-14 h-auto">
           <TabsTrigger value="patterns" className="flex items-center gap-1">
             <CloudRain className="w-4 h-4" />
             <span className="hidden sm:inline">Patterns</span>
@@ -266,6 +268,10 @@ export function Documentation({ idfCity }: DocumentationProps = {}) {
           <TabsTrigger value="taxonomy" className="flex items-center gap-1">
             <FolderTree className="w-4 h-4" />
             <span className="hidden sm:inline">Taxonomy</span>
+          </TabsTrigger>
+          <TabsTrigger value="canada-ref" className="flex items-center gap-1">
+            <Snowflake className="w-4 h-4" />
+            <span className="hidden sm:inline">Canada</span>
           </TabsTrigger>
         </TabsList>
 
@@ -3060,6 +3066,11 @@ export function Documentation({ idfCity }: DocumentationProps = {}) {
           <TaxonomyTree />
           <ComparisonMatrix />
           <EquationFamilyRegistry />
+        </TabsContent>
+
+        {/* Canadian Design Storms Reference Tab */}
+        <TabsContent value="canada-ref" className="space-y-6">
+          <CanadianDesignStormsRef />
         </TabsContent>
       </Tabs>
 
