@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Globe, Download, BarChart3, TableIcon, CloudRain, BookOpen } from "lucide-react";
+import { Globe, Download, BarChart3, TableIcon, CloudRain, BookOpen, Zap } from "lucide-react";
 import { ResponsiveContainer, LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { COUNTRIES, RP_COLORS, DURATIONS, SHORT_DURATIONS } from "@/lib/globalIdfData";
 import { toast } from "sonner";
@@ -21,6 +21,9 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
   const [viewMode, setViewMode] = useState<"idf" | "table" | "hyetograph">("idf");
   const [stormDuration, setStormDuration] = useState(60);
   const [timeStep, setTimeStep] = useState(5);
+  const [rValue, setRValue] = useState(0.4);
+  const [selectedRp, setSelectedRp] = useState<number | null>(null);
+  const [selectedDur, setSelectedDur] = useState<number | null>(null);
   const [rValue, setRValue] = useState(0.4);
 
   const country = COUNTRIES[activeCountry];
