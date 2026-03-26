@@ -4239,26 +4239,11 @@ export function generateRainfallData(
     }
 
     case 'winnipeg_maclaren': {
-      // City of Winnipeg Drainage Criteria Manual — modified Chicago-type distribution
-      // r = 0.40 advancement coefficient, adapted for Red River basin climate
-      const r = 0.40;
-      const a_b = 25.0, c_b = 0.80, b_b = 0.72;
-      const a_a = 25.0, c_a = 0.80, b_a = 0.72;
-      const peakStep = Math.floor(numSteps * r);
-      for (let i = 0; i < numSteps; i++) {
-        const tMin = i * timeStep;
-        let intensity: number;
-        if (i <= peakStep) {
-          const tb = (peakStep - i) * timeStep;
-          intensity = a_b * (c_b * Math.pow(tb, b_b - 1)) / Math.pow(Math.pow(tb, b_b) + c_b, 2);
-        } else {
-          const ta = (i - peakStep) * timeStep;
-          intensity = a_a * (c_a * Math.pow(ta, b_a - 1)) / Math.pow(Math.pow(ta, b_a) + c_a, 2);
-        }
-        data.push(Math.max(0, intensity));
-      }
-      // Volume normalize below
-      break;
+      // City of Winnipeg Drainage Criteria Manual — modified Chicago-type (r=0.40)
+      // Approximated as dimensionless cumulative curve with peak at 40%
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.09, 0.15, 0.23, 0.34, 0.48, 0.65, 0.76, 0.83, 0.88, 0.91, 0.93, 0.95, 0.96, 0.97, 0.98, 0.99, 0.995, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
     }
   }
 
