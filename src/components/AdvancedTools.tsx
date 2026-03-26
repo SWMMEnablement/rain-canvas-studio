@@ -180,7 +180,19 @@ export function AdvancedTools({ onSendToGenerator, onViewIdf }: AdvancedToolsPro
           <CanadaIdfCalculator onSendToGenerator={onSendToGenerator} />
         </TabsContent>
 
-        <TabsContent value="regional" className="space-y-6">
+        <TabsContent value="global_idf" className="space-y-6">
+          <Card className="bg-accent/30 border-primary/20">
+            <CardContent className="pt-4">
+              <p className="text-sm text-muted-foreground">
+                <strong>Global IDF Calculator</strong> — Look up IDF coefficients from published standards for
+                15 countries including Australia, UK, France, Germany, India, Brazil, Japan, South Korea, Singapore,
+                and more. Generate IDF curves, data tables, and Chicago design storm hyetographs.
+              </p>
+            </CardContent>
+          </Card>
+          <GlobalIdfCalculator onSendToGenerator={onSendToGenerator} />
+        </TabsContent>
+
           <Card className="bg-accent/30 border-primary/20">
             <CardContent className="pt-4">
               <p className="text-sm text-muted-foreground">
