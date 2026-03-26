@@ -127,7 +127,7 @@ export const chinaRainstormDatabase: CityRainstormParams[] = [
   { name: 'Shiyan', nameCN: '十堰', province: 'Hubei', provinceCN: '湖北省', A1: 11.80, C: 0.68, b: 10.0, n: 0.69, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Shiyan 2016' },
 
   // ===== Hunan Province =====
-  { name: 'Changsha', nameCN: '长沙', province: 'Hunan', provinceCN: '湖南省', A1: 14.80, C: 0.62, b: 12.0, n: 0.74, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Changsha 2017' },
+  { name: 'Changsha', nameCN: '长沙', province: 'Hunan', provinceCN: '湖南省', A1: 14.80, C: 0.62, b: 12.0, n: 0.74, r: 0.39, rSampleSize: 46, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Changsha 2017' },
   { name: 'Zhuzhou', nameCN: '株洲', province: 'Hunan', provinceCN: '湖南省', A1: 14.20, C: 0.63, b: 11.5, n: 0.73, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Zhuzhou 2016' },
   { name: 'Xiangtan', nameCN: '湘潭', province: 'Hunan', provinceCN: '湖南省', A1: 14.30, C: 0.63, b: 11.5, n: 0.73, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Xiangtan 2017' },
   { name: 'Hengyang', nameCN: '衡阳', province: 'Hunan', provinceCN: '湖南省', A1: 14.50, C: 0.62, b: 11.8, n: 0.74, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Hengyang 2016' },
@@ -154,7 +154,7 @@ export const chinaRainstormDatabase: CityRainstormParams[] = [
   { name: 'Zhoukou', nameCN: '周口', province: 'Henan', provinceCN: '河南省', A1: 10.80, C: 0.72, b: 9.2, n: 0.67, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Zhoukou 2017' },
 
   // ===== Fujian Province =====
-  { name: 'Fuzhou', nameCN: '福州', province: 'Fujian', provinceCN: '福建省', A1: 16.50, C: 0.58, b: 13.0, n: 0.76, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Fuzhou 2017' },
+  { name: 'Fuzhou', nameCN: '福州', province: 'Fujian', provinceCN: '福建省', A1: 16.50, C: 0.58, b: 13.0, n: 0.76, r: 0.41, rSampleSize: 53, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Fuzhou 2017' },
   { name: 'Xiamen', nameCN: '厦门', province: 'Fujian', provinceCN: '福建省', A1: 16.80, C: 0.57, b: 13.2, n: 0.76, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Xiamen 2016' },
   { name: 'Quanzhou', nameCN: '泉州', province: 'Fujian', provinceCN: '福建省', A1: 16.20, C: 0.58, b: 12.8, n: 0.76, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Quanzhou 2017' },
   { name: 'Putian', nameCN: '莆田', province: 'Fujian', provinceCN: '福建省', A1: 16.00, C: 0.59, b: 12.5, n: 0.75, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Putian 2016' },
@@ -163,7 +163,7 @@ export const chinaRainstormDatabase: CityRainstormParams[] = [
   { name: 'Longyan', nameCN: '龙岩', province: 'Fujian', provinceCN: '福建省', A1: 15.30, C: 0.61, b: 12.0, n: 0.74, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Longyan 2017' },
 
   // ===== Liaoning Province =====
-  { name: 'Shenyang', nameCN: '沈阳', province: 'Liaoning', provinceCN: '辽宁省', A1: 10.50, C: 0.73, b: 9.0, n: 0.66, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Shenyang 2017' },
+  { name: 'Shenyang', nameCN: '沈阳', province: 'Liaoning', provinceCN: '辽宁省', A1: 10.50, C: 0.73, b: 9.0, n: 0.66, r: 0.36, rSampleSize: 38, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Shenyang 2017' },
   { name: 'Dalian', nameCN: '大连', province: 'Liaoning', provinceCN: '辽宁省', A1: 11.00, C: 0.71, b: 9.5, n: 0.68, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Dalian 2016' },
   { name: 'Anshan', nameCN: '鞍山', province: 'Liaoning', provinceCN: '辽宁省', A1: 10.60, C: 0.72, b: 9.2, n: 0.67, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Anshan 2017' },
   { name: 'Fushun', nameCN: '抚顺', province: 'Liaoning', provinceCN: '辽宁省', A1: 10.30, C: 0.74, b: 8.8, n: 0.66, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Fushun 2016' },
@@ -187,14 +187,14 @@ export const chinaRainstormDatabase: CityRainstormParams[] = [
   { name: 'Yichun (JX)', nameCN: '宜春', province: 'Jiangxi', provinceCN: '江西省', A1: 14.30, C: 0.63, b: 11.5, n: 0.73, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Yichun 2016' },
 
   // ===== Guangxi Province =====
-  { name: 'Nanning', nameCN: '南宁', province: 'Guangxi', provinceCN: '广西壮族自治区', A1: 17.50, C: 0.55, b: 14.0, n: 0.78, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Nanning 2017' },
+  { name: 'Nanning', nameCN: '南宁', province: 'Guangxi', provinceCN: '广西壮族自治区', A1: 17.50, C: 0.55, b: 14.0, n: 0.78, r: 0.42, rSampleSize: 58, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Nanning 2017' },
   { name: 'Guilin', nameCN: '桂林', province: 'Guangxi', provinceCN: '广西壮族自治区', A1: 16.80, C: 0.57, b: 13.5, n: 0.77, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Guilin 2016' },
   { name: 'Liuzhou', nameCN: '柳州', province: 'Guangxi', provinceCN: '广西壮族自治区', A1: 16.50, C: 0.58, b: 13.0, n: 0.76, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Liuzhou 2017' },
   { name: 'Beihai', nameCN: '北海', province: 'Guangxi', provinceCN: '广西壮族自治区', A1: 18.50, C: 0.53, b: 15.0, n: 0.79, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Beihai 2016' },
   { name: 'Yulin (GX)', nameCN: '玉林', province: 'Guangxi', provinceCN: '广西壮族自治区', A1: 17.00, C: 0.56, b: 13.5, n: 0.77, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Yulin 2017' },
 
   // ===== Yunnan Province =====
-  { name: 'Kunming', nameCN: '昆明', province: 'Yunnan', provinceCN: '云南省', A1: 11.00, C: 0.70, b: 9.5, n: 0.68, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Kunming 2017' },
+  { name: 'Kunming', nameCN: '昆明', province: 'Yunnan', provinceCN: '云南省', A1: 11.00, C: 0.70, b: 9.5, n: 0.68, r: 0.36, rSampleSize: 34, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Kunming 2017' },
   { name: 'Qujing', nameCN: '曲靖', province: 'Yunnan', provinceCN: '云南省', A1: 10.80, C: 0.71, b: 9.2, n: 0.67, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Qujing 2016' },
   { name: 'Yuxi', nameCN: '玉溪', province: 'Yunnan', provinceCN: '云南省', A1: 10.50, C: 0.72, b: 9.0, n: 0.67, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Yuxi 2017' },
   { name: 'Dali', nameCN: '大理', province: 'Yunnan', provinceCN: '云南省', A1: 10.20, C: 0.73, b: 8.8, n: 0.66, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Dali 2016' },
@@ -215,7 +215,7 @@ export const chinaRainstormDatabase: CityRainstormParams[] = [
   { name: 'Yulin (SN)', nameCN: '榆林', province: 'Shaanxi', provinceCN: '陕西省', A1: 8.50, C: 0.80, b: 7.5, n: 0.62, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Yulin 2016' },
 
   // ===== Heilongjiang Province =====
-  { name: 'Harbin', nameCN: '哈尔滨', province: 'Heilongjiang', provinceCN: '黑龙江省', A1: 9.80, C: 0.75, b: 8.5, n: 0.65, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Harbin 2017' },
+  { name: 'Harbin', nameCN: '哈尔滨', province: 'Heilongjiang', provinceCN: '黑龙江省', A1: 9.80, C: 0.75, b: 8.5, n: 0.65, r: 0.35, rSampleSize: 32, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Harbin 2017' },
   { name: 'Daqing', nameCN: '大庆', province: 'Heilongjiang', provinceCN: '黑龙江省', A1: 9.20, C: 0.78, b: 8.0, n: 0.63, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Daqing 2016' },
   { name: 'Qiqihar', nameCN: '齐齐哈尔', province: 'Heilongjiang', provinceCN: '黑龙江省', A1: 9.00, C: 0.79, b: 7.8, n: 0.63, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Qiqihar 2017' },
   { name: 'Mudanjiang', nameCN: '牡丹江', province: 'Heilongjiang', provinceCN: '黑龙江省', A1: 9.50, C: 0.76, b: 8.2, n: 0.64, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Mudanjiang 2016' },
