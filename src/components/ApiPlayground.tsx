@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { Download } from "lucide-react";
 import { Code2, Play, Copy, CheckCircle, ChevronDown, ChevronRight, Zap, List, BarChart3 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, ComposedChart } from "recharts";
@@ -24,7 +24,7 @@ interface EndpointResult {
 const INITIAL_RESULT: EndpointResult = { loading: false, data: null, error: null, status: null, time: null };
 
 // Common patterns for the dropdown
-const COMMON_PATTERNS = [
+const FALLBACK_PATTERNS = [
   { value: "scs2", label: "SCS Type II" },
   { value: "scs1", label: "SCS Type I" },
   { value: "scs3", label: "SCS Type III" },
@@ -39,6 +39,20 @@ const COMMON_PATTERNS = [
 ];
 
 export function ApiPlayground() {
+  // Dynamic pattern list fetched from API
+  const [allPatterns, setAllPatterns] = useState(FALLBACK_PATTERNS);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/patterns`, { headers: { "Content-Type": "application/json" } })
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data.patterns) && data.patterns.length > 0) {
+          setAllPatterns(data.patterns.map((p: { id: string; name: string }) => ({ value: p.id, label: p.name })));
+        }
+      })
+      .catch(() => { /* keep fallback */ });
+  }, []);
+
   // Generate endpoint state
   const [genPattern, setGenPattern] = useState("scs2");
   const [genDepth, setGenDepth] = useState("4");
@@ -182,8 +196,8 @@ export function ApiPlayground() {
                     <SelectTrigger id="gen-pattern">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
-                      {COMMON_PATTERNS.map(p => (
+                    <SelectContent className="max-h-64">
+                      {allPatterns.map(p => (
                         <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
                       ))}
                     </SelectContent>
