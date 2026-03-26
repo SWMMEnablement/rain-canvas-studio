@@ -215,7 +215,7 @@ export function Documentation({ idfCity }: DocumentationProps = {}) {
 
       {/* Main Documentation Tabs */}
       <Tabs defaultValue="patterns" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-12 h-auto">
+        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-14 h-auto">
           <TabsTrigger value="patterns" className="flex items-center gap-1">
             <CloudRain className="w-4 h-4" />
             <span className="hidden sm:inline">Patterns</span>
