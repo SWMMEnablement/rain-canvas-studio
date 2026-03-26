@@ -391,6 +391,13 @@ const patternMeta: Record<string, { name: string; region: string; description: s
   prairie_short:     { name: "Prairie Short-Duration",      region: "Canada Prairies",  description: "Convective thunderstorm burst" },
   bc_moe_coastal:    { name: "BC MOE Coastal",              region: "Canada BC",        description: "Pacific coast orographic/frontal" },
   pilgrim_cordery_ca:{ name: "Pilgrim-Cordery (Canada)",    region: "Canada",           description: "Australian method Canadian adaptation" },
+  adamowski_pacific: { name: "Adamowski-Alila Pacific",    region: "Canada BC/Yukon",  description: "Frontal/orographic prolonged rainfall" },
+  adamowski_prairie: { name: "Adamowski-Alila Prairie",    region: "Canada Prairies",  description: "Sharp convective peak distribution" },
+  adamowski_greatlakes:{ name: "Adamowski-Alila Great Lakes", region: "Canada Ontario", description: "Frontal/convective mix" },
+  adamowski_stlawrence:{ name: "Adamowski-Alila St. Lawrence", region: "Canada Quebec", description: "Moderate central peak" },
+  adamowski_atlantic:{ name: "Adamowski-Alila Atlantic",   region: "Canada Maritimes", description: "Maritime frontal gradual rainfall" },
+  adamowski_northern:{ name: "Adamowski-Alila Northern",   region: "Canada North",     description: "Low intensity uniform spread" },
+  winnipeg_maclaren: { name: "Winnipeg MacLaren",          region: "Canada Manitoba",  description: "Modified Chicago r=0.40 for Winnipeg" },
 };
 
 // ── Utility helpers ─────────────────────────────────────────────────────
