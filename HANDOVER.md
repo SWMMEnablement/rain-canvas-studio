@@ -206,7 +206,7 @@ public/
 supabase/
 ├── config.toml                  # Supabase project configuration (auto-managed)
 └── functions/
-    ├── storm-api/index.ts       # Public REST API (65+ patterns)
+    ├── storm-api/index.ts       # Public REST API (265 patterns)
     ├── storm-chat/index.ts      # AI chatbot edge function
     └── noaa-idf-proxy/index.ts  # NOAA PFDS CORS proxy
 ```
@@ -258,7 +258,7 @@ Each pattern is a function `(steps: number) => number[]` returning an array of c
 | Endpoint | Method | Purpose |
 |----------|--------|---------|
 | `/` | GET | Health check |
-| `/patterns` | GET | List all 65+ API-available patterns |
+| `/patterns` | GET | List all 265 API-available patterns |
 | `/generate` | POST | Generate hyetograph (pattern, depth, duration, timestep) |
 | `/analyze` | POST | Compute storm statistics from raw timeseries |
 
