@@ -49,14 +49,14 @@ export interface CityRainstormParams {
 
 export const chinaRainstormDatabase: CityRainstormParams[] = [
   // ===== Direct-Controlled Municipalities =====
-  { name: 'Beijing', nameCN: '北京', province: 'Beijing', provinceCN: '北京市', A1: 12.02, C: 0.69, b: 11.0, n: 0.72, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Beijing Municipal 2017' },
-  { name: 'Tianjin', nameCN: '天津', province: 'Tianjin', provinceCN: '天津市', A1: 10.86, C: 0.68, b: 10.5, n: 0.70, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Tianjin Municipal 2016' },
-  { name: 'Shanghai', nameCN: '上海', province: 'Shanghai', provinceCN: '上海市', A1: 15.45, C: 0.62, b: 12.0, n: 0.75, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Shanghai Municipal 2018' },
-  { name: 'Chongqing', nameCN: '重庆', province: 'Chongqing', provinceCN: '重庆市', A1: 12.54, C: 0.65, b: 10.8, n: 0.71, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Chongqing Municipal 2017' },
+  { name: 'Beijing', nameCN: '北京', province: 'Beijing', provinceCN: '北京市', A1: 12.02, C: 0.69, b: 11.0, n: 0.72, r: 0.355, rSampleSize: 57, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Beijing Municipal 2017' },
+  { name: 'Tianjin', nameCN: '天津', province: 'Tianjin', provinceCN: '天津市', A1: 10.86, C: 0.68, b: 10.5, n: 0.70, r: 0.38, rSampleSize: 42, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Tianjin Municipal 2016' },
+  { name: 'Shanghai', nameCN: '上海', province: 'Shanghai', provinceCN: '上海市', A1: 15.45, C: 0.62, b: 12.0, n: 0.75, r: 0.40, rSampleSize: 65, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Shanghai Municipal 2018' },
+  { name: 'Chongqing', nameCN: '重庆', province: 'Chongqing', provinceCN: '重庆市', A1: 12.54, C: 0.65, b: 10.8, n: 0.71, r: 0.38, rSampleSize: 48, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Chongqing Municipal 2017' },
 
   // ===== Guangdong Province =====
-  { name: 'Guangzhou', nameCN: '广州', province: 'Guangdong', provinceCN: '广东省', A1: 18.32, C: 0.56, b: 14.0, n: 0.78, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Guangzhou 2016' },
-  { name: 'Shenzhen', nameCN: '深圳', province: 'Guangdong', provinceCN: '广东省', A1: 17.85, C: 0.58, b: 13.5, n: 0.77, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Shenzhen 2018' },
+  { name: 'Guangzhou', nameCN: '广州', province: 'Guangdong', provinceCN: '广东省', A1: 18.32, C: 0.56, b: 14.0, n: 0.78, r: 0.42, rSampleSize: 72, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Guangzhou 2016' },
+  { name: 'Shenzhen', nameCN: '深圳', province: 'Guangdong', provinceCN: '广东省', A1: 17.85, C: 0.58, b: 13.5, n: 0.77, r: 0.40, rSampleSize: 55, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Shenzhen 2018' },
   { name: 'Dongguan', nameCN: '东莞', province: 'Guangdong', provinceCN: '广东省', A1: 17.10, C: 0.57, b: 13.0, n: 0.76, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Dongguan 2017' },
   { name: 'Foshan', nameCN: '佛山', province: 'Guangdong', provinceCN: '广东省', A1: 17.50, C: 0.55, b: 13.2, n: 0.77, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Foshan 2016' },
   { name: 'Zhuhai', nameCN: '珠海', province: 'Guangdong', provinceCN: '广东省', A1: 18.00, C: 0.54, b: 14.2, n: 0.78, validReturnPeriods: [2, 100], validDuration: [5, 360], reference: 'Zhuhai 2017' },
