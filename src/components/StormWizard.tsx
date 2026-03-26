@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { DubaiDdfLookup } from "@/components/DubaiDdfLookup";
+import { GulfDdfLookup } from "@/components/GulfDdfLookup";
 import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck, FlaskRound, AlertTriangle, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -645,14 +645,14 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
                 onUnitSystemChange={setUnitSystem}
               />
 
-              {/* Dubai DDF Lookup — collapsed by default */}
+              {/* Gulf Region DDF Lookup — collapsed by default */}
               <details className="group">
                 <summary className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer hover:text-foreground transition-colors select-none">
                   <MapPin className="w-4 h-4 text-primary" />
-                  Dubai Municipality DDF Lookup (2024)
+                  Gulf Region DDF Lookup (Dubai · Abu Dhabi · Qatar · Kuwait · Bahrain · Oman)
                 </summary>
                 <div className="mt-3">
-                  <DubaiDdfLookup
+                  <GulfDdfLookup
                     unitSystem={unitSystem}
                     onApply={(depthMm, durationHr) => {
                       const depthVal = unitSystem === 'SI' ? depthMm : convertDepth(depthMm, 'SI', 'USA');
