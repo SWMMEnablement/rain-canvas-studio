@@ -1521,7 +1521,8 @@ export const CONTINENT_MAP: Record<string, Continent> = {
   malaysia: "Asia", hongkong: "Asia", india: "Asia", singapore: "Asia", southkorea: "Asia",
   japan: "Asia", taiwan: "Asia", indonesia: "Asia", thailand: "Asia", vietnam: "Asia",
   philippines: "Asia", bangladesh: "Asia", srilanka: "Asia", myanmar: "Asia", cambodia: "Asia",
-  nepal: "Asia", pakistan: "Asia",
+  nepal: "Asia", pakistan: "Asia", laos: "Asia", mongolia: "Asia", uzbekistan: "Asia",
+  kazakhstan: "Asia", brunei: "Asia", iran: "Asia",
   // Europe
   uk: "Europe", france: "Europe", germany: "Europe", italy: "Europe", netherlands: "Europe",
   belgium: "Europe", poland: "Europe", romania: "Europe", greece: "Europe", spain: "Europe",
