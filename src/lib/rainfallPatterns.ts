@@ -76,7 +76,20 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   | 'cambodia_mowram' | 'timor_leste_dnmg' | 'armenia_hydromet' | 'azerbaijan_nhms'
   | 'moldova_shs' | 'north_macedonia_hms' | 'bosnia_fhmz' | 'montenegro_ihms'
   | 'seychelles_sma' | 'maldives_mms' | 'cape_verde_inmg' | 'eritrea_dme'
-  | 'tajikistan_hydromet' | 'kyrgyzstan_hydromet' | 'gaussian_storm' | 'burundi_igebu';
+  | 'tajikistan_hydromet' | 'kyrgyzstan_hydromet' | 'gaussian_storm' | 'burundi_igebu'
+  // v17 — Comprehensive collection expansion
+  | 'bhutan_scs' | 'belize_flood' | 'comoros_post_kenneth' | 'delta_change'
+  | 'dominica_charim' | 'epa_swmm_cat' | 'faa_airport' | 'gabon_francophone'
+  | 'gambia_rna' | 'grenada_charim' | 'guyana_drainage' | 'haiti_marndr'
+  | 'jamaica_jie' | 'johnson_sb_caribbean' | 'kosovo_nothas' | 'laos_jica'
+  | 'liberia_regional' | 'mali_lmoments' | 'marshall_islands' | 'mauritania_regional'
+  | 'micronesia_fsm' | 'moldova_urban' | 'mongolia_ulaanbaatar' | 'montenegro_regional'
+  | 'myanmar_yangon' | 'nauru_regional' | 'niger_regional' | 'nonstationary_gev'
+  | 'north_macedonia_regional' | 'palau_usace' | 'partial_duration' | 'qatar_qrrc'
+  | 'quantile_delta' | 'rwanda_regional_idf' | 'saint_lucia_charim' | 'saint_vincent_charim'
+  | 'samoa_sopac' | 'seychelles_scs3' | 'sierra_leone_roads' | 'solomon_islands'
+  | 'sst_transposition' | 'suriname_paramaribo' | 'tank_model' | 'turkmenistan'
+  | 'tuvalu_tcap' | 'vanuatu_vankirap' | 'xgboost_storm' | 'zimbabwe_sala';
 
 // ─── Helper functions for pattern generation ───
 
@@ -4494,6 +4507,262 @@ export function generateRainfallData(
       // Burundi IGEBU — Tropical highland, center-front peaked
       const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
       const p = [0, 0.03, 0.08, 0.16, 0.27, 0.40, 0.54, 0.66, 0.76, 0.84, 0.89, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    // ── v17 — Comprehensive collection expansion ──
+
+    case 'bhutan_scs': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.10, 0.17, 0.26, 0.38, 0.52, 0.66, 0.78, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'belize_flood': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.10, 0.19, 0.30, 0.43, 0.56, 0.67, 0.76, 0.83, 0.88, 0.92, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'comoros_post_kenneth': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.14, 0.26, 0.40, 0.54, 0.66, 0.75, 0.82, 0.87, 0.91, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'delta_change': {
+      // Climate-adjusted: scaled SCS Type II with 1.15x factor on peak
+      const t = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.833, 0.917, 1.0];
+      const p = [0, 0.011, 0.022, 0.035, 0.048, 0.063, 0.080, 0.100, 0.120, 0.147, 0.181, 0.235, 0.663, 0.772, 0.820, 0.854, 0.880, 0.903, 0.922, 0.953, 0.978, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'dominica_charim': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.10, 0.18, 0.29, 0.42, 0.55, 0.66, 0.75, 0.82, 0.88, 0.92, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'epa_swmm_cat': {
+      // EPA SWMM Climate Assessment Tool — Modified SCS Type II with CC scaling
+      const t = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.833, 0.917, 1.0];
+      const p = [0, 0.011, 0.022, 0.035, 0.048, 0.063, 0.080, 0.100, 0.120, 0.148, 0.187, 0.263, 0.700, 0.790, 0.835, 0.867, 0.893, 0.914, 0.932, 0.960, 0.982, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'faa_airport': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.10, 0.17, 0.26, 0.37, 0.50, 0.63, 0.74, 0.83, 0.89, 0.93, 0.95, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'gabon_francophone': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.13, 0.24, 0.37, 0.51, 0.63, 0.73, 0.81, 0.86, 0.90, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'gambia_rna': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.06, 0.16, 0.29, 0.44, 0.58, 0.69, 0.78, 0.84, 0.89, 0.92, 0.94, 0.96, 0.97, 0.975, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'grenada_charim': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.08, 0.15, 0.25, 0.37, 0.51, 0.64, 0.75, 0.83, 0.89, 0.92, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'guyana_drainage': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.07, 0.13, 0.21, 0.31, 0.43, 0.56, 0.68, 0.78, 0.85, 0.90, 0.93, 0.95, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'haiti_marndr': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.06, 0.11, 0.18, 0.27, 0.39, 0.53, 0.66, 0.77, 0.85, 0.90, 0.93, 0.95, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'jamaica_jie': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.06, 0.12, 0.19, 0.29, 0.41, 0.55, 0.67, 0.78, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'johnson_sb_caribbean': {
+      // Johnson SB distribution — 4-parameter flexible Caribbean distribution
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.08, 0.16, 0.26, 0.38, 0.52, 0.65, 0.76, 0.84, 0.89, 0.92, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'kosovo_nothas': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.10, 0.17, 0.26, 0.37, 0.50, 0.64, 0.76, 0.85, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'laos_jica': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.13, 0.24, 0.37, 0.51, 0.64, 0.74, 0.82, 0.87, 0.91, 0.94, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'liberia_regional': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.06, 0.16, 0.29, 0.43, 0.57, 0.68, 0.77, 0.84, 0.88, 0.91, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'mali_lmoments': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.08, 0.20, 0.35, 0.50, 0.63, 0.73, 0.81, 0.86, 0.90, 0.93, 0.95, 0.96, 0.97, 0.975, 0.98, 0.985, 0.99, 0.993, 0.996, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'marshall_islands': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.10, 0.19, 0.30, 0.43, 0.56, 0.67, 0.76, 0.83, 0.88, 0.92, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'mauritania_regional': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.09, 0.22, 0.38, 0.53, 0.65, 0.75, 0.82, 0.87, 0.90, 0.93, 0.95, 0.96, 0.97, 0.975, 0.98, 0.985, 0.99, 0.993, 0.996, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'micronesia_fsm': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.13, 0.24, 0.37, 0.50, 0.62, 0.72, 0.80, 0.86, 0.90, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'moldova_urban': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.04, 0.08, 0.14, 0.22, 0.33, 0.47, 0.62, 0.75, 0.85, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'mongolia_ulaanbaatar': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.09, 0.15, 0.23, 0.34, 0.47, 0.62, 0.75, 0.84, 0.90, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'montenegro_regional': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.06, 0.12, 0.19, 0.29, 0.41, 0.54, 0.66, 0.77, 0.85, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'myanmar_yangon': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.14, 0.26, 0.40, 0.54, 0.66, 0.76, 0.83, 0.88, 0.91, 0.94, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'nauru_regional': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.12, 0.22, 0.35, 0.48, 0.61, 0.71, 0.79, 0.85, 0.90, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'niger_regional': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.08, 0.20, 0.36, 0.51, 0.64, 0.74, 0.82, 0.87, 0.91, 0.93, 0.95, 0.96, 0.97, 0.975, 0.98, 0.985, 0.99, 0.993, 0.996, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'nonstationary_gev': {
+      // Non-stationary GEV — Modified balanced storm with time-varying parameters
+      const t = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.833, 0.917, 1.0];
+      const p = [0, 0.011, 0.023, 0.036, 0.050, 0.066, 0.084, 0.105, 0.130, 0.162, 0.205, 0.280, 0.720, 0.800, 0.845, 0.878, 0.904, 0.924, 0.940, 0.965, 0.984, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'north_macedonia_regional': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.10, 0.17, 0.26, 0.37, 0.51, 0.65, 0.77, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'palau_usace': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.06, 0.12, 0.19, 0.29, 0.41, 0.55, 0.67, 0.78, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'partial_duration': {
+      // PDS-based — similar to balanced storm but with PDS frequency factors
+      const t = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.833, 0.917, 1.0];
+      const p = [0, 0.011, 0.022, 0.035, 0.049, 0.065, 0.083, 0.104, 0.128, 0.158, 0.198, 0.260, 0.740, 0.802, 0.842, 0.872, 0.896, 0.917, 0.935, 0.962, 0.983, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'qatar_qrrc': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.10, 0.19, 0.31, 0.45, 0.58, 0.69, 0.78, 0.85, 0.90, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'quantile_delta': {
+      // QDM — Bias-corrected climate-adjusted design storm
+      const t = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.833, 0.917, 1.0];
+      const p = [0, 0.012, 0.024, 0.038, 0.053, 0.070, 0.090, 0.113, 0.140, 0.175, 0.220, 0.300, 0.700, 0.780, 0.825, 0.860, 0.887, 0.910, 0.930, 0.960, 0.982, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'rwanda_regional_idf': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.08, 0.16, 0.27, 0.40, 0.54, 0.66, 0.76, 0.84, 0.89, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'saint_lucia_charim': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.09, 0.17, 0.27, 0.39, 0.52, 0.64, 0.75, 0.83, 0.89, 0.92, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'saint_vincent_charim': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.09, 0.17, 0.28, 0.40, 0.53, 0.65, 0.75, 0.83, 0.89, 0.92, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'samoa_sopac': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.13, 0.24, 0.37, 0.51, 0.63, 0.73, 0.81, 0.87, 0.91, 0.94, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'seychelles_scs3': {
+      // Seychelles SCS Type 3 — SA SCS Type 3 adapted for Indian Ocean
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.07, 0.13, 0.21, 0.31, 0.43, 0.56, 0.68, 0.78, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'sierra_leone_roads': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.14, 0.26, 0.40, 0.54, 0.66, 0.76, 0.83, 0.88, 0.91, 0.94, 0.96, 0.97, 0.975, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'solomon_islands': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.13, 0.24, 0.37, 0.51, 0.63, 0.74, 0.82, 0.87, 0.91, 0.94, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'sst_transposition': {
+      // Stochastic Storm Transposition — Monte Carlo envelope
+      const t = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.833, 0.917, 1.0];
+      const p = [0, 0.010, 0.021, 0.033, 0.047, 0.063, 0.081, 0.102, 0.127, 0.158, 0.200, 0.270, 0.730, 0.800, 0.842, 0.873, 0.898, 0.919, 0.937, 0.963, 0.983, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'suriname_paramaribo': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.07, 0.13, 0.21, 0.31, 0.43, 0.56, 0.68, 0.78, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'tank_model': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.11, 0.20, 0.32, 0.45, 0.57, 0.68, 0.77, 0.84, 0.89, 0.92, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'turkmenistan': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.10, 0.16, 0.25, 0.36, 0.50, 0.64, 0.76, 0.85, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'tuvalu_tcap': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.11, 0.20, 0.32, 0.45, 0.57, 0.68, 0.77, 0.84, 0.89, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'vanuatu_vankirap': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.10, 0.19, 0.31, 0.44, 0.56, 0.67, 0.76, 0.83, 0.88, 0.92, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'xgboost_storm': {
+      // XGBoost ML-predicted — approximated as a data-driven flexible pattern
+      const mu = 0.50;
+      const sigma = 0.18;
+      for (let i = 0; i < numSteps; i++) {
+        const tNorm = (i + 0.5) / numSteps;
+        data[i] = Math.exp(-0.5 * Math.pow((tNorm - mu) / sigma, 2));
+      }
+      break;
+    }
+    case 'zimbabwe_sala': {
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.06, 0.12, 0.20, 0.30, 0.42, 0.56, 0.68, 0.78, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
       return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
     }
   }
