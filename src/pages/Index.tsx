@@ -95,6 +95,15 @@ const PATTERN_BADGES = [
   "West Africa CIEH", "West Africa CILSS", "Winnipeg MacLaren", "Wrocław 2050",
   "Yen & Chow", "Yemen CAMA",
   "Šamaj-Valovič",
+  // v16 — 20 new patterns
+  "Alternating Block", "Armenia Hydromet", "Azerbaijan NHMS",
+  "Bosnia & Herzegovina FHMZ", "Botswana DMS", "Burundi IGEBU",
+  "Cambodia MOWRAM", "Cape Verde INMG",
+  "Eritrea DME", "Gaussian Storm", "Gauteng WRC",
+  "Keifer-Chu (1957)", "Kyrgyzstan Hydromet",
+  "Maldives MMS", "Moldova SHS", "Montenegro IHMS",
+  "North Macedonia HMS", "Seychelles SMA",
+  "Tajikistan Hydromet", "Timor-Leste DNMG",
 ];
 
 const Index = () => {
