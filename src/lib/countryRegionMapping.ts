@@ -128,7 +128,8 @@ export const COUNTRY_TO_REGION: Record<string, string> = {
   NPL: "south_asia",
   BTN: "south_asia",
   MDV: "south_asia",
-  MMR: "south_asia",
+  MMR: "southeast_asia",
+  NPL: "south_asia",
 
   // ── East Asia ──
   CHN: "east_asia",
