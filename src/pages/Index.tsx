@@ -1,4 +1,7 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
+import { COUNTRIES } from "@/lib/globalIdfData";
+import { canadaIdfDatabase } from "@/lib/canadaIdfData";
+import { chinaRainstormDatabase } from "@/lib/chinaRainstormData";
 import { useSearchParams } from "react-router-dom";
 import { StormWizard, decodeStormParams } from "@/components/StormWizard";
 import { patterns } from "@/components/PatternSelector";
@@ -188,7 +191,12 @@ const Index = () => {
           />
 
           <p className="text-sm mt-4 opacity-90 font-medium tracking-wide">
-            {patterns.length} Design Storm Patterns Available
+            {patterns.length} Design Storm Patterns · {
+              Object.values(COUNTRIES).reduce((sum, c) => sum + Object.keys(c.cities).length, 0)
+              + canadaIdfDatabase.length
+              + chinaRainstormDatabase.length
+              + 8 /* Gulf DDF locations */
+            }+ IDF/DDF Locations Available
           </p>
 
           {/* Social Proof / Compatibility */}
