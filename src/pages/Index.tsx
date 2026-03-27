@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { COUNTRIES } from "@/lib/globalIdfData";
 import { canadaIdfDatabase } from "@/lib/canadaIdfData";
-import { chinaStations } from "@/lib/chinaRainstormData";
+import { chinaRainstormDatabase } from "@/lib/chinaRainstormData";
 import { useSearchParams } from "react-router-dom";
 import { StormWizard, decodeStormParams } from "@/components/StormWizard";
 import { patterns } from "@/components/PatternSelector";
