@@ -3150,6 +3150,8 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "St. John's": { params: { K: 2400, a: 0.20, b: 16, c: 0.82 } },
+      "All Saints": { params: { K: 2350, a: 0.19, b: 16, c: 0.81 } },
+      "Codrington (Barbuda)": { params: { K: 2200, a: 0.19, b: 15, c: 0.80 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
