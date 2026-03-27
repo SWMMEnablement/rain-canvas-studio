@@ -196,6 +196,7 @@ const Index = () => {
             const globalCountries = Object.keys(COUNTRIES).length;
             const totalIdfCities = globalCities + canadaIdfDatabase.length + chinaRainstormDatabase.length + 8;
             const idfCountries = globalCountries + 2; // +Canada, +China (Gulf states already in COUNTRIES)
+            const totalIdfDataPoints = totalIdfCities * 6 * 15; // 6 return periods × 15 durations
             return (
               <div className="flex flex-wrap justify-center gap-6 mt-6">
                 <div className="text-center px-4">
