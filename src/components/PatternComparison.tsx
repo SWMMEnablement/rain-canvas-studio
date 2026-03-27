@@ -203,6 +203,27 @@ const comparisonPatterns: ComparisonPattern[] = [
   // v12 patterns
   { id: 'georgian_nea', name: 'Georgia NEA', color: '#2d6a4f', category: 'European' },
   { id: 'albanian_igewe', name: 'Albanian IGEWE', color: '#e63946', category: 'European' },
+  // v16 — 20 new patterns
+  { id: 'keifer_chu', name: 'Keifer-Chu (1957)', color: '#1d4ed8', category: 'Other' },
+  { id: 'alternating_block', name: 'Alternating Block', color: '#7c3aed', category: 'Other' },
+  { id: 'gauteng_wrc', name: 'Gauteng WRC', color: '#059669', category: 'African' },
+  { id: 'botswana_dms', name: 'Botswana DMS', color: '#0891b2', category: 'African' },
+  { id: 'cambodia_mowram', name: 'Cambodia MOWRAM', color: '#d97706', category: 'Asian' },
+  { id: 'timor_leste_dnmg', name: 'Timor-Leste DNMG', color: '#dc2626', category: 'Asian' },
+  { id: 'armenia_hydromet', name: 'Armenia Hydromet', color: '#ea580c', category: 'European' },
+  { id: 'azerbaijan_nhms', name: 'Azerbaijan NHMS', color: '#0284c7', category: 'European' },
+  { id: 'moldova_shs', name: 'Moldova SHS', color: '#4f46e5', category: 'European' },
+  { id: 'north_macedonia_hms', name: 'North Macedonia HMS', color: '#be123c', category: 'European' },
+  { id: 'bosnia_fhmz', name: 'Bosnia & Herzegovina FHMZ', color: '#0d9488', category: 'European' },
+  { id: 'montenegro_ihms', name: 'Montenegro IHMS', color: '#9333ea', category: 'European' },
+  { id: 'seychelles_sma', name: 'Seychelles SMA', color: '#16a34a', category: 'African' },
+  { id: 'maldives_mms', name: 'Maldives MMS', color: '#2563eb', category: 'Asian' },
+  { id: 'cape_verde_inmg', name: 'Cape Verde INMG', color: '#ca8a04', category: 'African' },
+  { id: 'eritrea_dme', name: 'Eritrea DME', color: '#b91c1c', category: 'African' },
+  { id: 'tajikistan_hydromet', name: 'Tajikistan Hydromet', color: '#15803d', category: 'Asian' },
+  { id: 'kyrgyzstan_hydromet', name: 'Kyrgyzstan Hydromet', color: '#c026d3', category: 'Asian' },
+  { id: 'gaussian_storm', name: 'Gaussian Storm', color: '#6366f1', category: 'Research' },
+  { id: 'burundi_igebu', name: 'Burundi IGEBU', color: '#65a30d', category: 'African' },
 ];
 
 interface PresetGroup {
@@ -214,7 +235,7 @@ interface PresetGroup {
 const presetGroups: PresetGroup[] = [
   {
     name: 'All SCS',
-    patterns: ['scs1a', 'scs1', 'scs2', 'scs3', 'balanced', 'yen_chow'],
+    patterns: ['scs1a', 'scs1', 'scs2', 'scs3', 'balanced', 'yen_chow', 'keifer_chu', 'alternating_block'],
     description: 'Compare all NRCS (SCS) and universal patterns',
   },
   {
@@ -229,12 +250,12 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'Asian',
-    patterns: ['singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'india_coastal', 'japan_amedas', 'japan_baiu', 'japan_typhoon', 'korea_kma', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd', 'hong_kong_hko', 'taiwan_cwa', 'bangladesh_bmd', 'pakistan_pmd', 'sri_lanka'],
+    patterns: ['singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'india_coastal', 'japan_amedas', 'japan_baiu', 'japan_typhoon', 'korea_kma', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd', 'hong_kong_hko', 'taiwan_cwa', 'bangladesh_bmd', 'pakistan_pmd', 'sri_lanka', 'cambodia_mowram', 'timor_leste_dnmg', 'maldives_mms', 'tajikistan_hydromet', 'kyrgyzstan_hydromet'],
     description: 'All Asian design storm patterns',
   },
   {
     name: 'SE Asia',
-    patterns: ['singapore_pub', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd'],
+    patterns: ['singapore_pub', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd', 'cambodia_mowram', 'timor_leste_dnmg'],
     description: 'Southeast Asian design storms',
   },
   {
@@ -254,7 +275,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'European',
-    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double', 'sifalda', 'swiss_idf', 'spanish_cedex', 'belgian_irm', 'watts_curve', 'kostra_dwd', 'austria_okostra', 'montana_caquot', 'shyreg_fr', 'feh22_refh2', 'ireland_met', 'france_shypre', 'poland_panda', 'portugal_ipma', 'russia_roshydromet', 'euro_cordex', 'czech_chmu', 'cyprus_wdd', 'malta_mra', 'm5_60_fsr', 'georgian_nea', 'albanian_igewe'],
+    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double', 'sifalda', 'swiss_idf', 'spanish_cedex', 'belgian_irm', 'watts_curve', 'kostra_dwd', 'austria_okostra', 'montana_caquot', 'shyreg_fr', 'feh22_refh2', 'ireland_met', 'france_shypre', 'poland_panda', 'portugal_ipma', 'russia_roshydromet', 'euro_cordex', 'czech_chmu', 'cyprus_wdd', 'malta_mra', 'm5_60_fsr', 'georgian_nea', 'albanian_igewe', 'armenia_hydromet', 'azerbaijan_nhms', 'moldova_shs', 'north_macedonia_hms', 'bosnia_fhmz', 'montenegro_ihms'],
     description: 'European design patterns',
   },
   {
@@ -304,7 +325,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'African',
-    patterns: ['sa_sanral', 'kenya_kmd', 'nigeria_nimet', 'egypt_hcww', 'sa_huff', 'morocco_dmn', 'ethiopia_nma', 'ghana_gmet', 'tanzania_tma', 'mozambique_inam', 'sa_wrc', 'west_africa_cilss'],
+    patterns: ['sa_sanral', 'kenya_kmd', 'nigeria_nimet', 'egypt_hcww', 'sa_huff', 'morocco_dmn', 'ethiopia_nma', 'ghana_gmet', 'tanzania_tma', 'mozambique_inam', 'sa_wrc', 'west_africa_cilss', 'gauteng_wrc', 'botswana_dms', 'seychelles_sma', 'cape_verde_inmg', 'eritrea_dme', 'burundi_igebu'],
     description: 'All African design storm patterns',
   },
   {
@@ -339,7 +360,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'Research',
-    patterns: ['fourier_multipeak', 'cc_idf_scaled'],
+    patterns: ['fourier_multipeak', 'cc_idf_scaled', 'gaussian_storm'],
     description: 'Academic and research-based patterns',
   },
 ];
