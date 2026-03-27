@@ -1658,7 +1658,9 @@ export const CONTINENT_MAP: Record<string, Continent> = {
   // Oceania
   australia: "Oceania", newzealand: "Oceania",
   // Middle East
-  saudiarabia: "Middle East", uae: "Middle East",
+  saudiarabia: "Middle East", uae: "Middle East", iran: "Middle East",
+  iraq: "Middle East", jordan: "Middle East", lebanon: "Middle East",
+  kuwait: "Middle East", oman: "Middle East", qatar: "Middle East", bahrain: "Middle East",
 };
 
 export const CONTINENT_ICONS: Record<Continent, string> = {
