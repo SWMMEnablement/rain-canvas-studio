@@ -76,7 +76,20 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   | 'cambodia_mowram' | 'timor_leste_dnmg' | 'armenia_hydromet' | 'azerbaijan_nhms'
   | 'moldova_shs' | 'north_macedonia_hms' | 'bosnia_fhmz' | 'montenegro_ihms'
   | 'seychelles_sma' | 'maldives_mms' | 'cape_verde_inmg' | 'eritrea_dme'
-  | 'tajikistan_hydromet' | 'kyrgyzstan_hydromet' | 'gaussian_storm' | 'burundi_igebu';
+  | 'tajikistan_hydromet' | 'kyrgyzstan_hydromet' | 'gaussian_storm' | 'burundi_igebu'
+  // v17 — Comprehensive collection expansion
+  | 'bhutan_scs' | 'belize_flood' | 'comoros_post_kenneth' | 'delta_change'
+  | 'dominica_charim' | 'epa_swmm_cat' | 'faa_airport' | 'gabon_francophone'
+  | 'gambia_rna' | 'grenada_charim' | 'guyana_drainage' | 'haiti_marndr'
+  | 'jamaica_jie' | 'johnson_sb_caribbean' | 'kosovo_nothas' | 'laos_jica'
+  | 'liberia_regional' | 'mali_lmoments' | 'marshall_islands' | 'mauritania_regional'
+  | 'micronesia_fsm' | 'moldova_urban' | 'mongolia_ulaanbaatar' | 'montenegro_regional'
+  | 'myanmar_yangon' | 'nauru_regional' | 'niger_regional' | 'nonstationary_gev'
+  | 'north_macedonia_regional' | 'palau_usace' | 'partial_duration' | 'qatar_qrrc'
+  | 'quantile_delta' | 'rwanda_regional_idf' | 'saint_lucia_charim' | 'saint_vincent_charim'
+  | 'samoa_sopac' | 'seychelles_scs3' | 'sierra_leone_roads' | 'solomon_islands'
+  | 'sst_transposition' | 'suriname_paramaribo' | 'tank_model' | 'turkmenistan'
+  | 'tuvalu_tcap' | 'vanuatu_vankirap' | 'xgboost_storm' | 'zimbabwe_sala';
 
 // ─── Helper functions for pattern generation ───
 
