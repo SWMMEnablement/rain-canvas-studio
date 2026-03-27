@@ -327,6 +327,27 @@ const patternNames: Record<PatternType, string> = {
   'congo_mettelsat': 'Congo DRC METTELSAT',
   'laos_dmh': 'Laos DMH',
   'brunei_bdmd': 'Brunei BDMD',
+  // v16
+  'keifer_chu': 'Keifer-Chu (1957)',
+  'alternating_block': 'Alternating Block',
+  'gauteng_wrc': 'Gauteng WRC',
+  'botswana_dms': 'Botswana DMS',
+  'cambodia_mowram': 'Cambodia MOWRAM',
+  'timor_leste_dnmg': 'Timor-Leste DNMG',
+  'armenia_hydromet': 'Armenia Hydromet',
+  'azerbaijan_nhms': 'Azerbaijan NHMS',
+  'moldova_shs': 'Moldova SHS',
+  'north_macedonia_hms': 'North Macedonia HMS',
+  'bosnia_fhmz': 'Bosnia & Herzegovina FHMZ',
+  'montenegro_ihms': 'Montenegro IHMS',
+  'seychelles_sma': 'Seychelles SMA',
+  'maldives_mms': 'Maldives MMS',
+  'cape_verde_inmg': 'Cape Verde INMG',
+  'eritrea_dme': 'Eritrea DME',
+  'tajikistan_hydromet': 'Tajikistan Hydromet',
+  'kyrgyzstan_hydromet': 'Kyrgyzstan Hydromet',
+  'gaussian_storm': 'Gaussian Storm',
+  'burundi_igebu': 'Burundi IGEBU',
 };
 
 interface WizardStep {

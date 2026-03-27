@@ -70,7 +70,13 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   // v15 — IDF-only country storm patterns
   | 'senegal_anacim' | 'rwanda_meteo' | 'zimbabwe_zmd' | 'zambia_zmd'
   | 'mali_dnm' | 'burkina_anam' | 'angola_inamet' | 'congo_mettelsat'
-  | 'laos_dmh' | 'brunei_bdmd';
+  | 'laos_dmh' | 'brunei_bdmd'
+  // v16 — 20 new global patterns
+  | 'keifer_chu' | 'alternating_block' | 'gauteng_wrc' | 'botswana_dms'
+  | 'cambodia_mowram' | 'timor_leste_dnmg' | 'armenia_hydromet' | 'azerbaijan_nhms'
+  | 'moldova_shs' | 'north_macedonia_hms' | 'bosnia_fhmz' | 'montenegro_ihms'
+  | 'seychelles_sma' | 'maldives_mms' | 'cape_verde_inmg' | 'eritrea_dme'
+  | 'tajikistan_hydromet' | 'kyrgyzstan_hydromet' | 'gaussian_storm' | 'burundi_igebu';
 
 // ─── Helper functions for pattern generation ───
 
@@ -4309,6 +4315,185 @@ export function generateRainfallData(
       // Brunei BDMD — Equatorial maritime, front-loaded tropical burst
       const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
       const p = [0, 0.05, 0.14, 0.26, 0.40, 0.54, 0.66, 0.75, 0.82, 0.87, 0.91, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    // ── v16 — 20 new global design storms ──
+
+    case 'keifer_chu': {
+      // Keifer & Chu (1957) — Original instantaneous intensity method
+      // Uses IDF-derived equations: i_b(t) = a(c+t_b)^{-(1+e)} [before peak], i_a(t) = a(c+t_a)^{-(1+e)} [after]
+      // r = 0.375 (ratio of time-to-peak to duration), a=40, c=8, e=0.75
+      const r = 0.375;
+      const a = 40, c = 8, e2 = 0.75;
+      const peakIdx = Math.floor(r * numSteps);
+      for (let i = 0; i < numSteps; i++) {
+        const tMin = i * timeStep;
+        if (i <= peakIdx) {
+          const tb = (peakIdx - i) * timeStep;
+          data[i] = a / Math.pow(c + tb, 1 + e2);
+        } else {
+          const ta = (i - peakIdx) * timeStep;
+          data[i] = a / Math.pow(c + ta, 1 + e2);
+        }
+      }
+      break;
+    }
+
+    case 'alternating_block': {
+      // Alternating Block Method (NRCS/HEC) — IDF-derived, blocks arranged symmetrically
+      // Uses generic IDF: i = 100/(t+10)^0.7 to derive incremental depths
+      const increments: { depth: number; dur: number }[] = [];
+      for (let j = 1; j <= numSteps; j++) {
+        const dur = j * timeStep;
+        const i_avg = 100 / Math.pow(dur + 10, 0.7);
+        const cumDepth = i_avg * (dur / 60);
+        const prevDur = (j - 1) * timeStep;
+        const prevI = j > 1 ? 100 / Math.pow(prevDur + 10, 0.7) : 0;
+        const prevCum = j > 1 ? prevI * (prevDur / 60) : 0;
+        increments.push({ depth: cumDepth - prevCum, dur });
+      }
+      increments.sort((x, y) => y.depth - x.depth);
+      const mid = Math.floor(numSteps / 2);
+      const arranged = new Array(numSteps).fill(0);
+      for (let j = 0; j < increments.length; j++) {
+        const offset = Math.floor((j + 1) / 2) * (j % 2 === 0 ? 1 : -1);
+        const idx = mid + offset;
+        if (idx >= 0 && idx < numSteps) arranged[idx] = increments[j].depth;
+      }
+      const tsHr = timeStep / 60;
+      for (let i = 0; i < numSteps; i++) data[i] = arranged[i] / tsHr;
+      break;
+    }
+
+    case 'gauteng_wrc': {
+      // Gauteng WRC (2022) — South Africa Water Research Commission Gauteng pilot
+      // Convective-dominated, center-peaked short-duration storms
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.09, 0.14, 0.22, 0.33, 0.47, 0.62, 0.76, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'botswana_dms': {
+      // Botswana DMS — Semi-arid convective, front-to-center peaked
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.08, 0.16, 0.27, 0.40, 0.54, 0.66, 0.76, 0.83, 0.88, 0.92, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'cambodia_mowram': {
+      // Cambodia MOWRAM — Tropical monsoon, early-peaked convective
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.13, 0.24, 0.37, 0.51, 0.63, 0.73, 0.81, 0.87, 0.91, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'timor_leste_dnmg': {
+      // Timor-Leste DNMG — Tropical maritime, intense short bursts
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.06, 0.15, 0.28, 0.42, 0.56, 0.67, 0.76, 0.83, 0.88, 0.91, 0.94, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'armenia_hydromet': {
+      // Armenia Hydromet — Continental highland, center-peaked convective
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.09, 0.15, 0.23, 0.34, 0.48, 0.63, 0.76, 0.85, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'azerbaijan_nhms': {
+      // Azerbaijan NHMS — Semi-arid Caspian, front-center peaked
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.07, 0.13, 0.21, 0.32, 0.45, 0.58, 0.70, 0.80, 0.87, 0.92, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'moldova_shs': {
+      // Moldova SHS — Continental Eastern Europe, center-peaked
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.10, 0.16, 0.24, 0.35, 0.49, 0.64, 0.77, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'north_macedonia_hms': {
+      // North Macedonia HMS — Continental-Mediterranean transition
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.06, 0.11, 0.18, 0.27, 0.38, 0.52, 0.66, 0.78, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'bosnia_fhmz': {
+      // Bosnia & Herzegovina FHMZ — Mediterranean-continental mix
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.10, 0.17, 0.26, 0.37, 0.51, 0.65, 0.77, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'montenegro_ihms': {
+      // Montenegro IHMS — Adriatic coast, heavy orographic precipitation
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.07, 0.13, 0.20, 0.30, 0.42, 0.55, 0.67, 0.78, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'seychelles_sma': {
+      // Seychelles SMA — Tropical maritime, intense early peak
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.06, 0.15, 0.27, 0.41, 0.55, 0.67, 0.76, 0.83, 0.88, 0.91, 0.94, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'maldives_mms': {
+      // Maldives MMS — Low-lying atoll, tropical convective
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.13, 0.24, 0.38, 0.52, 0.64, 0.74, 0.82, 0.87, 0.91, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'cape_verde_inmg': {
+      // Cape Verde INMG — Sahelian-maritime, front-loaded tropical
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.11, 0.21, 0.34, 0.48, 0.61, 0.72, 0.80, 0.86, 0.90, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'eritrea_dme': {
+      // Eritrea DME — Semi-arid East Africa, intense short bursts
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.10, 0.19, 0.31, 0.45, 0.58, 0.69, 0.78, 0.85, 0.90, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'tajikistan_hydromet': {
+      // Tajikistan Hydromet — High-altitude continental, center-peaked
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.10, 0.16, 0.25, 0.36, 0.50, 0.64, 0.77, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'kyrgyzstan_hydromet': {
+      // Kyrgyzstan Hydromet — Mountain continental, late-center peaked
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.04, 0.08, 0.13, 0.20, 0.30, 0.43, 0.58, 0.72, 0.83, 0.90, 0.94, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    case 'gaussian_storm': {
+      // Gaussian (bell-curve) storm — Symmetric normal distribution
+      const mu = 0.5;
+      const sigma = 0.15;
+      for (let i = 0; i < numSteps; i++) {
+        const tNorm = (i + 0.5) / numSteps;
+        data[i] = Math.exp(-0.5 * Math.pow((tNorm - mu) / sigma, 2));
+      }
+      break;
+    }
+
+    case 'burundi_igebu': {
+      // Burundi IGEBU — Tropical highland, center-front peaked
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.08, 0.16, 0.27, 0.40, 0.54, 0.66, 0.76, 0.84, 0.89, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.994, 0.997, 1.0];
       return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
     }
   }
