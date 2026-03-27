@@ -204,8 +204,8 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'georgian_nea', name: 'Georgia NEA', color: '#2d6a4f', category: 'European' },
   { id: 'albanian_igewe', name: 'Albanian IGEWE', color: '#e63946', category: 'European' },
   // v16 — 20 new patterns
-  { id: 'keifer_chu', name: 'Keifer-Chu (1957)', color: '#1d4ed8', category: 'SWMM' },
-  { id: 'alternating_block', name: 'Alternating Block', color: '#7c3aed', category: 'SWMM' },
+  { id: 'keifer_chu', name: 'Keifer-Chu (1957)', color: '#1d4ed8', category: 'Other' },
+  { id: 'alternating_block', name: 'Alternating Block', color: '#7c3aed', category: 'Other' },
   { id: 'gauteng_wrc', name: 'Gauteng WRC', color: '#059669', category: 'African' },
   { id: 'botswana_dms', name: 'Botswana DMS', color: '#0891b2', category: 'African' },
   { id: 'cambodia_mowram', name: 'Cambodia MOWRAM', color: '#d97706', category: 'Asian' },
