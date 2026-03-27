@@ -5,9 +5,9 @@ import { generateRainfallData, type PatternType } from '@/lib/rainfallPatterns';
 describe('Batch SWMM5 Export Verification', () => {
   const computationalPatterns = patterns.filter(p => p.id !== 'custom');
 
-  it('should have exactly 265 computational patterns', () => {
+  it('should have exactly 280 computational patterns', () => {
     console.log(`Total patterns: ${patterns.length}, Computational: ${computationalPatterns.length}`);
-    expect(computationalPatterns.length).toBe(265);
+    expect(computationalPatterns.length).toBe(280);
   });
 
   it('all 265 patterns generate valid rainfall data for export', () => {
@@ -24,6 +24,6 @@ describe('Batch SWMM5 Export Verification', () => {
 
     console.log(`Export test: ${success} success, ${fail} failed out of ${computationalPatterns.length}`);
     expect(fail).toBe(0);
-    expect(success).toBe(265);
+    expect(success).toBe(280);
   });
 });
