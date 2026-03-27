@@ -2094,6 +2094,7 @@ export const CONTINENT_MAP: Record<string, Continent> = {
   venezuela: "Americas", panama: "Americas", costarica: "Americas", guatemala: "Americas",
   jamaica: "Americas", trinidadtobago: "Americas", barbados: "Americas",
   dominicanrepublic: "Americas", cuba: "Americas", haiti: "Americas", puertorico: "Americas",
+  honduras: "Americas", elsalvador: "Americas", nicaragua: "Americas", belize: "Americas",
   // Oceania
   australia: "Oceania", newzealand: "Oceania",
   fiji: "Oceania", papuanewguinea: "Oceania", samoa: "Oceania",
