@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Globe, Download, BarChart3, TableIcon, CloudRain, BookOpen } from "lucide-react";
+import { Globe, Download, BarChart3, TableIcon, CloudRain, BookOpen, Zap } from "lucide-react";
 import { ResponsiveContainer, LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { COUNTRIES, RP_COLORS, DURATIONS, SHORT_DURATIONS } from "@/lib/globalIdfData";
 import { toast } from "sonner";
@@ -22,6 +22,8 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
   const [stormDuration, setStormDuration] = useState(60);
   const [timeStep, setTimeStep] = useState(5);
   const [rValue, setRValue] = useState(0.4);
+  const [selectedRp, setSelectedRp] = useState<number | null>(null);
+  const [selectedDur, setSelectedDur] = useState<number | null>(null);
 
   const country = COUNTRIES[activeCountry];
   const cityNames = Object.keys(country.cities);
@@ -138,6 +140,26 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
     onSendToGenerator(depthMm, durationMin / 60);
     toast.success(`Sent ${depthMm.toFixed(1)} mm / ${durationMin} min storm to generator`);
   }, [onSendToGenerator, totalDepth, stormDuration]);
+
+  // Compute depth for selected cell in IDF/table view (intensity × duration)
+  const selectedCellDepthMm = useMemo(() => {
+    if (selectedRp === null || selectedDur === null) return null;
+    let intensity: number;
+    if (country.calcWithT) {
+      intensity = country.calc(cityData.params, selectedDur, selectedRp);
+    } else {
+      if (!cityData.params[selectedRp]) return null;
+      intensity = country.calc(cityData.params[selectedRp], selectedDur);
+    }
+    if (country.isDepth) return intensity; // already mm
+    return intensity * (selectedDur / 60); // mm/hr → mm
+  }, [selectedRp, selectedDur, activeCountry, currentCity]);
+
+  const handleIdfSendToGenerator = useCallback(() => {
+    if (!onSendToGenerator || selectedCellDepthMm === null || selectedDur === null) return;
+    onSendToGenerator(selectedCellDepthMm, selectedDur / 60);
+    toast.success(`Sent ${selectedCellDepthMm.toFixed(1)} mm / ${selectedDur} min (${selectedRp}-yr) to generator`);
+  }, [onSendToGenerator, selectedCellDepthMm, selectedDur, selectedRp]);
 
   const countryCount = Object.keys(COUNTRIES).length;
   const totalCities = Object.values(COUNTRIES).reduce((s, c) => s + Object.keys(c.cities).length, 0);
@@ -343,6 +365,43 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
                 ))}
               </LineChart>
             </ResponsiveContainer>
+            {/* Send to Generator picker */}
+            {onSendToGenerator && (
+              <div className="mt-4 p-3 rounded-lg bg-accent/30 border border-border space-y-2">
+                <div className="flex flex-wrap items-end gap-3">
+                  <div>
+                    <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium block mb-1">Return Period</label>
+                    <div className="flex flex-wrap gap-1">
+                      {returnPeriods.map(rp => (
+                        <Button key={rp} variant={selectedRp === rp ? "default" : "outline"} size="sm" className="text-xs h-6 px-2"
+                          onClick={() => setSelectedRp(rp)}>{rp}-yr</Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium block mb-1">Duration</label>
+                    <div className="flex flex-wrap gap-1">
+                      {[5, 10, 15, 30, 60, 120, 360, 720, 1440].map(d => (
+                        <Button key={d} variant={selectedDur === d ? "default" : "outline"} size="sm" className="text-xs h-6 px-2"
+                          onClick={() => setSelectedDur(d)}>{d < 60 ? `${d}m` : `${d/60}h`}</Button>
+                      ))}
+                    </div>
+                  </div>
+                  {selectedCellDepthMm !== null && (
+                    <div className="flex items-center gap-2 ml-auto">
+                      <div className="text-right">
+                        <div className="text-[10px] text-muted-foreground">{selectedRp}-yr, {selectedDur! < 60 ? `${selectedDur} min` : `${selectedDur!/60} hr`}</div>
+                        <div className="text-sm font-bold text-primary">{selectedCellDepthMm.toFixed(1)} mm</div>
+                      </div>
+                      <Button size="sm" className="h-8 text-xs gap-1" onClick={handleIdfSendToGenerator}>
+                        <Zap className="w-3.5 h-3.5" />
+                        Send to Generator
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
@@ -369,15 +428,35 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
                 {idfData.map((row, i) => (
                   <TableRow key={i}>
                     <TableCell className="text-xs font-medium tabular-nums">{row.duration}</TableCell>
-                    {returnPeriods.map(rp => (
-                      <TableCell key={rp} className="text-xs text-center tabular-nums">
-                        {row[`rp${rp}`] !== undefined ? row[`rp${rp}`].toFixed(1) : "—"}
-                      </TableCell>
-                    ))}
+                    {returnPeriods.map(rp => {
+                      const isSelected = selectedRp === rp && selectedDur === row.duration;
+                      return (
+                        <TableCell
+                          key={rp}
+                          className={`text-xs text-center tabular-nums cursor-pointer transition-colors hover:bg-primary/10 ${isSelected ? "bg-primary/20 font-bold text-primary ring-1 ring-primary/40" : ""}`}
+                          onClick={() => { setSelectedRp(rp); setSelectedDur(row.duration); }}
+                        >
+                          {row[`rp${rp}`] !== undefined ? row[`rp${rp}`].toFixed(1) : "—"}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
+            {/* Send to Generator from table */}
+            {onSendToGenerator && selectedCellDepthMm !== null && selectedDur !== null && selectedRp !== null && (
+              <div className="mt-3 p-2.5 rounded-lg bg-primary/5 border border-primary/20 flex items-center justify-between">
+                <div>
+                  <span className="text-xs text-muted-foreground">{selectedRp}-yr, {selectedDur < 60 ? `${selectedDur} min` : `${selectedDur/60} hr`} → </span>
+                  <span className="text-sm font-bold text-primary">{selectedCellDepthMm.toFixed(1)} mm</span>
+                </div>
+                <Button size="sm" className="h-7 text-xs gap-1" onClick={handleIdfSendToGenerator}>
+                  <Zap className="w-3.5 h-3.5" />
+                  Send to Generator
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
