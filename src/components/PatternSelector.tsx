@@ -1536,6 +1536,27 @@ export const patterns: PatternOption[] = [
   // v12 addition
   { id: 'georgian_nea', name: 'Georgia NEA', icon: '🇬🇪', description: 'National Environment Agency (Caucasus). Tbilisi convective + Batumi subtropical Black Sea coast. Front-loaded Mediterranean-influenced storms.', category: 'european' },
   { id: 'albanian_igewe', name: 'Albanian IGEWE', icon: '🇦🇱', description: 'Institute of GeoSciences, Energy, Water and Environment. Tirana + Adriatic coast. Mediterranean front-loaded with orographic influence.', category: 'european' },
+  // v16 — 20 new global patterns
+  { id: 'keifer_chu', name: 'Keifer-Chu (1957)', icon: '📐', description: 'Original instantaneous intensity method by Keifer & Chu. Precursor to Chicago Storm. IDF-derived with r=0.375 peak ratio.', category: 'swmm' },
+  { id: 'alternating_block', name: 'Alternating Block', icon: '🔲', description: 'NRCS/HEC Alternating Block Method. IDF-derived blocks arranged symmetrically around peak. Most widely used design storm method globally.', category: 'swmm' },
+  { id: 'gauteng_wrc', name: 'Gauteng WRC', icon: '🇿🇦', description: 'Water Research Commission Gauteng pilot study (2022). Convective-dominated center-peaked short-duration storms for South African urban design.', category: 'african' },
+  { id: 'botswana_dms', name: 'Botswana DMS', icon: '🇧🇼', description: 'Department of Meteorological Services. Semi-arid convective storms, front-to-center peaked. Gaborone, Francistown, Maun regions.', category: 'african' },
+  { id: 'cambodia_mowram', name: 'Cambodia MOWRAM', icon: '🇰🇭', description: 'Ministry of Water Resources. Tropical monsoon early-peaked convective storms. Phnom Penh, Siem Reap, Battambang.', category: 'asian' },
+  { id: 'timor_leste_dnmg', name: 'Timor-Leste DNMG', icon: '🇹🇱', description: 'National Directorate of Meteorology. Tropical maritime intense short bursts. Dili, Baucau coastal regions.', category: 'asian' },
+  { id: 'armenia_hydromet', name: 'Armenia Hydromet', icon: '🇦🇲', description: 'Armenian Hydrometeorological Service. Continental highland center-peaked convective. Yerevan, Gyumri, Vanadzor.', category: 'european' },
+  { id: 'azerbaijan_nhms', name: 'Azerbaijan NHMS', icon: '🇦🇿', description: 'National Hydrometeorological Service. Semi-arid Caspian front-center peaked. Baku, Ganja, Sumgait.', category: 'european' },
+  { id: 'moldova_shs', name: 'Moldova SHS', icon: '🇲🇩', description: 'State Hydrometeorological Service. Continental Eastern Europe center-peaked. Chișinău, Bălți, Tiraspol.', category: 'european' },
+  { id: 'north_macedonia_hms', name: 'North Macedonia HMS', icon: '🇲🇰', description: 'Hydrometeorological Service. Continental-Mediterranean transition. Skopje, Bitola, Ohrid.', category: 'european' },
+  { id: 'bosnia_fhmz', name: 'Bosnia & Herzegovina FHMZ', icon: '🇧🇦', description: 'Federal Hydrometeorological Institute. Mediterranean-continental mix. Sarajevo, Mostar, Banja Luka.', category: 'european' },
+  { id: 'montenegro_ihms', name: 'Montenegro IHMS', icon: '🇲🇪', description: 'Institute of Hydrometeorology. Adriatic coast heavy orographic precipitation. Podgorica, Cetinje, Bar.', category: 'european' },
+  { id: 'seychelles_sma', name: 'Seychelles SMA', icon: '🇸🇨', description: 'Seychelles Meteorological Authority. Tropical maritime intense early peak. Victoria, Mahé, Praslin.', category: 'african' },
+  { id: 'maldives_mms', name: 'Maldives MMS', icon: '🇲🇻', description: 'Maldives Meteorological Service. Low-lying atoll tropical convective. Malé, Addu, Thinadhoo.', category: 'asian' },
+  { id: 'cape_verde_inmg', name: 'Cape Verde INMG', icon: '🇨🇻', description: 'National Institute of Meteorology. Sahelian-maritime front-loaded tropical. Praia, Mindelo, Sal.', category: 'african' },
+  { id: 'eritrea_dme', name: 'Eritrea DME', icon: '🇪🇷', description: 'Department of Meteorology. Semi-arid East Africa intense short bursts. Asmara, Massawa, Keren.', category: 'african' },
+  { id: 'tajikistan_hydromet', name: 'Tajikistan Hydromet', icon: '🇹🇯', description: 'Agency for Hydrometeorology. High-altitude continental center-peaked. Dushanbe, Khujand, Kulob.', category: 'asian' },
+  { id: 'kyrgyzstan_hydromet', name: 'Kyrgyzstan Hydromet', icon: '🇰🇬', description: 'Agency for Hydrometeorology. Mountain continental late-center peaked. Bishkek, Osh, Jalal-Abad.', category: 'asian' },
+  { id: 'gaussian_storm', name: 'Gaussian Storm', icon: '🔔', description: 'Symmetric bell-curve (normal distribution) temporal pattern. Useful for theoretical analysis and symmetric storm modeling.', category: 'international' },
+  { id: 'burundi_igebu', name: 'Burundi IGEBU', icon: '🇧🇮', description: 'Geographic Institute of Burundi. Tropical highland center-front peaked. Bujumbura, Gitega, Ngozi.', category: 'african' },
 ];
 
 interface PatternSelectorProps {
