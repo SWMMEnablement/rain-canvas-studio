@@ -365,6 +365,43 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
                 ))}
               </LineChart>
             </ResponsiveContainer>
+            {/* Send to Generator picker */}
+            {onSendToGenerator && (
+              <div className="mt-4 p-3 rounded-lg bg-accent/30 border border-border space-y-2">
+                <div className="flex flex-wrap items-end gap-3">
+                  <div>
+                    <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium block mb-1">Return Period</label>
+                    <div className="flex flex-wrap gap-1">
+                      {returnPeriods.map(rp => (
+                        <Button key={rp} variant={selectedRp === rp ? "default" : "outline"} size="sm" className="text-xs h-6 px-2"
+                          onClick={() => setSelectedRp(rp)}>{rp}-yr</Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium block mb-1">Duration</label>
+                    <div className="flex flex-wrap gap-1">
+                      {[5, 10, 15, 30, 60, 120, 360, 720, 1440].map(d => (
+                        <Button key={d} variant={selectedDur === d ? "default" : "outline"} size="sm" className="text-xs h-6 px-2"
+                          onClick={() => setSelectedDur(d)}>{d < 60 ? `${d}m` : `${d/60}h`}</Button>
+                      ))}
+                    </div>
+                  </div>
+                  {selectedCellDepthMm !== null && (
+                    <div className="flex items-center gap-2 ml-auto">
+                      <div className="text-right">
+                        <div className="text-[10px] text-muted-foreground">{selectedRp}-yr, {selectedDur! < 60 ? `${selectedDur} min` : `${selectedDur!/60} hr`}</div>
+                        <div className="text-sm font-bold text-primary">{selectedCellDepthMm.toFixed(1)} mm</div>
+                      </div>
+                      <Button size="sm" className="h-8 text-xs gap-1" onClick={handleIdfSendToGenerator}>
+                        <Zap className="w-3.5 h-3.5" />
+                        Send to Generator
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
