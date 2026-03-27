@@ -194,7 +194,7 @@ const Index = () => {
           {(() => {
             const globalCities = Object.values(COUNTRIES).reduce((sum, c) => sum + Object.keys(c.cities).length, 0);
             const globalCountries = Object.keys(COUNTRIES).length;
-            const totalLocations = globalCities + canadaIdfDatabase.length + chinaRainstormDatabase.length + 8;
+            const totalIdfCities = globalCities + canadaIdfDatabase.length + chinaRainstormDatabase.length + 8;
             const idfCountries = globalCountries + 2; // +Canada, +China (Gulf states already in COUNTRIES)
             return (
               <div className="flex flex-wrap justify-center gap-6 mt-6">
@@ -204,13 +204,13 @@ const Index = () => {
                 </div>
                 <div className="w-px bg-primary-foreground/20 hidden sm:block" />
                 <div className="text-center px-4">
-                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">{totalLocations}+</p>
-                  <p className="text-xs opacity-80 uppercase tracking-wider">Cities</p>
+                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">{idfCountries}+</p>
+                  <p className="text-xs opacity-80 uppercase tracking-wider">IDF Countries</p>
                 </div>
                 <div className="w-px bg-primary-foreground/20 hidden sm:block" />
                 <div className="text-center px-4">
-                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">{idfCountries}+</p>
-                  <p className="text-xs opacity-80 uppercase tracking-wider">IDF Countries</p>
+                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">{totalIdfCities}+</p>
+                  <p className="text-xs opacity-80 uppercase tracking-wider">IDF Cities</p>
                 </div>
                 <div className="w-px bg-primary-foreground/20 hidden sm:block" />
                 <div className="text-center px-4">
