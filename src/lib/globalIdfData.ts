@@ -2678,6 +2678,8 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "Moroni": { params: { K: 2800, a: 0.21, b: 18, c: 0.86 } },
+      "Mutsamudu (Anjouan)": { params: { K: 2650, a: 0.20, b: 17, c: 0.84 } },
+      "Fomboni (Mohéli)": { params: { K: 2700, a: 0.20, b: 17, c: 0.85 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
@@ -3242,6 +3244,8 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "Tarawa": { params: { K: 2400, a: 0.20, b: 16, c: 0.82 } },
+      "Christmas Island (Kiritimati)": { params: { K: 2100, a: 0.19, b: 14, c: 0.78 } },
+      "Betio": { params: { K: 2350, a: 0.20, b: 16, c: 0.81 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
@@ -3255,7 +3259,9 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "Palikir": { params: { K: 3600, a: 0.21, b: 22, c: 0.90 } },
-      "Weno": { params: { K: 3200, a: 0.20, b: 20, c: 0.88 } },
+      "Weno (Chuuk)": { params: { K: 3200, a: 0.20, b: 20, c: 0.88 } },
+      "Kolonia (Pohnpei)": { params: { K: 3800, a: 0.22, b: 23, c: 0.91 } },
+      "Yap": { params: { K: 3000, a: 0.20, b: 19, c: 0.87 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
@@ -3269,6 +3275,8 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "Koror": { params: { K: 3400, a: 0.21, b: 21, c: 0.89 } },
+      "Melekeok": { params: { K: 3300, a: 0.21, b: 20, c: 0.88 } },
+      "Airai": { params: { K: 3350, a: 0.21, b: 21, c: 0.89 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
@@ -3282,6 +3290,8 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "Funafuti": { params: { K: 2800, a: 0.20, b: 18, c: 0.85 } },
+      "Nanumea": { params: { K: 2600, a: 0.19, b: 17, c: 0.83 } },
+      "Vaitupu": { params: { K: 2700, a: 0.20, b: 17, c: 0.84 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
@@ -3295,6 +3305,8 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "Nouméa": { params: { K: 1800, a: 0.19, b: 14, c: 0.76 } },
+      "Koné": { params: { K: 1900, a: 0.19, b: 15, c: 0.78 } },
+      "Lifou": { params: { K: 1750, a: 0.18, b: 13, c: 0.75 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
@@ -3308,6 +3320,7 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "Yaren": { params: { K: 2200, a: 0.20, b: 16, c: 0.82 } },
+      "Aiwo": { params: { K: 2150, a: 0.19, b: 15, c: 0.81 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
