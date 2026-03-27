@@ -920,6 +920,11 @@ export function PatternComparison({ depth: totalDepth, duration, timeStep, unitS
     return acc;
   }, {} as Record<string, ComparisonPattern[]>);
 
+  // Sort patterns alphabetically within each category
+  Object.values(groupedPatterns).forEach(patterns => {
+    patterns.sort((a, b) => a.name.localeCompare(b.name));
+  });
+
   return (
     <Card className="shadow-card hover:shadow-hover transition-all duration-300">
       <CardHeader>
