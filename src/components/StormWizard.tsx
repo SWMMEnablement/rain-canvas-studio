@@ -317,6 +317,16 @@ const patternNames: Record<PatternType, string> = {
   'adamowski_atlantic': 'Adamowski-Alila Atlantic',
   'adamowski_northern': 'Adamowski-Alila Northern',
   'winnipeg_maclaren': 'Winnipeg MacLaren',
+  'senegal_anacim': 'Senegal ANACIM',
+  'rwanda_meteo': 'Rwanda Météo',
+  'zimbabwe_zmd': 'Zimbabwe ZMD',
+  'zambia_zmd': 'Zambia ZMD',
+  'mali_dnm': 'Mali DNM',
+  'burkina_anam': 'Burkina Faso ANAM',
+  'angola_inamet': 'Angola INAMET',
+  'congo_mettelsat': 'Congo DRC METTELSAT',
+  'laos_dmh': 'Laos DMH',
+  'brunei_bdmd': 'Brunei BDMD',
 };
 
 interface WizardStep {

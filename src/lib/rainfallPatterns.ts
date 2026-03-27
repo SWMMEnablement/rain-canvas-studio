@@ -66,7 +66,11 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   | 'alberta_transportation' | 'prairie_short' | 'bc_moe_coastal' | 'pilgrim_cordery_ca'
   // v14 — Adamowski-Alila regional + Winnipeg
   | 'adamowski_pacific' | 'adamowski_prairie' | 'adamowski_greatlakes' | 'adamowski_stlawrence'
-  | 'adamowski_atlantic' | 'adamowski_northern' | 'winnipeg_maclaren';
+  | 'adamowski_atlantic' | 'adamowski_northern' | 'winnipeg_maclaren'
+  // v15 — IDF-only country storm patterns
+  | 'senegal_anacim' | 'rwanda_meteo' | 'zimbabwe_zmd' | 'zambia_zmd'
+  | 'mali_dnm' | 'burkina_anam' | 'angola_inamet' | 'congo_mettelsat'
+  | 'laos_dmh' | 'brunei_bdmd';
 
 // ─── Helper functions for pattern generation ───
 
@@ -4243,6 +4247,68 @@ export function generateRainfallData(
       // Approximated as dimensionless cumulative curve with peak at 40%
       const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
       const p = [0, 0.02, 0.05, 0.09, 0.15, 0.23, 0.34, 0.48, 0.65, 0.76, 0.83, 0.88, 0.91, 0.93, 0.95, 0.96, 0.97, 0.98, 0.99, 0.995, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+
+    // v15 — IDF-only country storm patterns
+    case 'senegal_anacim': {
+      // Senegal ANACIM — Sahel monsoon burst, front-loaded with sharp early peak
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.06, 0.16, 0.30, 0.46, 0.60, 0.71, 0.79, 0.85, 0.89, 0.92, 0.94, 0.95, 0.96, 0.97, 0.975, 0.98, 0.985, 0.99, 0.995, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'rwanda_meteo': {
+      // Rwanda Météo — Highland tropical convective, center-peaked with moderate tails
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.09, 0.14, 0.21, 0.30, 0.42, 0.56, 0.69, 0.79, 0.86, 0.91, 0.94, 0.96, 0.97, 0.98, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'zimbabwe_zmd': {
+      // Zimbabwe ZMD — Subtropical summer thunderstorm, early-center peaked
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.08, 0.16, 0.27, 0.40, 0.54, 0.66, 0.76, 0.83, 0.88, 0.91, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.995, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'zambia_zmd': {
+      // Zambia ZMD — ITCZ-influenced tropical wet season, center-peaked
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.10, 0.16, 0.24, 0.34, 0.47, 0.61, 0.73, 0.82, 0.88, 0.92, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.995, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'mali_dnm': {
+      // Mali DNM — Sahel squall line, very front-loaded intense burst
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.08, 0.20, 0.36, 0.52, 0.65, 0.74, 0.81, 0.86, 0.90, 0.93, 0.95, 0.96, 0.97, 0.975, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'burkina_anam': {
+      // Burkina Faso ANAM — West African Sahel MCS, front-loaded
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.07, 0.18, 0.33, 0.48, 0.62, 0.72, 0.80, 0.85, 0.89, 0.92, 0.94, 0.955, 0.965, 0.975, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'angola_inamet': {
+      // Angola INAMET — Tropical maritime/continental transition, moderate center peak
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.03, 0.07, 0.13, 0.20, 0.29, 0.40, 0.53, 0.65, 0.75, 0.83, 0.89, 0.93, 0.95, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'congo_mettelsat': {
+      // Congo DRC METTELSAT — Equatorial convective, center-peaked with extended tails
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.02, 0.05, 0.10, 0.17, 0.25, 0.35, 0.48, 0.62, 0.74, 0.83, 0.89, 0.93, 0.95, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'laos_dmh': {
+      // Laos DMH — Southeast Asian monsoon, early-center peaked
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.04, 0.10, 0.19, 0.30, 0.43, 0.56, 0.67, 0.76, 0.83, 0.88, 0.91, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.995, 1.0];
+      return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
+    }
+    case 'brunei_bdmd': {
+      // Brunei BDMD — Equatorial maritime, front-loaded tropical burst
+      const t = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.0];
+      const p = [0, 0.05, 0.14, 0.26, 0.40, 0.54, 0.66, 0.75, 0.82, 0.87, 0.91, 0.93, 0.95, 0.96, 0.97, 0.98, 0.985, 0.99, 0.993, 0.997, 1.0];
       return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
     }
   }
