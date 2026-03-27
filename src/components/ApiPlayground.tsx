@@ -178,7 +178,7 @@ export function ApiPlayground() {
 
       {/* Endpoints */}
       <Tabs defaultValue="generate" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="generate" className="flex items-center gap-2">
             <Zap className="w-4 h-4" />
             Generate
@@ -190,6 +190,10 @@ export function ApiPlayground() {
           <TabsTrigger value="analyze" className="flex items-center gap-2">
             <BarChart3 className="w-4 h-4" />
             Analyze
+          </TabsTrigger>
+          <TabsTrigger value="docs" className="flex items-center gap-2">
+            <FileText className="w-4 h-4" />
+            API Docs
           </TabsTrigger>
         </TabsList>
 
