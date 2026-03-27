@@ -191,7 +191,12 @@ const Index = () => {
           />
 
           <p className="text-sm mt-4 opacity-90 font-medium tracking-wide">
-            {patterns.length} Design Storm Patterns Available
+            {patterns.length} Design Storm Patterns · {
+              Object.values(COUNTRIES).reduce((sum, c) => sum + Object.keys(c.cities).length, 0)
+              + canadaIdfDatabase.length
+              + chinaRainstormDatabase.length
+              + 8 /* Gulf DDF locations */
+            }+ IDF/DDF Locations Available
           </p>
 
           {/* Social Proof / Compatibility */}
