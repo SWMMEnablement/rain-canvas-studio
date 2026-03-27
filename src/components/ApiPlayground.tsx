@@ -314,6 +314,35 @@ export function ApiPlayground() {
 
           <ResultPanel result={analyzeResult} copied={copied} onCopy={copyToClipboard} />
         </TabsContent>
+
+        {/* ── API Documentation ── */}
+        <TabsContent value="docs" className="mt-6 space-y-4">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  API Documentation
+                </CardTitle>
+                <Button variant="outline" size="sm" asChild>
+                  <a href="/API.md" download="Storm-API-Documentation.md">
+                    <Download className="w-4 h-4 mr-1" />
+                    Download .md
+                  </a>
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {apiDocs ? (
+                <div className="prose prose-sm dark:prose-invert max-w-none prose-pre:bg-muted prose-pre:text-foreground prose-code:text-primary prose-headings:text-foreground prose-a:text-primary">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{apiDocs}</ReactMarkdown>
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground animate-pulse">Loading documentation...</p>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
     </div>
   );
