@@ -1981,6 +1981,83 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
+
+  // ── Central American Countries ────────────────────────────────────
+
+  honduras: {
+    name: "Honduras",
+    flag: "🇭🇳",
+    standard: "SMN Honduras IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Servicio Meteorológico Nacional Honduras IDF. Tropical climate with heavy hurricane exposure, especially along Caribbean coast. Orographic effects from central highlands.",
+    ref: "SMN Honduras (2016). Curvas IDF para Honduras. COPECO Technical Report.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Tegucigalpa": { params: { K: 1100, a: 0.20, b: 8, c: 0.66 } },
+      "San Pedro Sula": { params: { K: 1350, a: 0.22, b: 9, c: 0.69 } },
+      "La Ceiba": { params: { K: 1450, a: 0.23, b: 9, c: 0.70 } },
+      "Comayagua": { params: { K: 1050, a: 0.19, b: 8, c: 0.65 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+
+  elsalvador: {
+    name: "El Salvador",
+    flag: "🇸🇻",
+    standard: "MARN El Salvador IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Ministerio de Medio Ambiente y Recursos Naturales (MARN) IDF. Smallest Central American country with Pacific slope drainage. Intense wet season (May–Oct) with volcanic soil enhancing runoff.",
+    ref: "MARN (2017). Curvas Intensidad-Duración-Frecuencia para El Salvador.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "San Salvador": { params: { K: 1200, a: 0.21, b: 8, c: 0.68 } },
+      "Santa Ana": { params: { K: 1100, a: 0.20, b: 8, c: 0.66 } },
+      "San Miguel": { params: { K: 1150, a: 0.20, b: 8, c: 0.67 } },
+      "La Libertad": { params: { K: 1250, a: 0.21, b: 9, c: 0.68 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+
+  nicaragua: {
+    name: "Nicaragua",
+    flag: "🇳🇮",
+    standard: "INETER Nicaragua IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Instituto Nicaragüense de Estudios Territoriales (INETER) IDF. Largest Central American country with Caribbean and Pacific coasts. Hurricane corridor with extreme rainfall events.",
+    ref: "INETER (2016). Curvas IDF para Nicaragua. Dirección de Meteorología.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Managua": { params: { K: 1200, a: 0.21, b: 8, c: 0.67 } },
+      "León": { params: { K: 1100, a: 0.20, b: 8, c: 0.66 } },
+      "Bluefields": { params: { K: 1500, a: 0.23, b: 9, c: 0.70 } },
+      "Matagalpa": { params: { K: 1150, a: 0.20, b: 8, c: 0.67 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+
+  belize: {
+    name: "Belize",
+    flag: "🇧🇿",
+    standard: "Belize NMS IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Belize National Meteorological Service IDF. Caribbean coast with heavy rainfall and hurricane exposure. Tropical wet climate with year-round precipitation in south.",
+    ref: "Belize NMS (2015). Rainfall Frequency Analysis for Belize. CARICOM/CIMH Technical Report.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Belize City": { params: { K: 1300, a: 0.21, b: 8, c: 0.68 } },
+      "Belmopan": { params: { K: 1200, a: 0.20, b: 8, c: 0.67 } },
+      "Orange Walk": { params: { K: 1150, a: 0.20, b: 8, c: 0.66 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
 };
 
 export const RP_COLORS: Record<number, string> = {
