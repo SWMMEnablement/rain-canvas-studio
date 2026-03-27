@@ -220,7 +220,7 @@ const Index = () => {
                 </div>
                 <div className="w-px bg-primary-foreground/20 hidden sm:block" />
                 <div className="text-center px-4">
-                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">100+</p>
+                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">{idfCountries}+</p>
                   <p className="text-xs opacity-80 uppercase tracking-wider">Storm Countries</p>
                 </div>
               </div>
