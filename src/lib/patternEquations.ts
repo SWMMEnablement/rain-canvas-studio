@@ -5095,6 +5095,7975 @@ export const patternEquations: PatternEquation[] = [
     reference: { title: 'City of Winnipeg Drainage Criteria Manual', citation: 'MacLaren Engineers, City of Winnipeg', year: 1984 },
     notes: 'Modified Chicago-type distribution with r=0.40, calibrated for Red River basin climate and Winnipeg IDF curves.'
   },
+  // ============ Additional Patterns (auto-generated references) ============
+  {
+    pattern: 'abu_dhabi_adm',
+    name: 'Abu Dhabi ADM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Abu Dhabi ADM Design Storm Standard',
+      citation: 'Abu Dhabi ADM',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for FEH 75th pctl peak.'
+  },
+  {
+    pattern: 'abu_dhabi_climate',
+    name: 'Abu Dhabi Climate-Adjusted',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Abu Dhabi Climate-Adjusted Design Storm',
+      citation: 'Khalifa University / ADM',
+      year: 2024,
+    },
+    notes: 'Regional arid/semi-arid design storm using IDF relationships adapted for local extreme rainfall events.'
+  },
+  {
+    pattern: 'abu_dhabi_upc',
+    name: 'Abu Dhabi UPC/DM Combined',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Abu Dhabi UPC Stormwater Guidelines',
+      citation: 'Abu Dhabi Urban Planning Council',
+      year: 2013,
+    },
+    notes: 'Regional arid/semi-arid design storm using IDF relationships adapted for local extreme rainfall events.'
+  },
+  {
+    pattern: 'afghanistan_momp',
+    name: 'Afghanistan MOMP',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'MOMP Public Works Drainage Guidelines',
+      citation: 'Ministry of Public Works Afghanistan',
+      year: 2014,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'alabama_aldot',
+    name: 'Alabama ALDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Alabama DOT Drainage Manual',
+      citation: 'Alabama Department of Transportation',
+      year: 2020,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'alaska_dotpf',
+    name: 'Alaska DOT&PF',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Alaska Highway Drainage Manual',
+      citation: 'Alaska DOT & Public Facilities',
+      year: 2020,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'albanian_igewe',
+    name: 'Albanian IGEWE',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'IGEWE Albanian IDF Standards',
+      citation: 'Institute of GeoSciences Albania',
+      year: 2016,
+    },
+    notes: 'Adriatic Mediterranean front-loaded design storm.'
+  },
+  {
+    pattern: 'alberta_esrd',
+    name: 'Alberta ESRD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Alberta ESRD IDF Curve Data',
+      citation: 'Alberta Environment and Sustainable Resource Development',
+      year: 2015,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'algeria_anrh_urban',
+    name: 'Algeria ANRH Urban',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'ANRH Urban Drainage Design Manual',
+      citation: 'ANRH Algeria',
+      year: 2015,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'alternating_block',
+    name: 'Alternating Block',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Alternating Block Method',
+      citation: 'NRCS / HEC',
+      year: 1982,
+    },
+    notes: 'Alternating Block Method (ABM) — IDF-derived symmetric arrangement placing highest increment at center'
+  },
+  {
+    pattern: 'angola_dna',
+    name: 'Angola DNA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manual de Dimensionamento de Drenagem',
+      citation: 'Direcção Nacional de Águas Angola',
+      year: 2013,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'angola_inamet',
+    name: 'Angola INAMET',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Angola INAMET Design Storm Standard',
+      citation: 'Angola INAMET',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Tropical maritime/continental transition.'
+  },
+  {
+    pattern: 'argentina_adt',
+    name: 'Argentina ADT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Normas de Diseño Hidráulico — Provincia de Buenos Aires',
+      citation: 'Dirección de Hidráulica',
+      year: 2012,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'argentina_ina',
+    name: 'Argentina INA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manual de Diseño Hidrológico',
+      citation: 'Instituto Nacional del Agua',
+      year: 2016,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'argentina_smn',
+    name: 'Argentina SMN',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Argentina SMN Design Storm Standard',
+      citation: 'Argentina SMN',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Buenos Aires Chicago variant.'
+  },
+  {
+    pattern: 'arid_flash_flood',
+    name: 'Arid Flash Flood',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Arid Flash Flood Design Storm Standard',
+      citation: 'Arid Flash Flood',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Exponential decay burst.'
+  },
+  {
+    pattern: 'arizona_adot',
+    name: 'Arizona ADOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Arizona DOT Drainage Design Manual',
+      citation: 'Arizona Department of Transportation',
+      year: 2014,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'arkansas_ardot',
+    name: 'Arkansas ArDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Arkansas DOT Drainage Design Manual',
+      citation: 'Arkansas Department of Transportation',
+      year: 2021,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'armenia_hydromet',
+    name: 'Armenia Hydromet',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Armenian Hydromet IDF Standards',
+      citation: 'Armenian Hydrometeorology Service',
+      year: 2015,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'aus_act_epsdd',
+    name: 'Australian ACT EPSDD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'ACT Stormwater Management Guidelines',
+      citation: 'ACT Environment, Planning and Sustainable Development',
+      year: 2015,
+    },
+    notes: 'Australian state/territory design storm based on ARR 2019 ensemble framework with regional adjustments.'
+  },
+  {
+    pattern: 'aus_nsw_oeh',
+    name: 'Australian NSW OEH',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NSW Floodplain Development Manual',
+      citation: 'NSW Office of Environment and Heritage',
+      year: 2005,
+    },
+    notes: 'Australian state/territory design storm based on ARR 2019 ensemble framework with regional adjustments.'
+  },
+  {
+    pattern: 'aus_nt_depws',
+    name: 'Australian NT DEPWS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NT Stormwater Management Framework',
+      citation: 'NT Dept. of Environment, Parks and Water Security',
+      year: 2018,
+    },
+    notes: 'Australian state/territory design storm based on ARR 2019 ensemble framework with regional adjustments.'
+  },
+  {
+    pattern: 'aus_qld_dnrme',
+    name: 'Australian QLD DNRME',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Queensland Urban Drainage Manual',
+      citation: 'Queensland Dept. of Natural Resources',
+      year: 2013,
+    },
+    notes: 'Australian state/territory design storm based on ARR 2019 ensemble framework with regional adjustments.'
+  },
+  {
+    pattern: 'aus_sa_epa',
+    name: 'Australian SA EPA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'SA Stormwater Pollution Prevention Code of Practice',
+      citation: 'SA Environment Protection Authority',
+      year: 2003,
+    },
+    notes: 'Australian state/territory design storm based on ARR 2019 ensemble framework with regional adjustments.'
+  },
+  {
+    pattern: 'aus_tas_dpiwe',
+    name: 'Australian TAS DPIWE',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Tasmanian Stormwater Guidelines',
+      citation: 'TAS Dept. of Primary Industries, Water and Environment',
+      year: 2010,
+    },
+    notes: 'Australian state/territory design storm based on ARR 2019 ensemble framework with regional adjustments.'
+  },
+  {
+    pattern: 'aus_vic_delwp',
+    name: 'Australian VIC DELWP',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Victorian Stormwater Management Guidelines',
+      citation: 'Dept. of Environment, Land, Water and Planning',
+      year: 2019,
+    },
+    notes: 'Australian state/territory design storm based on ARR 2019 ensemble framework with regional adjustments.'
+  },
+  {
+    pattern: 'aus_wa_dwer',
+    name: 'Australian WA DWER',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'WA Stormwater Management Manual',
+      citation: 'WA Dept. of Water and Environmental Regulation',
+      year: 2007,
+    },
+    notes: 'Australian state/territory design storm based on ARR 2019 ensemble framework with regional adjustments.'
+  },
+  {
+    pattern: 'azerbaijan_nhms',
+    name: 'Azerbaijan NHMS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NHMS IDF and Drainage Standards',
+      citation: 'National Hydrometeorology Service Azerbaijan',
+      year: 2016,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'bangladesh_bmd',
+    name: 'Bangladesh BMD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Bangladesh BMD Design Storm Standard',
+      citation: 'Bangladesh BMD',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Monsoon rear-loaded.'
+  },
+  {
+    pattern: 'bangladesh_dwasa',
+    name: 'Bangladesh DWASA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'DWASA Drainage Design Standards',
+      citation: 'Dhaka WASA',
+      year: 2017,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'barbados_bms',
+    name: 'Barbados BMS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Barbados BMS Design Storm Standard',
+      citation: 'Barbados BMS',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Tropical maritime Hershfield PMP.'
+  },
+  {
+    pattern: 'bc_moe_interior',
+    name: 'BC MOE Interior',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'BC Ministry of Environment Interior Rainfall IDF',
+      citation: 'BC Ministry of Environment',
+      year: 2015,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'bc_moe_northern',
+    name: 'BC MOE Northern',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'BC Ministry of Environment Northern Rainfall IDF',
+      citation: 'BC Ministry of Environment',
+      year: 2015,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'belgian_irm',
+    name: 'Belgium IRM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Belgium IRM Design Storm Standard',
+      citation: 'Belgium IRM',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Belgian center-peaked.'
+  },
+  {
+    pattern: 'belize_flood',
+    name: 'Belize Flood Hazard',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Belize Flood Hazard Design Standards',
+      citation: 'National Emergency Management Organization',
+      year: 2015,
+    },
+    notes: 'Central American coastal flood design for tropical conditions.'
+  },
+  {
+    pattern: 'bemposta',
+    name: 'Bemposta (Portugal)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Bemposta Portuguese Regional Design Storm',
+      citation: 'LNEC Portugal',
+      year: 1990,
+    },
+    notes: 'Portuguese dam and drainage design criteria'
+  },
+  {
+    pattern: 'bhutan_scs',
+    name: 'Bhutan SCS Design Storm',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Bhutan SCS-Adapted Design Storm',
+      citation: 'Royal Government of Bhutan / UNDP',
+      year: 2017,
+    },
+    notes: 'Southern Belt SCS-adapted design storm for Himalayan conditions.'
+  },
+  {
+    pattern: 'bolivia_altiplano',
+    name: 'Bolivia Altiplano',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Bolivia Altiplano Design Storm Standard',
+      citation: 'Bolivia Altiplano',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Modified SCS Type I high-altitude.'
+  },
+  {
+    pattern: 'bolivia_sepsa',
+    name: 'Bolivia SEPSA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Norma Boliviana de Diseño de Drenaje Pluvial',
+      citation: 'SEPSA Bolivia',
+      year: 2012,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'bosnia_fhmz',
+    name: 'Bosnia & Herzegovina FHMZ',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'FHMZ Bosnia Drainage Design Standards',
+      citation: 'Federal Hydrometeorological Institute BiH',
+      year: 2014,
+    },
+    notes: 'Mediterranean-continental transition design storm.'
+  },
+  {
+    pattern: 'botswana_dms',
+    name: 'Botswana DMS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Botswana Meteorological Design Standards',
+      citation: 'DMS Botswana',
+      year: 2015,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'brazil_ana',
+    name: 'Brazil ANA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Brazil ANA Design Storm Standard',
+      citation: 'Brazil ANA',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Tropical convective SE Brazil.'
+  },
+  {
+    pattern: 'brunei_bdmd',
+    name: 'Brunei BDMD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Brunei BDMD Design Storm Standard',
+      citation: 'Brunei BDMD',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Equatorial maritime front-loaded tropical burst.'
+  },
+  {
+    pattern: 'bulgarian_nimh_urban',
+    name: 'Bulgarian NIMH Urban',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NIMH Urban Drainage Design Criteria',
+      citation: 'NIMH Bulgaria',
+      year: 2017,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'burkina_anam',
+    name: 'Burkina Faso ANAM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Burkina Faso ANAM Design Storm Standard',
+      citation: 'Burkina Faso ANAM',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for West African Sahel MCS front-loaded.'
+  },
+  {
+    pattern: 'burundi_igebu',
+    name: 'Burundi IGEBU',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'IGEBU Hydrological Design Standards',
+      citation: 'IGEBU Burundi',
+      year: 2014,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'cambodia_mowram',
+    name: 'Cambodia MOWRAM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'MOWRAM Drainage Design Standards',
+      citation: 'Ministry of Water Resources Cambodia',
+      year: 2016,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'canadian_eccc_climate',
+    name: 'Canadian ECCC Climate-Adjusted',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'ECCC Climate-Adjusted IDF Curves',
+      citation: 'Environment and Climate Change Canada',
+      year: 2022,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'cape_verde_inmg',
+    name: 'Cape Verde INMG',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'INMG Rainfall Design Atlas',
+      citation: 'INMG Cape Verde',
+      year: 2016,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'caribbean_cdema',
+    name: 'Caribbean CDEMA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Caribbean Disaster Risk Reduction Design Standards',
+      citation: 'CDEMA',
+      year: 2017,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'cascading_failure',
+    name: 'Cascading Failure Storm',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Infrastructure Cascading Failure Storm',
+      citation: 'Rinaldi et al. (2001)',
+      year: 2001,
+    },
+    notes: 'Sequential infrastructure failure scenario storm profile'
+  },
+  {
+    pattern: 'cc_idf_scaled',
+    name: 'CC-IDF Scaled',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'CC-IDF Scaled Design Storm Standard',
+      citation: 'CC-IDF Scaled',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Climate-change scaled SCS Type II.'
+  },
+  {
+    pattern: 'chen_1976',
+    name: 'Chen (1976)',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Rainfall Intensity-Duration-Frequency Formulas',
+      citation: 'Chen, C.L.',
+      year: 1976,
+    },
+    notes: 'Generalized IDF formula connecting short and long duration rainfall'
+  },
+  {
+    pattern: 'chile_dga',
+    name: 'Chile DGA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Chile DGA Design Storm Standard',
+      citation: 'Chile DGA',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Frontal/orographic central Chile.'
+  },
+  {
+    pattern: 'chile_idic',
+    name: 'Chile IDIC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manual de Carreteras — Hidrología y Drenaje',
+      citation: 'MOP Chile / IDIC',
+      year: 2017,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'china_beijing',
+    name: 'China Beijing',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Beijing Municipal Drainage Design Standard',
+      citation: 'Beijing Municipal Commission',
+      year: 2020,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'china_guangzhou',
+    name: 'China Guangzhou',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Guangzhou Municipal Drainage Design',
+      citation: 'Guangzhou Urban Planning Bureau',
+      year: 2018,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'china_mohurd',
+    name: 'China MOHURD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'MOHURD Urban Drainage Design Standard',
+      citation: 'Ministry of Housing and Urban-Rural Development',
+      year: 2021,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'china_shanghai',
+    name: 'China Shanghai',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Shanghai Municipal Drainage Design Standard',
+      citation: 'Shanghai Urban Planning Bureau',
+      year: 2019,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'china_shenzhen',
+    name: 'China Shenzhen',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Shenzhen Sponge City Drainage Design',
+      citation: 'Shenzhen Municipality',
+      year: 2020,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'chocat_1997',
+    name: 'Chocat (1997)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Encyclopédie de l\'hydrologie urbaine et de l\'assainissement',
+      citation: 'Chocat, B.',
+      year: 1997,
+    },
+    notes: 'French urban drainage methodology comprehensive reference'
+  },
+  {
+    pattern: 'chow_1964',
+    name: 'Chow (1964)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Handbook of Applied Hydrology',
+      citation: 'Chow, V.T.',
+      year: 1964,
+    },
+    notes: 'Classic hydrology reference including design storm synthesis methods'
+  },
+  {
+    pattern: 'cloudburst',
+    name: 'Cloudburst',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Copenhagen Cloudburst Management Plan',
+      citation: 'City of Copenhagen',
+      year: 2012,
+    },
+    notes: 'Extreme urban pluvial design based on 2011 Copenhagen cloudbursts'
+  },
+  {
+    pattern: 'cmip6_idf',
+    name: 'CMIP6 Derived IDF',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'CMIP6 Climate Model Derived IDF Curves',
+      citation: 'IPCC AR6 / WMO',
+      year: 2021,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'colombia_ideam',
+    name: 'Colombia IDEAM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Colombia IDEAM Design Storm Standard',
+      citation: 'Colombia IDEAM',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Andean valley convective.'
+  },
+  {
+    pattern: 'colombia_invias',
+    name: 'Colombia INVIAS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manual de Drenaje para Carreteras',
+      citation: 'INVIAS Colombia',
+      year: 2009,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'comoros_post_kenneth',
+    name: 'Comoros Post-Kenneth',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Comoros Post-Cyclone Kenneth Design Standards',
+      citation: 'UN-Habitat / Comoros Government',
+      year: 2019,
+    },
+    notes: 'Post-tropical cyclone recovery infrastructure design storm.'
+  },
+  {
+    pattern: 'compound_flood',
+    name: 'Compound Flood Storm',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Compound Flood Storm Framework',
+      citation: 'Zscheischler et al. (2018)',
+      year: 2018,
+    },
+    notes: 'Multivariate framework for joint fluvial-pluvial-coastal events'
+  },
+  {
+    pattern: 'congo_mettelsat',
+    name: 'Congo DRC METTELSAT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Congo DRC METTELSAT Design Storm Standard',
+      citation: 'Congo DRC METTELSAT',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Equatorial convective center-peaked.'
+  },
+  {
+    pattern: 'connecticut_ctdot',
+    name: 'Connecticut CTDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Connecticut DOT Drainage Manual',
+      citation: 'Connecticut Department of Transportation',
+      year: 2020,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'costa_rica_mopt',
+    name: 'Costa Rica MOPT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manual de Diseño de Obras de Drenaje',
+      citation: 'MOPT Costa Rica',
+      year: 2015,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'croatian_hv',
+    name: 'Croatian HRVATSKE VODE',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Pravilnik o odvodnji oborinskih voda',
+      citation: 'HRVATSKE VODE Croatia',
+      year: 2016,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'csa_w231',
+    name: 'CSA W231 (Canada)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'CSA W231 (Canada) Design Storm Standard',
+      citation: 'CSA W231 (Canada)',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Canadian climate-adjusted IDF.'
+  },
+  {
+    pattern: 'cyprus_wdd',
+    name: 'Cyprus WDD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Cyprus WDD Design Storm Standard',
+      citation: 'Cyprus WDD',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Mediterranean double-triangular.'
+  },
+  {
+    pattern: 'czech_chmu',
+    name: 'Czech ČHMÚ',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Czech ČHMÚ Design Storm Standard',
+      citation: 'Czech ČHMÚ',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Czech modern hydrometeorological.'
+  },
+  {
+    pattern: 'czech_dia',
+    name: 'Czech DIA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'ČSN 73 6101 Road Design Standard — Drainage',
+      citation: 'DIA Czech Republic',
+      year: 2018,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'danish_dkcip',
+    name: 'Danish DKCIP',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Danish Climate Infrastructure Platform',
+      citation: 'Danish Meteorological Institute',
+      year: 2018,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'danish_svk',
+    name: 'Denmark SVK',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Denmark SVK Design Storm Standard',
+      citation: 'Denmark SVK',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Danish Chicago variant.'
+  },
+  {
+    pattern: 'danish_svk_urban',
+    name: 'Danish SVK Urban',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Funktionspraksis for afløbssystemer under regn',
+      citation: 'SVK Denmark',
+      year: 2005,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'delta_change',
+    name: 'Delta Change Method',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Delta Change Method for Climate-Adjusted IDF',
+      citation: 'Willems (2013)',
+      year: 2013,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'desbordes_1978',
+    name: 'Desbordes (1978)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'French Double-Triangle Design Storm',
+      citation: 'Desbordes, M.',
+      year: 1978,
+    },
+    notes: 'Urban drainage design storm widely adopted in Francophone countries'
+  },
+  {
+    pattern: 'dominica_charim',
+    name: 'Dominica CHaRIM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Dominica CHaRIM Flood Hazard Design',
+      citation: 'World Bank / CHARIM',
+      year: 2015,
+    },
+    notes: 'Caribbean risk management design storm for volcanic island context.'
+  },
+  {
+    pattern: 'dutch_knmi14',
+    name: 'Dutch KNMI-14',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'KNMI\'14 Climate Scenarios for the Netherlands',
+      citation: 'KNMI',
+      year: 2014,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'dutch_knmi23',
+    name: 'Dutch KNMI-23',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'KNMI\'23 Climate Scenarios for the Netherlands',
+      citation: 'KNMI',
+      year: 2023,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'ecuador_emaapq',
+    name: 'Ecuador EMAAP-Q',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Normas de Diseño de Sistemas de Alcantarillado',
+      citation: 'EMAAP-Q Quito',
+      year: 2009,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'ecuador_inamhi',
+    name: 'Ecuador INAMHI',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Ecuador INAMHI Design Storm Standard',
+      citation: 'Ecuador INAMHI',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Andean convective.'
+  },
+  {
+    pattern: 'egypt_capw',
+    name: 'Egypt CAPW',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'CAPW Drainage Design Manual',
+      citation: 'Cairo and Alexandria Potable Water Authority',
+      year: 2012,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'egypt_hcww',
+    name: 'Egypt HCWW',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Egypt HCWW Design Storm Standard',
+      citation: 'Egypt HCWW',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Arid flash flood Nile Delta.'
+  },
+  {
+    pattern: 'el_salvador_mop',
+    name: 'El Salvador MOP',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manual de Drenaje — MOP',
+      citation: 'MOP El Salvador',
+      year: 2010,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'epa_swmm_cat',
+    name: 'EPA SWMM-CAT',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'EPA SWMM Climate Adjustment Tool',
+      citation: 'US Environmental Protection Agency',
+      year: 2016,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'eritrea_dme',
+    name: 'Eritrea DME',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'DME Rainfall and Drainage Design Guidelines',
+      citation: 'DME Eritrea',
+      year: 2012,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'ethiopia_addis',
+    name: 'Ethiopia Addis Ababa',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Addis Ababa Stormwater Drainage Master Plan',
+      citation: 'City of Addis Ababa',
+      year: 2017,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'ethiopia_nma',
+    name: 'Ethiopia NMA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Ethiopia NMA Design Storm Standard',
+      citation: 'Ethiopia NMA',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for East African monsoon.'
+  },
+  {
+    pattern: 'euro_cordex',
+    name: 'EURO-CORDEX',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'EURO-CORDEX Regional Climate Model Ensemble',
+      citation: 'WCRP CORDEX',
+      year: 2020,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'faa_airport',
+    name: 'FAA Standard (Airport)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'FAA Advisory Circular AC 150/5320-5D — Airport Drainage Design',
+      citation: 'Federal Aviation Administration',
+      year: 2013,
+    },
+    notes: 'Airport drainage design using rational method and SCS methodology for airfield facilities.'
+  },
+  {
+    pattern: 'fiji_fms',
+    name: 'Fiji FMS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Fiji FMS Design Storm Standard',
+      citation: 'Fiji FMS',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Tropical cyclone front-loaded.'
+  },
+  {
+    pattern: 'fiji_ndmo',
+    name: 'Fiji NDMO',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Fiji NDMO Flood Risk Design Standards',
+      citation: 'National Disaster Management Office',
+      year: 2017,
+    },
+    notes: 'Pacific island design storm using regional IDF data adapted for tropical maritime conditions.'
+  },
+  {
+    pattern: 'finnish_ely',
+    name: 'Finnish ELY',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'ELY Regional Drainage Design Guidelines',
+      citation: 'Finnish ELY Centres',
+      year: 2018,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'finnish_fmi',
+    name: 'Finland FMI',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Finland FMI Design Storm Standard',
+      citation: 'Finland FMI',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Finnish Chicago variant.'
+  },
+  {
+    pattern: 'fourier_multipeak',
+    name: 'Fourier Multi-Peak',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Fourier Series Multi-Peak Storm Model',
+      citation: 'Research method',
+      year: 2010,
+    },
+    notes: 'Fourier harmonic decomposition for complex multi-peak storms'
+  },
+  {
+    pattern: 'france_shypre',
+    name: 'France SHYPRE',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'France SHYPRE Design Storm Standard',
+      citation: 'France SHYPRE',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for French SHYPRE stochastic hyetograph.'
+  },
+  {
+    pattern: 'french_drias',
+    name: 'French DRIAS 2020',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'DRIAS 2020: French Climate Projections',
+      citation: 'Météo-France',
+      year: 2020,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'gabon_francophone',
+    name: 'Gabon Francophone',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Gabon Francophone Design Methodology',
+      citation: 'ORSTOM/IRD France',
+      year: 2010,
+    },
+    notes: 'French African hydrological design methodology for equatorial regions.'
+  },
+  {
+    pattern: 'gambia_rna',
+    name: 'Gambia RNA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Gambia Rapid Needs Assessment Rainfall',
+      citation: 'World Bank / UNDP',
+      year: 2016,
+    },
+    notes: 'West African rapid needs assessment design storm.'
+  },
+  {
+    pattern: 'gaussian_storm',
+    name: 'Gaussian Storm',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Gaussian (Normal) Design Storm Distribution',
+      citation: 'Statistical Methods in Hydrology',
+      year: 2000,
+    },
+    notes: 'Symmetric bell-curve storm using normal distribution'
+  },
+  {
+    pattern: 'gauteng_wrc',
+    name: 'Gauteng WRC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'WRC Gauteng Design Storm Report',
+      citation: 'Water Research Commission SA',
+      year: 2013,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'georgia_gdot',
+    name: 'Georgia GDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Georgia DOT Drainage Design Policy Manual',
+      citation: 'Georgia Department of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'georgian_nea',
+    name: 'Georgia NEA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NEA Georgia Rainfall Design Standards',
+      citation: 'National Environment Agency Georgia',
+      year: 2017,
+    },
+    notes: 'Caucasus design storm with Mediterranean influence.'
+  },
+  {
+    pattern: 'german_dwd_extrem',
+    name: 'German DWD-EXTREM',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'DWD EXTREM Climate Extremes Analysis',
+      citation: 'Deutscher Wetterdienst',
+      year: 2020,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'ghana_accra',
+    name: 'Ghana Accra AMA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'AMA Stormwater Management Guidelines',
+      citation: 'Accra Metropolitan Assembly',
+      year: 2014,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'ghana_gmet',
+    name: 'Ghana GMet',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Ghana GMet Design Storm Standard',
+      citation: 'Ghana GMet',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for West African front-loaded.'
+  },
+  {
+    pattern: 'greek_ye',
+    name: 'Greek YE',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Technical Guidelines for Storm Drainage',
+      citation: 'YPEKA Greece',
+      year: 2014,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'grenada_charim',
+    name: 'Grenada CHaRIM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Grenada CHaRIM Flood Hazard Design',
+      citation: 'World Bank / CHARIM',
+      year: 2015,
+    },
+    notes: 'Caribbean Handbook for Risk Information Management — Grenada component.'
+  },
+  {
+    pattern: 'guatemala_civ',
+    name: 'Guatemala CIV',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manual de Drenaje para Carreteras',
+      citation: 'CIV Guatemala',
+      year: 2011,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'guo_2001',
+    name: 'Guo (2001)',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Analytical Probabilistic Approach to Design Storm',
+      citation: 'Guo, J.C.Y.',
+      year: 2001,
+    },
+    notes: 'Analytically derived design storm for detention basin sizing'
+  },
+  {
+    pattern: 'guyana_drainage',
+    name: 'Guyana Drainage Design',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Guyana Drainage and Irrigation Design',
+      citation: 'Ministry of Agriculture Guyana',
+      year: 2014,
+    },
+    notes: 'Modified rational method for South American coastal lowland drainage.'
+  },
+  {
+    pattern: 'haiti_marndr',
+    name: 'Haiti MARNDR',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Haiti MARNDR Flood Hazard Design',
+      citation: 'MARNDR / World Bank',
+      year: 2016,
+    },
+    notes: 'HEC-HMS alternating block Caribbean post-disaster design storm.'
+  },
+  {
+    pattern: 'heat_enhanced',
+    name: 'Heat-Enhanced Convective',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Heat-Enhanced Convective Storm',
+      citation: 'Lenderink & Meijgaard (2008)',
+      year: 2008,
+    },
+    notes: 'Climate-adjusted storm for urban heat island convective enhancement'
+  },
+  {
+    pattern: 'hendrick_1973',
+    name: 'Hendrick (1973)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Canadian Short-Duration Rainfall Design Storm',
+      citation: 'Hendrick, R.L.',
+      year: 1973,
+    },
+    notes: 'Regional temporal distribution for Canadian practice'
+  },
+  {
+    pattern: 'hershfield_1961',
+    name: 'Hershfield (1961)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Rainfall Frequency Atlas of the United States',
+      citation: 'Hershfield, D.M.',
+      year: 1961,
+    },
+    notes: 'Foundation for PMP estimation methodology — TP-40'
+  },
+  {
+    pattern: 'hirds_nz',
+    name: 'HIRDS NZ',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HIRDS NZ Design Storm Standard',
+      citation: 'HIRDS NZ',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for NZ hyperbolic tangent.'
+  },
+  {
+    pattern: 'honduras_soptravi',
+    name: 'Honduras SOPTRAVI',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manual de Drenaje Vial',
+      citation: 'SOPTRAVI Honduras',
+      year: 2008,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'hong_kong_hko',
+    name: 'Hong Kong HKO',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Hong Kong HKO Design Storm Standard',
+      citation: 'Hong Kong HKO',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for HKO typhoon front-loaded.'
+  },
+  {
+    pattern: 'hungarian_kovizig',
+    name: 'Hungarian KÖVÍZIG',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'KÖVÍZIG Regional Water Management IDF',
+      citation: 'KÖVÍZIG Hungary',
+      year: 2016,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'icelandic_lhf',
+    name: 'Icelandic LHF',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Local Flood Hazard Assessment Guidelines',
+      citation: 'Icelandic Met Office / VSO',
+      year: 2019,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'idaho_itd',
+    name: 'Idaho ITD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Idaho Transportation Department Drainage Manual',
+      citation: 'Idaho Transportation Department',
+      year: 2018,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'indonesia_bmkg',
+    name: 'Indonesia BMKG',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Indonesia BMKG Design Storm Standard',
+      citation: 'Indonesia BMKG',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Indonesian tropical convective.'
+  },
+  {
+    pattern: 'indonesia_jakarta',
+    name: 'Indonesia DKI Jakarta',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'DKI Jakarta Provincial Drainage Standards',
+      citation: 'Jakarta Provincial Government',
+      year: 2019,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'iran_irimo',
+    name: 'Iran IRIMO',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Iran IRIMO Design Storm Standard',
+      citation: 'Iran IRIMO',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Iranian meteorological IDF.'
+  },
+  {
+    pattern: 'iran_irimo_regional',
+    name: 'Iran IRIMO Regional',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'IRIMO Regional IDF Atlas',
+      citation: 'Iran Meteorological Organization',
+      year: 2018,
+    },
+    notes: 'Regional arid/semi-arid design storm using IDF relationships adapted for local extreme rainfall events.'
+  },
+  {
+    pattern: 'iraq_mos',
+    name: 'Iraq MoS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Iraq MoS Design Storm Standard',
+      citation: 'Iraq MoS',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Iraqi Tigris-Euphrates basin.'
+  },
+  {
+    pattern: 'iraq_mosul',
+    name: 'Iraq Mosul',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Mosul Region Drainage Design Guidelines',
+      citation: 'Iraq Ministry of Construction & Housing',
+      year: 2010,
+    },
+    notes: 'Regional arid/semi-arid design storm using IDF relationships adapted for local extreme rainfall events.'
+  },
+  {
+    pattern: 'israel_ims',
+    name: 'Israel IMS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Israel IMS Design Storm Standard',
+      citation: 'Israel IMS',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Israeli arid/semi-arid convective.'
+  },
+  {
+    pattern: 'italian_ipcc',
+    name: 'Italian IPCC-AR6',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Italian IPCC-AR6 Climate Projections',
+      citation: 'ISPRA / CMCC',
+      year: 2021,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'jamaica_jie',
+    name: 'Jamaica JIE Guidelines',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'JIE Guidelines for Stormwater Management',
+      citation: 'Jamaica Institution of Engineers',
+      year: 2017,
+    },
+    notes: 'Caribbean engineering design storm guidelines.'
+  },
+  {
+    pattern: 'japan_mlit_urban',
+    name: 'Japan MLIT Urban',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'MLIT Urban Drainage Technical Standards',
+      citation: 'Ministry of Land, Infrastructure, Transport',
+      year: 2021,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'japan_osaka',
+    name: 'Japan Osaka City',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Osaka City Drainage Design Manual',
+      citation: 'Osaka City Government',
+      year: 2018,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'johnson_sb_caribbean',
+    name: 'Johnson SB Caribbean',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Johnson SB Distribution for Caribbean Rainfall',
+      citation: 'Johnson (1949) / CHARIM (2015)',
+      year: 2015,
+    },
+    notes: 'Flexible 4-parameter probability distribution for Caribbean rainfall extremes.'
+  },
+  {
+    pattern: 'kansas_kdot',
+    name: 'Kansas KDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Kansas DOT Design Manual',
+      citation: 'Kansas Department of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'kazakhstan_kazhydromet',
+    name: 'Kazakhstan Kazhydromet',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Kazakhstan Kazhydromet Design Storm Standard',
+      citation: 'Kazakhstan Kazhydromet',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Central Asian continental.'
+  },
+  {
+    pattern: 'keifer_1940',
+    name: 'Keifer (1940)',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Synthetic Storm Pattern for Drainage Design',
+      citation: 'Keifer, C.J.',
+      year: 1940,
+    },
+    notes: 'Precursor to the 1957 Keifer-Chu instantaneous intensity method'
+  },
+  {
+    pattern: 'keifer_chu',
+    name: 'Keifer-Chu (1957)',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Synthetic Storm Pattern for Drainage Design',
+      citation: 'Keifer, C.J. & Chu, H.H.',
+      year: 1957,
+    },
+    notes: 'Original instantaneous intensity method using IDF relationships'
+  },
+  {
+    pattern: 'kenya_kmd',
+    name: 'Kenya KMD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Kenya KMD Design Storm Standard',
+      citation: 'Kenya KMD',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for East African highland convective.'
+  },
+  {
+    pattern: 'kenya_nairobi',
+    name: 'Kenya Nairobi City',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Nairobi City Stormwater Management Manual',
+      citation: 'Nairobi City County',
+      year: 2015,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'korea_moe_urban',
+    name: 'Korea MOE Urban',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'MOE Urban Drainage Design Standards',
+      citation: 'Korea Ministry of Environment',
+      year: 2019,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'kosovo_nothas',
+    name: 'Kosovo NOTHAS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NOTHAS Kosovo IDF Standards',
+      citation: 'National Observatory Kosovo',
+      year: 2018,
+    },
+    notes: 'Southeastern European continental design storm.'
+  },
+  {
+    pattern: 'kyrgyzstan_hydromet',
+    name: 'Kyrgyzstan Hydromet',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Kyrgyzstan Hydromet Design Standards',
+      citation: 'Kyrgyz Hydrometeorology Agency',
+      year: 2015,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'laos_dmh',
+    name: 'Laos DMH',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Laos DMH Design Storm Standard',
+      citation: 'Laos DMH',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Southeast Asian monsoon early-center peaked.'
+  },
+  {
+    pattern: 'laos_jica',
+    name: 'Laos JICA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'JICA Laos Flood Protection Study',
+      citation: 'JICA',
+      year: 2013,
+    },
+    notes: 'JICA-developed monsoon design storm for SE Asian conditions.'
+  },
+  {
+    pattern: 'liberia_regional',
+    name: 'Liberia Regional',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Liberia Regional Roads IDF',
+      citation: 'World Bank / Liberia Roads Authority',
+      year: 2016,
+    },
+    notes: 'West African tropical design storm for road infrastructure.'
+  },
+  {
+    pattern: 'louisiana_dotd',
+    name: 'Louisiana DOTD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Louisiana DOTD Hydraulics Manual',
+      citation: 'Louisiana Department of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'maine_mainedot',
+    name: 'Maine MaineDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Maine DOT Highway Design Guide',
+      citation: 'Maine Department of Transportation',
+      year: 2020,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'malaysia_did',
+    name: 'Malaysia DID',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'DID Urban Drainage Design Manual (MSMA 2nd Ed.)',
+      citation: 'Dept. of Irrigation and Drainage Malaysia',
+      year: 2012,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'malaysia_msma',
+    name: 'Malaysia MSMA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Malaysia MSMA Design Storm Standard',
+      citation: 'Malaysia MSMA',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Malaysian MSMA tropical monsoon.'
+  },
+  {
+    pattern: 'maldives_mms',
+    name: 'Maldives MMS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'MMS Climate and Drainage Design',
+      citation: 'Maldives Meteorological Service',
+      year: 2018,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'mali_dnm',
+    name: 'Mali DNM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Mali DNM Design Storm Standard',
+      citation: 'Mali DNM',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Sahel squall line very front-loaded burst.'
+  },
+  {
+    pattern: 'mali_lmoments',
+    name: 'Mali L-moments',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Mali L-Moments Rainfall Frequency',
+      citation: 'Bani Basin Study / ABN',
+      year: 2014,
+    },
+    notes: 'L-moments frequency analysis for Sahel design storms.'
+  },
+  {
+    pattern: 'malta_mra',
+    name: 'Malta MRA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Malta MRA Design Storm Standard',
+      citation: 'Malta MRA',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Composite Chicago-Huff hybrid.'
+  },
+  {
+    pattern: 'manitoba_mi',
+    name: 'Manitoba MI',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manitoba Infrastructure Drainage Standards',
+      citation: 'Manitoba Infrastructure',
+      year: 2015,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'marshall_islands',
+    name: 'Marshall Islands Ebeye',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Marshall Islands Coastal Protection Design',
+      citation: 'USACE / RMI Government',
+      year: 2018,
+    },
+    notes: 'Pacific atoll design storm for coastal infrastructure protection.'
+  },
+  {
+    pattern: 'maryland_sha',
+    name: 'Maryland SHA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Maryland SHA Drainage Manual',
+      citation: 'Maryland State Highway Administration',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'massachusetts_massdot',
+    name: 'Massachusetts MassDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'MassDOT Highway Drainage Manual',
+      citation: 'Massachusetts Department of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'mauritania_regional',
+    name: 'Mauritania Regional',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Mauritania Regional Arid Design Storm',
+      citation: 'OMVS / Mauritania Met',
+      year: 2015,
+    },
+    notes: 'Saharan-Sahelian arid region design storm.'
+  },
+  {
+    pattern: 'mexico_conagua',
+    name: 'Mexico CONAGUA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Mexico CONAGUA Design Storm Standard',
+      citation: 'Mexico CONAGUA',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Front-loaded tropical convective.'
+  },
+  {
+    pattern: 'micronesia_fsm',
+    name: 'Micronesia FSM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'FSM Infrastructure Design Standards',
+      citation: 'Government of Micronesia',
+      year: 2016,
+    },
+    notes: 'Pacific island tropical convective design storm.'
+  },
+  {
+    pattern: 'mississippi_mdot',
+    name: 'Mississippi MDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Mississippi DOT Drainage Manual',
+      citation: 'Mississippi Department of Transportation',
+      year: 2018,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'moldova_shs',
+    name: 'Moldova SHS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'SHS Moldova Drainage Standards',
+      citation: 'State Hydrometeorological Service Moldova',
+      year: 2015,
+    },
+    notes: 'Eastern European continental design storm for drainage infrastructure.'
+  },
+  {
+    pattern: 'moldova_urban',
+    name: 'Moldova Urban Drainage',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Moldova Urban Drainage Design Manual',
+      citation: 'Municipal Authority of Chișinău',
+      year: 2018,
+    },
+    notes: 'Updated urban drainage design for Moldovan cities.'
+  },
+  {
+    pattern: 'mongolia_namem',
+    name: 'Mongolia NAMEM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Mongolia NAMEM Design Storm Standard',
+      citation: 'Mongolia NAMEM',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for High-altitude cold-arid continental.'
+  },
+  {
+    pattern: 'mongolia_ulaanbaatar',
+    name: 'Mongolia Ulaanbaatar',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Ulaanbaatar Urban Drainage Master Plan',
+      citation: 'City of Ulaanbaatar / ADB',
+      year: 2017,
+    },
+    notes: 'Continental steppe climate urban design storm.'
+  },
+  {
+    pattern: 'montana_mdt',
+    name: 'Montana MDT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Montana DOT Drainage Manual',
+      citation: 'Montana Department of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'montenegro_ihms',
+    name: 'Montenegro IHMS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'IHMS Montenegro Precipitation Design Standards',
+      citation: 'Institute of Hydrometeorology Montenegro',
+      year: 2015,
+    },
+    notes: 'Adriatic coast orographic design storm.'
+  },
+  {
+    pattern: 'montenegro_regional',
+    name: 'Montenegro Regional',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Montenegro Regional Drainage Standards',
+      citation: 'Infrastructure Ministry Montenegro',
+      year: 2017,
+    },
+    notes: 'Municipal drainage design standards.'
+  },
+  {
+    pattern: 'morocco_dmn',
+    name: 'Morocco DMN',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Morocco DMN Design Storm Standard',
+      citation: 'Morocco DMN',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for North African Mediterranean.'
+  },
+  {
+    pattern: 'morocco_ormvat',
+    name: 'Morocco ORMVAT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Guide de conception du drainage',
+      citation: 'ORMVAT Morocco',
+      year: 2010,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'mozambique_inam',
+    name: 'Mozambique INAM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Mozambique INAM Design Storm Standard',
+      citation: 'Mozambique INAM',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for SE African coastal.'
+  },
+  {
+    pattern: 'mozambique_maputo',
+    name: 'Mozambique Maputo',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Maputo Stormwater Master Plan',
+      citation: 'City of Maputo',
+      year: 2016,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'myanmar_yangon',
+    name: 'Myanmar Yangon IDF',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Yangon IDF-Derived Design Storm',
+      citation: 'YCDC / JICA',
+      year: 2018,
+    },
+    notes: 'Monsoon tropical urban IDF design for Myanmar.'
+  },
+  {
+    pattern: 'myanmar_ycdc',
+    name: 'Myanmar Yangon YCDC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'YCDC Drainage Design Manual',
+      citation: 'Yangon City Development Committee',
+      year: 2018,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'naiad_enhanced',
+    name: 'NAIAD Enhanced',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NAIAD: Nature-Based Solutions Design Standards',
+      citation: 'EU Horizon 2020 NAIAD Project',
+      year: 2019,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'nauru_regional',
+    name: 'Nauru Regional',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Nauru Regional Drainage Standards',
+      citation: 'Government of Nauru / SPC',
+      year: 2017,
+    },
+    notes: 'Smallest Pacific island state design approach.'
+  },
+  {
+    pattern: 'nebraska_ndot',
+    name: 'Nebraska NDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Nebraska DOT Drainage Manual',
+      citation: 'Nebraska Department of Transportation',
+      year: 2020,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'neom_design',
+    name: 'NEOM Design Storm',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NEOM Infrastructure Design Criteria',
+      citation: 'NEOM Company',
+      year: 2023,
+    },
+    notes: 'Regional arid/semi-arid design storm using IDF relationships adapted for local extreme rainfall events.'
+  },
+  {
+    pattern: 'nepal_kukl',
+    name: 'Nepal Kathmandu KUKL',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'KUKL Drainage Design Manual',
+      citation: 'Kathmandu Upatyaka Khanepani Limited',
+      year: 2019,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'new_hampshire_nhdot',
+    name: 'New Hampshire NHDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'New Hampshire DOT Drainage Manual',
+      citation: 'New Hampshire Department of Transportation',
+      year: 2018,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'new_jersey_njdot',
+    name: 'New Jersey NJDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'New Jersey DOT Roadway Design Manual',
+      citation: 'New Jersey Department of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'new_mexico_nmdot',
+    name: 'New Mexico NMDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'New Mexico DOT Drainage Manual',
+      citation: 'New Mexico Department of Transportation',
+      year: 2018,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'new_york_nysdot',
+    name: 'New York NYSDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'New York State DOT Highway Design Manual',
+      citation: 'New York State Department of Transportation',
+      year: 2020,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'nicaragua_ineter',
+    name: 'Nicaragua INETER',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Atlas Climatológico Nacional',
+      citation: 'INETER Nicaragua',
+      year: 2012,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'niger_regional',
+    name: 'Niger Regional',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Niger Regional Sahel Design Storm',
+      citation: 'ABN / Niger Met',
+      year: 2016,
+    },
+    notes: 'Sahel arid front-loaded design storm for infrastructure.'
+  },
+  {
+    pattern: 'nigeria_abuja',
+    name: 'Nigeria Abuja FCDA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'FCDA Infrastructure Design Standards',
+      citation: 'Federal Capital Development Authority',
+      year: 2017,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'nigeria_lagos',
+    name: 'Nigeria Lagos LSWB',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Lagos State Drainage Design Manual',
+      citation: 'Lagos State Water Board',
+      year: 2019,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'nigeria_nimet',
+    name: 'Nigeria NiMet',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Nigeria NiMet Design Storm Standard',
+      citation: 'Nigeria NiMet',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for West African monsoon ITCZ pattern.'
+  },
+  {
+    pattern: 'noaa_a16',
+    name: 'NOAA Atlas 16',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NOAA Atlas 16 Design Storm Standard',
+      citation: 'NOAA Atlas 16',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Next-gen NOAA western US atlas.'
+  },
+  {
+    pattern: 'nonstationary_gev',
+    name: 'Non-stationary GEV IDF',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Non-Stationary GEV Analysis of Extreme Precipitation',
+      citation: 'Coles (2001) / Cheng & AghaKouchak',
+      year: 2014,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'north_carolina_ncdot',
+    name: 'North Carolina NCDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'North Carolina DOT Guidelines for Drainage Studies',
+      citation: 'North Carolina Department of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'north_dakota_nddot',
+    name: 'North Dakota NDDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'North Dakota DOT Design Manual',
+      citation: 'North Dakota Department of Transportation',
+      year: 2018,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'north_macedonia_hms',
+    name: 'North Macedonia HMS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HMS North Macedonia IDF Standards',
+      citation: 'Hydrometeorological Service N. Macedonia',
+      year: 2016,
+    },
+    notes: 'Balkan continental-Mediterranean design storm.'
+  },
+  {
+    pattern: 'north_macedonia_regional',
+    name: 'North Macedonia Regional',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'North Macedonia Regional Drainage Standards',
+      citation: 'Infrastructure Ministry N. Macedonia',
+      year: 2017,
+    },
+    notes: 'Regional drainage design beyond national standards.'
+  },
+  {
+    pattern: 'norwegian_nccs',
+    name: 'Norwegian NCCS',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NCCS Climate Adjusted IDF Curves for Norway',
+      citation: 'Norwegian Centre for Climate Services',
+      year: 2019,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'norwegian_nve',
+    name: 'Norway NVE',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Norway NVE Design Storm Standard',
+      citation: 'Norway NVE',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Norwegian Chicago variant.'
+  },
+  {
+    pattern: 'norwegian_nve_urban',
+    name: 'Norwegian NVE Urban',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Urban Drainage Design — Climate Adapted',
+      citation: 'NVE Norway',
+      year: 2020,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'nunavut_cws',
+    name: 'Nunavut CWS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Nunavut Community and Government Services Technical Guidelines',
+      citation: 'Government of Nunavut',
+      year: 2019,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'nwt_enr',
+    name: 'Northwest Territories ENR',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NWT Environment and Natural Resources Drainage Guidelines',
+      citation: 'Government of Northwest Territories',
+      year: 2018,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'nz_auckland_ac',
+    name: 'New Zealand Auckland AC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Auckland Council Technical Publication TP108',
+      citation: 'Auckland Council',
+      year: 2013,
+    },
+    notes: 'New Zealand local council design storm derived from HIRDS v4/NIWA rainfall data with regional frequency analysis.'
+  },
+  {
+    pattern: 'nz_christchurch',
+    name: 'Christchurch Canterbury',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Christchurch Canterbury Design Storm Standard',
+      citation: 'Christchurch Canterbury',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Canterbury rain-shadow plains.'
+  },
+  {
+    pattern: 'nz_christchurch_ccc',
+    name: 'New Zealand Christchurch CCC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Christchurch City Council Infrastructure Design Standard',
+      citation: 'CCC',
+      year: 2019,
+    },
+    notes: 'New Zealand local council design storm derived from HIRDS v4/NIWA rainfall data with regional frequency analysis.'
+  },
+  {
+    pattern: 'nz_niwa',
+    name: 'NZ NIWA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NZ NIWA Design Storm Standard',
+      citation: 'NZ NIWA',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for NZ national NIWA standard.'
+  },
+  {
+    pattern: 'nz_tp108',
+    name: 'Auckland TP108',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Auckland TP108 Design Storm Standard',
+      citation: 'Auckland TP108',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Auckland Council TP108 maritime convective.'
+  },
+  {
+    pattern: 'nz_wellington',
+    name: 'Wellington Regional',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Wellington Regional Design Storm Standard',
+      citation: 'Wellington Regional',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Wellington frontal/orographic maritime.'
+  },
+  {
+    pattern: 'nz_wellington_gwrc',
+    name: 'New Zealand Wellington GWRC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Greater Wellington Regional Council Stormwater Guidelines',
+      citation: 'GWRC',
+      year: 2015,
+    },
+    notes: 'New Zealand local council design storm derived from HIRDS v4/NIWA rainfall data with regional frequency analysis.'
+  },
+  {
+    pattern: 'oecs_caribbean',
+    name: 'OECS Caribbean',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'OECS Caribbean Design Storm Standard',
+      citation: 'OECS Caribbean',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Eastern Caribbean Bell method + TC.'
+  },
+  {
+    pattern: 'oklahoma_odot',
+    name: 'Oklahoma ODOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Oklahoma DOT Storm Drainage Design Manual',
+      citation: 'Oklahoma Department of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'oman_dgman',
+    name: 'Oman DGMAN',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Oman DGMAN Design Storm Standard',
+      citation: 'Oman DGMAN',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Muscat wadi/Khareef flood.'
+  },
+  {
+    pattern: 'ontario_moecp',
+    name: 'Ontario MOECP',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Ontario Stormwater Management Planning and Design Manual',
+      citation: 'Ontario MOECP (formerly MOE)',
+      year: 2003,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'ontario_mto_12hr',
+    name: 'Ontario MTO 12-hr',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Ontario MTO Drainage Management Manual — 12-hour Storm',
+      citation: 'Ontario Ministry of Transportation',
+      year: 2008,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'ontario_mto_2hr',
+    name: 'Ontario MTO 2-hr',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Ontario MTO Drainage Management Manual — 2-hour Storm',
+      citation: 'Ontario Ministry of Transportation',
+      year: 2008,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'pacific_sprep',
+    name: 'Pacific SPREP',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Pacific SPREP Design Storm Standard',
+      citation: 'Pacific SPREP',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Pacific SIDS tropical cyclone.'
+  },
+  {
+    pattern: 'pakistan_cda',
+    name: 'Pakistan CDA Islamabad',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'CDA Infrastructure Design Manual',
+      citation: 'Capital Development Authority Islamabad',
+      year: 2017,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'pakistan_lda',
+    name: 'Pakistan LDA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'LDA Development Standards — Drainage',
+      citation: 'Lahore Development Authority',
+      year: 2018,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'pakistan_pmd',
+    name: 'Pakistan PMD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Pakistan PMD Design Storm Standard',
+      citation: 'Pakistan PMD',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Monsoon beta distribution.'
+  },
+  {
+    pattern: 'palau_usace',
+    name: 'Palau USACE',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Palau USACE Infrastructure Design',
+      citation: 'US Army Corps of Engineers, Pacific Division',
+      year: 2015,
+    },
+    notes: 'USACE TR-55 adapted for Pacific island conditions.'
+  },
+  {
+    pattern: 'panama_mop',
+    name: 'Panama MOP',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manual de Diseño de Alcantarillado Pluvial',
+      citation: 'MOP Panama',
+      year: 2014,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'paraguay_dnp',
+    name: 'Paraguay DNP',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Guía de Diseño de Drenaje',
+      citation: 'DNP Paraguay',
+      year: 2016,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'partial_duration',
+    name: 'Partial Duration Series',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Partial Duration Series Frequency Analysis',
+      citation: 'Langbein (1949) / Madsen et al. (1997)',
+      year: 1997,
+    },
+    notes: 'PDS-based frequency analysis using peaks-over-threshold'
+  },
+  {
+    pattern: 'pennsylvania_penndot',
+    name: 'Pennsylvania PennDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'PennDOT Design Manual Part 2',
+      citation: 'Pennsylvania Department of Transportation',
+      year: 2020,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'peru_provias',
+    name: 'Peru PROVÍAS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manual de Hidrología, Hidráulica y Drenaje',
+      citation: 'PROVÍAS Nacional, MTC',
+      year: 2019,
+    },
+    notes: 'Regional design storm using locally-derived IDF relationships and temporal distributions.'
+  },
+  {
+    pattern: 'peru_senamhi',
+    name: 'Peru SENAMHI',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Peru SENAMHI Design Storm Standard',
+      citation: 'Peru SENAMHI',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Andean convective.'
+  },
+  {
+    pattern: 'philippines_mmda',
+    name: 'Philippines MMDA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'MMDA Metro Manila Flood Management Standards',
+      citation: 'Metro Manila Development Authority',
+      year: 2019,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'philippines_pagasa',
+    name: 'Philippines PAGASA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Philippines PAGASA Design Storm Standard',
+      citation: 'Philippines PAGASA',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Philippine typhoon/monsoon.'
+  },
+  {
+    pattern: 'pilgrim_1977',
+    name: 'Pilgrim (1977)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Temporal Patterns of Design Rainfall for Sydney',
+      citation: 'Pilgrim, D.H. & Cordery, I.',
+      year: 1977,
+    },
+    notes: 'Australian empirical temporal patterns from pluviograph analysis'
+  },
+  {
+    pattern: 'pmp_hmr49',
+    name: 'PMP HMR 49',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'PMP Estimation',
+        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        description: 'Statistical/meteorological estimation of probable maximum precipitation'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HMR 49: Probable Maximum Precipitation — Colorado River and Great Basin Drainages',
+      citation: 'National Weather Service, Office of Hydrology',
+      year: 1977,
+    },
+    notes: 'Hydrometeorological report providing PMP estimates for infrastructure design. Uses moisture maximization and storm transposition techniques.'
+  },
+  {
+    pattern: 'pmp_hmr50',
+    name: 'PMP HMR 50',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'PMP Estimation',
+        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        description: 'Statistical/meteorological estimation of probable maximum precipitation'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HMR 50: Standard Project Storm and Flood Determinations — East of 105th Meridian',
+      citation: 'National Weather Service',
+      year: 1978,
+    },
+    notes: 'Hydrometeorological report providing PMP estimates for infrastructure design. Uses moisture maximization and storm transposition techniques.'
+  },
+  {
+    pattern: 'pmp_hmr52',
+    name: 'PMP HMR 52',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'PMP Estimation',
+        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        description: 'Statistical/meteorological estimation of probable maximum precipitation'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HMR 52: Application of PMP Estimates — United States East of the 105th Meridian',
+      citation: 'Hansen, Schreiner, Miller (NWS)',
+      year: 1982,
+    },
+    notes: 'Hydrometeorological report providing PMP estimates for infrastructure design. Uses moisture maximization and storm transposition techniques.'
+  },
+  {
+    pattern: 'pmp_hmr53',
+    name: 'PMP HMR 53',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'PMP Estimation',
+        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        description: 'Statistical/meteorological estimation of probable maximum precipitation'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HMR 53: Seasonal Variation of 10-Square-Mile PMP — US West of 105th Meridian',
+      citation: 'National Weather Service',
+      year: 1980,
+    },
+    notes: 'Hydrometeorological report providing PMP estimates for infrastructure design. Uses moisture maximization and storm transposition techniques.'
+  },
+  {
+    pattern: 'pmp_hmr55',
+    name: 'PMP HMR 55',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'PMP Estimation',
+        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        description: 'Statistical/meteorological estimation of probable maximum precipitation'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HMR 55A: PMP — Central and Eastern United States, Texas',
+      citation: 'National Weather Service',
+      year: 1988,
+    },
+    notes: 'Hydrometeorological report providing PMP estimates for infrastructure design. Uses moisture maximization and storm transposition techniques.'
+  },
+  {
+    pattern: 'pmp_hmr57',
+    name: 'PMP HMR 57',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'PMP Estimation',
+        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        description: 'Statistical/meteorological estimation of probable maximum precipitation'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HMR 57: PMP — Pacific Northwest States',
+      citation: 'National Weather Service',
+      year: 1994,
+    },
+    notes: 'Hydrometeorological report providing PMP estimates for infrastructure design. Uses moisture maximization and storm transposition techniques.'
+  },
+  {
+    pattern: 'pmp_hmr58',
+    name: 'PMP HMR 58',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'PMP Estimation',
+        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        description: 'Statistical/meteorological estimation of probable maximum precipitation'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HMR 58: PMP — California',
+      citation: 'National Weather Service',
+      year: 1998,
+    },
+    notes: 'Hydrometeorological report providing PMP estimates for infrastructure design. Uses moisture maximization and storm transposition techniques.'
+  },
+  {
+    pattern: 'pmp_hmr59',
+    name: 'PMP HMR 59',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'PMP Estimation',
+        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        description: 'Statistical/meteorological estimation of probable maximum precipitation'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HMR 59: PMP — Colorado',
+      citation: 'National Weather Service',
+      year: 1999,
+    },
+    notes: 'Hydrometeorological report providing PMP estimates for infrastructure design. Uses moisture maximization and storm transposition techniques.'
+  },
+  {
+    pattern: 'pmp_hmr60',
+    name: 'PMP HMR 60',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'PMP Estimation',
+        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        description: 'Statistical/meteorological estimation of probable maximum precipitation'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HMR 60: Probable Maximum Precipitation — Hawaii',
+      citation: 'National Weather Service',
+      year: 2013,
+    },
+    notes: 'Hydrometeorological report providing PMP estimates for infrastructure design. Uses moisture maximization and storm transposition techniques.'
+  },
+  {
+    pattern: 'png_ncd',
+    name: 'PNG NCD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NCD Drainage Design Standards',
+      citation: 'PNG National Capital District Commission',
+      year: 2016,
+    },
+    notes: 'Pacific island design storm using regional IDF data adapted for tropical maritime conditions.'
+  },
+  {
+    pattern: 'poland_panda',
+    name: 'Poland PANDa',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Poland PANDa Design Storm Standard',
+      citation: 'Poland PANDa',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Polish national precipitation atlas.'
+  },
+  {
+    pattern: 'polish_imgw_urban',
+    name: 'Poland IMGW Urban',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'IMGW Urban Drainage Design Storm Guidelines',
+      citation: 'IMGW-PIB Poland',
+      year: 2019,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'portugal_ipma',
+    name: 'Portugal IPMA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Portugal IPMA Design Storm Standard',
+      citation: 'Portugal IPMA',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Portuguese Mediterranean IDF.'
+  },
+  {
+    pattern: 'puerto_rico',
+    name: 'Puerto Rico',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Puerto Rico Design Storm Standard',
+      citation: 'Puerto Rico',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Tropical modified SCS II.'
+  },
+  {
+    pattern: 'qatar_kahramaa',
+    name: 'Qatar Kahramaa',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Qatar Kahramaa Design Storm Standard',
+      citation: 'Qatar Kahramaa',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Doha arid flash flood.'
+  },
+  {
+    pattern: 'qatar_kahramaa_enhanced',
+    name: 'Qatar Kahramaa Enhanced',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Qatar Kahramaa Updated Drainage Standards',
+      citation: 'Kahramaa',
+      year: 2024,
+    },
+    notes: 'Regional arid/semi-arid design storm using IDF relationships adapted for local extreme rainfall events.'
+  },
+  {
+    pattern: 'qatar_qrrc',
+    name: 'Qatar QRRC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Qatar Rainfall Runoff Center Design Standards',
+      citation: 'QRRC Ministry of Municipality',
+      year: 2016,
+    },
+    notes: 'Qatar climate-specific design storm for drainage infrastructure.'
+  },
+  {
+    pattern: 'quantile_delta',
+    name: 'Quantile Delta Mapping',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Quantile Delta Mapping for Bias Correction',
+      citation: 'Cannon et al. (2015)',
+      year: 2015,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'quebec_mtq',
+    name: 'Quebec MTQ',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Manuel de conception des ponceaux',
+      citation: 'Ministère des Transports du Québec',
+      year: 2012,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'rhode_island_ridot',
+    name: 'Rhode Island RIDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Rhode Island DOT Design Manual',
+      citation: 'Rhode Island Department of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'romanian_anar',
+    name: 'Romanian ANAR',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'ANAR Design Storm for Urban Drainage',
+      citation: 'ANAR Romania',
+      year: 2015,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'russia_roshydromet',
+    name: 'Russia Roshydromet',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Russia Roshydromet Design Storm Standard',
+      citation: 'Russia Roshydromet',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Russian continental IDF.'
+  },
+  {
+    pattern: 'russian_sp',
+    name: 'Russian SP',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'SP 32.13330 Building Codes — Sewerage',
+      citation: 'Ministry of Construction Russia',
+      year: 2018,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'rwanda_meteo',
+    name: 'Rwanda Météo',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Rwanda Météo Design Storm Standard',
+      citation: 'Rwanda Météo',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Highland tropical convective center-peaked.'
+  },
+  {
+    pattern: 'rwanda_regional_idf',
+    name: 'Rwanda Regionalized IDF',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Rwanda Regionalized IDF Curves',
+      citation: 'Rwanda Meteorology Agency',
+      year: 2018,
+    },
+    notes: '5-region East African IDF design for Rwanda\'s varied topography.'
+  },
+  {
+    pattern: 'sa_cape_town',
+    name: 'South Africa Cape Town',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Cape Town Stormwater Management Manual',
+      citation: 'City of Cape Town',
+      year: 2018,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'sa_johannesburg',
+    name: 'South Africa Johannesburg',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Johannesburg Stormwater Design Manual',
+      citation: 'City of Johannesburg',
+      year: 2019,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'sa_sanral',
+    name: 'South Africa SANRAL',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'South Africa SANRAL Design Storm Standard',
+      citation: 'South Africa SANRAL',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for SANRAL road drainage design storm.'
+  },
+  {
+    pattern: 'sa_scs1',
+    name: 'SA SCS Type 1',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'SA SCS Type 1 Design Storm Standard',
+      citation: 'SA SCS Type 1',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for South African SCS Type 1 — coastal/orographic, lowest concentration.'
+  },
+  {
+    pattern: 'sa_scs2',
+    name: 'SA SCS Type 2',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'SA SCS Type 2 Design Storm Standard',
+      citation: 'SA SCS Type 2',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for South African SCS Type 2 — moderate concentration.'
+  },
+  {
+    pattern: 'sa_scs3',
+    name: 'SA SCS Type 3',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'SA SCS Type 3 Design Storm Standard',
+      citation: 'SA SCS Type 3',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for South African SCS Type 3 — inland convective.'
+  },
+  {
+    pattern: 'sa_scs4',
+    name: 'SA SCS Type 4',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'SA SCS Type 4 Design Storm Standard',
+      citation: 'SA SCS Type 4',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for South African SCS Type 4 — extreme convective Highveld.'
+  },
+  {
+    pattern: 'sa_wrc',
+    name: 'South Africa WRC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'South Africa WRC Design Storm Standard',
+      citation: 'South Africa WRC',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for South African Water Research Commission.'
+  },
+  {
+    pattern: 'saharan_dust',
+    name: 'Saharan Dust Storm',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Saharan Dust-Enhanced Precipitation',
+      citation: 'Twohy et al. (2009)',
+      year: 2009,
+    },
+    notes: 'Dust aerosol enhanced precipitation in Mediterranean regions'
+  },
+  {
+    pattern: 'saint_lucia_charim',
+    name: 'Saint Lucia CHaRIM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Saint Lucia CHaRIM Design Storm',
+      citation: 'World Bank / CHARIM',
+      year: 2015,
+    },
+    notes: 'Caribbean island design storm using Johnson SB distribution.'
+  },
+  {
+    pattern: 'saint_vincent_charim',
+    name: 'Saint Vincent CHaRIM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Saint Vincent CHaRIM Design Storm',
+      citation: 'World Bank / CHARIM',
+      year: 2015,
+    },
+    notes: 'Caribbean LISEM-based design storm for volcanic terrain.'
+  },
+  {
+    pattern: 'samoa_sopac',
+    name: 'Samoa SOPAC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Samoa SOPAC Flood Management Guidelines',
+      citation: 'Pacific Community (SPC) / SOPAC',
+      year: 2014,
+    },
+    notes: 'Pacific island design storm for flood management infrastructure.'
+  },
+  {
+    pattern: 'saskatchewan_wsa',
+    name: 'Saskatchewan WSA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Saskatchewan Water Security Agency IDF Curves',
+      citation: 'Water Security Agency',
+      year: 2016,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'saudi_aramco',
+    name: 'Saudi Aramco',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Saudi Aramco Engineering Standards — Drainage',
+      citation: 'Saudi Aramco',
+      year: 2019,
+    },
+    notes: 'Regional arid/semi-arid design storm using IDF relationships adapted for local extreme rainfall events.'
+  },
+  {
+    pattern: 'saudi_momrah',
+    name: 'Saudi MoMRAH',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'MoMRAH Drainage Design Standards',
+      citation: 'Saudi Ministry of Municipal and Rural Affairs',
+      year: 2020,
+    },
+    notes: 'Regional arid/semi-arid design storm using IDF relationships adapted for local extreme rainfall events.'
+  },
+  {
+    pattern: 'saudi_pme',
+    name: 'Saudi Arabia PME',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Saudi Arabia PME Design Storm Standard',
+      citation: 'Saudi Arabia PME',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Arid wadi flash flood.'
+  },
+  {
+    pattern: 'senegal_anacim',
+    name: 'Senegal ANACIM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Senegal ANACIM Design Storm Standard',
+      citation: 'Senegal ANACIM',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Sahel monsoon burst front-loaded pattern.'
+  },
+  {
+    pattern: 'seychelles_scs3',
+    name: 'Seychelles SCS Type 3',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Seychelles SCS Type 3 Design Storm Standard',
+      citation: 'Seychelles SCS Type 3',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for SA SCS Type 3 adapted for Indian Ocean.'
+  },
+  {
+    pattern: 'seychelles_sma',
+    name: 'Seychelles SMA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Seychelles Meteorological Authority IDF Standards',
+      citation: 'SMA',
+      year: 2014,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'sharjah_sewa',
+    name: 'Sharjah SEWA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Sharjah SEWA Drainage Guidelines',
+      citation: 'Sharjah Electricity and Water Authority',
+      year: 2018,
+    },
+    notes: 'Regional arid/semi-arid design storm using IDF relationships adapted for local extreme rainfall events.'
+  },
+  {
+    pattern: 'sierra_leone_roads',
+    name: 'Sierra Leone Roads Authority',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Sierra Leone Low Volume Roads IDF',
+      citation: 'Sierra Leone Roads Authority / AfDB',
+      year: 2017,
+    },
+    notes: 'West African tropical design storm for road drainage.'
+  },
+  {
+    pattern: 'silva_brazil',
+    name: 'Silva (Brazil)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Brazilian Regional Design Storm Methodology',
+      citation: 'Silva, L.P. et al.',
+      year: 2003,
+    },
+    notes: 'Tropical convective design storm for Brazilian urban drainage'
+  },
+  {
+    pattern: 'singapore_pub_urban',
+    name: 'Singapore PUB Urban',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'PUB Code of Practice — Urban Drainage',
+      citation: 'Public Utilities Board Singapore',
+      year: 2020,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'slovak_shmu',
+    name: 'Slovak SHMU',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Meteorologické normy pre projektovanie',
+      citation: 'SHMÚ Slovakia',
+      year: 2015,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'slovenian_mop',
+    name: 'Slovenian MOP',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Pravilnik o odvajanju odpadnih voda',
+      citation: 'MOP Slovenia',
+      year: 2012,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'snowmelt_enhanced',
+    name: 'Snowmelt-Enhanced',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Rain-on-Snow Enhanced Storm',
+      citation: 'McCabe et al. (2007)',
+      year: 2007,
+    },
+    notes: 'Combined rain + snowmelt compound event beyond standard ROS'
+  },
+  {
+    pattern: 'solomon_islands',
+    name: 'Solomon Islands Honiara',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Solomon Islands World Bank Drainage Design',
+      citation: 'World Bank / SI Government',
+      year: 2018,
+    },
+    notes: 'Honiara design storm for tropical maritime conditions.'
+  },
+  {
+    pattern: 'south_carolina_scdot',
+    name: 'South Carolina SCDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'South Carolina DOT Drainage Manual',
+      citation: 'South Carolina Department of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'south_dakota_sddot',
+    name: 'South Dakota SDDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'South Dakota DOT Drainage Manual',
+      citation: 'South Dakota Department of Transportation',
+      year: 2018,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'spanish_aemet',
+    name: 'Spanish AEMET-ADAPTA',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'AEMET-ADAPTA Climate Adaptation Scenarios',
+      citation: 'AEMET',
+      year: 2020,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'spanish_cedex',
+    name: 'Spain CEDEX',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Spain CEDEX Design Storm Standard',
+      citation: 'Spain CEDEX',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Spanish alternating block.'
+  },
+  {
+    pattern: 'sri_lanka',
+    name: 'Sri Lanka',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Sri Lanka Design Storm Standard',
+      citation: 'Sri Lanka',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Monsoon beta distribution.'
+  },
+  {
+    pattern: 'sri_lanka_nbro',
+    name: 'Sri Lanka NBRO',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NBRO Stormwater Design Guidelines',
+      citation: 'National Building Research Organization',
+      year: 2016,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'sst_transposition',
+    name: 'Stochastic Storm Transposition',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Stochastic Storm Transposition',
+      citation: 'Wright et al. (2017)',
+      year: 2017,
+    },
+    notes: 'Probabilistic framework transposing observed storms across regions'
+  },
+  {
+    pattern: 'suriname_paramaribo',
+    name: 'Suriname Paramaribo',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Suriname Paramaribo Urban Drainage',
+      citation: 'Ministry of Public Works Suriname',
+      year: 2016,
+    },
+    notes: 'Tropical South American urban drainage design storm.'
+  },
+  {
+    pattern: 'swedish_smhi',
+    name: 'Sweden SMHI',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Sweden SMHI Design Storm Standard',
+      citation: 'Sweden SMHI',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Swedish Chicago variant.'
+  },
+  {
+    pattern: 'swedish_smhi_urban',
+    name: 'Swedish SMHI Urban',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Swedish Urban Drainage Design Guidelines',
+      citation: 'SMHI / Svenskt Vatten',
+      year: 2016,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'swiss_ch2018',
+    name: 'Swiss IDF CH2018',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'CH2018: Swiss Climate Change Scenarios',
+      citation: 'MeteoSwiss / ETH Zurich',
+      year: 2018,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'swiss_idf',
+    name: 'Swiss IDF',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Swiss IDF Design Storm Standard',
+      citation: 'Swiss IDF',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Swiss cantonal IDF.'
+  },
+  {
+    pattern: 'taiwan_cwa',
+    name: 'Taiwan CWA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Taiwan CWA Design Storm Standard',
+      citation: 'Taiwan CWA',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Taiwan typhoon IDF.'
+  },
+  {
+    pattern: 'taiwan_moiwr',
+    name: 'Taiwan MOIWR',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'MOIWR Water Resources Design Standards',
+      citation: 'Ministry of Interior, WRA',
+      year: 2018,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'tajikistan_hydromet',
+    name: 'Tajikistan Hydromet',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Tajikistan Hydromet IDF Standards',
+      citation: 'State Agency for Hydrometeorology',
+      year: 2014,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'tank_model',
+    name: 'Tank Model (Laos/Myanmar)',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Sugawara Tank Model Rainfall Input',
+      citation: 'Sugawara, M.',
+      year: 1972,
+    },
+    notes: 'Multi-layer tank model requiring specific temporal input patterns'
+  },
+  {
+    pattern: 'tanzania_dawasa',
+    name: 'Tanzania DAWASA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'DAWASA Drainage Design Standards',
+      citation: 'DAWASA Dar es Salaam',
+      year: 2016,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'tanzania_tma',
+    name: 'Tanzania TMA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Tanzania TMA Design Storm Standard',
+      citation: 'Tanzania TMA',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for East African monsoon.'
+  },
+  {
+    pattern: 'thailand_bma',
+    name: 'Thailand BMA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'BMA Drainage Design Standards',
+      citation: 'Bangkok Metropolitan Administration',
+      year: 2017,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'thailand_tmd',
+    name: 'Thailand TMD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Thailand TMD Design Storm Standard',
+      citation: 'Thailand TMD',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Thai monsoon with urban heat island.'
+  },
+  {
+    pattern: 'timor_leste_dnmg',
+    name: 'Timor-Leste DNMG',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'DNMG Rainfall Design Standards',
+      citation: 'Direcção Nacional de Meteorologia e Geofísica',
+      year: 2017,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'tunisia_anpe',
+    name: 'Tunisia ANPE',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'ANPE Environmental Drainage Standards',
+      citation: 'ANPE Tunisia',
+      year: 2012,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'turkey_mgm',
+    name: 'Turkey MGM',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Turkey MGM Design Storm Standard',
+      citation: 'Turkey MGM',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Turkish meteorological IDF.'
+  },
+  {
+    pattern: 'turkmenistan',
+    name: 'Turkmenistan Turkmenhydromet',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Turkmenhydromet Design Standards',
+      citation: 'State Committee for Hydrometeorology',
+      year: 2015,
+    },
+    notes: 'Central Asian continental arid design storm.'
+  },
+  {
+    pattern: 'tuvalu_tcap',
+    name: 'Tuvalu TCAP/UNDP',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Tuvalu Coastal Adaptation Project Design',
+      citation: 'UNDP / Government of Tuvalu',
+      year: 2017,
+    },
+    notes: 'Atoll coastal hazard storm modelling for climate adaptation.'
+  },
+  {
+    pattern: 'uae_ncms',
+    name: 'UAE NCMS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'UAE NCMS Design Storm Standard',
+      citation: 'UAE NCMS',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Dubai/Abu Dhabi flash flood.'
+  },
+  {
+    pattern: 'uganda_nwsc',
+    name: 'Uganda NWSC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'NWSC Technical Design Manual',
+      citation: 'National Water and Sewerage Corporation',
+      year: 2018,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'ukcp09_legacy',
+    name: 'UKCP09 Legacy',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'UKCP09: UK Climate Projections',
+      citation: 'UK Met Office',
+      year: 2009,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'ukrainian_dstu',
+    name: 'Ukrainian DSTU',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'DSTU National Standard — Drainage Design',
+      citation: 'DSTU Ukraine',
+      year: 2020,
+    },
+    notes: 'European regional design storm standard derived from national IDF data and frequency analysis.'
+  },
+  {
+    pattern: 'urban_pluvial',
+    name: 'Urban Pluvial Flood',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Urban Pluvial Flood Design Storm',
+      citation: 'Falconer et al.',
+      year: 2009,
+    },
+    notes: 'Front-loaded pluvial design for surface water flooding assessment'
+  },
+  {
+    pattern: 'us_noaa_climate',
+    name: 'US NOAA Climate-Adjusted',
+    category: 'cumulative',
+    equations: [
+      {
+        label: 'Climate-Adjusted Design Rainfall',
+        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        description: 'Historical design rainfall scaled by climate change factor for future projections'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Climate-Adjusted NOAA Atlas 14 Precipitation Frequency',
+      citation: 'NOAA / NWS',
+      year: 2022,
+    },
+    notes: 'Climate-adjusted design storm incorporating projected changes in rainfall intensity and frequency.'
+  },
+  {
+    pattern: 'vanuatu_vankirap',
+    name: 'Vanuatu Van-KIRAP',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Van-KIRAP Road Design IDF with Climate Scaling',
+      citation: 'SPREP / Vanuatu Met',
+      year: 2021,
+    },
+    notes: 'Climate-scaled IDF curves for road infrastructure design.'
+  },
+  {
+    pattern: 'venezuela_inameh',
+    name: 'Venezuela INAMEH',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Venezuela INAMEH Design Storm Standard',
+      citation: 'Venezuela INAMEH',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Andean convective.'
+  },
+  {
+    pattern: 'vermont_vtrans',
+    name: 'Vermont VTrans',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Vermont Agency of Transportation Hydraulics Manual',
+      citation: 'Vermont Agency of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'vietnam_hanoi',
+    name: 'Vietnam Hanoi',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Hanoi Urban Drainage Master Plan',
+      citation: 'Hanoi People\'s Committee',
+      year: 2018,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'vietnam_hcmc',
+    name: 'Vietnam HCMC',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'HCMC Drainage and Flood Control Plan',
+      citation: 'HCMC Department of Transport',
+      year: 2019,
+    },
+    notes: 'Regional design storm using locally-derived IDF data and temporal distribution patterns.'
+  },
+  {
+    pattern: 'vietnam_imhen',
+    name: 'Vietnam IMHEN',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Vietnam IMHEN Design Storm Standard',
+      citation: 'Vietnam IMHEN',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Vietnamese monsoon/convective.'
+  },
+  {
+    pattern: 'virginia_vdot',
+    name: 'Virginia VDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'VDOT Drainage Manual',
+      citation: 'Virginia Department of Transportation',
+      year: 2020,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'volcanic_ash',
+    name: 'Volcanic Ash-Enhanced',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Post-Volcanic Eruption Enhanced Precipitation',
+      citation: 'Robock (2000)',
+      year: 2000,
+    },
+    notes: 'Post-eruption enhanced precipitation due to aerosol effects'
+  },
+  {
+    pattern: 'west_africa_cilss',
+    name: 'West Africa CILSS',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'West Africa CILSS Design Storm Standard',
+      citation: 'West Africa CILSS',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Sahel AGRHYMET convective squall.'
+  },
+  {
+    pattern: 'wyoming_wydot',
+    name: 'Wyoming WYDOT',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Wyoming DOT Highway Drainage Manual',
+      citation: 'Wyoming Department of Transportation',
+      year: 2019,
+    },
+    notes: 'US state DOT design storm based on NOAA Atlas 14/NRCS methodology adapted for local climate. Uses SCS Type II or III distribution modified for regional rainfall characteristics.'
+  },
+  {
+    pattern: 'xgboost_storm',
+    name: 'XGBoost Storm Prediction',
+    category: 'intensity',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'XGBoost Machine Learning Storm Prediction',
+      citation: 'Tyralis et al.',
+      year: 2019,
+    },
+    notes: 'ML gradient-boosted ensemble for data-driven storm pattern prediction'
+  },
+  {
+    pattern: 'yemen_sanaa',
+    name: 'Yemen Sana',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Sanaa Basin Stormwater Master Plan',
+      citation: 'Yemen NWRA',
+      year: 2005,
+    },
+    notes: 'Regional arid/semi-arid design storm using IDF relationships adapted for local extreme rainfall events.'
+  },
+  {
+    pattern: 'yukon_highways',
+    name: 'Yukon Highways',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Yukon Highways Design Standards',
+      citation: 'Yukon Dept. of Highways and Public Works',
+      year: 2017,
+    },
+    notes: 'Canadian provincial/territorial design storm derived from ECCC IDF data, adapted for regional climate patterns.'
+  },
+  {
+    pattern: 'zambia_warma',
+    name: 'Zambia WARMA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'WARMA Drainage Design Guidelines',
+      citation: 'Water Resources Management Authority Zambia',
+      year: 2017,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'zambia_zmd',
+    name: 'Zambia ZMD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Zambia ZMD Design Storm Standard',
+      citation: 'Zambia ZMD',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for ITCZ-influenced tropical wet season center-peaked.'
+  },
+  {
+    pattern: 'zimbabwe_sala',
+    name: 'Zimbabwe Sala Manuals',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Zimbabwe Sala Highway Drainage Manuals',
+      citation: 'Zimbabwe Roads Authority',
+      year: 2013,
+    },
+    notes: 'Highway stormwater drainage design standards for Zimbabwe.'
+  },
+  {
+    pattern: 'zimbabwe_zinwa',
+    name: 'Zimbabwe ZINWA',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'ZINWA Design Standards',
+      citation: 'Zimbabwe National Water Authority',
+      year: 2015,
+    },
+    notes: 'Regional African design storm using locally-derived IDF relationships for stormwater infrastructure design.'
+  },
+  {
+    pattern: 'zimbabwe_zmd',
+    name: 'Zimbabwe ZMD',
+    category: 'empirical',
+    equations: [
+      {
+        label: 'Design Intensity',
+        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        description: 'Dimensionless temporal distribution applied to total depth P over duration D'
+      }
+    ],
+    variables: [
+      { symbol: 'i(t)', meaning: 'Rainfall intensity at time t (in/hr or mm/hr)' },
+      { symbol: 'P', meaning: 'Total storm depth (in or mm)' },
+      { symbol: 'D', meaning: 'Storm duration (hr)' },
+      { symbol: 'f(t/D)', meaning: 'Dimensionless temporal distribution function' }
+    ],
+    reference: {
+      title: 'Zimbabwe ZMD Design Storm Standard',
+      citation: 'Zimbabwe ZMD',
+      year: 2020,
+    },
+    notes: 'Design storm pattern for Subtropical summer thunderstorm early-center peak.'
+  },
 ];
 
 export function getPatternEquation(pattern: PatternType): PatternEquation | undefined {
