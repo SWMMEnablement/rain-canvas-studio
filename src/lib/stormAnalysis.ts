@@ -343,6 +343,17 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   adamowski_atlantic: { name: 'Adamowski-Alila Atlantic', peakPosition: 0.50, description: 'Adamowski & Alila (1996) Atlantic region — maritime frontal, gradual' },
   adamowski_northern: { name: 'Adamowski-Alila Northern', peakPosition: 0.50, description: 'Adamowski & Alila (1996) Northern region — low intensity, uniform' },
   winnipeg_maclaren: { name: 'Winnipeg MacLaren', peakPosition: 0.40, description: 'City of Winnipeg Drainage Criteria Manual modified Chicago distribution' },
+  // v15 — IDF-only country storm patterns
+  senegal_anacim: { name: 'Senegal ANACIM', peakPosition: 0.20, description: 'Sahel monsoon burst front-loaded pattern' },
+  rwanda_meteo: { name: 'Rwanda Météo', peakPosition: 0.45, description: 'Highland tropical convective center-peaked' },
+  zimbabwe_zmd: { name: 'Zimbabwe ZMD', peakPosition: 0.32, description: 'Subtropical summer thunderstorm early-center peak' },
+  zambia_zmd: { name: 'Zambia ZMD', peakPosition: 0.42, description: 'ITCZ-influenced tropical wet season center-peaked' },
+  mali_dnm: { name: 'Mali DNM', peakPosition: 0.18, description: 'Sahel squall line very front-loaded burst' },
+  burkina_anam: { name: 'Burkina Faso ANAM', peakPosition: 0.20, description: 'West African Sahel MCS front-loaded' },
+  angola_inamet: { name: 'Angola INAMET', peakPosition: 0.40, description: 'Tropical maritime/continental transition' },
+  congo_mettelsat: { name: 'Congo DRC METTELSAT', peakPosition: 0.42, description: 'Equatorial convective center-peaked' },
+  laos_dmh: { name: 'Laos DMH', peakPosition: 0.30, description: 'Southeast Asian monsoon early-center peaked' },
+  brunei_bdmd: { name: 'Brunei BDMD', peakPosition: 0.25, description: 'Equatorial maritime front-loaded tropical burst' },
 };
 
 /**
