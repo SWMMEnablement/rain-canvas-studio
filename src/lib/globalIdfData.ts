@@ -1717,6 +1717,77 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
 
+  // ── Baltic States ──────────────────────────────────────────────
+
+  estonia: {
+    name: "Estonia",
+    flag: "🇪🇪",
+    standard: "EMHI Estonia IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Estonian Environment Agency IDF. Maritime-continental transitional climate with moderate rainfall. Based on national gauge network analysis.",
+    ref: "EMHI (2018). Rainfall Intensity-Duration-Frequency Analysis for Estonia. Estonian Environment Agency.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Tallinn": { params: { K: 520, a: 0.16, b: 8, c: 0.60 } },
+      "Tartu": { params: { K: 500, a: 0.15, b: 8, c: 0.59 } },
+      "Pärnu": { params: { K: 530, a: 0.16, b: 8, c: 0.60 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+  latvia: {
+    name: "Latvia",
+    flag: "🇱🇻",
+    standard: "LVĢMC Latvia IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Latvian Environment, Geology and Meteorology Centre IDF. Maritime-continental climate with moderate convective storms.",
+    ref: "LVĢMC (2017). Rainfall IDF Curves for Latvia. Latvian Environment Agency.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Riga": { params: { K: 540, a: 0.16, b: 8, c: 0.60 } },
+      "Daugavpils": { params: { K: 510, a: 0.15, b: 8, c: 0.59 } },
+      "Liepāja": { params: { K: 560, a: 0.16, b: 8, c: 0.61 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+  lithuania: {
+    name: "Lithuania",
+    flag: "🇱🇹",
+    standard: "LHMT Lithuania IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Lithuanian Hydrometeorological Service IDF. Transitional maritime-continental climate with summer convective rainfall dominance.",
+    ref: "LHMT (2018). Rainfall Intensity-Duration-Frequency Analysis for Lithuania.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Vilnius": { params: { K: 530, a: 0.16, b: 8, c: 0.60 } },
+      "Kaunas": { params: { K: 520, a: 0.15, b: 8, c: 0.59 } },
+      "Klaipėda": { params: { K: 560, a: 0.16, b: 8, c: 0.61 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+  iceland: {
+    name: "Iceland",
+    flag: "🇮🇸",
+    standard: "IMO Iceland IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Icelandic Meteorological Office IDF. Subarctic oceanic climate with persistent low-intensity frontal rainfall and orographic effects.",
+    ref: "IMO (2019). Rainfall Frequency Analysis for Iceland. Icelandic Met Office.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Reykjavík": { params: { K: 420, a: 0.14, b: 7, c: 0.58 } },
+      "Akureyri": { params: { K: 380, a: 0.13, b: 7, c: 0.57 } },
+      "Vík": { params: { K: 520, a: 0.16, b: 8, c: 0.60 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+
   // ── Eastern Europe ──────────────────────────────────────────────
 
   croatia: {
