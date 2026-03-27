@@ -66,7 +66,11 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   | 'alberta_transportation' | 'prairie_short' | 'bc_moe_coastal' | 'pilgrim_cordery_ca'
   // v14 — Adamowski-Alila regional + Winnipeg
   | 'adamowski_pacific' | 'adamowski_prairie' | 'adamowski_greatlakes' | 'adamowski_stlawrence'
-  | 'adamowski_atlantic' | 'adamowski_northern' | 'winnipeg_maclaren';
+  | 'adamowski_atlantic' | 'adamowski_northern' | 'winnipeg_maclaren'
+  // v15 — IDF-only country storm patterns
+  | 'senegal_anacim' | 'rwanda_meteo' | 'zimbabwe_zmd' | 'zambia_zmd'
+  | 'mali_dnm' | 'burkina_anam' | 'angola_inamet' | 'congo_mettelsat'
+  | 'laos_dmh' | 'brunei_bdmd';
 
 // ─── Helper functions for pattern generation ───
 
