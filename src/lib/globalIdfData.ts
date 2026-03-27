@@ -1716,6 +1716,137 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
+
+  // ── Pacific Island Countries ──────────────────────────────────────
+
+  fiji: {
+    name: "Fiji",
+    flag: "🇫🇯",
+    standard: "Fiji Meteorological Service IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Fiji Meteorological Service IDF estimates. Tropical oceanic climate with frequent cyclones and intense convective rainfall. Based on regionalized frequency analysis.",
+    ref: "Fiji Meteorological Service (2016). Rainfall Intensity-Duration-Frequency Analysis for Fiji.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Suva": { params: { K: 1200, a: 0.20, b: 8, c: 0.68 } },
+      "Nadi": { params: { K: 1050, a: 0.19, b: 8, c: 0.66 } },
+      "Lautoka": { params: { K: 1080, a: 0.19, b: 8, c: 0.67 } },
+      "Labasa": { params: { K: 1150, a: 0.20, b: 8, c: 0.67 } },
+      "Savusavu": { params: { K: 1250, a: 0.21, b: 9, c: 0.69 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+
+  papuanewguinea: {
+    name: "Papua New Guinea",
+    flag: "🇵🇬",
+    standard: "PNG National Weather Service IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "PNG National Weather Service IDF. Equatorial maritime climate with extremely high annual rainfall. Orographic effects produce some of the wettest locations globally.",
+    ref: "PNG NWS (2014). Hydrological Design Standards for Papua New Guinea. PNGWRD Technical Report.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Port Moresby": { params: { K: 1100, a: 0.19, b: 7, c: 0.65 } },
+      "Lae": { params: { K: 1400, a: 0.21, b: 8, c: 0.68 } },
+      "Mount Hagen": { params: { K: 1300, a: 0.20, b: 8, c: 0.67 } },
+      "Madang": { params: { K: 1500, a: 0.22, b: 9, c: 0.69 } },
+      "Wewak": { params: { K: 1350, a: 0.21, b: 8, c: 0.68 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+
+  samoa: {
+    name: "Samoa",
+    flag: "🇼🇸",
+    standard: "Samoa Meteorology Division IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Samoa Meteorology Division IDF curves. Tropical oceanic climate heavily influenced by ENSO and South Pacific Convergence Zone. High cyclone exposure.",
+    ref: "Samoa Meteorology Division (2017). Climate Data Analysis and IDF Curves for Samoa. SPREP Technical Report.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Apia": { params: { K: 1300, a: 0.21, b: 8, c: 0.68 } },
+      "Faleolo": { params: { K: 1250, a: 0.20, b: 8, c: 0.67 } },
+      "Salelologa": { params: { K: 1280, a: 0.21, b: 8, c: 0.68 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+
+  tonga: {
+    name: "Tonga",
+    flag: "🇹🇴",
+    standard: "Tonga Meteorological Service IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Tonga Meteorological Service IDF estimates. Tropical maritime climate in cyclone belt. Rainfall influenced by SPCZ position and trade winds.",
+    ref: "Tonga Met Service (2015). Rainfall Frequency Analysis for the Kingdom of Tonga. Pacific-Australia Climate Change Science and Adaptation Planning.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Nuku'alofa": { params: { K: 1100, a: 0.19, b: 8, c: 0.66 } },
+      "Vava'u": { params: { K: 1200, a: 0.20, b: 8, c: 0.67 } },
+      "Ha'apai": { params: { K: 1150, a: 0.20, b: 8, c: 0.67 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+
+  vanuatu: {
+    name: "Vanuatu",
+    flag: "🇻🇺",
+    standard: "Vanuatu Meteorology & Geohazards IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Vanuatu Meteorology and Geohazards Department IDF. Tropical maritime climate with high cyclone frequency. One of the most climate-vulnerable nations globally.",
+    ref: "VMGD (2016). Rainfall Intensity Analysis for Vanuatu. Pacific Climate Change Science Program.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Port Vila": { params: { K: 1250, a: 0.20, b: 8, c: 0.67 } },
+      "Luganville": { params: { K: 1350, a: 0.21, b: 9, c: 0.68 } },
+      "Lamap": { params: { K: 1300, a: 0.21, b: 8, c: 0.68 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+
+  solomonislands: {
+    name: "Solomon Islands",
+    flag: "🇸🇧",
+    standard: "Solomon Islands Meteorological Service IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Solomon Islands Meteorological Service IDF. Equatorial oceanic climate with year-round high rainfall. Strong orographic enhancement on larger islands.",
+    ref: "SIMS (2015). Rainfall Frequency Estimates for Solomon Islands. PCCSP Technical Report.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Honiara": { params: { K: 1350, a: 0.21, b: 8, c: 0.68 } },
+      "Gizo": { params: { K: 1400, a: 0.22, b: 9, c: 0.69 } },
+      "Auki": { params: { K: 1380, a: 0.21, b: 8, c: 0.68 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
+
+  marshallislands: {
+    name: "Marshall Islands",
+    flag: "🇲🇭",
+    standard: "RMI Weather Service IDF",
+    formula: "i = K·T^a / (t+b)^c",
+    description: "Republic of Marshall Islands Weather Service Office IDF. Low-lying atoll nation with tropical oceanic rainfall regime. Critical for coastal drainage design.",
+    ref: "RMI Weather Service (2014). Rainfall Analysis for the Marshall Islands. NOAA/NWS Pacific Region.",
+    units: "mm/hr",
+    durUnit: "min",
+    calcWithT: true,
+    cities: {
+      "Majuro": { params: { K: 1150, a: 0.19, b: 8, c: 0.66 } },
+      "Kwajalein": { params: { K: 1100, a: 0.19, b: 8, c: 0.65 } },
+    },
+    calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
+  },
 };
 
 export const RP_COLORS: Record<number, string> = {
@@ -1752,6 +1883,8 @@ export const CONTINENT_MAP: Record<string, Continent> = {
   venezuela: "Americas", panama: "Americas", costarica: "Americas", guatemala: "Americas",
   // Oceania
   australia: "Oceania", newzealand: "Oceania",
+  fiji: "Oceania", papuanewguinea: "Oceania", samoa: "Oceania",
+  tonga: "Oceania", vanuatu: "Oceania", solomonislands: "Oceania", marshallislands: "Oceania",
   // Middle East
   saudiarabia: "Middle East", uae: "Middle East", iran: "Middle East",
   iraq: "Middle East", jordan: "Middle East", lebanon: "Middle East",
