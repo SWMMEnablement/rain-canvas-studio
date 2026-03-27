@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Globe, Download, BarChart3, TableIcon, CloudRain, BookOpen, Zap } from "lucide-react";
 import { ResponsiveContainer, LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-import { COUNTRIES, RP_COLORS, DURATIONS, SHORT_DURATIONS } from "@/lib/globalIdfData";
+import { COUNTRIES, RP_COLORS, DURATIONS, SHORT_DURATIONS, CONTINENT_MAP, CONTINENT_ORDER, CONTINENT_ICONS, type Continent } from "@/lib/globalIdfData";
 import { toast } from "sonner";
 
 interface GlobalIdfCalculatorProps {
@@ -16,6 +16,7 @@ interface GlobalIdfCalculatorProps {
 }
 
 export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorProps) {
+  const [activeContinent, setActiveContinent] = useState<Continent | "All">("All");
   const [activeCountry, setActiveCountry] = useState("australia");
   const [activeCity, setActiveCity] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"idf" | "table" | "hyetograph">("idf");
@@ -24,6 +25,11 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
   const [rValue, setRValue] = useState(0.4);
   const [selectedRp, setSelectedRp] = useState<number | null>(null);
   const [selectedDur, setSelectedDur] = useState<number | null>(null);
+
+  const filteredCountries = useMemo(() => {
+    if (activeContinent === "All") return Object.entries(COUNTRIES);
+    return Object.entries(COUNTRIES).filter(([key]) => CONTINENT_MAP[key] === activeContinent);
+  }, [activeContinent]);
 
   const country = COUNTRIES[activeCountry];
   const cityNames = Object.keys(country.cities);
@@ -178,11 +184,40 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Continent tabs */}
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Continent</label>
+            <div className="flex flex-wrap gap-1.5">
+              <Button
+                variant={activeContinent === "All" ? "default" : "outline"}
+                size="sm"
+                className="text-xs h-7 px-2.5"
+                onClick={() => setActiveContinent("All")}
+              >
+                🌐 All
+              </Button>
+              {CONTINENT_ORDER.map(cont => {
+                const count = Object.keys(COUNTRIES).filter(k => CONTINENT_MAP[k] === cont).length;
+                return (
+                  <Button
+                    key={cont}
+                    variant={activeContinent === cont ? "default" : "outline"}
+                    size="sm"
+                    className="text-xs h-7 px-2.5"
+                    onClick={() => setActiveContinent(cont)}
+                  >
+                    {CONTINENT_ICONS[cont]} {cont} ({count})
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Country badges */}
           <div className="space-y-1.5">
             <label className="text-xs text-muted-foreground uppercase tracking-wider font-medium">Country</label>
             <div className="flex flex-wrap gap-1.5">
-              {Object.entries(COUNTRIES).map(([key, c]) => (
+              {filteredCountries.map(([key, c]) => (
                 <Button
                   key={key}
                   variant={activeCountry === key ? "default" : "outline"}
