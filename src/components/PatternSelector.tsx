@@ -1791,18 +1791,19 @@ interface PatternSelectorProps {
 
 export function PatternSelector({ selectedPattern, onPatternChange }: PatternSelectorProps) {
   const selectedPatternInfo = patterns.find(p => p.id === selectedPattern);
-  const swmmPatterns = patterns.filter(p => p.category === 'swmm');
-  const usAgencyPatterns = patterns.filter(p => p.category === 'us_agency');
-  const icmPatterns = patterns.filter(p => p.category === 'icm');
-  const europeanPatterns = patterns.filter(p => p.category === 'european');
-  const scandinavianPatterns = patterns.filter(p => p.category === 'scandinavian');
-  const asianPatterns = patterns.filter(p => p.category === 'asian');
-  const middleEastPatterns = patterns.filter(p => p.category === 'middle_east');
-  const africanPatterns = patterns.filter(p => p.category === 'african');
-  const latamPatterns = patterns.filter(p => p.category === 'latam');
-  const americasPatterns = patterns.filter(p => p.category === 'americas');
-  const oceaniaPatterns = patterns.filter(p => p.category === 'oceania');
-  const internationalPatterns = patterns.filter(p => p.category === 'international');
+  const sortByName = (a: PatternOption, b: PatternOption) => a.name.localeCompare(b.name);
+  const swmmPatterns = patterns.filter(p => p.category === 'swmm').sort(sortByName);
+  const usAgencyPatterns = patterns.filter(p => p.category === 'us_agency').sort(sortByName);
+  const icmPatterns = patterns.filter(p => p.category === 'icm').sort(sortByName);
+  const europeanPatterns = patterns.filter(p => p.category === 'european').sort(sortByName);
+  const scandinavianPatterns = patterns.filter(p => p.category === 'scandinavian').sort(sortByName);
+  const asianPatterns = patterns.filter(p => p.category === 'asian').sort(sortByName);
+  const middleEastPatterns = patterns.filter(p => p.category === 'middle_east').sort(sortByName);
+  const africanPatterns = patterns.filter(p => p.category === 'african').sort(sortByName);
+  const latamPatterns = patterns.filter(p => p.category === 'latam').sort(sortByName);
+  const americasPatterns = patterns.filter(p => p.category === 'americas').sort(sortByName);
+  const oceaniaPatterns = patterns.filter(p => p.category === 'oceania').sort(sortByName);
+  const internationalPatterns = patterns.filter(p => p.category === 'international').sort(sortByName);
 
   const PatternGrid = ({ patterns }: { patterns: PatternOption[] }) => (
     <div className="grid grid-cols-2 gap-3">
