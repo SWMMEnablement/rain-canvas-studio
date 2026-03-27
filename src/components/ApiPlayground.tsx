@@ -49,7 +49,10 @@ export function ApiPlayground() {
       .then(r => r.json())
       .then(data => {
         if (Array.isArray(data.patterns) && data.patterns.length > 0) {
-          setAllPatterns(data.patterns.map((p: { id: string; name: string }) => ({ value: p.id, label: p.name })));
+          const sorted = data.patterns
+            .map((p: { id: string; name: string }) => ({ value: p.id, label: p.name }))
+            .sort((a: { label: string }, b: { label: string }) => a.label.localeCompare(b.label));
+          setAllPatterns(sorted);
         }
       })
       .catch(() => { /* keep fallback */ });
