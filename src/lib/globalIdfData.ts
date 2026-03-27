@@ -1395,3 +1395,42 @@ export const RP_COLORS: Record<number, string> = {
 
 export const DURATIONS = [5, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 360, 480, 720, 1440];
 export const SHORT_DURATIONS = [5, 10, 15, 20, 30, 45, 60, 90, 120, 180];
+
+export type Continent = "Africa" | "Asia" | "Europe" | "Americas" | "Oceania" | "Middle East";
+
+export const CONTINENT_MAP: Record<string, Continent> = {
+  // Africa
+  nigeria: "Africa", kenya: "Africa", southafrica: "Africa", egypt: "Africa", ethiopia: "Africa",
+  ghana: "Africa", tanzania: "Africa", uganda: "Africa", mozambique: "Africa", senegal: "Africa",
+  cotedivoire: "Africa", cameroon: "Africa", congo_drc: "Africa", algeria: "Africa", tunisia: "Africa",
+  madagascar: "Africa", rwanda: "Africa", zimbabwe: "Africa", zambia: "Africa", mali: "Africa",
+  burkinafaso: "Africa", angola: "Africa", morocco: "Africa",
+  // Asia
+  malaysia: "Asia", hongkong: "Asia", india: "Asia", singapore: "Asia", southkorea: "Asia",
+  japan: "Asia", taiwan: "Asia", indonesia: "Asia", thailand: "Asia", vietnam: "Asia",
+  philippines: "Asia", bangladesh: "Asia", srilanka: "Asia", myanmar: "Asia", cambodia: "Asia",
+  nepal: "Asia", pakistan: "Asia",
+  // Europe
+  uk: "Europe", france: "Europe", germany: "Europe", italy: "Europe", netherlands: "Europe",
+  belgium: "Europe", poland: "Europe", romania: "Europe", greece: "Europe", spain: "Europe",
+  portugal: "Europe", sweden: "Europe", austria: "Europe", czechrepublic: "Europe", turkey: "Europe",
+  // Americas
+  brazil: "Americas", mexico: "Americas", colombia: "Americas", chile: "Americas", argentina: "Americas",
+  peru: "Americas", ecuador: "Americas", paraguay: "Americas", bolivia: "Americas", uruguay: "Americas",
+  venezuela: "Americas", panama: "Americas", costarica: "Americas", guatemala: "Americas",
+  // Oceania
+  australia: "Oceania", newzealand: "Oceania",
+  // Middle East
+  saudiarabia: "Middle East", uae: "Middle East",
+};
+
+export const CONTINENT_ICONS: Record<Continent, string> = {
+  "Africa": "🌍",
+  "Asia": "🌏",
+  "Europe": "🌍",
+  "Americas": "🌎",
+  "Oceania": "🌏",
+  "Middle East": "🕌",
+};
+
+export const CONTINENT_ORDER: Continent[] = ["Africa", "Americas", "Asia", "Europe", "Middle East", "Oceania"];
