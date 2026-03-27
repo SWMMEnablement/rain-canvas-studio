@@ -1,6 +1,8 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
-import { Download } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { Code2, Play, Copy, CheckCircle, ChevronDown, ChevronRight, Zap, List, BarChart3 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, ComposedChart } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
