@@ -190,17 +190,34 @@ const Index = () => {
             captureRef={heroRef}
           />
 
-          <p className="text-sm mt-4 opacity-90 font-medium tracking-wide">
-            {patterns.length} Design Storm Patterns · {
-              Object.values(COUNTRIES).reduce((sum, c) => sum + Object.keys(c.cities).length, 0)
-              + canadaIdfDatabase.length
-              + chinaRainstormDatabase.length
-              + 8 /* Gulf DDF locations */
-            }+ IDF/DDF Locations Available
-          </p>
+          {/* Statistics Counters */}
+          {(() => {
+            const globalCities = Object.values(COUNTRIES).reduce((sum, c) => sum + Object.keys(c.cities).length, 0);
+            const globalCountries = Object.keys(COUNTRIES).length;
+            const totalLocations = globalCities + canadaIdfDatabase.length + chinaRainstormDatabase.length + 8;
+            const totalCountries = globalCountries + 2 + 5; // +Canada, +China, +Gulf states
+            return (
+              <div className="flex flex-wrap justify-center gap-6 mt-6">
+                <div className="text-center px-4">
+                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">{patterns.length}</p>
+                  <p className="text-xs opacity-80 uppercase tracking-wider">Storm Patterns</p>
+                </div>
+                <div className="w-px bg-primary-foreground/20 hidden sm:block" />
+                <div className="text-center px-4">
+                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">{totalLocations}+</p>
+                  <p className="text-xs opacity-80 uppercase tracking-wider">IDF Locations</p>
+                </div>
+                <div className="w-px bg-primary-foreground/20 hidden sm:block" />
+                <div className="text-center px-4">
+                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">{totalCountries}+</p>
+                  <p className="text-xs opacity-80 uppercase tracking-wider">Countries</p>
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Social Proof / Compatibility */}
-          <p className="text-xs mt-3 opacity-80">
+          <p className="text-xs mt-4 opacity-80">
             Compatible with EPA SWMM · HEC-HMS · InfoWorks ICM · InfoDrainage · PCSWMM · XP-SWMM · HydroCAD
           </p>
         </div>
