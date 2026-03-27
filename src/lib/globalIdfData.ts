@@ -3174,6 +3174,9 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "St. George's": { params: { K: 2800, a: 0.20, b: 18, c: 0.85 } },
+      "Grenville": { params: { K: 2650, a: 0.19, b: 17, c: 0.83 } },
+      "Gouyave": { params: { K: 2750, a: 0.20, b: 18, c: 0.84 } },
+      "Carriacou (Hillsborough)": { params: { K: 2400, a: 0.19, b: 16, c: 0.81 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
@@ -3187,6 +3190,10 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "Castries": { params: { K: 2600, a: 0.20, b: 17, c: 0.84 } },
+      "Vieux Fort": { params: { K: 2750, a: 0.20, b: 18, c: 0.85 } },
+      "Soufrière": { params: { K: 2900, a: 0.21, b: 19, c: 0.86 } },
+      "Gros Islet": { params: { K: 2500, a: 0.19, b: 16, c: 0.83 } },
+      "Dennery": { params: { K: 2700, a: 0.20, b: 17, c: 0.84 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
@@ -3200,6 +3207,9 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "Kingstown": { params: { K: 2800, a: 0.20, b: 18, c: 0.85 } },
+      "Barrouallie": { params: { K: 2650, a: 0.19, b: 17, c: 0.83 } },
+      "Georgetown": { params: { K: 2700, a: 0.20, b: 17, c: 0.84 } },
+      "Bequia": { params: { K: 2400, a: 0.19, b: 16, c: 0.81 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
@@ -3213,6 +3223,8 @@ export const COUNTRIES: Record<string, CountryIdfEntry> = {
     units: "mm/hr", durUnit: "min", calcWithT: true,
     cities: {
       "Basseterre": { params: { K: 2400, a: 0.20, b: 16, c: 0.82 } },
+      "Charlestown (Nevis)": { params: { K: 2300, a: 0.19, b: 15, c: 0.80 } },
+      "Sandy Point": { params: { K: 2500, a: 0.20, b: 17, c: 0.83 } },
     },
     calc: (p: any, t: number, T?: number) => (p.K * Math.pow(T || 10, p.a)) / Math.pow(t + p.b, p.c),
   },
