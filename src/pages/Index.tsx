@@ -195,7 +195,7 @@ const Index = () => {
             const globalCities = Object.values(COUNTRIES).reduce((sum, c) => sum + Object.keys(c.cities).length, 0);
             const globalCountries = Object.keys(COUNTRIES).length;
             const totalLocations = globalCities + canadaIdfDatabase.length + chinaRainstormDatabase.length + 8;
-            const totalCountries = globalCountries + 2 + 5; // +Canada, +China, +Gulf states
+            const totalCountries = 100; // Combined: 34 IDF countries + 80+ design storm countries (deduplicated)
             return (
               <div className="flex flex-wrap justify-center gap-6 mt-6">
                 <div className="text-center px-4">
