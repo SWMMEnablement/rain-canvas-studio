@@ -59,6 +59,7 @@ import { TaxonomyTree } from "./docs/TaxonomyTree";
 import { ComparisonMatrix } from "./docs/ComparisonMatrix";
 import { EquationFamilyRegistry } from "./docs/EquationFamilyRegistry";
 import { CanadianDesignStormsRef } from "./docs/CanadianDesignStormsRef";
+import { DesignStormDeepDive } from "./docs/DesignStormDeepDive";
 
 // Calculator categories
 type CalculatorCategory = 'hydrology' | 'hydraulics' | 'water-quality';
@@ -216,7 +217,7 @@ export function Documentation({ idfCity }: DocumentationProps = {}) {
 
       {/* Main Documentation Tabs */}
       <Tabs defaultValue="patterns" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-14 h-auto">
+        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-15 h-auto">
           <TabsTrigger value="patterns" className="flex items-center gap-1">
             <CloudRain className="w-4 h-4" />
             <span className="hidden sm:inline">Patterns</span>
@@ -272,6 +273,10 @@ export function Documentation({ idfCity }: DocumentationProps = {}) {
           <TabsTrigger value="canada-ref" className="flex items-center gap-1">
             <Snowflake className="w-4 h-4" />
             <span className="hidden sm:inline">Canada</span>
+          </TabsTrigger>
+          <TabsTrigger value="deep-dive" className="flex items-center gap-1">
+            <Layers className="w-4 h-4" />
+            <span className="hidden sm:inline">Deep Dive</span>
           </TabsTrigger>
         </TabsList>
 
@@ -3071,6 +3076,11 @@ export function Documentation({ idfCity }: DocumentationProps = {}) {
         {/* Canadian Design Storms Reference Tab */}
         <TabsContent value="canada-ref" className="space-y-6">
           <CanadianDesignStormsRef />
+        </TabsContent>
+
+        {/* Deep Dive Tab */}
+        <TabsContent value="deep-dive" className="space-y-6">
+          <DesignStormDeepDive />
         </TabsContent>
       </Tabs>
 
