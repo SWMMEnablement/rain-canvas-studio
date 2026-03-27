@@ -1,6 +1,8 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
-import { Download } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { Code2, Play, Copy, CheckCircle, ChevronDown, ChevronRight, Zap, List, BarChart3 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, ComposedChart } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -47,7 +49,10 @@ export function ApiPlayground() {
       .then(r => r.json())
       .then(data => {
         if (Array.isArray(data.patterns) && data.patterns.length > 0) {
-          setAllPatterns(data.patterns.map((p: { id: string; name: string }) => ({ value: p.id, label: p.name })));
+          const sorted = data.patterns
+            .map((p: { id: string; name: string }) => ({ value: p.id, label: p.name }))
+            .sort((a: { label: string }, b: { label: string }) => a.label.localeCompare(b.label));
+          setAllPatterns(sorted);
         }
       })
       .catch(() => { /* keep fallback */ });
@@ -78,6 +83,15 @@ export function ApiPlayground() {
   const [analyzeResult, setAnalyzeResult] = useState<EndpointResult>(INITIAL_RESULT);
 
   const [copied, setCopied] = useState<string | null>(null);
+
+  // API docs markdown
+  const [apiDocs, setApiDocs] = useState<string | null>(null);
+  useEffect(() => {
+    fetch("/API.md")
+      .then(r => r.text())
+      .then(setApiDocs)
+      .catch(() => setApiDocs("Failed to load API documentation."));
+  }, []);
 
   const callApi = useCallback(async (
     url: string,
@@ -164,7 +178,7 @@ export function ApiPlayground() {
 
       {/* Endpoints */}
       <Tabs defaultValue="generate" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="generate" className="flex items-center gap-2">
             <Zap className="w-4 h-4" />
             Generate
@@ -176,6 +190,10 @@ export function ApiPlayground() {
           <TabsTrigger value="analyze" className="flex items-center gap-2">
             <BarChart3 className="w-4 h-4" />
             Analyze
+          </TabsTrigger>
+          <TabsTrigger value="docs" className="flex items-center gap-2">
+            <FileText className="w-4 h-4" />
+            API Docs
           </TabsTrigger>
         </TabsList>
 
@@ -295,6 +313,35 @@ export function ApiPlayground() {
           </Card>
 
           <ResultPanel result={analyzeResult} copied={copied} onCopy={copyToClipboard} />
+        </TabsContent>
+
+        {/* ── API Documentation ── */}
+        <TabsContent value="docs" className="mt-6 space-y-4">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  API Documentation
+                </CardTitle>
+                <Button variant="outline" size="sm" asChild>
+                  <a href="/API.md" download="Storm-API-Documentation.md">
+                    <Download className="w-4 h-4 mr-1" />
+                    Download .md
+                  </a>
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {apiDocs ? (
+                <div className="prose prose-sm dark:prose-invert max-w-none prose-pre:bg-muted prose-pre:text-foreground prose-code:text-primary prose-headings:text-foreground prose-a:text-primary">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{apiDocs}</ReactMarkdown>
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground animate-pulse">Loading documentation...</p>
+              )}
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
