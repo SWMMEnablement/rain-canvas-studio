@@ -235,7 +235,7 @@ interface PresetGroup {
 const presetGroups: PresetGroup[] = [
   {
     name: 'All SCS',
-    patterns: ['scs1a', 'scs1', 'scs2', 'scs3', 'balanced', 'yen_chow'],
+    patterns: ['scs1a', 'scs1', 'scs2', 'scs3', 'balanced', 'yen_chow', 'keifer_chu', 'alternating_block'],
     description: 'Compare all NRCS (SCS) and universal patterns',
   },
   {
@@ -250,12 +250,12 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'Asian',
-    patterns: ['singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'india_coastal', 'japan_amedas', 'japan_baiu', 'japan_typhoon', 'korea_kma', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd', 'hong_kong_hko', 'taiwan_cwa', 'bangladesh_bmd', 'pakistan_pmd', 'sri_lanka'],
+    patterns: ['singapore_pub', 'china_gb50014', 'china_prd', 'india_imd', 'india_coastal', 'japan_amedas', 'japan_baiu', 'japan_typhoon', 'korea_kma', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd', 'hong_kong_hko', 'taiwan_cwa', 'bangladesh_bmd', 'pakistan_pmd', 'sri_lanka', 'cambodia_mowram', 'timor_leste_dnmg', 'maldives_mms', 'tajikistan_hydromet', 'kyrgyzstan_hydromet'],
     description: 'All Asian design storm patterns',
   },
   {
     name: 'SE Asia',
-    patterns: ['singapore_pub', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd'],
+    patterns: ['singapore_pub', 'malaysia_msma', 'indonesia_bmkg', 'philippines_pagasa', 'vietnam_imhen', 'thailand_tmd', 'cambodia_mowram', 'timor_leste_dnmg'],
     description: 'Southeast Asian design storms',
   },
   {
@@ -275,7 +275,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'European',
-    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double', 'sifalda', 'swiss_idf', 'spanish_cedex', 'belgian_irm', 'watts_curve', 'kostra_dwd', 'austria_okostra', 'montana_caquot', 'shyreg_fr', 'feh22_refh2', 'ireland_met', 'france_shypre', 'poland_panda', 'portugal_ipma', 'russia_roshydromet', 'euro_cordex', 'czech_chmu', 'cyprus_wdd', 'malta_mra', 'm5_60_fsr', 'georgian_nea', 'albanian_igewe'],
+    patterns: ['desbordes', 'dwa', 'dutch', 'italian', 'euler1', 'euler2', 'feh', 'desbordes_double', 'sifalda', 'swiss_idf', 'spanish_cedex', 'belgian_irm', 'watts_curve', 'kostra_dwd', 'austria_okostra', 'montana_caquot', 'shyreg_fr', 'feh22_refh2', 'ireland_met', 'france_shypre', 'poland_panda', 'portugal_ipma', 'russia_roshydromet', 'euro_cordex', 'czech_chmu', 'cyprus_wdd', 'malta_mra', 'm5_60_fsr', 'georgian_nea', 'albanian_igewe', 'armenia_hydromet', 'azerbaijan_nhms', 'moldova_shs', 'north_macedonia_hms', 'bosnia_fhmz', 'montenegro_ihms'],
     description: 'European design patterns',
   },
   {
@@ -325,7 +325,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'African',
-    patterns: ['sa_sanral', 'kenya_kmd', 'nigeria_nimet', 'egypt_hcww', 'sa_huff', 'morocco_dmn', 'ethiopia_nma', 'ghana_gmet', 'tanzania_tma', 'mozambique_inam', 'sa_wrc', 'west_africa_cilss'],
+    patterns: ['sa_sanral', 'kenya_kmd', 'nigeria_nimet', 'egypt_hcww', 'sa_huff', 'morocco_dmn', 'ethiopia_nma', 'ghana_gmet', 'tanzania_tma', 'mozambique_inam', 'sa_wrc', 'west_africa_cilss', 'gauteng_wrc', 'botswana_dms', 'seychelles_sma', 'cape_verde_inmg', 'eritrea_dme', 'burundi_igebu'],
     description: 'All African design storm patterns',
   },
   {
@@ -360,7 +360,7 @@ const presetGroups: PresetGroup[] = [
   },
   {
     name: 'Research',
-    patterns: ['fourier_multipeak', 'cc_idf_scaled'],
+    patterns: ['fourier_multipeak', 'cc_idf_scaled', 'gaussian_storm'],
     description: 'Academic and research-based patterns',
   },
 ];
