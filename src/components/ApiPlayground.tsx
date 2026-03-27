@@ -84,6 +84,15 @@ export function ApiPlayground() {
 
   const [copied, setCopied] = useState<string | null>(null);
 
+  // API docs markdown
+  const [apiDocs, setApiDocs] = useState<string | null>(null);
+  useEffect(() => {
+    fetch("/API.md")
+      .then(r => r.text())
+      .then(setApiDocs)
+      .catch(() => setApiDocs("Failed to load API documentation."));
+  }, []);
+
   const callApi = useCallback(async (
     url: string,
     method: string,
