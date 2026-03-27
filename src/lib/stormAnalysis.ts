@@ -354,6 +354,27 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   congo_mettelsat: { name: 'Congo DRC METTELSAT', peakPosition: 0.42, description: 'Equatorial convective center-peaked' },
   laos_dmh: { name: 'Laos DMH', peakPosition: 0.30, description: 'Southeast Asian monsoon early-center peaked' },
   brunei_bdmd: { name: 'Brunei BDMD', peakPosition: 0.25, description: 'Equatorial maritime front-loaded tropical burst' },
+  // v16
+  keifer_chu: { name: 'Keifer-Chu (1957)', peakPosition: 0.375, description: 'Original instantaneous intensity method by Keifer & Chu (1957)' },
+  alternating_block: { name: 'Alternating Block', peakPosition: 0.50, description: 'NRCS/HEC Alternating Block Method, IDF-derived symmetric arrangement' },
+  gauteng_wrc: { name: 'Gauteng WRC', peakPosition: 0.45, description: 'South Africa WRC Gauteng convective center-peaked' },
+  botswana_dms: { name: 'Botswana DMS', peakPosition: 0.35, description: 'Semi-arid convective front-to-center peaked' },
+  cambodia_mowram: { name: 'Cambodia MOWRAM', peakPosition: 0.28, description: 'Tropical monsoon early-peaked convective' },
+  timor_leste_dnmg: { name: 'Timor-Leste DNMG', peakPosition: 0.25, description: 'Tropical maritime intense short bursts' },
+  armenia_hydromet: { name: 'Armenia Hydromet', peakPosition: 0.48, description: 'Continental highland center-peaked convective' },
+  azerbaijan_nhms: { name: 'Azerbaijan NHMS', peakPosition: 0.40, description: 'Semi-arid Caspian front-center peaked' },
+  moldova_shs: { name: 'Moldova SHS', peakPosition: 0.48, description: 'Continental Eastern Europe center-peaked' },
+  north_macedonia_hms: { name: 'North Macedonia HMS', peakPosition: 0.45, description: 'Continental-Mediterranean transition' },
+  bosnia_fhmz: { name: 'Bosnia & Herzegovina FHMZ', peakPosition: 0.47, description: 'Mediterranean-continental mix' },
+  montenegro_ihms: { name: 'Montenegro IHMS', peakPosition: 0.42, description: 'Adriatic coast heavy orographic precipitation' },
+  seychelles_sma: { name: 'Seychelles SMA', peakPosition: 0.25, description: 'Tropical maritime intense early peak' },
+  maldives_mms: { name: 'Maldives MMS', peakPosition: 0.28, description: 'Low-lying atoll tropical convective' },
+  cape_verde_inmg: { name: 'Cape Verde INMG', peakPosition: 0.30, description: 'Sahelian-maritime front-loaded tropical' },
+  eritrea_dme: { name: 'Eritrea DME', peakPosition: 0.32, description: 'Semi-arid East Africa intense short bursts' },
+  tajikistan_hydromet: { name: 'Tajikistan Hydromet', peakPosition: 0.48, description: 'High-altitude continental center-peaked' },
+  kyrgyzstan_hydromet: { name: 'Kyrgyzstan Hydromet', peakPosition: 0.50, description: 'Mountain continental late-center peaked' },
+  gaussian_storm: { name: 'Gaussian Storm', peakPosition: 0.50, description: 'Symmetric bell-curve normal distribution' },
+  burundi_igebu: { name: 'Burundi IGEBU', peakPosition: 0.35, description: 'Tropical highland center-front peaked' },
 };
 
 /**
