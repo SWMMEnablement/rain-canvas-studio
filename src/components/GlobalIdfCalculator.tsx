@@ -16,6 +16,7 @@ interface GlobalIdfCalculatorProps {
 }
 
 export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorProps) {
+  const [activeContinent, setActiveContinent] = useState<Continent | "All">("All");
   const [activeCountry, setActiveCountry] = useState("australia");
   const [activeCity, setActiveCity] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"idf" | "table" | "hyetograph">("idf");
@@ -24,6 +25,11 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
   const [rValue, setRValue] = useState(0.4);
   const [selectedRp, setSelectedRp] = useState<number | null>(null);
   const [selectedDur, setSelectedDur] = useState<number | null>(null);
+
+  const filteredCountries = useMemo(() => {
+    if (activeContinent === "All") return Object.entries(COUNTRIES);
+    return Object.entries(COUNTRIES).filter(([key]) => CONTINENT_MAP[key] === activeContinent);
+  }, [activeContinent]);
 
   const country = COUNTRIES[activeCountry];
   const cityNames = Object.keys(country.cities);
