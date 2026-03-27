@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Globe, Download, BarChart3, TableIcon, CloudRain, BookOpen, Zap } from "lucide-react";
 import { ResponsiveContainer, LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-import { COUNTRIES, RP_COLORS, DURATIONS, SHORT_DURATIONS } from "@/lib/globalIdfData";
+import { COUNTRIES, RP_COLORS, DURATIONS, SHORT_DURATIONS, CONTINENT_MAP, CONTINENT_ORDER, CONTINENT_ICONS, type Continent } from "@/lib/globalIdfData";
 import { toast } from "sonner";
 
 interface GlobalIdfCalculatorProps {
