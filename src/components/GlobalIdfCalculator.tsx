@@ -428,15 +428,35 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
                 {idfData.map((row, i) => (
                   <TableRow key={i}>
                     <TableCell className="text-xs font-medium tabular-nums">{row.duration}</TableCell>
-                    {returnPeriods.map(rp => (
-                      <TableCell key={rp} className="text-xs text-center tabular-nums">
-                        {row[`rp${rp}`] !== undefined ? row[`rp${rp}`].toFixed(1) : "—"}
-                      </TableCell>
-                    ))}
+                    {returnPeriods.map(rp => {
+                      const isSelected = selectedRp === rp && selectedDur === row.duration;
+                      return (
+                        <TableCell
+                          key={rp}
+                          className={`text-xs text-center tabular-nums cursor-pointer transition-colors hover:bg-primary/10 ${isSelected ? "bg-primary/20 font-bold text-primary ring-1 ring-primary/40" : ""}`}
+                          onClick={() => { setSelectedRp(rp); setSelectedDur(row.duration); }}
+                        >
+                          {row[`rp${rp}`] !== undefined ? row[`rp${rp}`].toFixed(1) : "—"}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
+            {/* Send to Generator from table */}
+            {onSendToGenerator && selectedCellDepthMm !== null && selectedDur !== null && selectedRp !== null && (
+              <div className="mt-3 p-2.5 rounded-lg bg-primary/5 border border-primary/20 flex items-center justify-between">
+                <div>
+                  <span className="text-xs text-muted-foreground">{selectedRp}-yr, {selectedDur < 60 ? `${selectedDur} min` : `${selectedDur/60} hr`} → </span>
+                  <span className="text-sm font-bold text-primary">{selectedCellDepthMm.toFixed(1)} mm</span>
+                </div>
+                <Button size="sm" className="h-7 text-xs gap-1" onClick={handleIdfSendToGenerator}>
+                  <Zap className="w-3.5 h-3.5" />
+                  Send to Generator
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
