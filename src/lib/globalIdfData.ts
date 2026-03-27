@@ -3309,7 +3309,7 @@ export const SHORT_DURATIONS = [5, 10, 15, 20, 30, 45, 60, 90, 120, 180];
 export type Continent = "Africa" | "Asia" | "Europe" | "Americas" | "Oceania" | "Middle East";
 
 export const CONTINENT_MAP: Record<string, Continent> = {
-  // Africa
+  // Africa (54 countries)
   nigeria: "Africa", kenya: "Africa", southafrica: "Africa", egypt: "Africa", ethiopia: "Africa",
   ghana: "Africa", tanzania: "Africa", uganda: "Africa", mozambique: "Africa", senegal: "Africa",
   cotedivoire: "Africa", cameroon: "Africa", congo_drc: "Africa", algeria: "Africa", tunisia: "Africa",
@@ -3317,6 +3317,12 @@ export const CONTINENT_MAP: Record<string, Continent> = {
   burkinafaso: "Africa", angola: "Africa", morocco: "Africa",
   botswana: "Africa", namibia: "Africa", sudan: "Africa", libya: "Africa",
   somalia: "Africa", djibouti: "Africa", eritrea: "Africa",
+  benin: "Africa", burundi: "Africa", caboverde: "Africa", car: "Africa", chad: "Africa",
+  comoros: "Africa", congorepublic: "Africa", eqguinea: "Africa", eswatini: "Africa",
+  gabon: "Africa", gambia: "Africa", guinea: "Africa", guineabissau: "Africa",
+  lesotho: "Africa", liberia: "Africa", malawi: "Africa", mauritania: "Africa",
+  mauritius_country: "Africa", niger: "Africa", seychelles: "Africa", sierraleone: "Africa",
+  southsudan: "Africa", togo: "Africa",
   // Asia
   malaysia: "Asia", hongkong: "Asia", india: "Asia", singapore: "Asia", southkorea: "Asia",
   japan: "Asia", taiwan: "Asia", indonesia: "Asia", thailand: "Asia", vietnam: "Asia",
@@ -3324,6 +3330,7 @@ export const CONTINENT_MAP: Record<string, Continent> = {
   nepal: "Asia", pakistan: "Asia", laos: "Asia", mongolia: "Asia", uzbekistan: "Asia",
   kazakhstan: "Asia", brunei: "Asia", turkmenistan: "Asia", tajikistan: "Asia",
   kyrgyzstan: "Asia", afghanistan: "Asia", bhutan: "Asia", maldives: "Asia", timorleste: "Asia",
+  armenia: "Asia", azerbaijan: "Asia", georgiacountry: "Asia",
   // Europe
   uk: "Europe", france: "Europe", germany: "Europe", italy: "Europe", netherlands: "Europe",
   belgium: "Europe", poland: "Europe", romania: "Europe", greece: "Europe", spain: "Europe",
@@ -3332,6 +3339,8 @@ export const CONTINENT_MAP: Record<string, Continent> = {
   croatia: "Europe", serbia: "Europe", bulgaria: "Europe", slovakia: "Europe", slovenia: "Europe",
   bosniaherz: "Europe", northmacedonia: "Europe",
   estonia: "Europe", latvia: "Europe", lithuania: "Europe", iceland: "Europe",
+  albania: "Europe", andorra: "Europe", belarus: "Europe", luxembourg: "Europe",
+  malta: "Europe", moldova: "Europe", montenegro: "Europe", switzerland: "Europe", ukraine: "Europe",
   // Americas
   brazil: "Americas", mexico: "Americas", colombia: "Americas", chile: "Americas", argentina: "Americas",
   peru: "Americas", ecuador: "Americas", paraguay: "Americas", bolivia: "Americas", uruguay: "Americas",
@@ -3340,15 +3349,20 @@ export const CONTINENT_MAP: Record<string, Continent> = {
   jamaica: "Americas", trinidadtobago: "Americas", barbados: "Americas",
   dominicanrepublic: "Americas", cuba: "Americas", haiti: "Americas", puertorico: "Americas",
   honduras: "Americas", elsalvador: "Americas", nicaragua: "Americas", belize: "Americas",
+  bahamas: "Americas", antiguabarbuda: "Americas", dominica: "Americas", grenada: "Americas",
+  stlucia: "Americas", stvincent: "Americas", stkitts: "Americas",
   // Oceania
   australia: "Oceania", newzealand: "Oceania",
   fiji: "Oceania", papuanewguinea: "Oceania", samoa: "Oceania",
   tonga: "Oceania", vanuatu: "Oceania", solomonislands: "Oceania", marshallislands: "Oceania",
+  kiribati: "Oceania", micronesia: "Oceania", palau: "Oceania", tuvalu: "Oceania",
+  newcaledonia: "Oceania", nauru: "Oceania",
   // Middle East
   saudiarabia: "Middle East", uae: "Middle East", iran: "Middle East",
   iraq: "Middle East", jordan: "Middle East", lebanon: "Middle East",
   kuwait: "Middle East", oman: "Middle East", qatar: "Middle East", bahrain: "Middle East",
   syria: "Middle East", yemen: "Middle East", palestine: "Middle East",
+  israel: "Middle East", cyprus: "Middle East",
 };
 
 export const CONTINENT_ICONS: Record<Continent, string> = {
