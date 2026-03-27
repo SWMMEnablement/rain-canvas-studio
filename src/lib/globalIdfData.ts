@@ -2287,6 +2287,7 @@ export const CONTINENT_MAP: Record<string, Continent> = {
   norway: "Europe", finland: "Europe", denmark: "Europe", hungary: "Europe", ireland: "Europe",
   croatia: "Europe", serbia: "Europe", bulgaria: "Europe", slovakia: "Europe", slovenia: "Europe",
   bosniaherz: "Europe", northmacedonia: "Europe",
+  estonia: "Europe", latvia: "Europe", lithuania: "Europe", iceland: "Europe",
   // Americas
   brazil: "Americas", mexico: "Americas", colombia: "Americas", chile: "Americas", argentina: "Americas",
   peru: "Americas", ecuador: "Americas", paraguay: "Americas", bolivia: "Americas", uruguay: "Americas",
