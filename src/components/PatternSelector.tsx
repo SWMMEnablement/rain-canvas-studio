@@ -1615,7 +1615,7 @@ export const patterns: PatternOption[] = [
   { id: 'qatar_kahramaa_enhanced', name: 'Qatar Kahramaa Enhanced', icon: '🇶🇦', description: 'Updated Qatar criteria post-2024 extreme events', category: 'middle_east' },
   { id: 'iran_irimo_regional', name: 'Iran IRIMO Regional', icon: '🇮🇷', description: 'Regional variations beyond national IRIMO criteria', category: 'middle_east' },
   { id: 'iraq_mosul', name: 'Iraq Mosul', icon: '🇮🇶', description: 'Northern Iraq region-specific design criteria', category: 'middle_east' },
-  { id: 'yemen_sanaa', name: 'Yemen Sana'a', icon: '🇾🇪', description: 'Highland criteria for Sana'a Basin stormwater design', category: 'middle_east' },
+  { id: 'yemen_sanaa', name: 'Yemen Sanaa', icon: '🇾🇪', description: 'Highland criteria for Sanaa Basin stormwater design', category: 'middle_east' },
   { id: 'bc_moe_interior', name: 'BC MOE Interior', icon: '🏔️', description: 'British Columbia interior region design storm', category: 'americas' },
   { id: 'bc_moe_northern', name: 'BC MOE Northern', icon: '❄️', description: 'Northern British Columbia design storm criteria', category: 'americas' },
   { id: 'ontario_mto_2hr', name: 'Ontario MTO 2-hr', icon: '🇨🇦', description: 'Ontario Ministry of Transportation 2-hour design storm', category: 'americas' },

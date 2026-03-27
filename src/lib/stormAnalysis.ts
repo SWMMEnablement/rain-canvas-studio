@@ -433,7 +433,7 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   qatar_kahramaa_enhanced: { name: 'Qatar Kahramaa Enhanced', peakPosition: 0.38, description: 'Updated Qatar criteria post-2024 extreme events' },
   iran_irimo_regional: { name: 'Iran IRIMO Regional', peakPosition: 0.42, description: 'Regional variations beyond national IRIMO criteria' },
   iraq_mosul: { name: 'Iraq Mosul', peakPosition: 0.35, description: 'Northern Iraq region-specific design criteria' },
-  yemen_sanaa: { name: 'Yemen Sana'a', peakPosition: 0.45, description: 'Highland criteria for Sana'a Basin stormwater desi' },
+  yemen_sanaa: { name: 'Yemen Sanaa', peakPosition: 0.45, description: 'Highland criteria for Sana'a Basin stormwater desi' },
   bc_moe_interior: { name: 'BC MOE Interior', peakPosition: 0.45, description: 'British Columbia interior region design storm' },
   bc_moe_northern: { name: 'BC MOE Northern', peakPosition: 0.48, description: 'Northern British Columbia design storm criteria' },
   ontario_mto_2hr: { name: 'Ontario MTO 2-hr', peakPosition: 0.3, description: 'Ontario Ministry of Transportation 2-hour design s' },
