@@ -625,7 +625,7 @@ const steps: WizardStep[] = [
   { id: 1, title: "Storm Parameters", description: "Set depth, duration & units", icon: <Settings className="w-5 h-5" /> },
   { id: 2, title: "Select Pattern", description: "Choose rainfall distribution", icon: <Layers className="w-5 h-5" /> },
   { id: 3, title: "Review & Export", description: "Visualize and download data", icon: <Download className="w-5 h-5" /> },
-  { id: 4, title: "Test All", description: "Compare all 349 patterns", icon: <FlaskRound className="w-5 h-5" /> },
+  { id: 4, title: "Test All", description: "Compare all 387 patterns", icon: <FlaskRound className="w-5 h-5" /> },
 ];
 
 export interface StormShareParams {
