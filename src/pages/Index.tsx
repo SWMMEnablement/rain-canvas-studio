@@ -721,9 +721,10 @@ const Index = () => {
             <section className="bg-card p-6 rounded-xl shadow-card border border-border">
               <h2 className="text-2xl font-semibold mb-3 text-foreground">Create Synthetic Storms</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Follow the simple 3-step workflow below to define your storm parameters, 
-                select a rainfall pattern, and export data for your stormwater models. 
-                For pattern comparisons and advanced analysis, visit the <strong>Advanced Tools</strong> tab.
+                Follow the 4-step workflow below to define your storm parameters,
+                select a rainfall pattern, review &amp; export data for your stormwater models,
+                and optionally test all patterns. For pattern comparisons and advanced analysis,
+                visit the <strong>Advanced Tools</strong> tab.
               </p>
             </section>
 
@@ -757,7 +758,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="bg-card border-t border-border mt-16">
         <div className="container mx-auto px-4 py-8 text-center text-muted-foreground">
-          <p className="font-medium mb-2">World Rainfall Pattern Painter – Synthetic Rain & Patterns for Stormwater Modeling</p>
+          <p className="font-medium mb-2">World Rainfall Pattern Painter – Synthetic Rainfall Patterns for Stormwater Modeling</p>
           <p className="text-sm">Designed for hydrologists and engineers worldwide</p>
         </div>
       </footer>
