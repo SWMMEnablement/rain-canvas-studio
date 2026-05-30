@@ -1,5 +1,9 @@
+import { useState, useMemo } from "react";
+import { Search, X } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { type PatternType } from "@/lib/rainfallPatterns";
 
 interface PatternOption {
@@ -1791,21 +1795,36 @@ interface PatternSelectorProps {
 
 export function PatternSelector({ selectedPattern, onPatternChange }: PatternSelectorProps) {
   const selectedPatternInfo = patterns.find(p => p.id === selectedPattern);
+  const [search, setSearch] = useState("");
   const sortByName = (a: PatternOption, b: PatternOption) => a.name.localeCompare(b.name);
-  const swmmPatterns = patterns.filter(p => p.category === 'swmm').sort(sortByName);
-  const usAgencyPatterns = patterns.filter(p => p.category === 'us_agency').sort(sortByName);
-  const icmPatterns = patterns.filter(p => p.category === 'icm').sort(sortByName);
-  const europeanPatterns = patterns.filter(p => p.category === 'european').sort(sortByName);
-  const scandinavianPatterns = patterns.filter(p => p.category === 'scandinavian').sort(sortByName);
-  const asianPatterns = patterns.filter(p => p.category === 'asian').sort(sortByName);
-  const middleEastPatterns = patterns.filter(p => p.category === 'middle_east').sort(sortByName);
-  const africanPatterns = patterns.filter(p => p.category === 'african').sort(sortByName);
-  const latamPatterns = patterns.filter(p => p.category === 'latam').sort(sortByName);
-  const americasPatterns = patterns.filter(p => p.category === 'americas').sort(sortByName);
-  const oceaniaPatterns = patterns.filter(p => p.category === 'oceania').sort(sortByName);
-  const internationalPatterns = patterns.filter(p => p.category === 'international').sort(sortByName);
+  const q = search.trim().toLowerCase();
+  const matchesSearch = (p: PatternOption) =>
+    !q || p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
+  const byCategory = (cat: PatternOption['category']) =>
+    patterns.filter(p => p.category === cat && matchesSearch(p)).sort(sortByName);
+  const swmmPatterns = byCategory('swmm');
+  const usAgencyPatterns = byCategory('us_agency');
+  const icmPatterns = byCategory('icm');
+  const europeanPatterns = byCategory('european');
+  const scandinavianPatterns = byCategory('scandinavian');
+  const asianPatterns = byCategory('asian');
+  const middleEastPatterns = byCategory('middle_east');
+  const africanPatterns = byCategory('african');
+  const latamPatterns = byCategory('latam');
+  const americasPatterns = byCategory('americas');
+  const oceaniaPatterns = byCategory('oceania');
+  const internationalPatterns = byCategory('international');
+  const totalMatches = q
+    ? swmmPatterns.length + usAgencyPatterns.length + icmPatterns.length +
+      europeanPatterns.length + scandinavianPatterns.length + asianPatterns.length +
+      middleEastPatterns.length + africanPatterns.length + latamPatterns.length +
+      americasPatterns.length + oceaniaPatterns.length + internationalPatterns.length
+    : patterns.length;
 
   const PatternGrid = ({ patterns }: { patterns: PatternOption[] }) => (
+    patterns.length === 0 ? (
+      <p className="text-sm text-muted-foreground py-6 text-center">No patterns match "{search}" in this category.</p>
+    ) : (
     <div className="grid grid-cols-2 gap-3">
       {patterns.map((pattern) => (
         <button
@@ -1827,15 +1846,40 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
         </button>
       ))}
     </div>
+    )
   );
 
   return (
     <Card className="shadow-card hover:shadow-hover transition-all duration-300">
       <CardHeader>
         <CardTitle>Pattern Type</CardTitle>
-        <CardDescription>Select a rainfall distribution pattern ({patterns.length} available)</CardDescription>
+        <CardDescription>
+          Select a rainfall distribution pattern ({q ? `${totalMatches} of ${patterns.length} match` : `${patterns.length} available`})
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search patterns (e.g. SCS, Huff, Chicago, country)…"
+            className="pl-9 pr-9"
+            aria-label="Search rainfall patterns"
+          />
+          {search && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+              onClick={() => setSearch("")}
+              aria-label="Clear search"
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          )}
+        </div>
         <Tabs defaultValue="swmm" className="w-full">
           <TabsList className="flex w-full flex-wrap h-auto gap-1">
             <TabsTrigger value="swmm">SWMM</TabsTrigger>
