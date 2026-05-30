@@ -55,6 +55,12 @@ export function RainfallChart({ data, unitSystem }: RainfallChartProps) {
       </CardHeader>
       <CardContent>
         <div className="h-[400px] w-full" role="img" aria-label={`Rainfall hyetograph chart showing intensity in ${intensityUnit} over time in hours${showCumulative ? ', with cumulative depth curve' : ''}`}>
+          {convertedData.length === 0 ? (
+            <div className="h-full w-full flex flex-col items-center justify-center text-center text-muted-foreground bg-muted/20 rounded-md border border-dashed border-border">
+              <p className="text-sm font-medium">Generating hyetograph…</p>
+              <p className="text-xs mt-1">Adjust depth, duration, or pattern to see the chart update in real time.</p>
+            </div>
+          ) : (
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={convertedData} margin={{ top: 20, right: showCumulative ? 60 : 30, left: 20, bottom: 20 }}>
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
@@ -108,6 +114,7 @@ export function RainfallChart({ data, unitSystem }: RainfallChartProps) {
               )}
             </ComposedChart>
           </ResponsiveContainer>
+          )}
         </div>
       </CardContent>
     </Card>
