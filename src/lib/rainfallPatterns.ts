@@ -126,7 +126,8 @@ export type PatternType = 'block' | 'scs1' | 'scs1a' | 'scs2' | 'scs3' | 'double
   | 'german_dwd_extrem' | 'norwegian_nccs' | 'danish_dkcip' | 'french_drias' | 'italian_ipcc' | 'spanish_aemet'
   | 'us_noaa_climate' | 'canadian_eccc_climate'
   | 'keifer_1940' | 'chen_1976' | 'pilgrim_1977' | 'desbordes_1978' | 'bemposta' | 'silva_brazil'
-  | 'hershfield_1961' | 'chow_1964' | 'hendrick_1973' | 'chocat_1997' | 'guo_2001';
+  | 'hershfield_1961' | 'chow_1964' | 'hendrick_1973' | 'chocat_1997' | 'guo_2001'
+| 'noaa_a14_a' | 'noaa_a14_b' | 'noaa_a14_c' | 'noaa_a14_d' | 'nrcc_a' | 'nrcc_b' | 'nrcc_c' | 'nrcc_d' | 'noaa_ca1' | 'noaa_ca2' | 'noaa_ca3' | 'noaa_ca4' | 'noaa_ca5' | 'noaa_ca6' | 'nrcs_mse1' | 'nrcs_mse2' | 'nrcs_mse3' | 'nrcs_mse4' | 'nrcs_mse5' | 'nrcs_mse6' | 'hec_freq25' | 'hec_freq50' | 'hec_freq75' | 'sfwmd_72hr' | 'njdep_wq' | 'fdot_type2_mod' | 'austin_z1' | 'austin_z2' | 'scs_6hr_std' | 'hec_area_dep' | 'dvwk_germany' | 'vapi_italy' | 'rioned_nl' | 'arr2019_p3' | 'hk_dsd_2023' | 'malaysia_msma2' | 'china_pc_method' | 'taiwan_wra';
 
 // ─── Helper functions for pattern generation ───
 
@@ -5863,7 +5864,160 @@ export function generateRainfallData(
       const t = [0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00];
       const p = [0.000, 0.030, 0.085, 0.156, 0.240, 0.335, 0.441, 0.556, 0.679, 0.810, 0.843, 0.873, 0.900, 0.923, 0.943, 0.961, 0.975, 0.986, 0.994, 0.998, 1.000];
       return applyDimensionlessCurve(t, p, totalDepth, numSteps, timeStep);
-    }  }
+    }
+    case 'noaa_a14_a': {
+      // NOAA A14 Type A — NOAA Atlas 14 Volume 2 Type A distribution (Ohio Valley & neighboring states, 24
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.035,0.080,0.140,0.220,0.320,0.445,0.580,0.700,0.790,0.855,0.900,0.932,0.955,0.970,0.980,0.987,0.992,0.996,0.998,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'noaa_a14_b': {
+      // NOAA A14 Type B — NOAA Atlas 14 Volume 2 Type B distribution. Most common Midwest pattern with mid
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.025,0.055,0.095,0.150,0.220,0.310,0.425,0.570,0.720,0.830,0.895,0.935,0.960,0.975,0.984,0.990,0.994,0.997,0.999,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'noaa_a14_c': {
+      // NOAA A14 Type C — NOAA Atlas 14 Volume 2 Type C distribution. Late-peaked frontal/stratiform-leani
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.005,0.015,0.030,0.050,0.078,0.115,0.165,0.230,0.310,0.405,0.510,0.620,0.725,0.815,0.880,0.925,0.955,0.975,0.990,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'noaa_a14_d': {
+      // NOAA A14 Type D — NOAA Atlas 14 Volume 2 Type D distribution. Broad uniform-leaning long-duration 
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.020,0.045,0.075,0.115,0.165,0.225,0.295,0.375,0.460,0.545,0.625,0.700,0.770,0.830,0.880,0.918,0.948,0.972,0.990,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'nrcc_a': {
+      // NRCC Type A — Northeast Regional Climate Center Type A distribution from NOAA Atlas 14 Northea
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.035,0.080,0.140,0.220,0.320,0.445,0.580,0.700,0.790,0.855,0.900,0.932,0.955,0.970,0.980,0.987,0.992,0.996,0.998,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'nrcc_b': {
+      // NRCC Type B — NRCC Type B distribution. Mid-peaked NE pattern matching Atlas 14 Vol 10 cluster
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.025,0.055,0.095,0.150,0.220,0.310,0.425,0.570,0.720,0.830,0.895,0.935,0.960,0.975,0.984,0.990,0.994,0.997,0.999,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'nrcc_c': {
+      // NRCC Type C — NRCC Type C distribution. Late-peaked NE pattern.
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.005,0.015,0.030,0.050,0.078,0.115,0.165,0.230,0.310,0.405,0.510,0.620,0.725,0.815,0.880,0.925,0.955,0.975,0.990,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'nrcc_d': {
+      // NRCC Type D — NRCC Type D distribution. Broad/uniform NE long-duration profile.
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.020,0.045,0.075,0.115,0.165,0.225,0.295,0.375,0.460,0.545,0.625,0.700,0.770,0.830,0.880,0.918,0.948,0.972,0.990,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'noaa_ca1': {
+      // NOAA CA Region 1 — NOAA Atlas 14 California Region 1 (North Coast). Frontal long-duration distribut
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.005,0.015,0.030,0.050,0.078,0.115,0.165,0.230,0.310,0.405,0.510,0.620,0.725,0.815,0.880,0.925,0.955,0.975,0.990,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'noaa_ca2': {
+      // NOAA CA Region 2 — NOAA Atlas 14 California Region 2 (Sierra Nevada). Orographically enhanced late-
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.003,0.010,0.022,0.040,0.062,0.090,0.125,0.170,0.225,0.295,0.380,0.490,0.625,0.760,0.870,0.935,0.970,0.988,0.997,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'noaa_ca3': {
+      // NOAA CA Region 3 — NOAA Atlas 14 California Region 3 (Central Valley). Mid-peaked broad profile.
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.020,0.045,0.075,0.115,0.165,0.225,0.295,0.375,0.460,0.545,0.625,0.700,0.770,0.830,0.880,0.918,0.948,0.972,0.990,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'noaa_ca4': {
+      // NOAA CA Region 4 — NOAA Atlas 14 California Region 4 (South Coast). Mid-early peaked frontal storms
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.025,0.055,0.095,0.150,0.220,0.310,0.425,0.570,0.720,0.830,0.895,0.935,0.960,0.975,0.984,0.990,0.994,0.997,0.999,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'noaa_ca5': {
+      // NOAA CA Region 5 — NOAA Atlas 14 California Region 5 (Mojave/Desert). Sharp convective mid-peak.
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.010,0.022,0.038,0.058,0.082,0.115,0.160,0.225,0.330,0.670,0.775,0.840,0.885,0.918,0.942,0.960,0.974,0.984,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'noaa_ca6': {
+      // NOAA CA Region 6 — NOAA Atlas 14 California Region 6 (Sierra East). Late-skewed orographic profile.
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.005,0.015,0.030,0.050,0.078,0.115,0.165,0.230,0.310,0.405,0.510,0.620,0.725,0.815,0.880,0.925,0.955,0.975,0.990,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'nrcs_mse1': {
+      // NRCS MSE 1 — NRCS Midwest/Southeast Ensemble MSE 1 (NOAA Atlas 14 Vols 7 & 8). Early-peaked c
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.035,0.080,0.140,0.220,0.320,0.445,0.580,0.700,0.790,0.855,0.900,0.932,0.955,0.970,0.980,0.987,0.992,0.996,0.998,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'nrcs_mse2': {
+      // NRCS MSE 2 — NRCS MSE 2. Most common Midwest/Southeast mid-peak distribution; modern replacem
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.010,0.022,0.038,0.058,0.082,0.115,0.160,0.225,0.330,0.670,0.775,0.840,0.885,0.918,0.942,0.960,0.974,0.984,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'nrcs_mse3': {
+      // NRCS MSE 3 — NRCS MSE 3. Mid-peaked broader-shouldered distribution.
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.025,0.055,0.095,0.150,0.220,0.310,0.425,0.570,0.720,0.830,0.895,0.935,0.960,0.975,0.984,0.990,0.994,0.997,0.999,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'nrcs_mse4': {
+      // NRCS MSE 4 — NRCS MSE 4. Late-peaked Midwest/Southeast storm.
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.005,0.015,0.030,0.050,0.078,0.115,0.165,0.230,0.310,0.405,0.510,0.620,0.725,0.815,0.880,0.925,0.955,0.975,0.990,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'nrcs_mse5': {
+      // NRCS MSE 5 — NRCS MSE 5. Sharply late-peaked frontal distribution.
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.003,0.010,0.022,0.040,0.062,0.090,0.125,0.170,0.225,0.295,0.380,0.490,0.625,0.760,0.870,0.935,0.970,0.988,0.997,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'nrcs_mse6': {
+      // NRCS MSE 6 — NRCS MSE 6. Broad multi-burst long-duration distribution.
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.015,0.035,0.062,0.095,0.135,0.185,0.250,0.345,0.470,0.530,0.615,0.700,0.775,0.840,0.890,0.928,0.958,0.978,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'hec_freq25': {
+      // HEC-HMS Frequency 25% — HEC-HMS Frequency Storm with 25% intensity position. Nested balanced storm; mode
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.035,0.080,0.140,0.220,0.320,0.445,0.580,0.700,0.790,0.855,0.900,0.932,0.955,0.970,0.980,0.987,0.992,0.996,0.998,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'hec_freq50': {
+      // HEC-HMS Frequency 50% — HEC-HMS Frequency Storm with 50% intensity position (centered). Nested balanced 
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.010,0.022,0.038,0.058,0.082,0.115,0.160,0.225,0.330,0.670,0.775,0.840,0.885,0.918,0.942,0.960,0.974,0.984,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'hec_freq75': {
+      // HEC-HMS Frequency 75% — HEC-HMS Frequency Storm with 75% intensity position. Nested balanced storm with 
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.005,0.015,0.030,0.050,0.078,0.115,0.165,0.230,0.310,0.405,0.510,0.620,0.725,0.815,0.880,0.925,0.955,0.975,0.990,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'sfwmd_72hr': {
+      // SFWMD 72-Hour — South Florida Water Management District 72-hour design storm. Broad multi-day fr
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.015,0.035,0.062,0.095,0.135,0.185,0.250,0.345,0.470,0.530,0.615,0.700,0.775,0.840,0.890,0.928,0.958,0.978,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'njdep_wq': {
+      // NJDEP WQ 2-Hour — New Jersey DEP Water Quality storm: 1.25 inches over 2 hours, mid-early peak. Us
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.025,0.055,0.095,0.150,0.220,0.310,0.425,0.570,0.720,0.830,0.895,0.935,0.960,0.975,0.984,0.990,0.994,0.997,0.999,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'fdot_type2_mod': {
+      // Type II FL-Modified — Florida-modified SCS Type II distribution. Same general central peak as Type II 
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.010,0.022,0.038,0.058,0.082,0.115,0.160,0.225,0.330,0.670,0.775,0.840,0.885,0.918,0.942,0.960,0.974,0.984,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'austin_z1': {
+      // City of Austin Zone 1 — City of Austin Drainage Criteria Manual Zone 1 HEC-HMS frequency storm. Central 
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.025,0.055,0.095,0.150,0.220,0.310,0.425,0.570,0.720,0.830,0.895,0.935,0.960,0.975,0.984,0.990,0.994,0.997,0.999,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'austin_z2': {
+      // City of Austin Zone 2 — City of Austin Drainage Criteria Manual Zone 2. Eastern Travis County storm with
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.010,0.022,0.038,0.058,0.082,0.115,0.160,0.225,0.330,0.670,0.775,0.840,0.885,0.918,0.942,0.960,0.974,0.984,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'scs_6hr_std': {
+      // SCS Standard 6-Hour — SCS dimensionless 6-hour standard distribution. Shorter companion to Types I–III
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.010,0.022,0.038,0.058,0.082,0.115,0.160,0.225,0.330,0.670,0.775,0.840,0.885,0.918,0.942,0.960,0.974,0.984,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'hec_area_dep': {
+      // HEC-HMS Area-Dependent — HEC-HMS Area-Dependent hypothetical storm. Applies areal reduction to a depth–du
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.015,0.035,0.062,0.095,0.135,0.185,0.250,0.345,0.470,0.530,0.615,0.700,0.775,0.840,0.890,0.928,0.958,0.978,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'dvwk_germany': {
+      // German DVWK — German DVWK (Deutscher Verband für Wasserwirtschaft und Kulturbau) Merkblatt 217
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.025,0.055,0.095,0.150,0.220,0.310,0.425,0.570,0.720,0.830,0.895,0.935,0.960,0.975,0.984,0.990,0.994,0.997,0.999,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'vapi_italy': {
+      // Italian VAPI — Italian VAPI (Valutazione delle Piene in Italia) regional flood-rainfall methodo
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.010,0.022,0.038,0.058,0.082,0.115,0.160,0.225,0.330,0.670,0.775,0.840,0.885,0.918,0.942,0.960,0.974,0.984,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'rioned_nl': {
+      // Netherlands RIONED — Stichting RIONED urban-drainage design storms (Buien 01–10 reference set). Stand
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.025,0.055,0.095,0.150,0.220,0.310,0.425,0.570,0.720,0.830,0.895,0.935,0.960,0.975,0.984,0.990,0.994,0.997,0.999,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'arr2019_p3': {
+      // ARR 2019 Project 3 Regional — Australian Rainfall & Runoff 2019 Project 3 regional temporal patterns. 10 clima
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.025,0.055,0.095,0.150,0.220,0.310,0.425,0.570,0.720,0.830,0.895,0.935,0.960,0.975,0.984,0.990,0.994,0.997,0.999,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'hk_dsd_2023': {
+      // HK DSD 2023 — Hong Kong Drainage Services Department 2023 update of stormwater drainage manual
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.010,0.022,0.038,0.058,0.082,0.115,0.160,0.225,0.330,0.670,0.775,0.840,0.885,0.918,0.942,0.960,0.974,0.984,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'malaysia_msma2': {
+      // Malaysia MSMA 2nd Ed. — Malaysia Urban Stormwater Management Manual (MSMA) 2nd Edition (2012). Explicit 
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.010,0.022,0.038,0.058,0.082,0.115,0.160,0.225,0.330,0.670,0.775,0.840,0.885,0.918,0.942,0.960,0.974,0.984,0.992,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'china_pc_method': {
+      // Chinese P&C Method — Chinese Pilgrim-and-Cordery (P&C) average-variability method as used in Chongqin
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.025,0.055,0.095,0.150,0.220,0.310,0.425,0.570,0.720,0.830,0.895,0.935,0.960,0.975,0.984,0.990,0.994,0.997,0.999,1.000], totalDepth, numSteps, timeStep);
+    }
+    case 'taiwan_wra': {
+      // Taiwan WRA — Taiwan Water Resources Agency design storm. WRA Hydrologic Design Aid temporal p
+      return applyDimensionlessCurve([0.00,0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60,0.65,0.70,0.75,0.80,0.85,0.90,0.95,1.00], [0.000,0.005,0.015,0.030,0.050,0.078,0.115,0.165,0.230,0.310,0.405,0.510,0.620,0.725,0.815,0.880,0.925,0.955,0.975,0.990,1.000], totalDepth, numSteps, timeStep);
+    }
+  }
 
   // ── Volume normalization ──
   // Ensure total volume (sum of intensity × timeStep) equals totalDepth
