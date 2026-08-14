@@ -761,8 +761,8 @@ const Index = () => {
                 </div>
                 <div className="w-px bg-primary-foreground/20 hidden sm:block" />
                 <div className="text-center px-4">
-                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">{idfCountries}+</p>
-                  <p className="text-xs opacity-80 uppercase tracking-wider">Storm Countries</p>
+                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">9</p>
+                  <p className="text-xs opacity-80 uppercase tracking-wider">Export Formats</p>
                 </div>
               </div>
             );
@@ -773,6 +773,8 @@ const Index = () => {
             Compatible with EPA SWMM · HEC-HMS · InfoWorks ICM · InfoDrainage · PCSWMM · XP-SWMM · HydroCAD
           </p>
         </div>
+        {/* Smooth transition into the app section */}
+        <div className="pointer-events-none h-16 bg-gradient-to-b from-transparent to-background" />
       </header>
 
       {/* Main Content */}
