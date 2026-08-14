@@ -586,6 +586,29 @@ const PATTERN_BADGES = [
   "Šamaj-Valovič",
 ];
 
+const FEATURED_BADGES = [
+  "ARR 2019 Ensemble",
+  "Balanced Storm",
+  "Block Pattern",
+  "Canadian CDA",
+  "Chicago Storm",
+  "China GB 50014",
+  "Double Peak",
+  "Dubai Municipality",
+  "Euler Type II",
+  "FEH22/ReFH2",
+  "German DWA",
+  "Huff 1st Quartile",
+  "Huff 2nd Quartile",
+  "Japan JMA",
+  "NOAA Atlas 14",
+  "SCS Type I",
+  "SCS Type II",
+  "Singapore PUB",
+  "Triangular",
+  "TxDOT",
+];
+
 const Index = () => {
   const [searchParams] = useSearchParams();
   const sharedStorm = useMemo(() => {
