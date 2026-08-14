@@ -15,7 +15,7 @@ import { StormChatbot } from "@/components/StormChatbot";
 import { HeroGifExport } from "@/components/HeroGifExport";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2 } from "lucide-react";
+import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2, ChevronDown, ChevronUp } from "lucide-react";
 import { ApiPlayground } from "@/components/ApiPlayground";
 import { toast } from "sonner";
 
