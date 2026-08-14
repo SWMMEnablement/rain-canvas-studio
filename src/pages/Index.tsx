@@ -668,17 +668,29 @@ const Index = () => {
           </p>
 
           {/* Hero Hyetograph Preview */}
-          <div ref={heroRef} className="mt-8 mb-4 inline-block px-4 pb-4 pt-2">
-            <HeroHyetograph patternName={heroPattern} />
-            <p className="text-sm font-medium tracking-wide text-cyan-200/90 mt-3 text-center transition-all duration-300">
-              {getHeroPatternLabel(heroPattern)}
-            </p>
+          <div className="mt-8 mb-2 flex flex-col items-center">
+            <div ref={heroRef} className="inline-block px-4 pb-4 pt-2">
+              <HeroHyetograph patternName={heroPattern} />
+              <p className="text-sm font-medium tracking-wide text-cyan-200/90 mt-3 text-center transition-all duration-300">
+                {getHeroPatternLabel(heroPattern)}
+              </p>
+            </div>
+
+            {/* Animation & GIF controls, next to the animation they control */}
+            <HeroGifExport
+              patternNames={PATTERN_BADGES}
+              onPatternChange={(name) => setHeroPattern(name || undefined)}
+              captureRef={heroRef}
+            />
           </div>
 
-          {/* Pattern Badges */}
+          {/* Featured Pattern Badges */}
           <div className="relative mt-4 max-w-6xl mx-auto">
-            <div className="flex flex-wrap justify-center gap-1.5 max-h-[200px] sm:max-h-[300px] lg:max-h-none overflow-y-auto px-2 py-1 scrollbar-thin">
-              {PATTERN_BADGES.map((name) => (
+            <p className="text-xs uppercase tracking-wider opacity-80 mb-2">
+              {showAllBadges ? `All ${PATTERN_BADGES.length} patterns` : "Featured patterns"}
+            </p>
+            <div className={`flex flex-wrap justify-center gap-1.5 px-2 py-1 scrollbar-thin ${showAllBadges ? "max-h-[220px] sm:max-h-[320px] overflow-y-auto" : ""}`}>
+              {(showAllBadges ? PATTERN_BADGES : FEATURED_BADGES).map((name) => (
                 <Badge
                   key={name}
                   variant="secondary"
@@ -693,15 +705,31 @@ const Index = () => {
                 </Badge>
               ))}
             </div>
-            <div className="lg:hidden pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[hsl(220,70%,35%)] to-transparent" />
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => setShowAllBadges((v) => !v)}
+                className="inline-flex items-center gap-1 text-sm underline underline-offset-4 opacity-90 hover:opacity-100"
+                aria-expanded={showAllBadges}
+              >
+                {showAllBadges ? (
+                  <>Show featured only <ChevronUp className="w-4 h-4" /></>
+                ) : (
+                  <>Browse all {PATTERN_BADGES.length} patterns <ChevronDown className="w-4 h-4" /></>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab("generator");
+                  setTimeout(() => document.getElementById("storm-wizard")?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+                }}
+                className="inline-flex items-center gap-1 text-sm underline underline-offset-4 opacity-90 hover:opacity-100"
+              >
+                Open the pattern picker →
+              </button>
+            </div>
           </div>
-
-          {/* GIF Export */}
-          <HeroGifExport
-            patternNames={PATTERN_BADGES}
-            onPatternChange={(name) => setHeroPattern(name || undefined)}
-            captureRef={heroRef}
-          />
 
           {/* Statistics Counters */}
           {(() => {
