@@ -606,6 +606,7 @@ const Index = () => {
   const [externalStormParams, setExternalStormParams] = useState<{ depth: number; duration: number } | null>(null);
   const [idfCityData, setIdfCityData] = useState<{ name: string; lat: string; lon: string } | null>(null);
   const [heroPattern, setHeroPattern] = useState<string | undefined>(undefined);
+  const [showAllBadges, setShowAllBadges] = useState(false);
   const [stormContext, setStormContext] = useState<string>("");
   const heroRef = useRef<HTMLDivElement>(null);
 
