@@ -8,7 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { PatternSelector } from "@/components/PatternSelector";
+import { PatternSelector, patterns as allPatterns } from "@/components/PatternSelector";
 import { StormParameters } from "@/components/StormParameters";
 import { RainfallChart } from "@/components/RainfallChart";
 import { ExportButtons } from "@/components/ExportButtons";
@@ -625,7 +625,7 @@ const steps: WizardStep[] = [
   { id: 1, title: "Storm Parameters", description: "Set depth, duration & units", icon: <Settings className="w-5 h-5" /> },
   { id: 2, title: "Select Pattern", description: "Choose rainfall distribution", icon: <Layers className="w-5 h-5" /> },
   { id: 3, title: "Review & Export", description: "Visualize and download data", icon: <Download className="w-5 h-5" /> },
-  { id: 4, title: "Test All", description: "Compare all 363 patterns", icon: <FlaskRound className="w-5 h-5" /> },
+  { id: 4, title: "Test All", description: `Compare all ${allPatterns.length} patterns`, icon: <FlaskRound className="w-5 h-5" /> },
 ];
 
 export interface StormShareParams {
