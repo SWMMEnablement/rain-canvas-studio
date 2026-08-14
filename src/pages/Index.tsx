@@ -638,7 +638,17 @@ const Index = () => {
   const [heroPattern, setHeroPattern] = useState<string | undefined>(undefined);
   const [showAllBadges, setShowAllBadges] = useState(false);
   const [stormContext, setStormContext] = useState<string>("");
+  const [wizardPatternRequest, setWizardPatternRequest] = useState<{ pattern: string; nonce: number } | null>(null);
   const heroRef = useRef<HTMLDivElement>(null);
+
+  const handleBadgeClick = useCallback((name: string) => {
+    setHeroPattern((prev) => (prev === name ? undefined : name));
+    const match = patterns.find((p) => p.name.toLowerCase() === name.toLowerCase())
+      || patterns.find((p) => p.name.toLowerCase().startsWith(name.toLowerCase()));
+    if (match) {
+      setWizardPatternRequest({ pattern: match.id, nonce: Date.now() });
+    }
+  }, []);
 
   const handleSendToGenerator = useCallback((depthInches: number, durationHours: number) => {
     setExternalStormParams({ depth: depthInches, duration: durationHours });
@@ -706,7 +716,8 @@ const Index = () => {
                       ? "bg-white/60 text-blue-900 border-white/80 shadow-md scale-105"
                       : "bg-white/30 text-white border-white/40 hover:bg-white/50 hover:scale-105"
                   }`}
-                  onClick={() => setHeroPattern(heroPattern === name ? undefined : name)}
+                  onClick={() => handleBadgeClick(name)}
+                  title={`Preview and preselect ${name} in the wizard`}
                 >
                   {name}
                 </Badge>
@@ -781,7 +792,7 @@ const Index = () => {
           </p>
         </div>
         {/* Smooth transition into the app section */}
-        <div className="pointer-events-none h-16 bg-gradient-to-b from-transparent to-background" />
+        <div className="pointer-events-none h-28 bg-gradient-to-b from-transparent via-background/60 to-background" />
       </header>
 
       {/* Main Content */}
@@ -834,24 +845,27 @@ const Index = () => {
               onExternalParamsConsumed={() => setExternalStormParams(null)}
               initialShareParams={sharedStorm}
               onStormContextChange={setStormContext}
+              externalPatternRequest={wizardPatternRequest}
             />
             </div>
           </TabsContent>
 
           <TabsContent value="realdata">
-            <RealDataHub />
+            <Suspense fallback={<TabFallback />}><RealDataHub /></Suspense>
           </TabsContent>
 
           <TabsContent value="advanced">
-            <AdvancedTools onSendToGenerator={handleSendToGenerator} onViewIdf={handleViewIdf} />
+            <Suspense fallback={<TabFallback />}>
+              <AdvancedTools onSendToGenerator={handleSendToGenerator} onViewIdf={handleViewIdf} />
+            </Suspense>
           </TabsContent>
 
           <TabsContent value="api">
-            <ApiPlayground />
+            <Suspense fallback={<TabFallback />}><ApiPlayground /></Suspense>
           </TabsContent>
 
           <TabsContent value="docs">
-            <Documentation idfCity={idfCityData} />
+            <Suspense fallback={<TabFallback />}><Documentation idfCity={idfCityData} /></Suspense>
           </TabsContent>
         </Tabs>
       </main>
@@ -875,7 +889,9 @@ const Index = () => {
       </footer>
 
       {/* AI Storm Assistant */}
-      <StormChatbot stormContext={stormContext} />
+      <Suspense fallback={null}>
+        <StormChatbot stormContext={stormContext} />
+      </Suspense>
     </div>
   );
 };
