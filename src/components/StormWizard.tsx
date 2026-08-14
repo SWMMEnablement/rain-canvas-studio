@@ -679,11 +679,18 @@ interface StormWizardProps {
   onExternalParamsConsumed?: () => void;
   initialShareParams?: StormShareParams | null;
   onStormContextChange?: (context: string) => void;
+  externalPatternRequest?: { pattern: string; nonce: number } | null;
 }
 
-export function StormWizard({ externalStormParams, onExternalParamsConsumed, initialShareParams, onStormContextChange }: StormWizardProps = {}) {
+export function StormWizard({ externalStormParams, onExternalParamsConsumed, initialShareParams, onStormContextChange, externalPatternRequest }: StormWizardProps = {}) {
   const [currentStep, setCurrentStep] = useState(initialShareParams ? 3 : 1);
   const [selectedPattern, setSelectedPattern] = useState<PatternType>(initialShareParams?.pattern || 'block');
+
+  useEffect(() => {
+    if (externalPatternRequest?.pattern) {
+      setSelectedPattern(externalPatternRequest.pattern as PatternType);
+    }
+  }, [externalPatternRequest?.nonce]);
   const [depth, setDepth] = useState(initialShareParams?.depth || 2.0);
   const [duration, setDuration] = useState(initialShareParams?.duration || 6.0);
   const [timeStep, setTimeStep] = useState(initialShareParams?.timeStep || 15);
