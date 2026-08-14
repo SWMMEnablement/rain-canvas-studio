@@ -15,7 +15,7 @@ import { StormChatbot } from "@/components/StormChatbot";
 import { HeroGifExport } from "@/components/HeroGifExport";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2 } from "lucide-react";
+import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2, ChevronDown, ChevronUp } from "lucide-react";
 import { ApiPlayground } from "@/components/ApiPlayground";
 import { toast } from "sonner";
 
@@ -586,6 +586,29 @@ const PATTERN_BADGES = [
   "Šamaj-Valovič",
 ];
 
+const FEATURED_BADGES = [
+  "ARR 2019 Ensemble",
+  "Balanced Storm",
+  "Block Pattern",
+  "Canadian CDA",
+  "Chicago Storm",
+  "China GB 50014",
+  "Double Peak",
+  "Dubai Municipality",
+  "Euler Type II",
+  "FEH22/ReFH2",
+  "German DWA",
+  "Huff 1st Quartile",
+  "Huff 2nd Quartile",
+  "Japan JMA",
+  "NOAA Atlas 14",
+  "SCS Type I",
+  "SCS Type II",
+  "Singapore PUB",
+  "Triangular",
+  "TxDOT",
+];
+
 const Index = () => {
   const [searchParams] = useSearchParams();
   const sharedStorm = useMemo(() => {
@@ -606,6 +629,7 @@ const Index = () => {
   const [externalStormParams, setExternalStormParams] = useState<{ depth: number; duration: number } | null>(null);
   const [idfCityData, setIdfCityData] = useState<{ name: string; lat: string; lon: string } | null>(null);
   const [heroPattern, setHeroPattern] = useState<string | undefined>(undefined);
+  const [showAllBadges, setShowAllBadges] = useState(false);
   const [stormContext, setStormContext] = useState<string>("");
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -644,17 +668,29 @@ const Index = () => {
           </p>
 
           {/* Hero Hyetograph Preview */}
-          <div ref={heroRef} className="mt-8 mb-4 inline-block px-4 pb-4 pt-2">
-            <HeroHyetograph patternName={heroPattern} />
-            <p className="text-sm font-medium tracking-wide text-cyan-200/90 mt-3 text-center transition-all duration-300">
-              {getHeroPatternLabel(heroPattern)}
-            </p>
+          <div className="mt-8 mb-2 flex flex-col items-center">
+            <div ref={heroRef} className="inline-block px-4 pb-4 pt-2">
+              <HeroHyetograph patternName={heroPattern} />
+              <p className="text-sm font-medium tracking-wide text-cyan-200/90 mt-3 text-center transition-all duration-300">
+                {getHeroPatternLabel(heroPattern)}
+              </p>
+            </div>
+
+            {/* Animation & GIF controls, next to the animation they control */}
+            <HeroGifExport
+              patternNames={PATTERN_BADGES}
+              onPatternChange={(name) => setHeroPattern(name || undefined)}
+              captureRef={heroRef}
+            />
           </div>
 
-          {/* Pattern Badges */}
+          {/* Featured Pattern Badges */}
           <div className="relative mt-4 max-w-6xl mx-auto">
-            <div className="flex flex-wrap justify-center gap-1.5 max-h-[200px] sm:max-h-[300px] lg:max-h-none overflow-y-auto px-2 py-1 scrollbar-thin">
-              {PATTERN_BADGES.map((name) => (
+            <p className="text-xs uppercase tracking-wider opacity-80 mb-2">
+              {showAllBadges ? `All ${PATTERN_BADGES.length} patterns` : "Featured patterns"}
+            </p>
+            <div className={`flex flex-wrap justify-center gap-1.5 px-2 py-1 scrollbar-thin ${showAllBadges ? "max-h-[220px] sm:max-h-[320px] overflow-y-auto" : ""}`}>
+              {(showAllBadges ? PATTERN_BADGES : FEATURED_BADGES).map((name) => (
                 <Badge
                   key={name}
                   variant="secondary"
@@ -669,15 +705,31 @@ const Index = () => {
                 </Badge>
               ))}
             </div>
-            <div className="lg:hidden pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-[hsl(220,70%,35%)] to-transparent" />
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => setShowAllBadges((v) => !v)}
+                className="inline-flex items-center gap-1 text-sm underline underline-offset-4 opacity-90 hover:opacity-100"
+                aria-expanded={showAllBadges}
+              >
+                {showAllBadges ? (
+                  <>Show featured only <ChevronUp className="w-4 h-4" /></>
+                ) : (
+                  <>Browse all {PATTERN_BADGES.length} patterns <ChevronDown className="w-4 h-4" /></>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab("generator");
+                  setTimeout(() => document.getElementById("storm-wizard")?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+                }}
+                className="inline-flex items-center gap-1 text-sm underline underline-offset-4 opacity-90 hover:opacity-100"
+              >
+                Open the pattern picker →
+              </button>
+            </div>
           </div>
-
-          {/* GIF Export */}
-          <HeroGifExport
-            patternNames={PATTERN_BADGES}
-            onPatternChange={(name) => setHeroPattern(name || undefined)}
-            captureRef={heroRef}
-          />
 
           {/* Statistics Counters */}
           {(() => {
@@ -709,8 +761,8 @@ const Index = () => {
                 </div>
                 <div className="w-px bg-primary-foreground/20 hidden sm:block" />
                 <div className="text-center px-4">
-                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">{idfCountries}+</p>
-                  <p className="text-xs opacity-80 uppercase tracking-wider">Storm Countries</p>
+                  <p className="text-2xl md:text-3xl font-bold text-primary-foreground">9</p>
+                  <p className="text-xs opacity-80 uppercase tracking-wider">Export Formats</p>
                 </div>
               </div>
             );
@@ -721,6 +773,8 @@ const Index = () => {
             Compatible with EPA SWMM · HEC-HMS · InfoWorks ICM · InfoDrainage · PCSWMM · XP-SWMM · HydroCAD
           </p>
         </div>
+        {/* Smooth transition into the app section */}
+        <div className="pointer-events-none h-16 bg-gradient-to-b from-transparent to-background" />
       </header>
 
       {/* Main Content */}
@@ -767,12 +821,14 @@ const Index = () => {
             </section>
 
             {/* Wizard */}
+            <div id="storm-wizard" className="scroll-mt-4">
             <StormWizard
               externalStormParams={externalStormParams}
               onExternalParamsConsumed={() => setExternalStormParams(null)}
               initialShareParams={sharedStorm}
               onStormContextChange={setStormContext}
             />
+            </div>
           </TabsContent>
 
           <TabsContent value="realdata">
@@ -797,7 +853,17 @@ const Index = () => {
       <footer className="bg-card border-t border-border mt-16">
         <div className="container mx-auto px-4 py-8 text-center text-muted-foreground">
           <p className="font-medium mb-2">World Rainfall Pattern Painter – Synthetic Rainfall Patterns for Stormwater Modeling</p>
-          <p className="text-sm">Designed for hydrologists and engineers worldwide</p>
+          <p className="text-sm mb-4">Designed for hydrologists and engineers worldwide</p>
+          <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm mb-4">
+            <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("docs")}>Documentation</button>
+            <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("api")}>API Playground</button>
+            <a className="underline underline-offset-4 hover:text-foreground" href="/API.md">API Reference</a>
+            <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("docs")}>Data sources &amp; references</button>
+            <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("advanced")}>Advanced Tools</button>
+          </nav>
+          <p className="text-xs opacity-80">
+            {patterns.length} storm patterns · Data derived from published agency standards (NRCS TR-55, NOAA Atlas 14/15, FEH, ARR, DWA-A 118, and national meteorological services) · v3.0.0
+          </p>
         </div>
       </footer>
 
