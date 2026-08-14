@@ -821,12 +821,14 @@ const Index = () => {
             </section>
 
             {/* Wizard */}
+            <div id="storm-wizard" className="scroll-mt-4">
             <StormWizard
               externalStormParams={externalStormParams}
               onExternalParamsConsumed={() => setExternalStormParams(null)}
               initialShareParams={sharedStorm}
               onStormContextChange={setStormContext}
             />
+            </div>
           </TabsContent>
 
           <TabsContent value="realdata">
@@ -851,7 +853,17 @@ const Index = () => {
       <footer className="bg-card border-t border-border mt-16">
         <div className="container mx-auto px-4 py-8 text-center text-muted-foreground">
           <p className="font-medium mb-2">World Rainfall Pattern Painter – Synthetic Rainfall Patterns for Stormwater Modeling</p>
-          <p className="text-sm">Designed for hydrologists and engineers worldwide</p>
+          <p className="text-sm mb-4">Designed for hydrologists and engineers worldwide</p>
+          <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm mb-4">
+            <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("docs")}>Documentation</button>
+            <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("api")}>API Playground</button>
+            <a className="underline underline-offset-4 hover:text-foreground" href="/API.md">API Reference</a>
+            <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("docs")}>Data sources &amp; references</button>
+            <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("advanced")}>Advanced Tools</button>
+          </nav>
+          <p className="text-xs opacity-80">
+            {patterns.length} storm patterns · Data derived from published agency standards (NRCS TR-55, NOAA Atlas 14/15, FEH, ARR, DWA-A 118, and national meteorological services) · v3.0.0
+          </p>
         </div>
       </footer>
 
