@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { GulfDdfLookup } from "@/components/GulfDdfLookup";
-import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck, FlaskRound, AlertTriangle, MapPin } from "lucide-react";
+import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck, FlaskRound, AlertTriangle, MapPin, Ruler, Clock, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -910,7 +910,39 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
         </CardContent>
       </Card>
 
+      {/* Sticky Configuration Summary Bar */}
+      <div className="sticky top-0 z-30 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 border border-border rounded-xl shadow-card py-3 px-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-2 min-w-0">
+            <CloudRain className="w-4 h-4 text-primary shrink-0" />
+            <span className="text-sm font-medium text-foreground truncate">
+              {patternNames[selectedPattern]}
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Ruler className="w-3.5 h-3.5 shrink-0" />
+              <span className="text-foreground font-medium">
+                {unitSystem === 'USA' ? `${effectiveDepth.toFixed(2)} in` : `${effectiveDepth.toFixed(1)} mm`}
+              </span>
+              <span className="text-xs hidden sm:inline">depth</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Clock className="w-3.5 h-3.5 shrink-0" />
+              <span className="text-foreground font-medium">{duration.toFixed(1)} hr</span>
+              <span className="text-xs hidden sm:inline">duration</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Timer className="w-3.5 h-3.5 shrink-0" />
+              <span className="text-foreground font-medium">{timeStep} min</span>
+              <span className="text-xs hidden sm:inline">time step</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Step Content */}
+
       <div className="min-h-[400px]">
         {currentStep === 1 && (
           <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
