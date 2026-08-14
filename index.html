@@ -51,7 +51,23 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div style="max-width:60rem;margin:0 auto;padding:4rem 1.5rem;font-family:system-ui,sans-serif;color:#0f172a">
+        <h1 style="font-size:2.25rem;line-height:1.2;margin:0 0 1rem">World Rainfall Pattern Painter</h1>
+        <p style="font-size:1.05rem;line-height:1.6;margin:0 0 1rem">
+          Generate and visualize synthetic design rainfall patterns for stormwater modeling.
+          Create EPA SWMM, HEC-HMS and InfoWorks ICM ready timeseries from 564 international
+          storm patterns with custom depth, duration and time step.
+        </p>
+        <ul style="line-height:1.8;margin:0 0 1rem;padding-left:1.25rem">
+          <li>564 design storm patterns (SCS/NRCS, Chicago, Huff, NOAA Atlas 14, FEH, ARR, DWA-A 118 and more)</li>
+          <li>IDF and DDF lookups for 190+ countries and thousands of cities</li>
+          <li>9 export formats including SWMM5 .inp, HEC-HMS, InfoWorks ICM, CSV and PDF reports</li>
+          <li>Real data hub for importing, editing and matching observed rainfall events</li>
+        </ul>
+        <p style="line-height:1.6;margin:0">Loading the interactive storm generator…</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
