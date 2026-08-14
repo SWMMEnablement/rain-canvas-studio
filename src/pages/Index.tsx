@@ -1,23 +1,30 @@
-import { useState, useCallback, useMemo, useRef, useEffect } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect, lazy, Suspense } from "react";
 import { COUNTRIES } from "@/lib/globalIdfData";
 import { canadaIdfDatabase } from "@/lib/canadaIdfData";
 import { chinaRainstormDatabase } from "@/lib/chinaRainstormData";
 import { useSearchParams } from "react-router-dom";
 import { StormWizard, decodeStormParams } from "@/components/StormWizard";
 import { patterns } from "@/components/PatternSelector";
-import { AdvancedTools } from "@/components/AdvancedTools";
-import { Documentation } from "@/components/Documentation";
-import { RealDataHub } from "@/components/RealDataHub";
+const AdvancedTools = lazy(() => import("@/components/AdvancedTools").then(m => ({ default: m.AdvancedTools })));
+const Documentation = lazy(() => import("@/components/Documentation").then(m => ({ default: m.Documentation })));
+const RealDataHub = lazy(() => import("@/components/RealDataHub").then(m => ({ default: m.RealDataHub })));
+const ApiPlayground = lazy(() => import("@/components/ApiPlayground").then(m => ({ default: m.ApiPlayground })));
+const StormChatbot = lazy(() => import("@/components/StormChatbot").then(m => ({ default: m.StormChatbot })));
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { RainParticles } from "@/components/RainParticles";
 import { HeroHyetograph, getHeroPatternLabel } from "@/components/HeroHyetograph";
-import { StormChatbot } from "@/components/StormChatbot";
 import { HeroGifExport } from "@/components/HeroGifExport";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2, ChevronDown, ChevronUp } from "lucide-react";
-import { ApiPlayground } from "@/components/ApiPlayground";
+import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+
+const TabFallback = () => (
+  <div className="flex items-center justify-center py-24 text-muted-foreground gap-2">
+    <Loader2 className="w-5 h-5 animate-spin" />
+    <span className="text-sm">Loading…</span>
+  </div>
+);
 
 const PATTERN_BADGES = [
   "AES Canada 30%",
