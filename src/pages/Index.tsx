@@ -14,6 +14,8 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { RainParticles } from "@/components/RainParticles";
 import { HeroHyetograph, getHeroPatternLabel } from "@/components/HeroHyetograph";
 import { HeroGifExport } from "@/components/HeroGifExport";
+import { RegionalPatterns } from "@/components/RegionalPatterns";
+import { PatternCompareDemo } from "@/components/PatternCompareDemo";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
@@ -656,6 +658,13 @@ const Index = () => {
     toast.success(`Storm parameters sent: ${(depthInches * 25.4).toFixed(1)} mm / ${(durationHours * 60).toFixed(0)} min`);
   }, []);
 
+  const handleUsePattern = useCallback((patternId: string, patternName: string) => {
+    setWizardPatternRequest({ pattern: patternId, nonce: Date.now() });
+    setActiveTab("generator");
+    toast.success(`${patternName} selected in the storm wizard`);
+    setTimeout(() => document.getElementById("storm-wizard")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
+  }, []);
+
   const handleViewIdf = useCallback((city: { name: string; lat: number; lon: number }) => {
     setIdfCityData({ name: city.name, lat: city.lat.toFixed(4), lon: city.lon.toFixed(4) });
     setActiveTab("docs");
@@ -797,6 +806,12 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
+        {/* Above-the-fold: regional suggestions + 3-pattern overlay demo */}
+        <section aria-label="Explore design storm patterns" className="grid gap-6 lg:grid-cols-2 mb-10">
+          <RegionalPatterns onSelectPattern={handleUsePattern} />
+          <PatternCompareDemo onSelectPattern={handleUsePattern} />
+        </section>
+
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="flex w-full mb-8 overflow-x-auto scrollbar-thin sm:grid sm:grid-cols-5">
             <TabsTrigger value="generator" className="flex items-center gap-2 min-w-max">
