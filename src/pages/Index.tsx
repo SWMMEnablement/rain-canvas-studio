@@ -797,6 +797,12 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
+        {/* Above-the-fold: regional suggestions + 3-pattern overlay demo */}
+        <section aria-label="Explore design storm patterns" className="grid gap-6 lg:grid-cols-2 mb-10">
+          <RegionalPatterns onSelectPattern={handleUsePattern} />
+          <PatternCompareDemo onSelectPattern={handleUsePattern} />
+        </section>
+
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="flex w-full mb-8 overflow-x-auto scrollbar-thin sm:grid sm:grid-cols-5">
             <TabsTrigger value="generator" className="flex items-center gap-2 min-w-max">
