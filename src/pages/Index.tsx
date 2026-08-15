@@ -14,6 +14,8 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { RainParticles } from "@/components/RainParticles";
 import { HeroHyetograph, getHeroPatternLabel } from "@/components/HeroHyetograph";
 import { HeroGifExport } from "@/components/HeroGifExport";
+import { RegionalPatterns } from "@/components/RegionalPatterns";
+import { PatternCompareDemo } from "@/components/PatternCompareDemo";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
@@ -651,6 +653,19 @@ const Index = () => {
   }, []);
 
   const handleSendToGenerator = useCallback((depthInches: number, durationHours: number) => {
+    setExternalStormParams({ depth: depthInches, duration: durationHours });
+    setActiveTab("generator");
+    toast.success(`Storm parameters sent: ${(depthInches * 25.4).toFixed(1)} mm / ${(durationHours * 60).toFixed(0)} min`);
+  }, []);
+
+  const handleUsePattern = useCallback((patternId: string, patternName: string) => {
+    setWizardPatternRequest({ pattern: patternId, nonce: Date.now() });
+    setActiveTab("generator");
+    toast.success(`${patternName} selected in the storm wizard`);
+    setTimeout(() => document.getElementById("storm-wizard")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
+  }, []);
+
+  const handleSendToGeneratorLegacy = useCallback((depthInches: number, durationHours: number) => {
     setExternalStormParams({ depth: depthInches, duration: durationHours });
     setActiveTab("generator");
     toast.success(`Storm parameters sent: ${(depthInches * 25.4).toFixed(1)} mm / ${(durationHours * 60).toFixed(0)} min`);
