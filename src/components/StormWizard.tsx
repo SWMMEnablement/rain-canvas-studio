@@ -1327,15 +1327,18 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
                     size="sm"
                     className="gap-2 shrink-0"
                     onClick={() => {
-                      const hash = encodeStormParams({
-                        pattern: selectedPattern,
-                        depth,
-                        duration,
-                        timeStep,
-                        unitSystem,
-                        climateScenario,
-                      });
-                      const url = `${window.location.origin}${window.location.pathname}?storm=${hash}`;
+                      const url = buildPermalink(
+                        {
+                          pattern: selectedPattern,
+                          depth,
+                          duration,
+                          timeStep,
+                          unitSystem,
+                          climateScenario,
+                        },
+                        window.location.origin,
+                        window.location.pathname,
+                      );
                       navigator.clipboard.writeText(url).then(() => {
                         setShareCopied(true);
                         setTimeout(() => setShareCopied(false), 2000);
