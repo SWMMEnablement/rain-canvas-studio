@@ -3,7 +3,7 @@ import { COUNTRIES } from "@/lib/globalIdfData";
 import { canadaIdfDatabase } from "@/lib/canadaIdfData";
 import { chinaRainstormDatabase } from "@/lib/chinaRainstormData";
 import { useSearchParams } from "react-router-dom";
-import { StormWizard, decodeStormParams } from "@/components/StormWizard";
+import { StormWizard, decodeStormParams, parsePermalinkParams } from "@/components/StormWizard";
 import { patterns } from "@/components/PatternSelector";
 const AdvancedTools = lazy(() => import("@/components/AdvancedTools").then(m => ({ default: m.AdvancedTools })));
 const Documentation = lazy(() => import("@/components/Documentation").then(m => ({ default: m.Documentation })));
@@ -623,7 +623,7 @@ const Index = () => {
     if (stormParam) {
       return decodeStormParams(stormParam) || null;
     }
-    return null;
+    return parsePermalinkParams(searchParams);
   }, []);
 
   useEffect(() => {
