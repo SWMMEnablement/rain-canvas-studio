@@ -674,6 +674,97 @@ export function decodeStormParams(hash: string): StormShareParams | null {
   }
 }
 
+/** Normalize a string for slug matching: lowercase alphanumerics only */
+function normalizeSlug(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+const ROMAN_MAP: Record<string, string> = { i: '1', ii: '2', iii: '3', iv: '4', v: '5' };
+
+/** Expand roman numerals inside a slug, e.g. "scs-ii" -> "scs2" */
+function romanToArabicSlug(value: string): string {
+  return value
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean)
+    .map((part) => ROMAN_MAP[part] ?? part)
+    .join('');
+}
+
+/**
+ * Resolve a human-friendly pattern slug (e.g. "scs-ii", "scs2", "SCS Type II",
+ * "chicago") to a PatternType id.
+ */
+export function resolvePatternSlug(slug: string): PatternType | null {
+  if (!slug) return null;
+  const candidates = [normalizeSlug(slug), romanToArabicSlug(slug)];
+  const entries = Object.entries(patternNames) as [PatternType, string][];
+
+  for (const candidate of candidates) {
+    // Exact id match
+    const byId = entries.find(([id]) => normalizeSlug(id) === candidate);
+    if (byId) return byId[0];
+    // Exact display-name match (also with roman numerals expanded)
+    const byName = entries.find(
+      ([, name]) => normalizeSlug(name) === candidate || romanToArabicSlug(name) === candidate,
+    );
+    if (byName) return byName[0];
+  }
+  return null;
+}
+
+/**
+ * Parse a readable permalink such as
+ * `?pattern=scs-ii&depth=2&duration=6&timeStep=15&units=USA`
+ * Returns null when no usable pattern/parameters are present.
+ */
+export function parsePermalinkParams(search: string | URLSearchParams): StormShareParams | null {
+  const params = typeof search === 'string' ? new URLSearchParams(search) : search;
+  const rawPattern = params.get('pattern');
+  const rawDepth = params.get('depth');
+  const rawDuration = params.get('duration');
+  const rawTimeStep = params.get('timeStep') ?? params.get('timestep');
+  const rawUnits = params.get('units') ?? params.get('unitSystem');
+
+  if (!rawPattern && !rawDepth && !rawDuration) return null;
+
+  const pattern = rawPattern ? resolvePatternSlug(rawPattern) : null;
+  if (rawPattern && !pattern) return null;
+
+  const depth = rawDepth !== null ? parseFloat(rawDepth) : NaN;
+  const duration = rawDuration !== null ? parseFloat(rawDuration) : NaN;
+  const timeStep = rawTimeStep !== null ? parseInt(rawTimeStep, 10) : NaN;
+  const units = (rawUnits || '').toUpperCase() === 'SI' || (rawUnits || '').toLowerCase() === 'metric'
+    ? 'SI'
+    : (rawUnits || '').toUpperCase() === 'USA' || (rawUnits || '').toLowerCase() === 'us'
+      ? 'USA'
+      : null;
+
+  return {
+    pattern: pattern || 'block',
+    depth: Number.isFinite(depth) && depth > 0 ? depth : 2.0,
+    duration: Number.isFinite(duration) && duration > 0 ? duration : 6.0,
+    timeStep: Number.isFinite(timeStep) && timeStep > 0 ? timeStep : 15,
+    unitSystem: (units as UnitSystem) || 'USA',
+    climateScenario: params.get('cc') || 'none',
+  };
+}
+
+/** Build a readable permalink for the given storm configuration */
+export function buildPermalink(params: StormShareParams, origin: string, pathname: string): string {
+  const search = new URLSearchParams({
+    pattern: params.pattern,
+    depth: String(params.depth),
+    duration: String(params.duration),
+    timeStep: String(params.timeStep),
+    units: params.unitSystem,
+  });
+  if (params.climateScenario && params.climateScenario !== 'none') {
+    search.set('cc', params.climateScenario);
+  }
+  return `${origin}${pathname}?${search.toString()}`;
+}
+
 interface StormWizardProps {
   externalStormParams?: { depth: number; duration: number } | null;
   onExternalParamsConsumed?: () => void;
