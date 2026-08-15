@@ -665,12 +665,6 @@ const Index = () => {
     setTimeout(() => document.getElementById("storm-wizard")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
   }, []);
 
-  const handleSendToGeneratorLegacy = useCallback((depthInches: number, durationHours: number) => {
-    setExternalStormParams({ depth: depthInches, duration: durationHours });
-    setActiveTab("generator");
-    toast.success(`Storm parameters sent: ${(depthInches * 25.4).toFixed(1)} mm / ${(durationHours * 60).toFixed(0)} min`);
-  }, []);
-
   const handleViewIdf = useCallback((city: { name: string; lat: number; lon: number }) => {
     setIdfCityData({ name: city.name, lat: city.lat.toFixed(4), lon: city.lon.toFixed(4) });
     setActiveTab("docs");
