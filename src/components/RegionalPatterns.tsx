@@ -63,13 +63,15 @@ function detectCountry(): string | null {
       "Africa/Johannesburg": "ZA", "Pacific/Auckland": "NZ",
     };
     if (tzMap[tz]) return tzMap[tz];
-    if (tz.startsWith("America/Toronto") || tz.startsWith("America/Vancouver")) return "CA";
-    if (tz.startsWith("America/Sao_Paulo")) return "BR";
-    if (tz.startsWith("America/Mexico")) return "MX";
-    if (tz.startsWith("America/Santiago")) return "CL";
-    if (tz.startsWith("America/Bogota")) return "CO";
+    const caZones = ["America/Toronto", "America/Vancouver", "America/Edmonton", "America/Winnipeg", "America/Halifax", "America/St_Johns", "America/Regina", "America/Montreal"];
+    if (caZones.includes(tz)) return "CA";
+    if (["America/Sao_Paulo", "America/Manaus", "America/Fortaleza", "America/Recife", "America/Bahia", "America/Belem"].includes(tz)) return "BR";
+    if (tz.startsWith("America/Mexico") || ["America/Monterrey", "America/Tijuana", "America/Cancun", "America/Merida", "America/Chihuahua"].includes(tz)) return "MX";
+    if (tz === "America/Santiago") return "CL";
+    if (tz === "America/Bogota") return "CO";
     if (tz.startsWith("Australia/")) return "AU";
-    if (tz.startsWith("America/")) return "US";
+    const usZones = ["America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles", "America/Phoenix", "America/Anchorage", "America/Boise", "America/Detroit", "America/Juneau", "America/Adak", "America/Nome", "America/Sitka", "America/Yakutat", "America/Menominee", "Pacific/Honolulu"];
+    if (usZones.includes(tz) || tz.startsWith("America/Indiana/") || tz.startsWith("America/Kentucky/") || tz.startsWith("America/North_Dakota/")) return "US";
   } catch {
     /* ignore */
   }
