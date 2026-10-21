@@ -40,10 +40,9 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
   const copyLink = async () => {
     const url = new URL(window.location.origin + window.location.pathname);
     url.searchParams.set("compare", selected.join(","));
-    url.searchParams.set("depth", String(DEPTH_MM));
-    url.searchParams.set("duration", String(DURATION_H));
-    url.searchParams.set("timeStep", String(STEP_MIN));
-    url.searchParams.set("units", "metric");
+    url.searchParams.set("cmpDepthMm", String(DEPTH_MM));
+    url.searchParams.set("cmpDurationH", String(DURATION_H));
+    url.searchParams.set("cmpStepMin", String(STEP_MIN));
     url.hash = "compare";
     const link = url.toString();
     window.history.replaceState(null, "", link);
