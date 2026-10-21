@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://rain-canvas-studio.lovable.app/sitemap.xml
