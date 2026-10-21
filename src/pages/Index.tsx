@@ -2,7 +2,8 @@ import { useState, useCallback, useMemo, useRef, useEffect, lazy, Suspense } fro
 import { COUNTRIES } from "@/lib/globalIdfData";
 import { canadaIdfDatabase } from "@/lib/canadaIdfData";
 import { chinaRainstormDatabase } from "@/lib/chinaRainstormData";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
+import { patternNames as wizardPatternNames, resolvePatternSlug as resolveSlugForPath } from "@/components/StormWizard";
 import { StormWizard, decodeStormParams, parsePermalinkParams } from "@/components/StormWizard";
 import { patterns } from "@/components/PatternSelector";
 const AdvancedTools = lazy(() => import("@/components/AdvancedTools").then(m => ({ default: m.AdvancedTools })));
@@ -620,7 +621,27 @@ const FEATURED_BADGES = [
 
 const Index = () => {
   const [searchParams] = useSearchParams();
+  const { patternSlug } = useParams();
+  const pathPatternId = patternSlug ? resolveSlugForPath(patternSlug) : null;
+  useEffect(() => {
+    const canon = document.querySelector('link[rel="canonical"]');
+    const desc = document.querySelector('meta[name="description"]');
+    const base = "https://rain-canvas-studio.lovable.app";
+    if (pathPatternId) {
+      const name = (wizardPatternNames as Record<string, string>)[pathPatternId] ?? pathPatternId;
+      document.title = `${name} Design Storm Hyetograph — Rainfall Pattern Generator`;
+      desc?.setAttribute("content", `Generate a ${name} design storm hyetograph: set depth, duration and time step, then export to SWMM, ICM, HEC-HMS or CSV.`);
+      canon?.setAttribute("href", `${base}/patterns/${pathPatternId}`);
+    } else {
+      canon?.setAttribute("href", `${base}/`);
+    }
+  }, [pathPatternId]);
   const sharedStorm = useMemo(() => {
+    if (pathPatternId && !searchParams.get('storm')) {
+      const sp = new URLSearchParams(searchParams);
+      sp.set('pattern', pathPatternId);
+      return parsePermalinkParams(sp);
+    }
     const stormParam = searchParams.get('storm');
     if (stormParam) {
       return decodeStormParams(stormParam) || null;
