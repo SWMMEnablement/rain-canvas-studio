@@ -1,5 +1,5 @@
-import { useMemo, useRef, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -69,6 +69,39 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
   }, [selected]);
 
   const chartRef = useRef<HTMLDivElement>(null);
+  const uid = useId();
+  const [cursor, setCursor] = useState(0);
+  const [chartFocused, setChartFocused] = useState(false);
+  const [announce, setAnnounce] = useState("");
+
+  const peakSummary = () =>
+    selected
+      .map((id) => {
+        let best = 0, at = "0";
+        data.forEach((r) => { const v = Number(r[id]); if (v > best) { best = v; at = String(r.time); } });
+        return `${nameOf(id)} peaks at ${best.toFixed(1)} mm/h at ${at} h`;
+      })
+      .join("; ");
+
+  const describeRow = (i: number) => {
+    const r = data[i];
+    if (!r) return "";
+    return `t = ${r.time} h: ` + selected.map((id) => `${nameOf(id)} ${r[id]} mm/h`).join(", ");
+  };
+
+  const onChartKey = (e: KeyboardEvent<HTMLDivElement>) => {
+    const last = data.length - 1;
+    const map: Record<string, number> = {
+      ArrowRight: cursor + 1, ArrowUp: cursor + 1, ArrowLeft: cursor - 1, ArrowDown: cursor - 1,
+      PageUp: cursor + 4, PageDown: cursor - 4, Home: 0, End: last,
+    };
+    if (!(e.key in map)) return;
+    e.preventDefault();
+    const next = Math.max(0, Math.min(last, map[e.key]));
+    setCursor(next);
+    setAnnounce(describeRow(next));
+  };
+
 
   /** Build a self-contained SVG (resolved colours, title, legend, metadata). */
   const buildSvg = (): { svg: string; w: number; h: number } | null => {
@@ -132,9 +165,9 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
   const nameOf = (id: string) => options.find((p) => p.id === id)?.name ?? id;
 
   return (
-    <Card id="compare" className="border-border scroll-mt-20">
+    <Card id="compare" className="border-border scroll-mt-20" role="region" aria-labelledby={`${uid}-title`}>
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-xl">
+        <CardTitle id={`${uid}-title`} className="flex items-center gap-2 text-xl">
           <LayersIcon className="w-5 h-5 text-primary" aria-hidden="true" />
           Compare 3 patterns
         </CardTitle>
@@ -144,7 +177,8 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid gap-3 sm:grid-cols-3">
+        <fieldset className="grid gap-3 sm:grid-cols-3">
+          <legend className="sr-only">Choose three patterns to compare</legend>
           {selected.map((id, idx) => (
             <div key={idx} className="space-y-1">
               <label className="text-xs uppercase tracking-wide text-muted-foreground" htmlFor={`cmp-${idx}`}>
@@ -152,9 +186,9 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
               </label>
               <Select
                 value={id}
-                onValueChange={(v) => setSelected((prev) => prev.map((p, i) => (i === idx ? v : p)))}
+                onValueChange={(v) => { setSelected((prev) => prev.map((p, i) => (i === idx ? v : p))); setAnnounce(`Pattern ${idx + 1} set to ${nameOf(v)}`); }}
               >
-                <SelectTrigger id={`cmp-${idx}`} aria-label={`Comparison pattern ${idx + 1}`}>
+                <SelectTrigger id={`cmp-${idx}`} aria-label={`Comparison pattern ${idx + 1}: ${nameOf(id)}`}>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="max-h-72">
@@ -165,9 +199,9 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
               </Select>
             </div>
           ))}
-        </div>
+        </fieldset>
 
-        <div className="flex flex-wrap justify-end gap-2">
+        <div className="flex flex-wrap justify-end gap-2" role="toolbar" aria-label="Comparison chart actions">
           <Button size="sm" variant="outline" onClick={copyLink} aria-label="Copy a shareable link to this comparison">
             <Link2 className="w-4 h-4 mr-1" aria-hidden="true" /> Copy link
           </Button>
@@ -179,7 +213,21 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
           </Button>
         </div>
 
-        <div ref={chartRef} className="h-[280px] w-full">
+        <p id={`${uid}-help`} className="text-xs text-muted-foreground">
+          Tip: focus the chart and use the arrow keys to step through time (Page Up/Down jumps 1 h, Home/End go to start/end).
+        </p>
+        <div
+          ref={chartRef}
+          className="h-[280px] w-full rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          tabIndex={0}
+          role="img"
+          aria-roledescription="interactive chart"
+          aria-label={`Hyetograph comparison, ${DEPTH_MM} mm over ${DURATION_H} hours. ${peakSummary()}.`}
+          aria-describedby={`${uid}-help`}
+          onKeyDown={onChartKey}
+          onFocus={() => { setChartFocused(true); setAnnounce(describeRow(cursor)); }}
+          onBlur={() => setChartFocused(false)}
+        >
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data} margin={{ top: 8, right: 12, bottom: 8, left: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -193,16 +241,21 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
                 labelFormatter={(l) => `t = ${l} h`}
               />
               <Legend formatter={(key: string) => nameOf(key)} wrapperStyle={{ fontSize: 12 }} />
+              {chartFocused && data[cursor] && (
+                <ReferenceLine x={data[cursor].time as string} stroke="hsl(var(--foreground))" strokeDasharray="4 2" />
+              )}
               {selected.map((id, i) => (
                 <Line key={id + i} type="monotone" dataKey={id} stroke={COLORS[i]} strokeWidth={2} dot={false} />
               ))}
             </LineChart>
           </ResponsiveContainer>
         </div>
+        <div className="sr-only" aria-live="polite" aria-atomic="true">{announce}</div>
+        {chartFocused && <p className="text-xs text-foreground" aria-hidden="true">{describeRow(cursor)}</p>}
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Send a pattern to the storm wizard">
           {selected.map((id, i) => (
-            <Button key={id + i} size="sm" variant="outline" onClick={() => onSelectPattern(id, nameOf(id))}>
+            <Button key={id + i} size="sm" variant="outline" onClick={() => onSelectPattern(id, nameOf(id))} aria-label={`Use ${nameOf(id)} in the storm wizard`}>
               Use {nameOf(id)} in wizard
             </Button>
           ))}
