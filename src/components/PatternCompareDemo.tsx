@@ -3,7 +3,21 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Download, LayersIcon } from "lucide-react";
+import { Download, LayersIcon, Link2 } from "lucide-react";
+import { resolvePatternSlug } from "@/components/StormWizard";
+import { toast } from "sonner";
+
+/** Read ?compare=a,b,c (slugs, ids or names) from the URL. */
+function readComparePermalink(): string[] | null {
+  try {
+    const raw = new URLSearchParams(window.location.search).get("compare");
+    if (!raw) return null;
+    const ids = raw.split(",").map((s) => resolvePatternSlug(s.trim())).filter(Boolean) as string[];
+    return ids.length === 3 ? ids : null;
+  } catch {
+    return null;
+  }
+}
 import { patterns } from "@/components/PatternSelector";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 
@@ -21,7 +35,25 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
     () => [...patterns].sort((a, b) => a.name.localeCompare(b.name)),
     []
   );
-  const [selected, setSelected] = useState<string[]>(["scs2", "chicago", "huff2"]);
+  const [selected, setSelected] = useState<string[]>(() => readComparePermalink() ?? ["scs2", "chicago", "huff2"]);
+
+  const copyLink = async () => {
+    const url = new URL(window.location.origin + window.location.pathname);
+    url.searchParams.set("compare", selected.join(","));
+    url.searchParams.set("depth", String(DEPTH_MM));
+    url.searchParams.set("duration", String(DURATION_H));
+    url.searchParams.set("timeStep", String(STEP_MIN));
+    url.searchParams.set("units", "metric");
+    url.hash = "compare";
+    const link = url.toString();
+    window.history.replaceState(null, "", link);
+    try {
+      await navigator.clipboard.writeText(link);
+      toast.success("Comparison link copied");
+    } catch {
+      toast.message("Copy this link", { description: link });
+    }
+  };
 
   const data = useMemo(() => {
     const series = selected.map((id) =>
@@ -101,7 +133,7 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
   const nameOf = (id: string) => options.find((p) => p.id === id)?.name ?? id;
 
   return (
-    <Card className="border-border">
+    <Card id="compare" className="border-border scroll-mt-20">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-xl">
           <LayersIcon className="w-5 h-5 text-primary" aria-hidden="true" />
@@ -137,6 +169,9 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
         </div>
 
         <div className="flex flex-wrap justify-end gap-2">
+          <Button size="sm" variant="outline" onClick={copyLink} aria-label="Copy a shareable link to this comparison">
+            <Link2 className="w-4 h-4 mr-1" aria-hidden="true" /> Copy link
+          </Button>
           <Button size="sm" variant="outline" onClick={exportPng} aria-label="Download comparison chart as PNG">
             <Download className="w-4 h-4 mr-1" aria-hidden="true" /> PNG
           </Button>
