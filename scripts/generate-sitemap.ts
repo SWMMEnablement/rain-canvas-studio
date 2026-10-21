@@ -11,7 +11,7 @@ const ids = Array.from(new Set(Array.from(src.matchAll(/^\s*id:\s*['"]([a-z0-9_]
 const urls = [
   `  <url>\n    <loc>${BASE_URL}/</loc>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>`,
   ...ids.map(
-    (id) => `  <url>\n    <loc>${BASE_URL}/?pattern=${encodeURIComponent(id)}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`,
+    (id) => `  <url>\n    <loc>${BASE_URL}/patterns/${encodeURIComponent(id)}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`,
   ),
 ];
 
