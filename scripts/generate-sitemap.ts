@@ -6,7 +6,13 @@ import { resolve } from "path";
 const BASE_URL = "https://rain-canvas-studio.lovable.app";
 
 const src = readFileSync(resolve("src/components/PatternSelector.tsx"), "utf8");
-const ids = Array.from(new Set(Array.from(src.matchAll(/^\s*id:\s*['"]([a-z0-9_]+)['"]/gim), (m) => m[1]))).sort();
+const selectorIds = Array.from(src.matchAll(/^\s*id:\s*['"]([a-z0-9_]+)['"]/gim), (m) => m[1]);
+// Wizard-only patterns: keys of the exported patternNames map (what /patterns/:slug resolves against).
+const wiz = readFileSync(resolve("src/components/StormWizard.tsx"), "utf8");
+const start = wiz.indexOf("export const patternNames");
+const block = wiz.slice(start, wiz.indexOf("\n};", start));
+const wizardIds = Array.from(block.matchAll(/^\s*['"]?([a-z0-9_]+)['"]?\s*:\s*['"]/gim), (m) => m[1]);
+const ids = Array.from(new Set([...selectorIds, ...wizardIds])).sort();
 
 const urls = [
   `  <url>\n    <loc>${BASE_URL}/</loc>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>`,
