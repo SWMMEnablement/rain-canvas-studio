@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Download, LayersIcon, Link2 } from "lucide-react";
+import { Download, FileText, LayersIcon, Link2 } from "lucide-react";
 import { resolvePatternSlug } from "@/components/StormWizard";
 import { toast } from "sonner";
 
@@ -171,6 +171,46 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
 
   const nameOf = (id: string) => options.find((p) => p.id === id)?.name ?? id;
 
+  /** Open a printable, self-documenting report page (chart + parameters + metrics + data table). */
+  const openReport = () => {
+    const r = buildSvg();
+    if (!r) return;
+    const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    const dtH = STEP_MIN / 60;
+    const metrics = selected.map((id) => {
+      let peak = 0, at = "0", sum = 0;
+      data.forEach((row) => { const v = Number(row[id]); sum += v; if (v > peak) { peak = v; at = String(row.time); } });
+      const vol = sum * dtH;
+      return { name: nameOf(id), peak, at, vol, ratio: peak / (DEPTH_MM / DURATION_H) };
+    });
+    const link = new URL(window.location.origin + "/");
+    link.searchParams.set("compare", selected.join(","));
+    link.searchParams.set("cmpDepthMm", String(DEPTH_MM));
+    link.searchParams.set("cmpDurationH", String(DURATION_H));
+    link.searchParams.set("cmpStepMin", String(STEP_MIN));
+    link.hash = "compare";
+    const names = selected.map(nameOf);
+    const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Pattern comparison report — ${esc(names.join(", "))}</title>
+<style>body{font-family:Georgia,serif;color:#111;background:#fff;max-width:900px;margin:24px auto;padding:0 24px;font-size:13px}h1{font-size:20px;margin:0 0 4px}h2{font-size:15px;margin:20px 0 6px;border-bottom:1px solid #999}table{border-collapse:collapse;width:100%;font-family:monospace;font-size:12px}th,td{border:1px solid #bbb;padding:3px 6px;text-align:right}th{background:#eee}td:first-child,th:first-child{text-align:left}.fig svg{max-width:100%;height:auto}.no-print{margin:12px 0}@media print{.no-print{display:none}}</style></head><body>
+<div class="no-print"><button onclick="window.print()">Print / Save as PDF</button></div>
+<h1>Design storm temporal pattern comparison</h1>
+<p>Generated ${esc(new Date().toISOString())} · World Rainfall Pattern Painter</p>
+<h2>1. Inputs</h2><table><tr><th>Parameter</th><th>Value</th></tr>
+<tr><td>Total depth</td><td>${DEPTH_MM} mm</td></tr><tr><td>Duration</td><td>${DURATION_H} h</td></tr><tr><td>Time step</td><td>${STEP_MIN} min</td></tr>
+<tr><td>Patterns</td><td>${esc(names.join("; "))}</td></tr><tr><td>Permalink</td><td style="word-break:break-all">${esc(link.toString())}</td></tr></table>
+<h2>2. Figure 1 — Hyetograph overlay (intensity mm/h vs time h)</h2><div class="fig">${r.svg}</div>
+<h2>3. Summary metrics</h2><table><tr><th>Pattern</th><th>Peak i (mm/h)</th><th>Time to peak (h)</th><th>Peak / mean ratio</th><th>Σ i·Δt (mm)</th></tr>
+${metrics.map((m) => `<tr><td>${esc(m.name)}</td><td>${m.peak.toFixed(3)}</td><td>${m.at}</td><td>${m.ratio.toFixed(2)}</td><td>${m.vol.toFixed(3)}</td></tr>`).join("")}</table>
+<p>Mean intensity \u012B = P / D = ${(DEPTH_MM / DURATION_H).toFixed(3)} mm/h. Volume check Σ i·Δt with Δt = ${dtH.toFixed(4)} h should equal ${DEPTH_MM} mm.</p>
+<h2>4. Tabulated intensities (mm/h)</h2><table><tr><th>t (h)</th>${names.map((n) => `<th>${esc(n)}</th>`).join("")}</tr>
+${data.map((row) => `<tr><td>${row.time}</td>${selected.map((id) => `<td>${Number(row[id]).toFixed(3)}</td>`).join("")}</tr>`).join("")}</table>
+</body></html>`;
+    const w = window.open("", "_blank");
+    if (!w) { toast.error("Allow pop-ups to open the report"); return; }
+    w.document.write(html);
+    w.document.close();
+  };
+
   return (
     <Card id="compare" className="border-border scroll-mt-20" role="region" aria-labelledby={`${uid}-title`}>
       <CardHeader className="pb-3">
@@ -240,6 +280,9 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
           </Button>
           <Button size="sm" variant="outline" onClick={exportSvg} aria-label="Download comparison chart as SVG">
             <Download className="w-4 h-4 mr-1" aria-hidden="true" /> SVG
+          </Button>
+          <Button size="sm" variant="outline" onClick={openReport} aria-label="Open printable comparison report with chart, inputs, metrics and data table">
+            <FileText className="w-4 h-4 mr-1" aria-hidden="true" /> Report
           </Button>
         </div>
 
