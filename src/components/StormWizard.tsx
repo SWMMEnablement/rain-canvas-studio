@@ -27,7 +27,7 @@ import {
 import { useStormApi } from "@/hooks/useStormApi";
 import { type UnitSystem, convertDepth } from "@/lib/unitConversions";
 
-const patternNames: Record<PatternType, string> = {
+export const patternNames: Record<PatternType, string> = {
   'scs1a': 'SCS Type IA',
   'scs1': 'SCS Type I',
   'scs2': 'SCS Type II',

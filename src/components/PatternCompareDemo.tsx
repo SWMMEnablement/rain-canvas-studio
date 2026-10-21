@@ -22,9 +22,13 @@ import { patterns } from "@/components/PatternSelector";
 import { generateRainfallData, type PatternType } from "@/lib/rainfallPatterns";
 
 const COLORS = ["hsl(var(--primary))", "#f59e0b", "#10b981"];
-const DEPTH_MM = 50;
-const DURATION_H = 6;
-const STEP_MIN = 15;
+const STEP_OPTIONS = [1, 5, 10, 15, 30, 60];
+function readNum(key: string, def: number, min: number, max: number) {
+  try {
+    const v = parseFloat(new URLSearchParams(window.location.search).get(key) ?? "");
+    return Number.isFinite(v) && v >= min && v <= max ? v : def;
+  } catch { return def; }
+}
 
 interface Props {
   onSelectPattern: (patternId: string, patternName: string) => void;
@@ -35,6 +39,9 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
     () => [...patterns].sort((a, b) => a.name.localeCompare(b.name)),
     []
   );
+  const [DEPTH_MM, setDepth] = useState(() => readNum("cmpDepthMm", 50, 1, 2000));
+  const [DURATION_H, setDuration] = useState(() => readNum("cmpDurationH", 6, 0.5, 72));
+  const [STEP_MIN, setStep] = useState(() => { const v = readNum("cmpStepMin", 15, 1, 60); return STEP_OPTIONS.includes(v) ? v : 15; });
   const [selected, setSelected] = useState<string[]>(() => readComparePermalink() ?? ["scs2", "chicago", "huff2"]);
 
   const copyLink = async () => {
@@ -66,7 +73,7 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
       });
       return row;
     });
-  }, [selected]);
+  }, [selected, DEPTH_MM, DURATION_H, STEP_MIN]);
 
   const chartRef = useRef<HTMLDivElement>(null);
   const uid = useId();
@@ -93,7 +100,7 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
     const last = data.length - 1;
     const map: Record<string, number> = {
       ArrowRight: cursor + 1, ArrowUp: cursor + 1, ArrowLeft: cursor - 1, ArrowDown: cursor - 1,
-      PageUp: cursor + 4, PageDown: cursor - 4, Home: 0, End: last,
+      PageUp: cursor + Math.max(1, Math.round(60 / STEP_MIN)), PageDown: cursor - Math.max(1, Math.round(60 / STEP_MIN)), Home: 0, End: last,
     };
     if (!(e.key in map)) return;
     e.preventDefault();
@@ -199,6 +206,29 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
               </Select>
             </div>
           ))}
+        </fieldset>
+
+        <fieldset className="grid gap-3 sm:grid-cols-3">
+          <legend className="sr-only">Storm inputs for the comparison</legend>
+          <div className="space-y-1">
+            <label htmlFor={`${uid}-depth`} className="text-xs uppercase tracking-wide text-muted-foreground">Depth (mm)</label>
+            <input id={`${uid}-depth`} type="number" min={1} max={2000} step={1} value={DEPTH_MM}
+              onChange={(e) => { const v = parseFloat(e.target.value); if (v >= 1 && v <= 2000) setDepth(v); }}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 text-sm" />
+          </div>
+          <div className="space-y-1">
+            <label htmlFor={`${uid}-dur`} className="text-xs uppercase tracking-wide text-muted-foreground">Duration (h)</label>
+            <input id={`${uid}-dur`} type="number" min={0.5} max={72} step={0.5} value={DURATION_H}
+              onChange={(e) => { const v = parseFloat(e.target.value); if (v >= 0.5 && v <= 72) setDuration(v); }}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 text-sm" />
+          </div>
+          <div className="space-y-1">
+            <label htmlFor={`${uid}-step`} className="text-xs uppercase tracking-wide text-muted-foreground">Time step (min)</label>
+            <Select value={String(STEP_MIN)} onValueChange={(v) => setStep(Number(v))}>
+              <SelectTrigger id={`${uid}-step`} aria-label={`Time step: ${STEP_MIN} minutes`}><SelectValue /></SelectTrigger>
+              <SelectContent>{STEP_OPTIONS.map((m) => <SelectItem key={m} value={String(m)}>{m} min</SelectItem>)}</SelectContent>
+            </Select>
+          </div>
         </fieldset>
 
         <div className="flex flex-wrap justify-end gap-2" role="toolbar" aria-label="Comparison chart actions">
