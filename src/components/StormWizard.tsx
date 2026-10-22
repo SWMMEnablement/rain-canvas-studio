@@ -8,6 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { canonicalPatternId } from "../../supabase/functions/_shared/patternCatalog";
 import { PatternSelector, patterns as allPatterns } from "@/components/PatternSelector";
 import { StormParameters } from "@/components/StormParameters";
 import { RainfallChart } from "@/components/RainfallChart";
@@ -696,6 +697,11 @@ function romanToArabicSlug(value: string): string {
  * "chicago") to a PatternType id.
  */
 export function resolvePatternSlug(slug: string): PatternType | null {
+  const id = resolvePatternSlugRaw(slug);
+  return id ? (canonicalPatternId(id) as PatternType) : null;
+}
+
+function resolvePatternSlugRaw(slug: string): PatternType | null {
   if (!slug) return null;
   const candidates = [normalizeSlug(slug), romanToArabicSlug(slug)];
   const entries = Object.entries(patternNames) as [PatternType, string][];

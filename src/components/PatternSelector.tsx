@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { type PatternType } from "@/lib/rainfallPatterns";
+import { PATTERN_ALIASES, PATTERN_NAMES, aliasesOf } from "../../supabase/functions/_shared/patternCatalog";
 
 interface PatternOption {
   id: PatternType;
@@ -14,7 +15,7 @@ interface PatternOption {
   category: 'swmm' | 'icm' | 'international' | 'us_agency' | 'european' | 'asian' | 'middle_east' | 'african' | 'latam' | 'oceania' | 'americas' | 'scandinavian';
 }
 
-export const patterns: PatternOption[] = [
+const rawPatterns: PatternOption[] = [
   {
     id: 'block',
     name: 'Block Pattern',
@@ -1826,6 +1827,16 @@ export const patterns: PatternOption[] = [
   { id: 'china_pc_method', name: 'Chinese P&C Method', icon: '🇨🇳', description: 'Chinese Pilgrim-and-Cordery (P&C) average-variability method as used in Chongqing/Yangtze comparison studies. Region-specific average ranked-position pattern.', category: 'asian' },
   { id: 'taiwan_wra', name: 'Taiwan WRA', icon: '🇹🇼', description: 'Taiwan Water Resources Agency design storm. WRA Hydrologic Design Aid temporal pattern, distinct from CWA (meteorological) and MOIWR (irrigation).', category: 'asian' },
 ];
+
+// Patterns whose hyetograph is identical to another are merged into the canonical one;
+// the merged standards are listed on the canonical entry.
+export const patterns: PatternOption[] = rawPatterns
+  .filter((p) => p.id === 'custom' || !(p.id in PATTERN_ALIASES))
+  .map((p) => {
+    const merged = aliasesOf(p.id).map((a) => PATTERN_NAMES[a] ?? a).sort((a, b) => a.localeCompare(b));
+    return merged.length ? { ...p, description: `${p.description} Also published as: ${merged.join('; ')}.` } : p;
+  });
+
 
 interface PatternSelectorProps {
   selectedPattern: PatternType;
