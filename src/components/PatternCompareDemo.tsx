@@ -191,7 +191,7 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
     link.hash = "compare";
     const names = selected.map(nameOf);
     const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Pattern comparison report — ${esc(names.join(", "))}</title>
-<style>body{font-family:Georgia,serif;color:#111;background:#fff;max-width:900px;margin:24px auto;padding:0 24px;font-size:13px}h1{font-size:20px;margin:0 0 4px}h2{font-size:15px;margin:20px 0 6px;border-bottom:1px solid #999}table{border-collapse:collapse;width:100%;font-family:monospace;font-size:12px}th,td{border:1px solid #bbb;padding:3px 6px;text-align:right}th{background:#eee}td:first-child,th:first-child{text-align:left}.fig svg{max-width:100%;height:auto}.no-print{margin:12px 0}@media print{.no-print{display:none}}</style></head><body>
+<style>@page{size:A4 portrait;margin:12mm}body{font-family:Georgia,serif;color:#111;background:#fff;max-width:900px;margin:24px auto;padding:0 24px;font-size:13px}h1{font-size:20px;margin:0 0 4px}h2{font-size:15px;margin:20px 0 6px;border-bottom:1px solid #999}table{border-collapse:collapse;table-layout:fixed;width:100%;font-family:monospace;font-size:12px}th,td{border:1px solid #bbb;padding:3px 6px;text-align:right;white-space:normal;overflow-wrap:anywhere}th{background:#eee}td:first-child,th:first-child{text-align:left}.timeseries col:first-child{width:13%}.timeseries col:not(:first-child){width:29%}.fig svg{max-width:100%;height:auto}.no-print{margin:12px 0}@media print{body{width:auto;max-width:none;margin:0;padding:0}table{font-size:12px}th,td{padding:3px 4px}thead{display:table-header-group}tr{break-inside:avoid}h2{break-after:avoid}.no-print{display:none}}</style></head><body>
 <div class="no-print"><button onclick="window.print()">Print / Save as PDF</button></div>
 <h1>Design storm temporal pattern comparison</h1>
 <p>Generated ${esc(new Date().toISOString())} · World Rainfall Pattern Painter</p>
@@ -202,8 +202,8 @@ export const PatternCompareDemo = ({ onSelectPattern }: Props) => {
 <h2>3. Summary metrics</h2><table><tr><th>Pattern</th><th>Peak i (mm/h)</th><th>Time to peak (h)</th><th>Peak / mean ratio</th><th>Σ i·Δt (mm)</th></tr>
 ${metrics.map((m) => `<tr><td>${esc(m.name)}</td><td>${m.peak.toFixed(3)}</td><td>${m.at}</td><td>${m.ratio.toFixed(2)}</td><td>${m.vol.toFixed(3)}</td></tr>`).join("")}</table>
 <p>Mean intensity \u012B = P / D = ${(DEPTH_MM / DURATION_H).toFixed(3)} mm/h. Volume check Σ i·Δt with Δt = ${dtH.toFixed(4)} h should equal ${DEPTH_MM} mm.</p>
-<h2>4. Tabulated intensities (mm/h)</h2><table><tr><th>t (h)</th>${names.map((n) => `<th>${esc(n)}</th>`).join("")}</tr>
-${data.map((row) => `<tr><td>${row.time}</td>${selected.map((id) => `<td>${Number(row[id]).toFixed(3)}</td>`).join("")}</tr>`).join("")}</table>
+<h2>4. Tabulated intensities (mm/h)</h2><table class="timeseries"><colgroup><col>${names.map(() => "<col>").join("")}</colgroup><thead><tr><th>t (h)</th>${names.map((n) => `<th>${esc(n)}</th>`).join("")}</tr></thead><tbody>
+${data.map((row) => `<tr><td>${row.time}</td>${selected.map((id) => `<td>${Number(row[id]).toFixed(3)}</td>`).join("")}</tr>`).join("")}</tbody></table>
 </body></html>`;
     const w = window.open("", "_blank");
     if (!w) { toast.error("Allow pop-ups to open the report"); return; }
