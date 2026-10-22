@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import { stormPatternCount } from "@/components/PatternSelector";
 
 const API_BASE = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/storm-api`;
 
@@ -258,7 +259,7 @@ export function ApiPlayground() {
           <EndpointHeader
             method="GET"
             path="/storm-api/patterns"
-            description="List all 265+ available rainfall distribution patterns with metadata."
+            description={`List all ${stormPatternCount} available rainfall distribution patterns with metadata.`}
           />
 
           <Card>
