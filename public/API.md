@@ -1,7 +1,7 @@
 # Storm API Documentation — v3.0.0
 
 > Public REST API for generating synthetic rainfall hyetographs and analyzing storm data.
-> Supports **265 rainfall distribution patterns** spanning global standards, regional codes, climate-adjusted variants, and specialized storm scenarios.
+> Supports **339 rainfall distribution patterns** spanning global standards, regional codes, climate-adjusted variants, and specialized storm scenarios.
 >
 > **Base URL:** `https://psbaxqgkhunxkdrecknh.supabase.co/functions/v1/storm-api`
 
@@ -37,7 +37,7 @@ curl https://psbaxqgkhunxkdrecknh.supabase.co/functions/v1/storm-api
 GET /storm-api/patterns
 ```
 
-Returns all 265 available rainfall distribution patterns with metadata.
+Returns all 339 available rainfall distribution patterns with metadata.
 
 **Response:**
 
@@ -51,7 +51,7 @@ Returns all 265 available rainfall distribution patterns with metadata.
       "description": "Most of US (moderate climate)"
     }
   ],
-  "count": 265
+  "count": 339
 }
 ```
 
@@ -209,7 +209,7 @@ All errors return a JSON object with an `error` field:
 
 ## Pattern Categories
 
-The 265 patterns are organized into the following categories:
+The 339 patterns are organized into the following categories:
 
 ### US Standards (SCS/NRCS)
 `scs1`, `scs1a`, `scs2`, `scs3`, `scs2a`

@@ -1,0 +1,2 @@
+- The storm calculator lives in `supabase/functions/_shared/rainfallPatterns.ts` and is used by both the app (via `src/lib/rainfallPatterns.ts` re-export) and the storm-api function; never fork it — so app and API results always match.
+- Patterns with identical hyetographs are merged via `PATTERN_ALIASES` in `supabase/functions/_shared/patternCatalog.ts`; aliases stay accepted in links/API but are hidden from the catalogue and sitemap.

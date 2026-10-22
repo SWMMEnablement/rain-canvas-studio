@@ -2,6 +2,7 @@
 // Pattern permalinks are read from the pattern catalog source so the sitemap stays in sync.
 import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
+import { PATTERN_ALIASES } from "../supabase/functions/_shared/patternCatalog";
 
 const BASE_URL = "https://rain-canvas-studio.lovable.app";
 
@@ -12,7 +13,10 @@ const wiz = readFileSync(resolve("src/components/StormWizard.tsx"), "utf8");
 const start = wiz.indexOf("export const patternNames");
 const block = wiz.slice(start, wiz.indexOf("\n};", start));
 const wizardIds = Array.from(block.matchAll(/^\s*['"]?([a-z0-9_]+)['"]?\s*:\s*['"]/gim), (m) => m[1]);
-const ids = Array.from(new Set([...selectorIds, ...wizardIds])).sort();
+// Merged duplicate patterns are left out: their links resolve to the canonical pattern page.
+const ids = Array.from(new Set([...selectorIds, ...wizardIds]))
+  .filter((id) => id !== "custom" && !(id in PATTERN_ALIASES))
+  .sort();
 
 const urls = [
   `  <url>\n    <loc>${BASE_URL}/</loc>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>`,

@@ -66,27 +66,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/afghanistan_momp</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/alabama_aldot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/alaska_dotpf</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/albanian_igewe</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/alberta_esrd</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -111,27 +91,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/angola_dna</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/angola_inamet</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/argentina_adt</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/argentina_ina</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/argentina_smn</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -142,11 +102,6 @@
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/arizona_adot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/arkansas_ardot</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -171,11 +126,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/arr2019_p3</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/arr87_legacy</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -187,61 +137,6 @@
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/atv_a121</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/aus_act_epsdd</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/aus_nsw_oeh</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/aus_nt_depws</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/aus_qld_dnrme</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/aus_sa_epa</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/aus_tas_dpiwe</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/aus_vic_delwp</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/aus_wa_dwer</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/austin_z1</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/austin_z2</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/austria_okostra</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -276,11 +171,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/bangladesh_dwasa</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/barbados_bms</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -296,11 +186,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/bc_moe_interior</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/bc_moe_northern</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -311,22 +196,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/belgian_irm</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/belgium_willems</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/belize_flood</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/bemposta</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -356,17 +226,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/bogota_eaab</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/bolivia_altiplano</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/bolivia_sepsa</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -406,11 +266,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/bulgarian_nimh_urban</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/burkina_anam</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -431,17 +286,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/cameroon_ird</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/canadian</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/canadian_eccc_climate</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -451,27 +296,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/caribbean_cdema</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/cascading_failure</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/cc_clausius</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/cc_idf_scaled</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/chen_1976</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -486,17 +311,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/chile_idic</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/china</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/china_beijing</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -506,42 +321,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/china_guangzhou</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/china_mohurd</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/china_pc_method</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/china_prd</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/china_shanghai</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/china_shenzhen</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/chocat_1997</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/chow_1964</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -556,37 +336,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/cmip6_idf</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/colombia_ideam</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/colombia_invias</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/comoros_post_kenneth</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/compound_flood</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/congo_mettelsat</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/connecticut_ctdot</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -601,11 +356,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/costa_rica_mopt</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/cote_ivoire</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -616,22 +366,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/croatian_hv</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/csa_w231</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/cuba_insmet</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/custom</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -646,27 +381,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/czech_chmu</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/czech_dia</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/danish_dkcip</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/danish_svk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/danish_svk_urban</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -682,11 +397,6 @@
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/desbordes</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/desbordes_1978</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -726,21 +436,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/dutch_knmi14</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/dutch_knmi23</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/dvwk_germany</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/dwa</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -756,27 +451,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/ecuador_emaapq</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/ecuador_inamhi</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/egypt_capw</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/egypt_hcww</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/el_salvador_mop</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -787,16 +462,6 @@
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/eritrea_dme</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/estonian_emhi</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/ethiopia_addis</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -817,11 +482,6 @@
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/euro_cordex</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/exponential_decay_storm</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -856,11 +516,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/fdot_type2_mod</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/feh</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -876,32 +531,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/fiji_ndmo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/finnish_ely</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/finnish_fmi</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/fourier_multipeak</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/france_shypre</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/french_drias</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -936,22 +571,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/georgia_gdot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/georgian_nea</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/german_dwd_extrem</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/ghana_accra</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -961,32 +581,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/greece_hellenic</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/greek_ye</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/grenada_charim</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/guatemala_civ</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/guatemala_insivumeh</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/guo_2001</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1006,42 +601,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/hawaii_distinct</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/heat_enhanced</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/hec_area_dep</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/hec_freq25</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/hec_freq50</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/hec_freq75</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/hendrick_1973</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/hershfield_1961</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1056,17 +616,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/hk_dsd_2023</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/honduras_smn</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/honduras_soptravi</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1096,27 +646,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/hungarian_kovizig</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/hungarian_msz</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/icelandic_imo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/icelandic_lhf</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/idaho_itd</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1176,22 +711,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/iran_irimo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/iran_irimo_regional</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/iraq_mos</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/iraq_mosul</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1207,11 +727,6 @@
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/italian</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/italian_ipcc</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1236,16 +751,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/japan_mlit_urban</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/japan_osaka</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/japan_typhoon</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1266,16 +771,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/kansas_kdot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/kazakhstan_kazhydromet</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/keifer_1940</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1291,17 +786,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/kenya_nairobi</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/korea_kma</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/korea_moe_urban</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1346,11 +831,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/latvian_lvgmc</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/lebanon_cav</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1376,11 +856,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/louisiana_dotd</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/m5_60_fsr</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1391,27 +866,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/maine_mainedot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/malaysia_did</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/malaysia_hp1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/malaysia_msma</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/malaysia_msma2</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1436,32 +896,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/manitoba_mi</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/maricopa_fcd</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/marsalek_1978</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/marshall_islands</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/maryland_sha</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/massachusetts_massdot</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1501,11 +941,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/mississippi_mdot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/moldova_shs</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1526,22 +961,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/mononobe</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/monsoon_burst</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/montana_caquot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/montana_mdt</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1561,37 +986,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/morocco_ormvat</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/mozambique_inam</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/mozambique_maputo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/myanmar_dmh</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/myanmar_yangon</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/myanmar_ycdc</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/naiad_enhanced</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1606,11 +1006,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nebraska_ndot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/neom_design</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -1621,22 +1016,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nepal_kukl</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/nested_envelope</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/new_hampshire_nhdot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/new_jersey_njdot</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1646,17 +1026,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/new_york_nysdot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/neyman_scott</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nicaragua_ineter</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1666,22 +1036,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nigeria_abuja</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nigeria_lagos</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/nigeria_nimet</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/njdep_wq</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1721,32 +1076,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/noaa_ca1</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/noaa_ca2</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/noaa_ca3</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/noaa_ca4</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/noaa_ca5</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/noaa_ca6</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1761,27 +1096,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/north_carolina_ncdot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/north_dakota_nddot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/north_macedonia_hms</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/north_macedonia_regional</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/norwegian_nccs</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1791,62 +1106,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/norwegian_nve_urban</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nrcc_a</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nrcc_b</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nrcc_c</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nrcc_d</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nrcs_mse1</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nrcs_mse2</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nrcs_mse3</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nrcs_mse4</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nrcs_mse5</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/nrcs_mse6</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nunavut_cws</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1861,17 +1121,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nz_auckland_ac</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/nz_christchurch</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nz_christchurch_ccc</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1891,32 +1141,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/nz_wellington_gwrc</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/oecs_caribbean</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/oklahoma_odot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/oman_dgman</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/ontario_moecp</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/ontario_mto_12hr</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1946,22 +1176,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pakistan_cda</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pakistan_lda</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/pakistan_pmd</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/palau_usace</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1971,22 +1186,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/panama_mop</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/parabolic</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/paraguay_dmh</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/paraguay_dnp</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -1996,37 +1196,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pennsylvania_penndot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/peru_provias</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/peru_senamhi</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/philadelphia_pwd</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/philippines_mmda</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/philippines_pagasa</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pilgrim_1977</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2046,62 +1221,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pmp_hmr49</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pmp_hmr50</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pmp_hmr52</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pmp_hmr53</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pmp_hmr55</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pmp_hmr57</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pmp_hmr58</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pmp_hmr59</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/pmp_hmr60</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/pmp_wmo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/png_ncd</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/png_nws</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2117,16 +1237,6 @@
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/polar_low</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/polish_imgw_urban</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/portugal_ipma</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2161,27 +1271,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/qatar_kahramaa_enhanced</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/qatar_qrrc</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/quantile_delta</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/quebec_melccfp</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/quebec_mtq</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2196,27 +1291,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/rhode_island_ridot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/rioned_nl</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/romania_stas</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/romanian_anar</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/russia_roshydromet</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2226,32 +1301,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/russian_sp</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/rwanda_meteo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/rwanda_regional_idf</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/sa_cape_town</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/sa_huff</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/sa_johannesburg</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2286,11 +1341,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/saharan_dust</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/saint_lucia_charim</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -2306,32 +1356,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/samoa_met</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/samoa_sopac</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/sao_paulo_daee</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/saskatchewan_wsa</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/saudi_aramco</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/saudi_momrah</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2361,11 +1391,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/scs_6hr_std</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/sea_breeze</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -2387,11 +1412,6 @@
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/seychelles_sma</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/sfwmd_72hr</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2421,22 +1441,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/silva_brazil</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/singapore_pub</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/singapore_pub_urban</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/slovak_shmu</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2446,37 +1451,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/slovenian_mop</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/snowmelt_enhanced</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/solomon_islands</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/south_carolina_scdot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/south_dakota_sddot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/soviet_snip_legacy</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/spanish_aemet</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2492,11 +1472,6 @@
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/sri_lanka</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/sri_lanka_nbro</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2521,11 +1496,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/suriname_paramaribo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/svensson_jones</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -2536,32 +1506,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/swedish_smhi_urban</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/swiss_ch2018</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/swiss_idf</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/taiwan_cwa</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/taiwan_moiwr</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/taiwan_wra</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2576,27 +1521,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/tanzania_dawasa</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/tanzania_tma</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/temez_spain</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/tenax_cds</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/thailand_bma</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2621,11 +1551,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/trinidad_tobago</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/tropical_cyclone</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -2636,22 +1561,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/tunisia_anpe</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/tunisia_inm</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/turkey_dsi</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/turkey_mgm</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2681,17 +1591,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/uganda_nwsc</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/uganda_unma</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/ukcp09_legacy</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2706,11 +1606,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/ukrainian_dstu</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/upm_plata</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -2721,17 +1616,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/urban_pluvial</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/uruguay_inumet</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/us_noaa_climate</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2751,42 +1636,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/vapi_italy</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/venezuela_inameh</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/vermont_vtrans</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/vietnam_hanoi</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/vietnam_hcmc</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/vietnam_imhen</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/virginia_vdot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/volcanic_ash</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2821,11 +1671,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/wyoming_wydot</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/xgboost_storm</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -2836,22 +1681,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/yemen_sanaa</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/yen_chow</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/yukon_highways</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/zambia_warma</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -2862,11 +1692,6 @@
   </url>
   <url>
     <loc>https://rain-canvas-studio.lovable.app/patterns/zimbabwe_sala</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://rain-canvas-studio.lovable.app/patterns/zimbabwe_zinwa</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
