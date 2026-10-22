@@ -1826,6 +1826,17 @@ const rawPatterns: PatternOption[] = [
   { id: 'malaysia_msma2', name: 'Malaysia MSMA 2nd Ed.', icon: '🇲🇾', description: 'Malaysia Urban Stormwater Management Manual (MSMA) 2nd Edition (2012). Explicit revision with updated IDF, temporal distribution and ARI tables for Peninsular & East Malaysia.', category: 'asian' },
   { id: 'china_pc_method', name: 'Chinese P&C Method', icon: '🇨🇳', description: 'Chinese Pilgrim-and-Cordery (P&C) average-variability method as used in Chongqing/Yangtze comparison studies. Region-specific average ranked-position pattern.', category: 'asian' },
   { id: 'taiwan_wra', name: 'Taiwan WRA', icon: '🇹🇼', description: 'Taiwan Water Resources Agency design storm. WRA Hydrologic Design Aid temporal pattern, distinct from CWA (meteorological) and MOIWR (irrigation).', category: 'asian' },
+  // Existing API storms, using the unchanged shared-engine curves.
+  { id: 'angola_inamet', name: 'Angola INAMET', icon: '🇦🇴', description: 'Synthetic tropical maritime/continental transition profile with a moderate central peak.', category: 'african' },
+  { id: 'brunei_bdmd', name: 'Brunei BDMD', icon: '🇧🇳', description: 'Synthetic equatorial maritime profile with a front-loaded tropical burst.', category: 'asian' },
+  { id: 'burkina_anam', name: 'Burkina Faso ANAM', icon: '🇧🇫', description: 'Synthetic West African Sahel mesoscale convective profile with front-loaded rainfall.', category: 'african' },
+  { id: 'congo_mettelsat', name: 'Congo DRC METTELSAT', icon: '🇨🇩', description: 'Synthetic equatorial convective profile with a central peak and extended tails.', category: 'african' },
+  { id: 'laos_dmh', name: 'Laos DMH', icon: '🇱🇦', description: 'Synthetic Southeast Asian monsoon profile with an early-central peak.', category: 'asian' },
+  { id: 'mali_dnm', name: 'Mali DNM', icon: '🇲🇱', description: 'Synthetic Sahel squall-line profile with a strongly front-loaded intense burst.', category: 'african' },
+  { id: 'rwanda_meteo', name: 'Rwanda Météo', icon: '🇷🇼', description: 'Synthetic highland tropical convective profile with a central peak and moderate tails.', category: 'african' },
+  { id: 'senegal_anacim', name: 'Senegal ANACIM', icon: '🇸🇳', description: 'Synthetic Sahel monsoon-burst profile with a sharp early peak and front-loaded rainfall.', category: 'african' },
+  { id: 'zambia_zmd', name: 'Zambia ZMD', icon: '🇿🇲', description: 'Synthetic tropical wet-season profile influenced by the ITCZ, with a central peak.', category: 'african' },
+  { id: 'zimbabwe_zmd', name: 'Zimbabwe ZMD', icon: '🇿🇼', description: 'Synthetic subtropical summer-thunderstorm profile with an early-central peak.', category: 'african' },
 ];
 
 // Patterns whose hyetograph is identical to another are merged into the canonical one;
@@ -1835,7 +1846,12 @@ export const patterns: PatternOption[] = rawPatterns
   .map((p) => {
     const merged = aliasesOf(p.id).map((a) => PATTERN_NAMES[a] ?? a).sort((a, b) => a.localeCompare(b));
     return merged.length ? { ...p, description: `${p.description} Also published as: ${merged.join('; ')}.` } : p;
-  });
+  })
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+// Custom drawing is an editor option, not a predefined API storm.
+export const stormPatterns = patterns.filter((p) => p.id !== 'custom');
+export const stormPatternCount = stormPatterns.length;
 
 
 interface PatternSelectorProps {
@@ -1904,7 +1920,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
       <CardHeader>
         <CardTitle>Pattern Type</CardTitle>
         <CardDescription>
-          Select a rainfall distribution pattern ({q ? `${totalMatches} of ${patterns.length} match` : `${patterns.length} available`})
+          Select a rainfall distribution pattern ({q ? `${totalMatches} matching options` : `${stormPatternCount} storms + Custom`})
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
