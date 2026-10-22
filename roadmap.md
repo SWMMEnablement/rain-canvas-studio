@@ -1,3 +1,14 @@
 - [x] Add API-only canonical patterns to the app catalogue and align page counts.
 - [x] Verify catalogue/API equality and newly selectable storms.
 - [x] Package and inspect an updated full-source ZIP for download.
+- [ ] Publish the app (paused — waiting on whether to publish before or after v3 review fixes).
+- [ ] v3 review fixes (waiting on priority choice):
+  - [ ] Metric depth converted twice (25.4× error) in chart and exports
+  - [ ] Cumulative chart uses rounded time labels; durations not divisible by time step
+  - [ ] SWMM duplicate 00:00 timestamp; climate uplift and custom series lost in SWMM integration export
+  - [ ] SCS II / triangular equation explorer disagree with engine
+  - [ ] Importers: CSV comments, ISO dates, HEC metric units, SWMM multi-series
+  - [ ] Batch "all patterns" export uses stale 265-id map (should be 339 canonical)
+  - [ ] Calculators: runoff→detention units, Modified Puls storage loss, unit hydrograph duration, pre/post Rational intensity, LID over-capture
+  - [ ] Return-period badge without location; method source records
+  - [ ] Usability: chips as buttons, shared active storm, tab state, climate in share links
