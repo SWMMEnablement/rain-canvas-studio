@@ -74,7 +74,8 @@ export function TcCalculator() {
     }
     
     // FAA formula: Tc = 1.8 * (1.1 - C) * sqrt(L) / S^(1/3)
-    const tc = 1.8 * (1.1 - C) * Math.sqrt(L) / Math.pow(S, 1/3);
+    // FAA AC 150/5320-5B: L in ft, S in PERCENT (not ft/ft), Tc in minutes
+    const tc = 1.8 * (1.1 - C) * Math.sqrt(L) / Math.pow(S * 100, 1/3);
     
     return { 
       value: Math.round(tc * 10) / 10, 
@@ -96,8 +97,8 @@ export function TcCalculator() {
     if (isNaN(Ls) || isNaN(ns) || isNaN(P2) || isNaN(Ss) || Ls <= 0 || ns <= 0 || P2 <= 0 || Ss <= 0) {
       sheetValid = false;
     } else {
-      // Tt = 0.007 * (n*L)^0.8 / (P2^0.5 * S^0.4)
-      sheetTt = 0.007 * Math.pow(ns * Ls, 0.8) / (Math.pow(P2, 0.5) * Math.pow(Ss, 0.4));
+      // TR-55 eq. 3-3: Tt = 0.007 * (n*L)^0.8 / (P2^0.5 * S^0.4) gives Tt in HOURS -> convert to minutes
+      sheetTt = 60 * 0.007 * Math.pow(ns * Ls, 0.8) / (Math.pow(P2, 0.5) * Math.pow(Ss, 0.4));
     }
     
     // Shallow concentrated flow travel time

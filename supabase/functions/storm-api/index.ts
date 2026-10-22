@@ -1342,11 +1342,13 @@ function generateHyetograph(
 function analyzeTimeseries(data: { time_min: number; intensity: number }[]) {
   if (data.length < 2) return null;
 
-  const totalDepth = data.reduce((sum, d, i) => {
-    const dt = i > 0 ? (d.time_min - data[i - 1].time_min) / 60 : 0;
-    return sum + d.intensity * dt;
-  }, 0);
-  const duration = data[data.length - 1].time_min - data[0].time_min;
+  // Each intensity applies over the interval that STARTS at its time stamp (SWMM/HEC convention).
+  // The last point is assumed to span the same interval as the one before it.
+  const stepOf = (i: number) =>
+    i < data.length - 1 ? (data[i + 1].time_min - data[i].time_min) / 60
+                        : (data[i].time_min - data[i - 1].time_min) / 60;
+  const totalDepth = data.reduce((sum, d, i) => sum + d.intensity * stepOf(i), 0);
+  const duration = data[data.length - 1].time_min - data[0].time_min + stepOf(data.length - 1) * 60;
   const peakIntensity = Math.max(...data.map(d => d.intensity));
   const peakIdx = data.findIndex(d => d.intensity === peakIntensity);
   const peakTime = data[peakIdx].time_min;
@@ -1364,8 +1366,7 @@ function analyzeTimeseries(data: { time_min: number; intensity: number }[]) {
   data.forEach((d, i) => {
     const t = duration > 0 ? (d.time_min - data[0].time_min) / duration : 0;
     const q = Math.min(Math.floor(t * 4), 3);
-    const dt = i > 0 ? (d.time_min - data[i - 1].time_min) / 60 : 0;
-    quarters[q] += d.intensity * dt;
+    quarters[q] += d.intensity * stepOf(i);
   });
   const qTotal = quarters.reduce((a, b) => a + b, 0) || 1;
   const qFractions = quarters.map(q => Math.round((q / qTotal) * 1000) / 10);

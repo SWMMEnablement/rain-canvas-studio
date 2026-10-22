@@ -92,6 +92,10 @@ const allPatterns: Array<{ id: PatternType; name: string; category: string }> = 
   { id: 'korea_kma', name: 'Korea KMA', category: 'Asian' },
 ];
 
+/** Format a time step in minutes as SWMM hh:mm (e.g. 15 -> "00:15", 60 -> "01:00"). SWMM reads "15:00" as 15 HOURS. */
+const minutesToHHMM = (minutes: number): string =>
+  `${Math.floor(minutes / 60).toString().padStart(2, '0')}:${(minutes % 60).toString().padStart(2, '0')}`;
+
 export function SwmmFileIntegration({
   selectedPattern,
   patternName,
@@ -815,18 +819,19 @@ export function SwmmFileIntegration({
     lines.push(`;;Name           Date       Time       Value`);
     lines.push(`;;-------------- ---------- ---------- ----------`);
     
-    const startDate = "01/01/2024";
     const tsName = eventName || `ICM_${patternDisplayName.replace(/\s+/g, '_')}`;
     
     for (let i = 0; i < intensities.length; i++) {
       const timeMinutes = i * timeStep;
-      const hours = Math.floor(timeMinutes / 60);
+      const dayOffset = Math.floor(timeMinutes / 1440);
+      const hours = Math.floor((timeMinutes % 1440) / 60);
       const minutes = timeMinutes % 60;
       const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      const dateStr = `01/${String(1 + dayOffset).padStart(2, '0')}/2024`;
       
       const intensity = convertIntensity(intensities[i], 'USA', unitSystem);
       const depthIncrement = intensity * (timeStep / 60);
-      lines.push(`${tsName}  ${startDate}  ${timeStr}  ${depthIncrement.toFixed(6)}`);
+      lines.push(`${tsName}  ${dateStr}  ${timeStr}  ${depthIncrement.toFixed(6)}`);
     }
     
     return lines.join('\n');
@@ -895,17 +900,17 @@ export function SwmmFileIntegration({
     lines.push(`# Date        Time      Precip`);
     lines.push(`# ----------  --------  ------`);
     
-    const startDate = "01Jan2024";
-    
     for (let i = 0; i < intensities.length; i++) {
       const timeMinutes = i * timeStep;
-      const hours = Math.floor(timeMinutes / 60);
+      const dayOffset = Math.floor(timeMinutes / 1440);
+      const hours = Math.floor((timeMinutes % 1440) / 60);
       const minutes = timeMinutes % 60;
       const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      const hecDate = `${String(1 + dayOffset).padStart(2, '0')}Jan2024`;
       
       const intensity = convertIntensity(intensities[i], 'USA', unitSystem);
       const depthIncrement = intensity * (timeStep / 60);
-      lines.push(`${startDate}  ${timeStr}     ${depthIncrement.toFixed(4)}`);
+      lines.push(`${hecDate}  ${timeStr}     ${depthIncrement.toFixed(4)}`);
     }
     
     lines.push(`# End of Data`);
@@ -971,18 +976,19 @@ export function SwmmFileIntegration({
     lines.push(`;;Name           Date       Time       Value`);
     lines.push(`;;-------------- ---------- ---------- ----------`);
     
-    const startDate = "01/01/2024";
     const name = tsName || `TS_${patternDisplayName.replace(/\s+/g, '_')}`;
     
     for (let i = 0; i < intensities.length; i++) {
       const timeMinutes = i * timeStep;
-      const hours = Math.floor(timeMinutes / 60);
+      const dayOffset = Math.floor(timeMinutes / 1440);
+      const hours = Math.floor((timeMinutes % 1440) / 60);
       const minutes = timeMinutes % 60;
       const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      const dateStr = `01/${String(1 + dayOffset).padStart(2, '0')}/2024`;
       
       const intensity = convertIntensity(intensities[i], 'USA', unitSystem);
       const depthIncrement = intensity * (timeStep / 60);
-      lines.push(`${name.padEnd(16)} ${startDate}  ${timeStr}      ${depthIncrement.toFixed(6)}`);
+      lines.push(`${name.padEnd(16)} ${dateStr}  ${timeStr}      ${depthIncrement.toFixed(6)}`);
     }
     
     // Add RAINGAGES section for XP-SWMM compatibility
@@ -990,7 +996,7 @@ export function SwmmFileIntegration({
     lines.push(`[RAINGAGES]`);
     lines.push(`;;Name           Format    Interval SCF      Source`);
     lines.push(`;;-------------- --------- -------- -------- ----------`);
-    lines.push(`RG_${name.substring(0, 12).padEnd(12)} INTENSITY ${timeStep.toString().padStart(2, '0')}:00    1.0      TIMESERIES ${name}`);
+    lines.push(`RG_${name.substring(0, 12).padEnd(12)} VOLUME    ${minutesToHHMM(timeStep)}    1.0      TIMESERIES ${name}`);
     
     return lines.join('\n');
   };
@@ -1034,21 +1040,26 @@ export function SwmmFileIntegration({
     const intensities = generateRainfallData(selectedPattern, totalDepth, duration, timeStep);
     const exportDepth = convertDepth(totalDepth, 'USA', unitSystem);
     const tsName = timeSeriesName || `TS_${patternName.replace(/\s+/g, '_')}`;
-    const endHours = Math.floor(duration);
-    const endMinutes = Math.floor((duration % 1) * 60);
+    // Run 6 h past the end of rainfall so the runoff hydrograph can recede; roll the date if we pass midnight
+    const simHours = duration + 6;
+    const endDayOffset = Math.floor(simHours / 24);
+    const endHours = Math.floor(simHours % 24);
+    const endMinutes = Math.floor((simHours % 1) * 60);
+    const endDate = `01/${String(1 + endDayOffset).padStart(2, '0')}/2024`;
     
     // Build timeseries data
     const tsLines: string[] = [];
-    const startDate = "01/01/2024";
     
     for (let i = 0; i < intensities.length; i++) {
       const timeMinutes = i * timeStep;
-      const hours = Math.floor(timeMinutes / 60);
+      const dayOffset = Math.floor(timeMinutes / 1440);
+      const hours = Math.floor((timeMinutes % 1440) / 60);
       const minutes = timeMinutes % 60;
       const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      const dateStr = `01/${String(1 + dayOffset).padStart(2, '0')}/2024`;
       const intensity = convertIntensity(intensities[i], 'USA', unitSystem);
       const depthIncrement = intensity * (timeStep / 60);
-      tsLines.push(`${tsName.padEnd(16)} ${startDate}  ${timeStr}      ${depthIncrement.toFixed(6)}`);
+      tsLines.push(`${tsName.padEnd(16)} ${dateStr}  ${timeStr}      ${depthIncrement.toFixed(6)}`);
     }
 
     return `[TITLE]
@@ -1072,13 +1083,13 @@ START_DATE           01/01/2024
 START_TIME           00:00:00
 REPORT_START_DATE    01/01/2024
 REPORT_START_TIME    00:00:00
-END_DATE             01/01/2024
+END_DATE             ${endDate}
 END_TIME             ${endHours.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}:00
 SWEEP_START          01/01
 SWEEP_END            12/31
 DRY_DAYS             0
-REPORT_STEP          00:${timeStep.toString().padStart(2, '0')}:00
-WET_STEP             00:${Math.min(timeStep, 5).toString().padStart(2, '0')}:00
+REPORT_STEP          ${minutesToHHMM(timeStep)}:00
+WET_STEP             ${minutesToHHMM(Math.min(timeStep, 5))}:00
 DRY_STEP             01:00:00
 ROUTING_STEP         0:00:30
 INERTIAL_DAMPING     PARTIAL
@@ -1103,7 +1114,7 @@ DRY_ONLY         NO
 [RAINGAGES]
 ;;Name           Format    Interval SCF      Source
 ;;-------------- --------- -------- -------- ----------
-RG1              INTENSITY ${timeStep.toString().padStart(2, '0')}:00    1.0      TIMESERIES ${tsName}
+RG1              VOLUME    ${minutesToHHMM(timeStep)}    1.0      TIMESERIES ${tsName}
 
 [SUBCATCHMENTS]
 ;;Name           Rain Gage        Outlet           Area     %Imperv  Width    %Slope   CurbLen  SnowPack
@@ -1186,7 +1197,6 @@ RG1              2000.000           7000.000
 
 [BACKDROP]
 
-[END]
 `;
   };
 
@@ -1216,19 +1226,19 @@ RG1              2000.000           7000.000
     
     timeSeriesLines.push(`; Generated time series for ${patternDisplayName}`);
     timeSeriesLines.push(`; Total depth: ${exportDepth.toFixed(unitSystem === 'USA' ? 2 : 1)} ${getDepthUnit(unitSystem)}, Duration: ${duration} hrs, Time step: ${timeStep} min`);
-    timeSeriesLines.push(`${tsName}`);
     
-    const startDate = "01/01/2024";
     
     for (let i = 0; i < intensities.length; i++) {
       const timeMinutes = i * timeStep;
-      const hours = Math.floor(timeMinutes / 60);
+      const dayOffset = Math.floor(timeMinutes / 1440);
+      const hours = Math.floor((timeMinutes % 1440) / 60);
       const minutes = timeMinutes % 60;
       const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      const dateStr = `01/${String(1 + dayOffset).padStart(2, '0')}/2024`;
       
       const intensity = convertIntensity(intensities[i], 'USA', unitSystem);
       const depthIncrement = intensity * (timeStep / 60);
-      timeSeriesLines.push(`${tsName}  ${startDate}  ${timeStr}  ${depthIncrement.toFixed(6)}`);
+      timeSeriesLines.push(`${tsName}  ${dateStr}  ${timeStr}  ${depthIncrement.toFixed(6)}`);
     }
     
     return timeSeriesLines.join('\n');
@@ -1383,6 +1393,10 @@ RG1              2000.000           7000.000
     }
 
     const timeSeriesData = useEditedData ? editedData : (batchMode ? generateBatchTimeSeriesData() : generateTimeSeriesData(selectedPattern, patternName, timeSeriesName));
+    // 6 h tail after rainfall; roll the END_DATE if we pass midnight
+    const simHours = duration + 6;
+    const endDate = `01/${String(1 + Math.floor(simHours / 24)).padStart(2, '0')}/2024`;
+    const endTime = `${Math.floor(simHours % 24).toString().padStart(2, '0')}:${Math.floor((simHours % 1) * 60).toString().padStart(2, '0')}:00`;
     
     // Create a minimal SWMM5 file with just the time series
     const minimalInp = `[TITLE]
@@ -1398,8 +1412,8 @@ START_DATE           01/01/2024
 START_TIME           00:00:00
 REPORT_START_DATE    01/01/2024
 REPORT_START_TIME    00:00:00
-END_DATE             01/01/2024
-END_TIME             ${Math.floor(duration).toString().padStart(2, '0')}:${Math.floor((duration % 1) * 60).toString().padStart(2, '0')}:00
+END_DATE             ${endDate}
+END_TIME             ${endTime}
 SWEEP_START          01/01
 SWEEP_END            12/31
 DRY_DAYS             0
@@ -1421,7 +1435,6 @@ SUBCATCHMENTS ALL
 NODES ALL
 LINKS ALL
 
-[END]
 `;
 
     const blob = new Blob([minimalInp], { type: 'text/plain' });
