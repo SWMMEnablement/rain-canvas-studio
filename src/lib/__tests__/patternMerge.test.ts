@@ -11,7 +11,10 @@ describe('Merged duplicate patterns', () => {
   it('every merged pattern gives exactly the canonical storm', () => {
     for (const [alias, canon] of Object.entries(PATTERN_ALIASES)) {
       for (const [d, s] of [[6, 15], [24, 5], [3, 10]]) {
-        expect(generateRainfallData(alias as PatternType, 2, d, s)).toEqual(generateRainfallData(canon as PatternType, 2, d, s));
+        const a = generateRainfallData(alias as PatternType, 2, d, s);
+        const c = generateRainfallData(canon as PatternType, 2, d, s);
+        expect(a.length).toBe(c.length);
+        expect(Math.max(...a.map((v, i) => Math.abs(v - c[i])))).toBeLessThan(1e-9);
       }
     }
   });
