@@ -1,0 +1,3 @@
+- [ ] Add API-only canonical patterns to the app catalogue and align page counts.
+- [ ] Verify catalogue/API equality and newly selectable storms.
+- [ ] Package and inspect an updated full-source ZIP for download.
