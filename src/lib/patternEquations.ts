@@ -5103,7 +5103,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5127,7 +5127,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5151,7 +5151,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5175,7 +5175,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5199,7 +5199,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5223,7 +5223,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5247,7 +5247,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5271,7 +5271,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5295,7 +5295,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5319,7 +5319,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5343,7 +5343,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5367,7 +5367,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5391,7 +5391,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5415,7 +5415,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5439,7 +5439,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5463,7 +5463,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5487,7 +5487,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5511,7 +5511,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5535,7 +5535,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5559,7 +5559,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5583,7 +5583,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5607,7 +5607,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5631,7 +5631,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5655,7 +5655,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5679,7 +5679,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5703,7 +5703,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5727,7 +5727,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5751,7 +5751,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5775,7 +5775,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5799,7 +5799,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5823,7 +5823,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5847,7 +5847,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5871,7 +5871,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5895,7 +5895,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5919,7 +5919,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5943,7 +5943,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5967,7 +5967,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -5991,7 +5991,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6015,7 +6015,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6039,7 +6039,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6063,7 +6063,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6087,7 +6087,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6111,7 +6111,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6135,7 +6135,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6159,7 +6159,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6183,7 +6183,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6207,7 +6207,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6231,7 +6231,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6255,7 +6255,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6279,7 +6279,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6303,7 +6303,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6327,7 +6327,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6351,7 +6351,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6375,7 +6375,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6399,7 +6399,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6423,7 +6423,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6447,7 +6447,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6471,7 +6471,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6495,7 +6495,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6519,7 +6519,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6543,7 +6543,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6567,7 +6567,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6591,7 +6591,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6615,7 +6615,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -6639,7 +6639,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6663,7 +6663,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6687,7 +6687,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6711,7 +6711,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6735,7 +6735,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6759,7 +6759,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6783,7 +6783,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6807,7 +6807,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6831,7 +6831,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6855,7 +6855,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6879,7 +6879,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6903,7 +6903,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6927,7 +6927,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -6951,7 +6951,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6975,7 +6975,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -6999,7 +6999,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -7023,7 +7023,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7047,7 +7047,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7071,7 +7071,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -7095,7 +7095,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -7119,7 +7119,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7143,7 +7143,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7167,7 +7167,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7191,7 +7191,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7215,7 +7215,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7239,7 +7239,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -7263,7 +7263,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7287,7 +7287,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7311,7 +7311,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7335,7 +7335,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -7359,7 +7359,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7383,7 +7383,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7407,7 +7407,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7431,7 +7431,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7455,7 +7455,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7479,7 +7479,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7503,7 +7503,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7527,7 +7527,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -7551,7 +7551,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7575,7 +7575,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7599,7 +7599,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7623,7 +7623,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7647,7 +7647,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7671,7 +7671,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7695,7 +7695,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -7719,7 +7719,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7743,7 +7743,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7767,7 +7767,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7791,7 +7791,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7815,7 +7815,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7839,7 +7839,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7863,7 +7863,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7887,7 +7887,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7911,7 +7911,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7935,7 +7935,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7959,7 +7959,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -7983,7 +7983,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8007,7 +8007,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8031,7 +8031,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8055,7 +8055,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8079,7 +8079,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8103,7 +8103,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8127,7 +8127,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8151,7 +8151,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8175,7 +8175,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8199,7 +8199,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8223,7 +8223,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8247,7 +8247,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8271,7 +8271,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8295,7 +8295,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -8319,7 +8319,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8343,7 +8343,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8367,7 +8367,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8391,7 +8391,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8415,7 +8415,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8439,7 +8439,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8463,7 +8463,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8487,7 +8487,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8511,7 +8511,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8535,7 +8535,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8559,7 +8559,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8583,7 +8583,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8607,7 +8607,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8631,7 +8631,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8655,7 +8655,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8679,7 +8679,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8703,7 +8703,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8727,7 +8727,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8751,7 +8751,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8775,7 +8775,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8799,7 +8799,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8823,7 +8823,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8847,7 +8847,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8871,7 +8871,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8895,7 +8895,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8919,7 +8919,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8943,7 +8943,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8967,7 +8967,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -8991,7 +8991,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9015,7 +9015,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9039,7 +9039,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9063,7 +9063,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9087,7 +9087,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9111,7 +9111,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9135,7 +9135,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9159,7 +9159,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9183,7 +9183,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9207,7 +9207,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9231,7 +9231,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9255,7 +9255,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9279,7 +9279,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9303,7 +9303,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9327,7 +9327,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9351,7 +9351,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9375,7 +9375,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9399,7 +9399,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -9423,7 +9423,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9447,7 +9447,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9471,7 +9471,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9495,7 +9495,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9519,7 +9519,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9543,7 +9543,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9567,7 +9567,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9591,7 +9591,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9615,7 +9615,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9639,7 +9639,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9663,7 +9663,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9687,7 +9687,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9711,7 +9711,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9735,7 +9735,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9759,7 +9759,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -9783,7 +9783,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9807,7 +9807,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9831,7 +9831,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9855,7 +9855,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9879,7 +9879,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -9903,7 +9903,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9927,7 +9927,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9951,7 +9951,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9975,7 +9975,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -9999,7 +9999,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10023,7 +10023,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10047,7 +10047,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10071,7 +10071,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10095,7 +10095,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10119,7 +10119,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10143,7 +10143,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10167,7 +10167,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10191,7 +10191,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10215,7 +10215,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10239,7 +10239,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10263,7 +10263,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10287,7 +10287,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10311,7 +10311,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10335,7 +10335,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10359,7 +10359,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10383,7 +10383,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10407,7 +10407,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10431,7 +10431,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10455,7 +10455,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10479,7 +10479,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10503,7 +10503,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10527,7 +10527,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10551,7 +10551,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10575,7 +10575,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10599,7 +10599,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10623,7 +10623,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10647,7 +10647,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'PMP Estimation',
-        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        latex: 'P_{PMP} = P_{mean} + K_m \\cdot \\sigma',
         description: 'Statistical/meteorological estimation of probable maximum precipitation'
       }
     ],
@@ -10671,7 +10671,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'PMP Estimation',
-        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        latex: 'P_{PMP} = P_{mean} + K_m \\cdot \\sigma',
         description: 'Statistical/meteorological estimation of probable maximum precipitation'
       }
     ],
@@ -10695,7 +10695,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'PMP Estimation',
-        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        latex: 'P_{PMP} = P_{mean} + K_m \\cdot \\sigma',
         description: 'Statistical/meteorological estimation of probable maximum precipitation'
       }
     ],
@@ -10719,7 +10719,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'PMP Estimation',
-        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        latex: 'P_{PMP} = P_{mean} + K_m \\cdot \\sigma',
         description: 'Statistical/meteorological estimation of probable maximum precipitation'
       }
     ],
@@ -10743,7 +10743,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'PMP Estimation',
-        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        latex: 'P_{PMP} = P_{mean} + K_m \\cdot \\sigma',
         description: 'Statistical/meteorological estimation of probable maximum precipitation'
       }
     ],
@@ -10767,7 +10767,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'PMP Estimation',
-        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        latex: 'P_{PMP} = P_{mean} + K_m \\cdot \\sigma',
         description: 'Statistical/meteorological estimation of probable maximum precipitation'
       }
     ],
@@ -10791,7 +10791,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'PMP Estimation',
-        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        latex: 'P_{PMP} = P_{mean} + K_m \\cdot \\sigma',
         description: 'Statistical/meteorological estimation of probable maximum precipitation'
       }
     ],
@@ -10815,7 +10815,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'PMP Estimation',
-        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        latex: 'P_{PMP} = P_{mean} + K_m \\cdot \\sigma',
         description: 'Statistical/meteorological estimation of probable maximum precipitation'
       }
     ],
@@ -10839,7 +10839,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'PMP Estimation',
-        latex: 'P_{PMP} = P_{mean} + K_m \cdot \sigma',
+        latex: 'P_{PMP} = P_{mean} + K_m \\cdot \\sigma',
         description: 'Statistical/meteorological estimation of probable maximum precipitation'
       }
     ],
@@ -10863,7 +10863,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10887,7 +10887,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10911,7 +10911,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10935,7 +10935,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10959,7 +10959,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -10983,7 +10983,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11007,7 +11007,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11031,7 +11031,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11055,7 +11055,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -11079,7 +11079,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11103,7 +11103,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11127,7 +11127,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11151,7 +11151,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11175,7 +11175,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11199,7 +11199,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11223,7 +11223,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11247,7 +11247,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11271,7 +11271,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11295,7 +11295,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11319,7 +11319,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11343,7 +11343,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11367,7 +11367,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11391,7 +11391,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11415,7 +11415,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11439,7 +11439,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11463,7 +11463,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11487,7 +11487,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11511,7 +11511,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11535,7 +11535,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11559,7 +11559,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11583,7 +11583,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11607,7 +11607,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11631,7 +11631,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11655,7 +11655,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11679,7 +11679,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11703,7 +11703,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11727,7 +11727,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11751,7 +11751,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11775,7 +11775,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11799,7 +11799,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11823,7 +11823,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11847,7 +11847,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11871,7 +11871,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11895,7 +11895,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11919,7 +11919,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11943,7 +11943,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -11967,7 +11967,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -11991,7 +11991,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12015,7 +12015,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12039,7 +12039,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12063,7 +12063,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12087,7 +12087,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12111,7 +12111,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12135,7 +12135,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -12159,7 +12159,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12183,7 +12183,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12207,7 +12207,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12231,7 +12231,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12255,7 +12255,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12279,7 +12279,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12303,7 +12303,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12327,7 +12327,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12351,7 +12351,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12375,7 +12375,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12399,7 +12399,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12423,7 +12423,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12447,7 +12447,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12471,7 +12471,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12495,7 +12495,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12519,7 +12519,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12543,7 +12543,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -12567,7 +12567,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12591,7 +12591,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12615,7 +12615,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Climate-Adjusted Design Rainfall',
-        latex: 'P_{adj}(T) = P_{hist}(T) \cdot \Delta_{CF}',
+        latex: 'P_{adj}(T) = P_{hist}(T) \\cdot \\Delta_{CF}',
         description: 'Historical design rainfall scaled by climate change factor for future projections'
       }
     ],
@@ -12639,7 +12639,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12663,7 +12663,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12687,7 +12687,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12711,7 +12711,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12735,7 +12735,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12759,7 +12759,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12783,7 +12783,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12807,7 +12807,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12831,7 +12831,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12855,7 +12855,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12879,7 +12879,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12903,7 +12903,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12927,7 +12927,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12951,7 +12951,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12975,7 +12975,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -12999,7 +12999,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -13023,7 +13023,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],
@@ -13047,7 +13047,7 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Design Intensity',
-        latex: 'i(t) = \frac{P}{D} \cdot f(t/D)',
+        latex: 'i(t) = \\frac{P}{D} \\cdot f(t/D)',
         description: 'Dimensionless temporal distribution applied to total depth P over duration D'
       }
     ],

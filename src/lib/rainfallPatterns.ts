@@ -238,32 +238,36 @@ export function generateRainfallData(
     }
 
     case 'scs1': {
-      // SCS Type I — NRCS TR-55 tabulated mass curve (24-hr)
-      const scs1T = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
-      const scs1D = [0, 0.017, 0.035, 0.054, 0.076, 0.100, 0.125, 0.156, 0.194, 0.254, 0.515, 0.583, 0.624, 0.654, 0.682, 0.706, 0.727, 0.748, 0.767, 0.785, 0.804, 0.830, 0.860, 0.928, 1.0];
-      return applyDimensionlessCurve(scs1T, scs1D, totalDepth, numSteps, timeStep);
+      // SCS Type I — NRCS 24-hr mass curve.
+      // Hourly ordinates: NRCS WinTR-55 v2 / NEH Part 630 Ch. 4. Quarter-hour peak rows (9.5, 9.75 h): TR-55 (1986) Table B-2.
+      // Times are in HOURS here (converted to fractions of 24 h below) so the table can be read against the source.
+      const scs1H = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9.5, 9.75, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+      const scs1D = [0, 0.017, 0.035, 0.054, 0.076, 0.100, 0.125, 0.156, 0.194, 0.254, 0.303, 0.362, 0.515, 0.623, 0.684, 0.732, 0.770, 0.802, 0.832, 0.860, 0.886, 0.910, 0.932, 0.952, 0.970, 0.986, 1.0];
+      return applyDimensionlessCurve(scs1H.map(h => h / 24), scs1D, totalDepth, numSteps, timeStep);
     }
 
     case 'scs1a': {
-      // SCS Type IA — NRCS TR-55 tabulated mass curve (24-hr)
-      const scs1aT = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
-      const scs1aD = [0, 0.020, 0.050, 0.082, 0.116, 0.156, 0.206, 0.268, 0.425, 0.480, 0.520, 0.550, 0.577, 0.601, 0.624, 0.645, 0.664, 0.683, 0.701, 0.719, 0.736, 0.753, 0.771, 0.854, 1.0];
-      return applyDimensionlessCurve(scs1aT, scs1aD, totalDepth, numSteps, timeStep);
+      // SCS Type IA — NRCS 24-hr mass curve.
+      // Hourly ordinates: NRCS WinTR-55 v2 / NEH Part 630 Ch. 4. 0.1-h ordinates 7.0–8.5 h: WinTR-55 table (WSDOT HRM App. 4C, Table 4C-3).
+      const scs1aH = [0, 1, 2, 3, 4, 5, 6, 7, 7.5, 7.6, 7.7, 7.8, 7.9, 8, 8.5, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+      const scs1aD = [0, 0.020, 0.050, 0.082, 0.116, 0.156, 0.206, 0.268, 0.310, 0.331, 0.355, 0.379, 0.403, 0.425, 0.480, 0.520, 0.577, 0.624, 0.664, 0.701, 0.736, 0.769, 0.801, 0.831, 0.860, 0.887, 0.913, 0.937, 0.959, 0.980, 1.0];
+      return applyDimensionlessCurve(scs1aH.map(h => h / 24), scs1aD, totalDepth, numSteps, timeStep);
     }
 
     case 'scs2': {
-      // SCS Type II — NRCS TR-55 tabulated mass curve (24-hr)
-      // Sharp peak at t=0.5 (hour 12): 34% of rainfall in central 1-hour window
-      const scs2T = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
-      const scs2D = [0, 0.011, 0.022, 0.035, 0.048, 0.063, 0.080, 0.098, 0.120, 0.147, 0.181, 0.235, 0.663, 0.735, 0.772, 0.799, 0.820, 0.838, 0.854, 0.868, 0.880, 0.893, 0.907, 0.952, 1.0];
-      return applyDimensionlessCurve(scs2T, scs2D, totalDepth, numSteps, timeStep);
+      // SCS Type II — NRCS 24-hr mass curve. 42.8% of the depth falls in hour 11–12; ~27% in the 15 min before hour 12.
+      // Hourly ordinates: NRCS WinTR-55 v2 / NEH Part 630 Ch. 4. 0.1-h ordinates 11.0–13.0 h: WinTR-55 table (WSDOT HRM App. 4C, Table 4C-4).
+      const scs2H = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10.5, 11, 11.1, 11.2, 11.3, 11.4, 11.5, 11.6, 11.7, 11.8, 11.9, 12, 12.1, 12.2, 12.3, 12.4, 12.5, 12.6, 12.7, 12.8, 12.9, 13, 13.5, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+      const scs2D = [0, 0.011, 0.022, 0.035, 0.048, 0.063, 0.080, 0.099, 0.120, 0.147, 0.181, 0.204, 0.235, 0.243, 0.251, 0.261, 0.271, 0.283, 0.307, 0.354, 0.431, 0.568, 0.663, 0.682, 0.699, 0.713, 0.725, 0.735, 0.743, 0.751, 0.759, 0.766, 0.772, 0.799, 0.820, 0.854, 0.880, 0.902, 0.921, 0.938, 0.952, 0.965, 0.977, 0.989, 1.0];
+      return applyDimensionlessCurve(scs2H.map(h => h / 24), scs2D, totalDepth, numSteps, timeStep);
     }
 
     case 'scs3': {
-      // SCS Type III — NRCS TR-55 tabulated mass curve (24-hr)
-      const scs3T = [0, 0.042, 0.083, 0.125, 0.167, 0.208, 0.250, 0.292, 0.333, 0.375, 0.417, 0.458, 0.500, 0.542, 0.583, 0.625, 0.667, 0.708, 0.750, 0.792, 0.833, 0.875, 0.917, 0.958, 1.0];
-      const scs3D = [0, 0.010, 0.022, 0.036, 0.050, 0.067, 0.085, 0.106, 0.130, 0.158, 0.189, 0.250, 0.500, 0.702, 0.751, 0.785, 0.811, 0.834, 0.853, 0.870, 0.886, 0.900, 0.917, 0.952, 1.0];
-      return applyDimensionlessCurve(scs3T, scs3D, totalDepth, numSteps, timeStep);
+      // SCS Type III — NRCS 24-hr mass curve.
+      // Hourly ordinates: NRCS WinTR-55 v2 / NEH Part 630 Ch. 4. Quarter/half-hour peak rows (11.5, 11.75, 12.5, 13.5 h): TR-55 (1986) Table B-2.
+      const scs3H = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 11.5, 11.75, 12, 12.5, 13, 13.5, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+      const scs3D = [0, 0.010, 0.020, 0.031, 0.043, 0.057, 0.072, 0.090, 0.114, 0.146, 0.189, 0.250, 0.298, 0.339, 0.500, 0.702, 0.750, 0.785, 0.811, 0.854, 0.886, 0.909, 0.928, 0.943, 0.957, 0.969, 0.981, 0.991, 1.0];
+      return applyDimensionlessCurve(scs3H.map(h => h / 24), scs3D, totalDepth, numSteps, timeStep);
     }
 
     case 'double': {

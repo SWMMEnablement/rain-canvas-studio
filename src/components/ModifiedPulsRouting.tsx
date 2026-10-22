@@ -128,7 +128,8 @@ const ModifiedPulsRouting: React.FC<ModifiedPulsRoutingProps> = ({ importedSSODa
     setInflowData(points);
   };
 
-  // Build 2S/Δt + O routing curve
+  // Build 2S/Δt + O routing curve (displayed for the nominal time step; the routing loop
+  // below rebuilds it per interval using the ACTUAL spacing of the inflow hydrograph)
   const routingCurve = useMemo(() => {
     const dt = timeStep * 3600; // Convert hours to seconds
     return ssoData.map(point => ({
@@ -155,14 +156,12 @@ const ModifiedPulsRouting: React.FC<ModifiedPulsRoutingProps> = ({ importedSSODa
   const routingResults = useMemo(() => {
     if (inflowData.length < 2 || ssoData.length < 2) return [];
 
-    const dt = timeStep * 3600; // seconds
     const results: RoutingResult[] = [];
     
     // Extract arrays for interpolation
     const stages = ssoData.map(p => p.stage);
     const storages = ssoData.map(p => p.storage);
     const outflows = ssoData.map(p => p.outflow);
-    const routingValues = routingCurve.map(p => p.routingValue);
 
     // Initial conditions
     let S1 = 0;
@@ -186,6 +185,12 @@ const ModifiedPulsRouting: React.FC<ModifiedPulsRoutingProps> = ({ importedSSODa
         continue;
       }
 
+      // Δt MUST be the actual spacing of this inflow interval (the hydrograph rows are not
+      // necessarily spaced at the nominal timeStep); using a mismatched Δt violates mass balance.
+      const dt = (sortedInflow[i].time - sortedInflow[i - 1].time) * 3600; // seconds
+      if (!(dt > 0)) continue;
+      const routingValues = ssoData.map(p => (2 * p.storage / dt) + p.outflow);
+
       // Modified Puls equation: (2S2/Δt + O2) = (2S1/Δt - O1) + I1 + I2
       const leftSide = (2 * S1 / dt) - O1 + I1 + I2;
       
@@ -208,7 +213,7 @@ const ModifiedPulsRouting: React.FC<ModifiedPulsRoutingProps> = ({ importedSSODa
     }
 
     return results;
-  }, [inflowData, ssoData, routingCurve, timeStep]);
+  }, [inflowData, ssoData]);
 
   // Calculate summary statistics
   const summary = useMemo(() => {
