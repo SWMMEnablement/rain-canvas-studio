@@ -17,4 +17,12 @@
   - [x] Native InfoWorks ICM event CSV (Autodesk type=RED format)
   - [x] "Create a storm now" shortcut; release version shown in footer
   - [ ] Per-pattern source records
+- Source notes + confidence levels:
+  - [ ] Source note and confidence level for every pattern
+  - [ ] Show them in pattern details (wizard picker) and regional recommendations
+- Re-import of exported files:
+  - [ ] CSV export (comment header, Time (hr)) loads back
+  - [ ] HEC-HMS .gage (both exporters) and DSS CSV load back
+  - [ ] SWMM script, XP-SWMM .inp, template .inp, .dat load back with correct units and depth
+  - [ ] Round-trip tests using the real export builders
   - [ ] Usability: chips as buttons, shared active storm, tab state, climate in share links
