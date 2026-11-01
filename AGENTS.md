@@ -3,3 +3,5 @@
 - The app's predefined catalogue must match `CANONICAL_PATTERN_IDS` exactly; derive visible counts and hero lists from `stormPatterns`, excluding the separate Custom editor option, to keep app/API totals consistent.
 - `generateRainfallData` is a guarded wrapper: it must always return finite, non-negative values that conserve depth (falls back to 1-minute generation aggregated to the requested step) — callers rely on this instead of re-checking.
 - The wizard snaps the time step (`fitTimeStep`) so duration is a whole number of intervals — fixed-interval exports assume full intervals.
+- Storm file text formats (CSV, SWMM, HEC gage) are built in `src/lib/stormFileExports.ts` / `src/lib/hecHmsExport.ts` and must load back through `src/lib/rainfallParsers.ts`; `exportReimport.test.ts` round-trips every format — so exports and imports never drift apart.
+- Per-pattern source notes and confidence levels come only from `src/lib/patternProvenance.ts`; unlisted patterns default to low confidence — confidence is raised only with a named source.
