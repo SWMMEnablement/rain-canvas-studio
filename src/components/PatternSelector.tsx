@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { type PatternType } from "@/lib/rainfallPatterns";
 import { PATTERN_ALIASES, PATTERN_NAMES, aliasesOf } from "../../supabase/functions/_shared/patternCatalog";
+import { PatternProvenanceNote } from "@/components/PatternProvenanceNote";
 
 interface PatternOption {
   id: PatternType;
@@ -2000,10 +2001,17 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
         </Tabs>
         
         {selectedPatternInfo && (
-          <div className="rounded-lg bg-accent/50 p-4 border-l-4 border-primary">
+          <div className="rounded-lg bg-accent/50 p-4 border-l-4 border-primary space-y-3">
             <p className="text-sm">
               <strong>{selectedPatternInfo.name}:</strong> {selectedPatternInfo.description}
             </p>
+            <PatternProvenanceNote
+              id={selectedPatternInfo.id}
+              name={selectedPatternInfo.name}
+              description={selectedPatternInfo.description}
+              explain
+              className="border-t border-border pt-3"
+            />
           </div>
         )}
       </CardContent>
