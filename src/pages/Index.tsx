@@ -1,8 +1,10 @@
+import { Button } from "@/components/ui/button";
 import { useState, useCallback, useMemo, useRef, useEffect, lazy, Suspense } from "react";
 import { COUNTRIES } from "@/lib/globalIdfData";
 import { canadaIdfDatabase } from "@/lib/canadaIdfData";
 import { chinaRainstormDatabase } from "@/lib/chinaRainstormData";
 import { useSearchParams, useParams } from "react-router-dom";
+import { RELEASE_VERSION } from "@/components/StormCheckPanel";
 import { patternNames as wizardPatternNames, resolvePatternSlug as resolveSlugForPath } from "@/components/StormWizard";
 import { StormWizard, decodeStormParams, parsePermalinkParams } from "@/components/StormWizard";
 import { patterns, stormPatterns, stormPatternCount } from "@/components/PatternSelector";
@@ -148,6 +150,15 @@ const Index = () => {
             Generate and visualize synthetic rainfall patterns for stormwater modeling. 
             Create SWMM5 and ICM-ready timeseries with custom parameters.
           </p>
+          <div className="mt-5 flex justify-center">
+            <Button
+              size="lg"
+              variant="secondary"
+              onClick={() => document.getElementById("storm-wizard")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+            >
+              Create a storm now
+            </Button>
+          </div>
 
           {/* Hero Hyetograph Preview */}
           <div className="mt-8 mb-2 flex flex-col items-center">
@@ -354,7 +365,7 @@ const Index = () => {
             <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("advanced")}>Advanced Tools</button>
           </nav>
           <p className="text-xs opacity-80">
-            {stormPatternCount} storm patterns · Data derived from published agency standards (NRCS TR-55, NOAA Atlas 14/15, FEH, ARR, DWA-A 118, and national meteorological services) · v3.0.0
+            {stormPatternCount} storm patterns · Data derived from published agency standards (NRCS TR-55, NOAA Atlas 14/15, FEH, ARR, DWA-A 118, and national meteorological services) · v{RELEASE_VERSION}
           </p>
         </div>
       </footer>
