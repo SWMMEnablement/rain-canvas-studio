@@ -5,12 +5,14 @@ import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Badge } from '@/components/ui/badge';
 import { Container, Calculator, Info } from 'lucide-react';
+import { type RunoffTransfer } from '@/lib/hydrologyCalcs';
 
 interface DetentionPondCalculatorProps {
-  linkedRunoffVolume?: number;
+  /** Runoff from the runoff calculator, already converted to inches and acres. */
+  linkedRunoff?: RunoffTransfer | null;
 }
 
-const DetentionPondCalculator: React.FC<DetentionPondCalculatorProps> = ({ linkedRunoffVolume }) => {
+const DetentionPondCalculator: React.FC<DetentionPondCalculatorProps> = ({ linkedRunoff }) => {
   const [preDevRunoff, setPreDevRunoff] = useState<number>(0.5);
   const [postDevRunoff, setPostDevRunoff] = useState<number>(2.0);
   const [area, setArea] = useState<number>(10);
@@ -20,10 +22,12 @@ const DetentionPondCalculator: React.FC<DetentionPondCalculatorProps> = ({ linke
 
   // Update post-dev runoff when linked value changes
   React.useEffect(() => {
-    if (linkedRunoffVolume && linkedRunoffVolume > 0) {
-      setPostDevRunoff(linkedRunoffVolume);
+    // A valid zero-runoff result is applied too, so an earlier positive value never lingers.
+    if (linkedRunoff) {
+      setPostDevRunoff(Math.round(linkedRunoff.depthIn * 10000) / 10000);
+      if (linkedRunoff.areaAcres > 0) setArea(Math.round(linkedRunoff.areaAcres * 1000) / 1000);
     }
-  }, [linkedRunoffVolume]);
+  }, [linkedRunoff]);
 
   const calculations = useMemo(() => {
     if (area <= 0 || postDevRunoff < 0 || preDevRunoff < 0) {
@@ -72,7 +76,7 @@ const DetentionPondCalculator: React.FC<DetentionPondCalculatorProps> = ({ linke
     };
   }, [preDevRunoff, postDevRunoff, area, avgDepth, safetyFactor]);
 
-  const isLinked = linkedRunoffVolume !== undefined && linkedRunoffVolume > 0;
+  const isLinked = !!linkedRunoff;
 
   return (
     <Card className="mt-6">
@@ -90,7 +94,7 @@ const DetentionPondCalculator: React.FC<DetentionPondCalculatorProps> = ({ linke
       <CardContent className="space-y-6">
         <p className="text-sm text-muted-foreground">
           Estimate required detention storage volume using the simple storage method. 
-          {isLinked && ' Post-development runoff depth is automatically populated from the calculator above.'}
+          {isLinked && ' Post-development runoff depth and drainage area come from the runoff calculator above, converted to inches and acres.'}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
