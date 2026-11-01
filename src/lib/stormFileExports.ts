@@ -125,11 +125,11 @@ export function buildSwmmDatExport(data: HourPoint[], m: ExportMeta): string {
   return dat;
 }
 
-/** "0:15" style interval for SWMM rain gages. */
+/** "00:15" style interval for SWMM rain gages. */
 export function minutesToHHMM(minutes: number): string {
   const h = Math.floor(minutes / 60);
   const mm = Math.round(minutes % 60);
-  return `${h}:${String(mm).padStart(2, '0')}`;
+  return `${String(h).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
 }
 
 // ---------------------------------------------------------------- per-step builders (SWMM integration panel)
