@@ -55,10 +55,11 @@ export function RealDataHub() {
 
   // Handle export from editor
   const handleExport = useCallback((data: RainfallDataPoint[], name: string) => {
-    // Export as CSV
-    const header = 'time_minutes,intensity,cumulative_depth';
+    // Export as CSV with units in the header so it loads back with the same units
+    const u = currentData?.metadata.units === 'mm' ? 'mm' : 'in';
+    const header = `time (min),intensity (${u}/hr),cumulative depth (${u})`;
     const rows = data.map(d => `${d.time},${d.intensity.toFixed(4)},${d.cumulative?.toFixed(4) || ''}`);
-    const csv = [header, ...rows].join('\n');
+    const csv = [`# Rain Canvas Studio – edited storm "${name}"`, `# Units: ${u === 'mm' ? 'MM' : 'IN'}`, header, ...rows].join('\n');
     
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -67,7 +68,7 @@ export function RealDataHub() {
     a.download = `${name}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-  }, []);
+  }, [currentData]);
 
   // Handle loading from library
   const handleLoadEvent = useCallback((event: SavedStormEvent) => {
@@ -213,7 +214,7 @@ export function RealDataHub() {
                   <p className="font-medium">{currentData.metadata.filename}</p>
                   <p className="text-sm text-muted-foreground">
                     {currentData.data.length} data points • 
-                    {((currentData.data[currentData.data.length - 1]?.time || 0) / 60).toFixed(1)} hr duration • 
+                    {(((currentData.data[currentData.data.length - 1]?.time || 0) + (currentData.metadata.timeStep || 0)) / 60).toFixed(1)} hr duration • 
                     {currentData.metadata.totalDepth?.toFixed(2)} {currentData.metadata.units === 'mm' ? 'mm' : 'in'} total
                   </p>
                 </div>
