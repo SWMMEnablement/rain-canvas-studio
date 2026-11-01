@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
+import { type RunoffTransfer } from "@/lib/hydrologyCalcs";
 import { PatternSectionSearch } from "./PatternSectionSearch";
 import { PatternReferenceCard } from "./docs/PatternReferenceCard";
 import { PatternReferenceList } from "./docs/PatternReferenceList";
