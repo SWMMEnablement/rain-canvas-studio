@@ -8,6 +8,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { Activity, Download, ArrowRight } from 'lucide-react';
+import { generateRainfallData, type PatternType } from '@/lib/rainfallPatterns';
+import { unitHydrograph, incrementalExcess, convolve, scsRunoff } from '@/lib/hydrologyCalcs';
 
 interface HydrographPoint {
   time: number;
@@ -17,43 +19,6 @@ interface HydrographPoint {
 interface UnitHydrographCalculatorProps {
   onExportHydrograph?: (data: HydrographPoint[]) => void;
 }
-
-// NRCS Dimensionless Unit Hydrograph ratios
-const NRCS_DIMENSIONLESS = [
-  { t_tp: 0, q_qp: 0 },
-  { t_tp: 0.1, q_qp: 0.03 },
-  { t_tp: 0.2, q_qp: 0.1 },
-  { t_tp: 0.3, q_qp: 0.19 },
-  { t_tp: 0.4, q_qp: 0.31 },
-  { t_tp: 0.5, q_qp: 0.47 },
-  { t_tp: 0.6, q_qp: 0.66 },
-  { t_tp: 0.7, q_qp: 0.82 },
-  { t_tp: 0.8, q_qp: 0.93 },
-  { t_tp: 0.9, q_qp: 0.99 },
-  { t_tp: 1.0, q_qp: 1.0 },
-  { t_tp: 1.1, q_qp: 0.99 },
-  { t_tp: 1.2, q_qp: 0.93 },
-  { t_tp: 1.3, q_qp: 0.86 },
-  { t_tp: 1.4, q_qp: 0.78 },
-  { t_tp: 1.5, q_qp: 0.68 },
-  { t_tp: 1.6, q_qp: 0.56 },
-  { t_tp: 1.7, q_qp: 0.46 },
-  { t_tp: 1.8, q_qp: 0.39 },
-  { t_tp: 1.9, q_qp: 0.33 },
-  { t_tp: 2.0, q_qp: 0.28 },
-  { t_tp: 2.2, q_qp: 0.207 },
-  { t_tp: 2.4, q_qp: 0.147 },
-  { t_tp: 2.6, q_qp: 0.107 },
-  { t_tp: 2.8, q_qp: 0.077 },
-  { t_tp: 3.0, q_qp: 0.055 },
-  { t_tp: 3.2, q_qp: 0.04 },
-  { t_tp: 3.4, q_qp: 0.029 },
-  { t_tp: 3.6, q_qp: 0.021 },
-  { t_tp: 3.8, q_qp: 0.015 },
-  { t_tp: 4.0, q_qp: 0.011 },
-  { t_tp: 4.5, q_qp: 0.005 },
-  { t_tp: 5.0, q_qp: 0 },
-];
 
 const UnitHydrographCalculator: React.FC<UnitHydrographCalculatorProps> = ({ onExportHydrograph }) => {
   // Method selection
@@ -69,112 +34,63 @@ const UnitHydrographCalculator: React.FC<UnitHydrographCalculatorProps> = ({ onE
   const [stormDuration, setStormDuration] = useState<number>(6); // hours
   const [computationInterval, setComputationInterval] = useState<number>(0.1); // hours
 
-  // Calculated parameters
+  // Rainfall distribution used to spread the storm over its duration (from the shared storm calculator)
+  const [stormPattern, setStormPattern] = useState<PatternType>('scs2');
+
+  // Unit response (1 in of excess over Δt), storm excess per interval, and their convolution.
   const calculations = useMemo(() => {
-    const tc = timeOfConcentration;
-    const D = computationInterval; // Duration of unit rainfall excess
-    
-    // Lag time (NRCS method: L = 0.6 * Tc)
-    const lagTime = 0.6 * tc;
-    
-    // Time to peak
-    const timeToPeak = (D / 2) + lagTime;
-    
-    // Base time for triangular (Tb = 2.67 * Tp)
-    const baseTime = 2.67 * timeToPeak;
-    
-    // Peak flow coefficient (484 for NRCS standard, can be 300-600)
-    const Cp = 484;
-    
-    // Peak flow rate (cfs) - q_p = Cp * A * Q / Tp
-    // For unit hydrograph, Q = 1 inch of runoff
-    const areaSqMi = drainageArea / 640;
-    const unitPeakFlow = (Cp * areaSqMi) / timeToPeak;
-    
-    // Calculate actual runoff depth using SCS method
+    const dt = Math.min(1, Math.max(0.01, Number.isFinite(computationInterval) ? computationInterval : 0.1));
+    const tc = Math.max(0.01, Number.isFinite(timeOfConcentration) ? timeOfConcentration : 0.5);
+    const area = Math.max(0, Number.isFinite(drainageArea) ? drainageArea : 0);
+    const P = Math.max(0, Number.isFinite(rainfall) ? rainfall : 0);
+    const duration = Math.min(72, Math.max(dt, Number.isFinite(stormDuration) ? stormDuration : 6));
+
+    const uh = unitHydrograph({ areaAcres: area, tcHours: tc, dtHours: dt, method });
+
+    // Interval rainfall: whole number of Δt intervals across the storm (bounded count).
+    const nIntervals = Math.min(5000, Math.max(1, Math.round(duration / dt)));
+    const stepMin = (nIntervals * dt * 60) / nIntervals;
+    const intensities = P > 0 ? generateRainfallData(stormPattern, P, nIntervals * dt, stepMin) : new Array(nIntervals).fill(0);
+    const intervalDepths = intensities.map(i => i * dt);
+    const excess = incrementalExcess(intervalDepths, curveNumber);
+    const stormFlows = convolve(excess, uh.ordinates);
+
     const S = (1000 / curveNumber) - 10;
     const Ia = 0.2 * S;
-    let runoffDepth = 0;
-    if (rainfall > Ia) {
-      runoffDepth = Math.pow(rainfall - Ia, 2) / (rainfall - Ia + S);
-    }
-    
-    // Actual peak flow
-    const peakFlow = unitPeakFlow * runoffDepth;
-    
-    // Total runoff volume (acre-ft)
-    const runoffVolume = (runoffDepth / 12) * drainageArea;
-    
+    const runoffDepth = scsRunoff(P, curveNumber);
+    const runoffVolume = (runoffDepth / 12) * area;
+    const hydroVolumeAcFt = (stormFlows.reduce((sum, q) => sum + q, 0) * dt * 3600) / 43560;
+
+    let peakIdx = 0;
+    stormFlows.forEach((q, i) => { if (q > stormFlows[peakIdx]) peakIdx = i; });
+
     return {
-      lagTime: Math.round(lagTime * 1000) / 1000,
-      timeToPeak: Math.round(timeToPeak * 1000) / 1000,
-      baseTime: Math.round(baseTime * 1000) / 1000,
-      unitPeakFlow: Math.round(unitPeakFlow * 100) / 100,
+      dt,
+      lagTime: Math.round(uh.lag * 1000) / 1000,
+      timeToPeak: Math.round(uh.tp * 1000) / 1000,
+      baseTime: Math.round(uh.tb * 1000) / 1000,
+      unitPeakFlow: Math.round(Math.max(0, ...uh.ordinates) * 100) / 100,
       runoffDepth: Math.round(runoffDepth * 1000) / 1000,
-      peakFlow: Math.round(peakFlow * 100) / 100,
+      peakFlow: Math.round((stormFlows[peakIdx] ?? 0) * 100) / 100,
+      stormPeakTime: Math.round(peakIdx * dt * 100) / 100,
       runoffVolume: Math.round(runoffVolume * 1000) / 1000,
+      hydroVolumeAcFt: Math.round(hydroVolumeAcFt * 1000) / 1000,
+      volumeError: runoffVolume > 0 ? ((hydroVolumeAcFt - runoffVolume) / runoffVolume) * 100 : 0,
+      representedDuration: nIntervals * dt,
+      stormFlows,
+      unitOrdinates: uh.ordinates,
       S,
       Ia: Math.round(Ia * 1000) / 1000,
     };
-  }, [drainageArea, curveNumber, timeOfConcentration, rainfall, computationInterval]);
+  }, [drainageArea, curveNumber, timeOfConcentration, rainfall, computationInterval, stormDuration, stormPattern, method]);
 
-  // Generate hydrograph
-  const hydrographData = useMemo(() => {
-    const { timeToPeak, baseTime, peakFlow, runoffDepth } = calculations;
-    const data: HydrographPoint[] = [];
-    
-    if (method === 'triangular') {
-      // Triangular unit hydrograph
-      const totalTime = baseTime * 1.2;
-      
-      for (let t = 0; t <= totalTime; t += computationInterval) {
-        let flow = 0;
-        
-        if (t <= timeToPeak) {
-          flow = (t / timeToPeak) * peakFlow;
-        } else if (t <= baseTime) {
-          flow = peakFlow * (1 - (t - timeToPeak) / (baseTime - timeToPeak));
-        }
-        
-        data.push({
-          time: Math.round(t * 100) / 100,
-          flow: Math.max(0, Math.round(flow * 100) / 100)
-        });
-      }
-    } else {
-      // NRCS Dimensionless Unit Hydrograph
-      const maxT = 5 * timeToPeak;
-      
-      // Interpolate dimensionless hydrograph
-      const interpolateDimensionless = (t_tp: number): number => {
-        if (t_tp <= 0) return 0;
-        if (t_tp >= 5) return 0;
-        
-        for (let i = 0; i < NRCS_DIMENSIONLESS.length - 1; i++) {
-          if (t_tp >= NRCS_DIMENSIONLESS[i].t_tp && t_tp <= NRCS_DIMENSIONLESS[i + 1].t_tp) {
-            const ratio = (t_tp - NRCS_DIMENSIONLESS[i].t_tp) / 
-                         (NRCS_DIMENSIONLESS[i + 1].t_tp - NRCS_DIMENSIONLESS[i].t_tp);
-            return NRCS_DIMENSIONLESS[i].q_qp + 
-                   ratio * (NRCS_DIMENSIONLESS[i + 1].q_qp - NRCS_DIMENSIONLESS[i].q_qp);
-          }
-        }
-        return 0;
-      };
-      
-      for (let t = 0; t <= maxT; t += computationInterval) {
-        const t_tp = t / timeToPeak;
-        const q_qp = interpolateDimensionless(t_tp);
-        const flow = q_qp * peakFlow;
-        
-        data.push({
-          time: Math.round(t * 100) / 100,
-          flow: Math.max(0, Math.round(flow * 100) / 100)
-        });
-      }
-    }
-    
-    return data;
-  }, [method, calculations, computationInterval]);
+  // Storm runoff hydrograph (convolution of rainfall excess with the unit hydrograph)
+  const hydrographData = useMemo<HydrographPoint[]>(() =>
+    calculations.stormFlows.map((q, i) => ({
+      time: Math.round(i * calculations.dt * 100) / 100,
+      flow: Math.max(0, Math.round(q * 100) / 100),
+    })),
+  [calculations]);
 
   const exportCSV = () => {
     const headers = ['Time (hr)', 'Flow (cfs)'];
@@ -304,6 +220,25 @@ const UnitHydrographCalculator: React.FC<UnitHydrographCalculatorProps> = ({ onE
                   />
                 </div>
                 <div>
+                  <Label htmlFor="uh-storm-pattern">Rainfall Distribution</Label>
+                  <Select value={stormPattern} onValueChange={(v) => setStormPattern(v as PatternType)}>
+                    <SelectTrigger id="uh-storm-pattern" className="mt-1" aria-label="Rainfall distribution over the storm duration">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="block">Block (uniform)</SelectItem>
+                      <SelectItem value="huff2">Huff 2nd quartile</SelectItem>
+                      <SelectItem value="scs1">SCS Type I</SelectItem>
+                      <SelectItem value="scs1a">SCS Type IA</SelectItem>
+                      <SelectItem value="scs2">SCS Type II</SelectItem>
+                      <SelectItem value="scs3">SCS Type III</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Spreads the rainfall over the storm duration; excess per interval is convolved with the unit hydrograph.
+                  </p>
+                </div>
+                <div>
                   <Label htmlFor="interval">Computation Interval (hours)</Label>
                   <Input
                     id="interval"
@@ -336,14 +271,14 @@ const UnitHydrographCalculator: React.FC<UnitHydrographCalculatorProps> = ({ onE
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <Card className="bg-primary/10">
                 <CardContent className="pt-4 text-center">
-                  <p className="text-2xl font-bold text-primary">{calculations.timeToPeak}</p>
-                  <p className="text-xs text-muted-foreground">Time to Peak (hr)</p>
+                  <p className="text-2xl font-bold text-primary">{calculations.stormPeakTime}</p>
+                  <p className="text-xs text-muted-foreground">Storm Peak Time (hr)</p>
                 </CardContent>
               </Card>
               <Card className="bg-chart-2/10">
                 <CardContent className="pt-4 text-center">
                   <p className="text-2xl font-bold" style={{ color: 'hsl(var(--chart-2))' }}>{calculations.peakFlow}</p>
-                  <p className="text-xs text-muted-foreground">Peak Flow (cfs)</p>
+                  <p className="text-xs text-muted-foreground">Storm Peak Flow (cfs)</p>
                 </CardContent>
               </Card>
               <Card className="bg-chart-3/10">
@@ -408,6 +343,17 @@ const UnitHydrographCalculator: React.FC<UnitHydrographCalculatorProps> = ({ onE
                         <TableCell className="font-medium">Runoff Depth (Q)</TableCell>
                         <TableCell>{calculations.runoffDepth} in</TableCell>
                       </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Hydrograph Volume (check)</TableCell>
+                        <TableCell>
+                          {calculations.hydroVolumeAcFt} ac-ft vs {calculations.runoffVolume} ac-ft
+                          {' '}({calculations.volumeError >= 0 ? '+' : ''}{calculations.volumeError.toFixed(2)}%)
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Storm Duration Used</TableCell>
+                        <TableCell>{calculations.representedDuration.toFixed(2)} hr ({Math.round(calculations.representedDuration / calculations.dt)} × {calculations.dt} hr)</TableCell>
+                      </TableRow>
                     </TableBody>
                   </Table>
                 </CardContent>
@@ -423,6 +369,7 @@ const UnitHydrographCalculator: React.FC<UnitHydrographCalculatorProps> = ({ onE
                   <p>Tb = 2.67 × Tp (Base time - triangular)</p>
                   <p>qp = 484 × A / Tp (Peak unit flow, cfs/in)</p>
                   <p>Q = (P - Ia)² / (P - Ia + S) (Runoff depth)</p>
+                  <p>Qn = Σ ΔQk × U(n−k) (Storm hydrograph = excess convolved with unit hydrograph)</p>
                 </div>
               </CardContent>
             </Card>
