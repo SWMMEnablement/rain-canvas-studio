@@ -899,8 +899,10 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
   useEffect(() => {
     if (apiIntensities.length === 0) return;
     
-    const formattedChartData = prepareChartData(apiIntensities, timeStep);
-    const formattedExportData = prepareExportData(apiIntensities, timeStep);
+    // The engine returns values in the wizard's display units; chart & exporters expect in/hr.
+    const usaIntensities = apiIntensities.map(v => convertDepth(v, unitSystem, 'USA'));
+    const formattedChartData = prepareChartData(usaIntensities, timeStep);
+    const formattedExportData = prepareExportData(usaIntensities, timeStep);
     setChartData(formattedChartData);
     setExportData(formattedExportData);
 
@@ -917,9 +919,9 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
 
   // Calculate peak intensity for IDF comparison
   const peakIntensity = useMemo(() => {
-    if (chartData.length === 0) return 0;
-    return Math.max(...chartData.map(d => d.intensity));
-  }, [chartData]);
+    if (apiIntensities.length === 0) return 0;
+    return Math.max(...apiIntensities);
+  }, [apiIntensities]);
 
   const progress = (currentStep / steps.length) * 100;
 
@@ -1159,7 +1161,7 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
                     onPatternChange={setSelectedPattern}
                   />
                   <div className="space-y-4">
-                    <RainfallChart data={chartData} unitSystem={unitSystem} />
+                    <RainfallChart data={chartData} unitSystem={unitSystem} stepMinutes={timeStep} />
                     <Card className="bg-accent/30 border-primary/20">
                       <CardContent className="pt-4">
                         <div className="flex items-start gap-3">
@@ -1369,7 +1371,7 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
 
             {/* Chart */}
             <div className="relative">
-              <RainfallChart data={chartData} unitSystem={unitSystem} />
+              <RainfallChart data={chartData} unitSystem={unitSystem} stepMinutes={timeStep} />
               <div className="flex items-center gap-2 mt-1 justify-end">
                 {isApiLoading && (
                   <span className="text-xs text-muted-foreground animate-pulse">Syncing with API…</span>
@@ -1385,7 +1387,7 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
               data={exportData}
               pattern={patternNames[selectedPattern]}
               patternKey={selectedPattern}
-              totalDepth={depth}
+              totalDepth={convertDepth(effectiveDepth, unitSystem, 'USA')}
               duration={duration}
               timeStep={timeStep}
               unitSystem={unitSystem}
@@ -1395,10 +1397,11 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
             <SwmmFileIntegration
               selectedPattern={selectedPattern}
               patternName={patternNames[selectedPattern]}
-              totalDepth={depth}
+              totalDepth={convertDepth(effectiveDepth, unitSystem, 'USA')}
               duration={duration}
               timeStep={timeStep}
               unitSystem={unitSystem}
+              reviewedIntensities={apiIntensities.map(v => convertDepth(v, unitSystem, 'USA'))}
             />
 
             {/* IDF Comparison */}

@@ -43,6 +43,8 @@ interface SwmmFileIntegrationProps {
   duration: number;
   timeStep: number;
   unitSystem: UnitSystem;
+  /** The reviewed storm (in/hr), incl. climate uplift and custom drawing. Used for the selected pattern. */
+  reviewedIntensities?: number[];
 }
 
 const allPatterns: Array<{ id: PatternType; name: string; category: string }> = [
@@ -103,7 +105,12 @@ export function SwmmFileIntegration({
   duration,
   timeStep,
   unitSystem,
+  reviewedIntensities,
 }: SwmmFileIntegrationProps) {
+  const stormFor = (pattern: PatternType): number[] =>
+    pattern === selectedPattern && reviewedIntensities && reviewedIntensities.length > 0
+      ? reviewedIntensities
+      : generateRainfallData(pattern, totalDepth, duration, timeStep);
   const [inpFile, setInpFile] = useState<File | null>(null);
   const [inpContent, setInpContent] = useState<string>("");
   const [timeSeriesName, setTimeSeriesName] = useState<string>("");
@@ -804,7 +811,7 @@ export function SwmmFileIntegration({
 
   // Generate ICM rainfall event format (SWMM5 compatible)
   const generateIcmRainfallEvent = (pattern: PatternType, patternDisplayName: string, eventName: string): string => {
-    const intensities = generateRainfallData(pattern, totalDepth, duration, timeStep);
+    const intensities = stormFor(pattern);
     const exportDepth = convertDepth(totalDepth, 'USA', unitSystem);
     const lines: string[] = [];
     
@@ -878,7 +885,7 @@ export function SwmmFileIntegration({
 
   // Generate HEC-HMS precipitation gage format
   const generateHecHmsData = (pattern: PatternType, patternDisplayName: string, gageName: string): string => {
-    const intensities = generateRainfallData(pattern, totalDepth, duration, timeStep);
+    const intensities = stormFor(pattern);
     const exportDepth = convertDepth(totalDepth, 'USA', unitSystem);
     const lines: string[] = [];
     
@@ -959,7 +966,7 @@ export function SwmmFileIntegration({
 
   // Generate XP-SWMM/PCSWMM format (extended SWMM5 format with metadata)
   const generateXpSwmmData = (pattern: PatternType, patternDisplayName: string, tsName: string): string => {
-    const intensities = generateRainfallData(pattern, totalDepth, duration, timeStep);
+    const intensities = stormFor(pattern);
     const exportDepth = convertDepth(totalDepth, 'USA', unitSystem);
     const lines: string[] = [];
     
@@ -1037,7 +1044,7 @@ export function SwmmFileIntegration({
 
   // Generate complete EPA SWMM model template
   const generateEpaSwmmTemplate = (): string => {
-    const intensities = generateRainfallData(selectedPattern, totalDepth, duration, timeStep);
+    const intensities = stormFor(selectedPattern);
     const exportDepth = convertDepth(totalDepth, 'USA', unitSystem);
     const tsName = timeSeriesName || `TS_${patternName.replace(/\s+/g, '_')}`;
     // Run 6 h past the end of rainfall so the runoff hydrograph can recede; roll the date if we pass midnight
@@ -1220,7 +1227,7 @@ RG1              2000.000           7000.000
   };
 
   const generateTimeSeriesData = (pattern: PatternType, patternDisplayName: string, tsName: string): string => {
-    const intensities = generateRainfallData(pattern, totalDepth, duration, timeStep);
+    const intensities = stormFor(pattern);
     const exportDepth = convertDepth(totalDepth, 'USA', unitSystem);
     const timeSeriesLines: string[] = [];
     
