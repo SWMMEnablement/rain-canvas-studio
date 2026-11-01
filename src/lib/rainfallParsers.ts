@@ -324,7 +324,8 @@ export function parseCSV(content: string, filename: string, source: Source = 'cs
     if (dateIdx >= 0 && dateIdx !== timeIdx) {
       t = dateToMinutes(c[dateIdx] ?? '') + clockToMinutes(timeStr);
     } else if (/^-?\d+(\.\d+)?([eE][-+]?\d+)?$/.test(timeStr)) {
-      t = parseFloat(timeStr) * (timeInHours ? 60 : 1);
+      // hours are usually written rounded (e.g. 0.0833 for 5 min); snap to whole seconds
+      t = timeInHours ? Math.round(parseFloat(timeStr) * 3600) / 60 : parseFloat(timeStr);
     } else if (/^\d{1,3}:\d{2}(:\d{2})?$/.test(timeStr)) {
       const clock = clockToMinutes(timeStr);
       if (clock < prevClock) dayOffset += 1440; // clock times wrapped past midnight

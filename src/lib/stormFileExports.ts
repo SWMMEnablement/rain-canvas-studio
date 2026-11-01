@@ -68,7 +68,7 @@ export function buildCsvExport(data: HourPoint[], m: ExportMeta): string {
   let out = buildExportHeader('csv', data, m);
   out += `Time (hr),Intensity (${getIntensityUnit(m.unitSystem)})\n`;
   data.forEach((p) => {
-    out += `${p.time.toFixed(4)},${convertIntensity(p.intensity, 'USA', m.unitSystem).toFixed(decimals(m.unitSystem))}\n`;
+    out += `${p.time.toFixed(6)},${convertIntensity(p.intensity, 'USA', m.unitSystem).toFixed(decimals(m.unitSystem))}\n`;
   });
   return out;
 }
