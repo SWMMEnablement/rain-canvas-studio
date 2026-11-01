@@ -73,13 +73,14 @@ export function buildCsvExport(data: HourPoint[], m: ExportMeta): string {
   return out;
 }
 
-/** SWMM [TIMESERIES] script with intensities and an INTENSITY rain gage that states the interval. */
+/**
+ * SWMM [TIMESERIES] script of intensities, for pasting into an existing model.
+ * No rain gage is written (it would clash with the model's own); the comment states the unit.
+ */
 export function buildSwmmScriptExport(data: HourPoint[], m: ExportMeta): string {
   const intensityUnit = getIntensityUnit(m.unitSystem);
   let out = buildExportHeader('swmm', data, m);
-  out += `[RAINGAGES]\n`;
-  out += `;;Name           Format    Interval SCF      Source\n`;
-  out += `RG1              INTENSITY ${minutesToHHMM(m.timeStep)}    1.0      TIMESERIES RainPattern\n\n`;
+  out += `; Use with a rain gage of format INTENSITY, interval ${minutesToHHMM(m.timeStep)}\n`;
   out += `[TIMESERIES]\n`;
   out += `;Name       Date       Time       Value (${intensityUnit})\n`;
   data.forEach((p) => {
