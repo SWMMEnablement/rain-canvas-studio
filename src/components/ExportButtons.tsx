@@ -258,7 +258,6 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
     let script = generateHeader('swmm');
     script += `[TIMESERIES]\n`;
     script += `;Name       Date       Time       Value (${intensityUnit})\n`;
-    script += `RainPattern             00:00     0.0000\n`;
 
     data.forEach(point => {
       const hours = Math.floor(point.time);
@@ -454,7 +453,6 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
           const tsName = `TS_${name}`.slice(0, 30); // SWMM5 name limit
 
           script += `;\n; --- ${name} ---\n`;
-          script += `${tsName.padEnd(24)} 00:00     0.0000\n`;
 
           exportPoints.forEach(point => {
             const hours = Math.floor(point.time);

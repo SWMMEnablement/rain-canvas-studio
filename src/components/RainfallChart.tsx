@@ -10,17 +10,19 @@ import { type UnitSystem, convertIntensity, convertDepth, getIntensityUnit, getD
 interface RainfallChartProps {
   data: Array<{ time: string; intensity: number }>;
   unitSystem: UnitSystem;
+  /** Exact interval length in minutes; avoids integrating rounded time labels. */
+  stepMinutes?: number;
 }
 
-export function RainfallChart({ data, unitSystem }: RainfallChartProps) {
+export function RainfallChart({ data, unitSystem, stepMinutes }: RainfallChartProps) {
   const [showCumulative, setShowCumulative] = useState(false);
 
   const convertedData = useMemo(() => {
     let cumDepth = 0;
     // Assume each bar represents one equal time step
-    const stepHours = data.length >= 2
-      ? parseFloat(data[1].time) - parseFloat(data[0].time)
-      : 1;
+    const stepHours = stepMinutes && stepMinutes > 0
+      ? stepMinutes / 60
+      : data.length >= 2 ? parseFloat(data[1].time) - parseFloat(data[0].time) : 1;
 
     return data.map((point) => {
       const intensity = convertIntensity(point.intensity, "USA", unitSystem);
@@ -33,7 +35,7 @@ export function RainfallChart({ data, unitSystem }: RainfallChartProps) {
         cumulative: parseFloat(cumDepth.toFixed(4)),
       };
     });
-  }, [data, unitSystem]);
+  }, [data, unitSystem, stepMinutes]);
 
   const depthUnit = getDepthUnit(unitSystem);
   const intensityUnit = getIntensityUnit(unitSystem);
