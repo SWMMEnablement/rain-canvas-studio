@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { patterns } from "@/components/PatternSelector";
 import { PatternProvenanceNote } from "@/components/PatternProvenanceNote";
+import { getPatternProvenance } from "@/lib/patternProvenance";
 import type { PatternType } from "@/lib/rainfallPatterns";
 
 interface Region {
@@ -162,7 +163,7 @@ export const RegionalPatterns = ({ onSelectPattern }: Props) => {
             type="button"
             onClick={() => onSelectPattern(p.id, p.name)}
             className="text-left rounded-lg border border-border bg-muted/40 hover:bg-muted transition-colors p-4"
-            aria-label={`Use ${p.name} in the storm wizard`}
+            aria-label={`Use ${p.name} in the storm wizard. Confidence ${getPatternProvenance(p.id, p.name, p.description).confidence}.`}
           >
             <div className="flex items-center gap-2 mb-1">
               <Badge variant={i === 0 ? "default" : "secondary"} className="text-[10px]">
@@ -171,7 +172,7 @@ export const RegionalPatterns = ({ onSelectPattern }: Props) => {
             </div>
             <p className="font-medium text-foreground">{p.name}</p>
             <p className="text-xs text-muted-foreground mt-1 line-clamp-3">{p.description}</p>
-            <PatternProvenanceNote id={p.id} name={p.name} description={p.description} className="mt-2 border-t border-border pt-2" />
+            <PatternProvenanceNote tooltip={false} id={p.id} name={p.name} description={p.description} className="mt-2 border-t border-border pt-2" />
           </button>
         ))}
       </CardContent>
