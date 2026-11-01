@@ -9,6 +9,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { type PatternType } from "@/lib/rainfallPatterns";
 import { getPatternEquation, type PatternEquation } from "@/lib/patternEquations";
 import { InteractiveEquationExplorer } from "./InteractiveEquationExplorer";
+import { type UnitSystem } from "@/lib/unitConversions";
 interface LatexRendererProps {
   latex: string;
   displayMode?: boolean;
@@ -56,6 +57,8 @@ interface PatternEquationDisplayProps {
   compact?: boolean;
   totalDepth?: number;
   duration?: number;
+  timeStep?: number;
+  unitSystem?: UnitSystem;
 }
 
 export function PatternEquationDisplay({ 
@@ -172,6 +175,8 @@ export function PatternEquationDisplay({
               pattern={pattern} 
               totalDepth={totalDepth}
               duration={duration}
+              timeStep={timeStep}
+              unitSystem={unitSystem}
             />
           </CollapsibleContent>
         </Collapsible>

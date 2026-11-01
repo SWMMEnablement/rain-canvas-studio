@@ -1256,6 +1256,8 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
                       pattern={selectedPattern} 
                       totalDepth={depth}
                       duration={duration}
+                      timeStep={timeStep}
+                      unitSystem={unitSystem}
                     />
                   </CollapsibleContent>
                 </Collapsible>
