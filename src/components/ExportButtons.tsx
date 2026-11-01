@@ -6,6 +6,7 @@ import { Download, FileJson, FileText, Droplets, FileSpreadsheet, Loader2, Layer
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
 import { type UnitSystem, convertDepth, convertIntensity, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
+import { buildIcmEventCsv } from "@/lib/icmCsvExport";
 import { PdfReportGenerator } from "@/components/PdfReportGenerator";
 import { HecHmsExportPanel } from "@/components/HecHmsExportPanel";
 import { type PatternType, generateRainfallData, prepareExportData } from "@/lib/rainfallPatterns";
@@ -157,6 +158,20 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
     });
 
     return script;
+  };
+
+  const exportIcmCsv = () => {
+    const exportDepth = convertDepth(totalDepth, 'USA', unitSystem);
+    const csv = buildIcmEventCsv({
+      title: pattern,
+      description: `${exportDepth.toFixed(unitSystem === 'USA' ? 2 : 1)} ${getDepthUnit(unitSystem)} over ${duration} h at ${timeStep} min - Rain Canvas Studio`,
+      intensities: data.map(p => convertIntensity(p.intensity, 'USA', unitSystem)),
+      timeStepMin: timeStep,
+      units: unitSystem === 'USA' ? 'in/hr' : 'mm/hr',
+    });
+    const safe = (patternKey || 'storm').replace(/[^a-z0-9_-]/gi, '_');
+    downloadFile(csv, `icm_rainfall_event_${safe}.csv`, 'text/csv');
+    toast.success("Exported InfoWorks ICM event CSV");
   };
 
   const generateSwmmScript = () => {
@@ -447,6 +462,10 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
             {copiedSwmm ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
           </Button>
         </div>
+        <Button onClick={exportIcmCsv} className="gap-2" title="Native InfoWorks ICM rainfall event CSV (type=RED) — import via Rainfall Event › Import › CSV">
+          <Droplets className="w-4 h-4" />
+          ICM Rainfall Event CSV (native import)
+        </Button>
         <div className="flex items-center">
           <Button onClick={generateInfoWorksScript} className="gap-2 rounded-r-none flex-1">
             <Droplets className="w-4 h-4" />
