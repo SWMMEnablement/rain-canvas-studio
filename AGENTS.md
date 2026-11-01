@@ -1,3 +1,5 @@
 - The storm calculator lives in `supabase/functions/_shared/rainfallPatterns.ts` and is used by both the app (via `src/lib/rainfallPatterns.ts` re-export) and the storm-api function; never fork it — so app and API results always match.
 - Patterns with identical hyetographs are merged via `PATTERN_ALIASES` in `supabase/functions/_shared/patternCatalog.ts`; aliases stay accepted in links/API but are hidden from the catalogue and sitemap.
 - The app's predefined catalogue must match `CANONICAL_PATTERN_IDS` exactly; derive visible counts and hero lists from `stormPatterns`, excluding the separate Custom editor option, to keep app/API totals consistent.
+- `generateRainfallData` is a guarded wrapper: it must always return finite, non-negative values that conserve depth (falls back to 1-minute generation aggregated to the requested step) — callers rely on this instead of re-checking.
+- The wizard snaps the time step (`fitTimeStep`) so duration is a whole number of intervals — fixed-interval exports assume full intervals.

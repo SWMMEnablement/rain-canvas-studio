@@ -240,3 +240,18 @@ export function estimateReturnPeriod(
     return '< 2 year';
   }
 }
+
+/**
+ * Returns the time step to use so the storm splits into whole intervals.
+ * If `stepMin` already divides the duration it is returned unchanged; otherwise the
+ * largest whole-minute step below it that divides the duration (min 1 minute).
+ */
+export function fitTimeStep(durationHr: number, stepMin: number): number {
+  const totalMin = Math.round(durationHr * 60);
+  if (!(totalMin > 0) || !(stepMin > 0)) return stepMin;
+  if (totalMin % stepMin === 0) return stepMin;
+  for (let s = Math.min(Math.floor(stepMin), totalMin); s >= 1; s--) {
+    if (totalMin % s === 0) return s;
+  }
+  return 1;
+}

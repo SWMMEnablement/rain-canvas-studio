@@ -7,10 +7,12 @@
   - [x] Cumulative chart uses exact time step, not rounded labels
   - [x] SWMM duplicate 00:00 timestamp removed (single + batch)
   - [x] Climate uplift and custom drawing kept in SWMM/ICM/HEC/XP integration exports and export metadata
-  - [ ] Reject durations not divisible by time step; one-interval storms
+  - [x] Time step snaps to fit duration; coarse storms conserve depth (Cyprus WDD crash fixed)
   - [ ] SCS II / triangular equation explorer disagree with engine
   - [ ] Importers: CSV comments, ISO dates, HEC metric units, SWMM multi-series
-  - [ ] Batch "all patterns" export uses stale 265-id map (should be 339 canonical)
+  - [x] Batch export derived from the shared catalogue (339)
   - [ ] Calculators: runoff→detention units, Modified Puls storage loss, unit hydrograph duration, pre/post Rational intensity, LID over-capture
-  - [ ] Return-period badge without location; method source records
+  - [x] Return-period badge removed ("not assigned"); presets labelled illustrative; ARR 2019 renamed
+  - [x] ICM export labels clarified; storm check panel added
+  - [ ] Native InfoWorks ICM event CSV (needs exact Autodesk spec confirmed); per-pattern source records
   - [ ] Usability: chips as buttons, shared active storm, tab state, climate in share links

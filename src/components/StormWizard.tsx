@@ -12,6 +12,7 @@ import { canonicalPatternId } from "../../supabase/functions/_shared/patternCata
 import { PatternSelector, stormPatternCount } from "@/components/PatternSelector";
 import { StormParameters } from "@/components/StormParameters";
 import { RainfallChart } from "@/components/RainfallChart";
+import { StormCheckPanel } from "@/components/StormCheckPanel";
 import { ExportButtons } from "@/components/ExportButtons";
 import { SwmmFileIntegration } from "@/components/SwmmFileIntegration";
 import { CustomPatternEditor } from "@/components/CustomPatternEditor";
@@ -26,6 +27,8 @@ import {
   type PatternType,
 } from "@/lib/rainfallPatterns";
 import { useStormApi } from "@/hooks/useStormApi";
+import { toast } from "sonner";
+import { fitTimeStep } from "@/lib/stormValidation";
 import { type UnitSystem, convertDepth } from "@/lib/unitConversions";
 
 export const patternNames: Record<PatternType, string> = {
@@ -135,7 +138,7 @@ export const patternNames: Record<PatternType, string> = {
   'abu_dhabi_adm': 'Abu Dhabi ADM',
   'montana_caquot': 'Montana/Caquot (FR)',
   'm5_60_fsr': 'M5-60 (UK/Ireland)',
-  'arr2019': 'ARR 2019 Ensemble',
+  'arr2019': 'ARR 2019 Representative Pattern',
   'upm_plata': 'UPM Río de la Plata',
   // v3 patterns
   'feh22_refh2': 'FEH22/ReFH2',
@@ -791,6 +794,17 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
   const [depth, setDepth] = useState(initialShareParams?.depth || 2.0);
   const [duration, setDuration] = useState(initialShareParams?.duration || 6.0);
   const [timeStep, setTimeStep] = useState(initialShareParams?.timeStep || 15);
+  // A storm must split into whole intervals, otherwise it is stretched past its duration
+  // and some patterns add or lose rainfall. Snap to the nearest step that fits.
+  useEffect(() => {
+    const fitted = fitTimeStep(duration, timeStep);
+    if (fitted !== timeStep) {
+      setTimeStep(fitted);
+      toast.info(`Time step changed to ${fitted} min`, {
+        description: `${timeStep} min does not divide a ${duration} h storm into whole intervals.`,
+      });
+    }
+  }, [duration, timeStep]);
   const [showEquations, setShowEquations] = useState(false);
   const [climateScenario, setClimateScenario] = useState<string>(initialShareParams?.climateScenario || 'none');
   const [shareCopied, setShareCopied] = useState(false);
@@ -1372,6 +1386,15 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
             {/* Chart */}
             <div className="relative">
               <RainfallChart data={chartData} unitSystem={unitSystem} stepMinutes={timeStep} />
+              <StormCheckPanel
+                intensities={apiIntensities}
+                requestedDepth={effectiveDepth}
+                durationHr={duration}
+                timeStepMin={timeStep}
+                unitSystem={unitSystem}
+                patternName={patternNames[selectedPattern] || selectedPattern}
+                source={dataSource}
+              />
               <div className="flex items-center gap-2 mt-1 justify-end">
                 {isApiLoading && (
                   <span className="text-xs text-muted-foreground animate-pulse">Syncing with API…</span>

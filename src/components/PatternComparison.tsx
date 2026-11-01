@@ -161,7 +161,7 @@ const comparisonPatterns: ComparisonPattern[] = [
   { id: 'aes_30', name: 'AES Canada 30%', color: '#dc2626', category: 'Canadian' },
   { id: 'aes_40', name: 'AES Canada 40%', color: '#ef4444', category: 'Canadian' },
   { id: 'm5_60_fsr', name: 'M5-60 (UK/Ireland)', color: '#334155', category: 'European' },
-  { id: 'arr2019', name: 'ARR 2019 Ensemble', color: '#7c3aed', category: 'Oceania' },
+  { id: 'arr2019', name: 'ARR 2019 Representative Pattern', color: '#7c3aed', category: 'Oceania' },
   { id: 'upm_plata', name: 'UPM Río de la Plata', color: '#0d9488', category: 'Latin American' },
   { id: 'nz_tp108', name: 'Auckland TP108', color: '#059669', category: 'Oceania' },
   { id: 'nz_wellington', name: 'Wellington Regional', color: '#047857', category: 'Oceania' },

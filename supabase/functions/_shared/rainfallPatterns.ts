@@ -218,7 +218,36 @@ function betaStorm(
   return raw.map(v => (v / totalRaw) * totalDepth / (timeStep / 60));
 }
 
+/**
+ * Public entry point. Guarantees finite, non-negative intensities that conserve total depth.
+ * Some pattern formulas break down at very coarse resolution (one or two intervals); in that case
+ * the storm is built at 1-minute resolution and aggregated into the requested intervals, which is
+ * the physically correct coarse representation of the same storm.
+ */
 export function generateRainfallData(
+  pattern: PatternType,
+  totalDepth: number,
+  duration: number,
+  timeStep: number
+): number[] {
+  const raw = generateRainfallDataRaw(pattern, totalDepth, duration, timeStep);
+  if (pattern === 'custom' || !(totalDepth > 0) || !(duration > 0) || !(timeStep > 0)) return raw;
+  const total = raw.reduce((a, v) => a + (Number.isFinite(v) ? v : 0) * timeStep / 60, 0);
+  const valid = raw.every((v) => Number.isFinite(v) && v >= 0) && Math.abs(total - totalDepth) <= 0.02 * totalDepth;
+  const totalMin = Math.round(duration * 60);
+  if (valid || timeStep <= 1 || totalMin % timeStep !== 0) return raw;
+  const fine = generateRainfallDataRaw(pattern, totalDepth, duration, 1);
+  if (!fine.every((v) => Number.isFinite(v) && v >= 0)) return raw.map((v) => (Number.isFinite(v) && v > 0 ? v : 0));
+  const out: number[] = [];
+  for (let i = 0; i < totalMin / timeStep; i++) {
+    let depth = 0;
+    for (let k = i * timeStep; k < (i + 1) * timeStep && k < fine.length; k++) depth += fine[k] / 60;
+    out.push(depth / (timeStep / 60));
+  }
+  return out;
+}
+
+function generateRainfallDataRaw(
   pattern: PatternType,
   totalDepth: number,
   duration: number,

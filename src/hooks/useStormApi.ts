@@ -54,7 +54,10 @@ export function useStormApi({ pattern, depth, duration, timeStep, customIntensit
       const json = await res.json();
       if (!Array.isArray(json.data)) return null;
 
-      return json.data.map((pt: { intensity: number }) => pt.intensity);
+      const vals: number[] = json.data.map((pt: { intensity: number | null }) => pt.intensity as number);
+      // Reject series with null/NaN/negative values rather than letting them reach the chart.
+      if (vals.some(v => typeof v !== 'number' || !Number.isFinite(v) || v < 0)) return null;
+      return vals;
     } catch {
       return null;
     }
@@ -75,7 +78,8 @@ export function useStormApi({ pattern, depth, duration, timeStep, customIntensit
     abortRef.current = controller;
 
     // Show local data immediately for responsiveness
-    const localData = generateRainfallData(pattern, depth, duration, timeStep);
+    const localData = generateRainfallData(pattern, depth, duration, timeStep)
+      .map(v => (Number.isFinite(v) && v > 0 ? v : 0));
     setIntensities(localData);
     setSource("local");
     setIsLoading(true);

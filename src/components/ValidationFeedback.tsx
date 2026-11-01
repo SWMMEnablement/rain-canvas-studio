@@ -43,11 +43,11 @@ export function ValidationFeedback({
                   <Tooltip>
                     <TooltipTrigger>
                       <Badge variant="secondary" className="text-xs">
-                        ~{estimatedReturnPeriod}
+                        {estimatedReturnPeriod}
                       </Badge>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Estimated return period (approximate)</p>
+                      <p>No site-specific IDF/DDF source is selected, so no return period is claimed. Use the NOAA Atlas 14 or regional IDF lookup to assign one.</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -82,11 +82,11 @@ export function ValidationFeedback({
                 <Tooltip>
                   <TooltipTrigger>
                     <Badge variant="secondary" className="text-xs">
-                      ~{estimatedReturnPeriod}
+                      {estimatedReturnPeriod}
                     </Badge>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Estimated return period (approximate)</p>
+                    <p>No site-specific IDF/DDF source is selected, so no return period is claimed. Use the NOAA Atlas 14 or regional IDF lookup to assign one.</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>

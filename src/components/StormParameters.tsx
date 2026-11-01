@@ -121,7 +121,8 @@ export function StormParameters({
     [depth, duration, unitSystem]
   );
 
-  const returnPeriod = useMemo(() => 
+  // Location-free return-period estimates were removed: a recurrence interval needs a site IDF/DDF source.
+  const _returnPeriod = useMemo(() => 
     estimateReturnPeriod(depth, duration, unitSystem),
     [depth, duration, unitSystem]
   );
@@ -259,7 +260,7 @@ export function StormParameters({
             {/* Quick Presets */}
             <div className="space-y-2">
               <Label className="flex items-center gap-1.5 text-xs text-muted-foreground uppercase tracking-wider">
-                <Zap className="w-3 h-3" /> Quick Presets
+                <Zap className="w-3 h-3" /> Illustrative Presets (typical US depths, not site-specific)
               </Label>
               <div className="flex flex-wrap gap-2">
                 {STORM_PRESETS.map((preset) => (
@@ -346,7 +347,7 @@ export function StormParameters({
           warnings={validation.warnings}
           isValid={validation.isValid}
           intensityClass={intensityClass}
-          estimatedReturnPeriod={returnPeriod}
+          estimatedReturnPeriod="Return period not assigned"
         />
       </CardContent>
     </Card>
