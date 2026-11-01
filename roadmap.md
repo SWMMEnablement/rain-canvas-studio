@@ -8,10 +8,11 @@
   - [x] SWMM duplicate 00:00 timestamp removed (single + batch)
   - [x] Climate uplift and custom drawing kept in SWMM/ICM/HEC/XP integration exports and export metadata
   - [x] Time step snaps to fit duration; coarse storms conserve depth (Cyprus WDD crash fixed)
-  - [ ] SCS II / triangular equation explorer disagree with engine
+  - [x] SCS II / triangular equation explorer disagree with engine (explorer now reads the storm calculator)
   - [x] Importers: CSV comments, ISO dates, HEC metric units, SWMM multi-series
   - [x] Batch export derived from the shared catalogue (339)
-  - [ ] Calculators: runoff→detention units, Modified Puls storage loss, unit hydrograph duration, pre/post Rational intensity, LID over-capture
+  - [x] Calculators: runoff→detention units, Modified Puls storage loss, unit hydrograph duration, pre/post Rational intensity, LID over-capture
+  - [x] Single-interval storms give a valid, depth-conserving series at every time step
   - [x] Return-period badge removed ("not assigned"); presets labelled illustrative; ARR 2019 renamed
   - [x] ICM export labels clarified; storm check panel added
   - [x] Native InfoWorks ICM event CSV (Autodesk type=RED format)

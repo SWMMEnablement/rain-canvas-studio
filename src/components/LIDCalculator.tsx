@@ -10,6 +10,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { Leaf, Plus, Trash2, Download, Calculator, Droplets } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { accountLid } from '@/lib/hydrologyCalcs';
 
 interface BMPType {
   id: string;
@@ -110,6 +111,8 @@ interface BMPInstance {
   porosity: number;
   ponding: number; // inches
   drainTime: number; // hours
+  /** id of a BMP further down the list that receives this BMP's overflow; null = leaves the site. */
+  overflowTo?: string | null;
 }
 
 const COLORS = ['#22c55e', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#6366f1'];
@@ -219,39 +222,32 @@ const LIDCalculator: React.FC<LIDCalculatorProps> = ({ onExportToTreatmentTrain 
       : 0;
     const postRunoffVolume = (postQ * totalSiteArea) / 12; // cu-ft
 
-    // BMP calculations
-    const bmpResults = bmps.map(bmp => {
+    // Storage capacity of each BMP (ft³)
+    const capacityOf = (bmp: BMPInstance) => bmp.type === 'rain_barrel'
+      ? bmp.bmpArea / 7.48 // gallons → ft³
+      : bmp.bmpArea * (bmp.mediaDepth / 12) * bmp.porosity + bmp.bmpArea * (bmp.ponding / 12);
+
+    // Route site runoff through the BMPs: tributary areas are capped at the site area, each BMP
+    // captures at most its inflow, and overflow can be passed to a downstream BMP.
+    const accounting = accountLid(
+      bmps.map(b => ({ id: b.id, tributaryArea: b.contributingArea, capacity: capacityOf(b), overflowTo: b.overflowTo ?? null })),
+      totalSiteArea,
+      postQ,
+    );
+
+    const bmpResults = bmps.map((bmp, i) => {
       const bmpType = BMP_TYPES.find(t => t.id === bmp.type)!;
-      
-      // Runoff from contributing area
-      const contributingRunoff = (postQ * bmp.contributingArea) / 12; // cu-ft
-      
-      // Storage capacity
-      let storageCapacity: number;
-      if (bmp.type === 'rain_barrel') {
-        // For rain barrels, bmpArea is in gallons
-        storageCapacity = bmp.bmpArea / 7.48; // convert gallons to cu-ft
-      } else {
-        // Media storage + ponding storage
-        const mediaStorage = (bmp.bmpArea * (bmp.mediaDepth / 12) * bmp.porosity);
-        const pondingStorage = (bmp.bmpArea * (bmp.ponding / 12));
-        storageCapacity = mediaStorage + pondingStorage;
-      }
-
-      // Volume captured (limited by storage capacity)
-      const volumeCaptured = Math.min(contributingRunoff, storageCapacity);
-      const captureEfficiency = contributingRunoff > 0 
-        ? (volumeCaptured / contributingRunoff) * 100 
-        : 0;
-
-      // Pollutant mass removed (simplified - assumes pollutant load proportional to runoff)
-      const tssRemoved = volumeCaptured * bmpType.pollutantRemoval.tss / 100;
-      const tnRemoved = volumeCaptured * bmpType.pollutantRemoval.tn / 100;
-      const tpRemoved = volumeCaptured * bmpType.pollutantRemoval.tp / 100;
-
-      // Sizing ratio
-      const sizingRatio = (bmp.bmpArea / bmp.contributingArea) * 100;
-
+      const acc = accounting.units[i];
+      const storageCapacity = capacityOf(bmp);
+      const contributingRunoff = acc.inflow;
+      const volumeCaptured = acc.captured;
+      const captureEfficiency = contributingRunoff > 0 ? (volumeCaptured / contributingRunoff) * 100 : 0;
+      const sizingRatio = bmp.contributingArea > 0 ? (bmp.bmpArea / bmp.contributingArea) * 100 : 0;
+      // Drawdown: storage depth ÷ the BMP type's typical infiltration rate, checked against drain time.
+      const storageDepthIn = bmp.mediaDepth * bmp.porosity + bmp.ponding;
+      const drawdownHours = bmp.type !== 'rain_barrel' && bmpType.defaultInfiltration > 0
+        ? storageDepthIn / bmpType.defaultInfiltration
+        : null;
       return {
         ...bmp,
         bmpType,
@@ -259,24 +255,24 @@ const LIDCalculator: React.FC<LIDCalculatorProps> = ({ onExportToTreatmentTrain 
         storageCapacity,
         volumeCaptured,
         captureEfficiency,
-        overflow: Math.max(0, contributingRunoff - storageCapacity),
+        overflow: acc.overflow,
         sizingRatio,
+        drawdownHours,
+        meetsDrainTime: drawdownHours === null || drawdownHours <= bmp.drainTime,
         tssRemoval: bmpType.pollutantRemoval.tss,
         tnRemoval: bmpType.pollutantRemoval.tn,
         tpRemoval: bmpType.pollutantRemoval.tp
       };
     });
 
-    // Total BMP performance
-    const totalVolumeCaptured = bmpResults.reduce((sum, b) => sum + b.volumeCaptured, 0);
-    const totalContributingArea = bmpResults.reduce((sum, b) => sum + b.contributingArea, 0);
-    const treatedAreaPercent = (totalContributingArea / totalSiteArea) * 100;
-    
-    // Net site runoff after BMPs
-    const netRunoffVolume = postRunoffVolume - totalVolumeCaptured;
-    const runoffReduction = postRunoffVolume > 0 
-      ? ((postRunoffVolume - netRunoffVolume) / postRunoffVolume) * 100 
-      : 0;
+    // Total BMP performance (capture can never exceed site runoff)
+    const totalVolumeCaptured = accounting.totalCaptured;
+    const totalContributingArea = Math.min(totalSiteArea, bmpResults.reduce((sum, b) => sum + b.contributingArea, 0));
+    const treatedAreaPercent = totalSiteArea > 0 ? (totalContributingArea / totalSiteArea) * 100 : 0;
+    const netRunoffVolume = accounting.netRunoff;
+    const runoffReduction = postRunoffVolume > 0 ? (totalVolumeCaptured / postRunoffVolume) * 100 : 0;
+    const areasOverlap = accounting.overAllocated;
+    const areaScale = accounting.areaScale;
 
     // Check if pre-development conditions are matched
     const matchesPreDev = netRunoffVolume <= preRunoffVolume;
@@ -294,7 +290,9 @@ const LIDCalculator: React.FC<LIDCalculatorProps> = ({ onExportToTreatmentTrain 
       netRunoffVolume,
       runoffReduction,
       matchesPreDev,
-      additionalStorageNeeded
+      additionalStorageNeeded,
+      areasOverlap,
+      areaScale
     };
   }, [bmps, designRainfall, totalSiteArea, imperviousPercent, preCN, postCN]);
 
@@ -407,14 +405,19 @@ const LIDCalculator: React.FC<LIDCalculatorProps> = ({ onExportToTreatmentTrain 
                 <p className="text-xs text-muted-foreground mt-1">{(totalSiteArea / 43560).toFixed(2)} acres</p>
               </div>
               <div>
-                <Label>Post-Dev Impervious (%)</Label>
+                <Label htmlFor="lid-impervious">Post-Dev Impervious (%)</Label>
                 <Input
+                  id="lid-impervious"
                   type="number"
                   value={imperviousPercent}
                   onChange={(e) => setImperviousPercent(Number(e.target.value))}
                   min={0}
                   max={100}
                 />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Reference only — runoff uses the post-development CN. Composite CN for this cover
+                  (CN 98 impervious, pre-dev CN pervious): {((Math.min(100, Math.max(0, imperviousPercent)) * 98 + (100 - Math.min(100, Math.max(0, imperviousPercent))) * preCN) / 100).toFixed(1)}
+                </p>
               </div>
               <div>
                 <Label>Pre-Development CN</Label>
@@ -577,9 +580,37 @@ const LIDCalculator: React.FC<LIDCalculatorProps> = ({ onExportToTreatmentTrain 
                               min={1}
                               max={72}
                             />
+                            {(() => {
+                              const r = calculations.bmpResults.find(x => x.id === bmp.id);
+                              if (!r || r.drawdownHours === null) return null;
+                              return (
+                                <p className={`text-xs mt-1 ${r.meetsDrainTime ? 'text-muted-foreground' : 'text-destructive'}`}>
+                                  Drawdown ≈ {r.drawdownHours.toFixed(1)} h at {r.bmpType.defaultInfiltration} in/hr
+                                  {r.meetsDrainTime ? ' — within drain time' : ' — exceeds drain time'}
+                                </p>
+                              );
+                            })()}
                           </div>
                         </>
                       )}
+                      <div>
+                        <Label htmlFor={`lid-overflow-${bmp.id}`}>Overflow Goes To</Label>
+                        <Select
+                          value={bmp.overflowTo || 'none'}
+                          onValueChange={(v) => updateBMP(bmp.id, 'overflowTo', v === 'none' ? '' : v)}
+                        >
+                          <SelectTrigger id={`lid-overflow-${bmp.id}`} aria-label={`Where overflow from ${bmp.name} goes`}>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="none">Leaves the site</SelectItem>
+                            {bmps.slice(idx + 1).map(d => (
+                              <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <p className="text-xs text-muted-foreground mt-1">Only BMPs further down the list can receive overflow.</p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -624,6 +655,13 @@ const LIDCalculator: React.FC<LIDCalculatorProps> = ({ onExportToTreatmentTrain 
                   <p className="text-lg font-semibold">{calculations.netRunoffVolume.toFixed(0)} cu-ft</p>
                 </div>
               </div>
+              {calculations.areasOverlap && (
+                <p role="alert" className="text-sm mt-2 text-destructive">
+                  BMP contributing areas add up to more than the site area, so some area is counted twice.
+                  Each area has been scaled by {(calculations.areaScale * 100).toFixed(1)}% so capture cannot exceed site runoff —
+                  reduce the contributing areas or route overflow from one BMP to another instead.
+                </p>
+              )}
               {!calculations.matchesPreDev && (
                 <p className="text-sm mt-2 text-yellow-700 dark:text-yellow-300">
                   Additional storage of {calculations.additionalStorageNeeded.toFixed(0)} cu-ft needed to match pre-development runoff

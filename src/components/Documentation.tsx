@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
+import { type RunoffTransfer } from "@/lib/hydrologyCalcs";
 import { PatternSectionSearch } from "./PatternSectionSearch";
 import { PatternReferenceCard } from "./docs/PatternReferenceCard";
 import { PatternReferenceList } from "./docs/PatternReferenceList";
@@ -109,7 +110,7 @@ interface DocumentationProps {
 export function Documentation({ idfCity }: DocumentationProps = {}) {
   const [linkedCN, setLinkedCN] = useState<number | null>(null);
   const [linkedArea, setLinkedArea] = useState<number>(0);
-  const [linkedRunoffDepth, setLinkedRunoffDepth] = useState<number>(0);
+  const [linkedRunoff, setLinkedRunoff] = useState<RunoffTransfer | null>(null);
   
   // State for routing data transfer
   const [routingSSOData, setRoutingSSOData] = useState<StorageOutflowPoint[] | undefined>(undefined);
@@ -157,9 +158,9 @@ export function Documentation({ idfCity }: DocumentationProps = {}) {
     setLinkedArea(totalArea);
   };
 
-  const handleRunoffChange = (runoffDepth: number) => {
-    setLinkedRunoffDepth(runoffDepth);
-  };
+  const handleRunoffChange = useCallback((runoff: RunoffTransfer | null) => {
+    setLinkedRunoff(runoff);
+  }, []);
 
   const handleSSOExport = (data: StageStorageOutflowData[]) => {
     setRoutingSSOData(data);
@@ -2800,7 +2801,7 @@ export function Documentation({ idfCity }: DocumentationProps = {}) {
           {isCalculatorVisible('rational') && <div id="calc-rational"><RationalMethodCalculator /></div>}
 
           {/* Detention Pond Calculator */}
-          {isCalculatorVisible('detention') && <div id="calc-detention"><DetentionPondCalculator linkedRunoffVolume={linkedRunoffDepth} /></div>}
+          {isCalculatorVisible('detention') && <div id="calc-detention"><DetentionPondCalculator linkedRunoff={linkedRunoff} /></div>}
 
           {/* Outlet Structure Calculator */}
           {isCalculatorVisible('outlet') && <div id="calc-outlet"><OutletStructureCalculator /></div>}

@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { type PatternType } from "@/lib/rainfallPatterns";
 import { getPatternEquation } from "@/lib/patternEquations";
+import { explorerValues, type ExplorerValues } from "@/lib/equationExplorer";
+import { type UnitSystem } from "@/lib/unitConversions";
 
 interface LatexInlineProps {
   latex: string;
@@ -47,255 +49,19 @@ function LatexInline({ latex, className = "" }: LatexInlineProps) {
   return <span ref={containerRef} className={className} />;
 }
 
-// Computation functions for different pattern types
-const computePatternValues = (
-  pattern: PatternType,
-  t: number, // dimensionless time (0-1)
-  P: number, // total depth
-  D: number  // duration in hours
-): { 
-  F?: number; 
-  i?: number; 
-  incrementalDepth?: number;
-  cumulativeDepth?: number;
-  description: string;
-} => {
+// Plain-language phase of the storm at dimensionless time t. Numbers come from the storm calculator.
+const describePhase = (pattern: PatternType, t: number): string => {
   switch (pattern) {
-    case 'block': {
-      const i = P / D;
-      return {
-        i,
-        cumulativeDepth: t * P,
-        description: `Constant intensity throughout duration`
-      };
-    }
-
-    case 'triangular': {
-      const tp = 0.33; // time to peak as fraction
-      const iPeak = (2 * P) / D;
-      let i: number;
-      if (t <= tp) {
-        i = iPeak * (t / tp);
-      } else {
-        i = iPeak * ((1 - t) / (1 - tp));
-      }
-      // Cumulative depth calculation
-      let F: number;
-      if (t <= tp) {
-        F = (t * t) / (2 * tp);
-      } else {
-        F = tp / 2 + (t - tp) - ((t - tp) * (t - tp)) / (2 * (1 - tp));
-      }
-      return {
-        i,
-        F,
-        cumulativeDepth: F * P,
-        description: t <= tp ? 'Rising limb (before peak)' : 'Falling limb (after peak)'
-      };
-    }
-
-    case 'trapezoidal': {
-      const t1 = 0.25;
-      const t2 = 0.6;
-      const denominator = t1 / 2 + (t2 - t1) + (1 - t2) / 2;
-      const iPeak = P / (D * denominator);
-      let i: number;
-      if (t <= t1) {
-        i = iPeak * (t / t1);
-      } else if (t <= t2) {
-        i = iPeak;
-      } else {
-        i = iPeak * ((1 - t) / (1 - t2));
-      }
-      return {
-        i,
-        description: t <= t1 ? 'Rising limb' : t <= t2 ? 'Sustained peak' : 'Falling limb'
-      };
-    }
-
-    case 'scs1': {
-      let F: number;
-      if (t <= 0.4) {
-        F = 0.50 * Math.pow(t / 0.4, 0.8);
-      } else if (t <= 0.6) {
-        F = 0.50 + 0.35 * ((t - 0.4) / 0.2);
-      } else {
-        F = 0.85 + 0.15 * ((t - 0.6) / 0.4);
-      }
-      return {
-        F,
-        cumulativeDepth: F * P,
-        description: t <= 0.4 ? 'Pre-peak accumulation' : t <= 0.6 ? 'Peak period' : 'Recession'
-      };
-    }
-
-    case 'scs1a': {
-      let F: number;
-      if (t <= 0.35) {
-        F = 0.55 * Math.pow(t / 0.35, 0.75);
-      } else if (t <= 0.55) {
-        F = 0.55 + 0.30 * ((t - 0.35) / 0.2);
-      } else {
-        F = 0.85 + 0.15 * ((t - 0.55) / 0.45);
-      }
-      return {
-        F,
-        cumulativeDepth: F * P,
-        description: t <= 0.35 ? 'Early peak accumulation' : t <= 0.55 ? 'Peak period' : 'Recession'
-      };
-    }
-
-    case 'scs2': {
-      let F: number;
-      if (t <= 0.5) {
-        F = 0.35 * Math.pow(t / 0.5, 0.9);
-      } else if (t <= 0.6) {
-        F = 0.35 + 0.45 * ((t - 0.5) / 0.1);
-      } else {
-        F = 0.80 + 0.20 * ((t - 0.6) / 0.4);
-      }
-      const avgIntensity = P / D;
-      const peakRatio = 4.8;
-      return {
-        F,
-        cumulativeDepth: F * P,
-        i: t > 0.5 && t <= 0.6 ? avgIntensity * peakRatio : avgIntensity * F * 2,
-        description: t <= 0.5 ? 'Pre-peak buildup' : t <= 0.6 ? 'Peak intensity zone' : 'Post-peak recession'
-      };
-    }
-
-    case 'scs3': {
-      let F: number;
-      if (t <= 0.5) {
-        F = 0.25 * (t / 0.5);
-      } else if (t <= 0.58) {
-        F = 0.25 + 0.50 * ((t - 0.5) / 0.08);
-      } else {
-        F = 0.75 + 0.25 * ((t - 0.58) / 0.42);
-      }
-      return {
-        F,
-        cumulativeDepth: F * P,
-        description: t <= 0.5 ? 'Slow buildup' : t <= 0.58 ? 'Sharp peak burst' : 'Gradual recession'
-      };
-    }
-
-    case 'huff1': {
-      let F: number;
-      if (t <= 0.25) {
-        F = 0.65 * Math.pow(t / 0.25, 0.7);
-      } else if (t <= 0.50) {
-        F = 0.65 + 0.20 * ((t - 0.25) / 0.25);
-      } else if (t <= 0.75) {
-        F = 0.85 + 0.10 * ((t - 0.50) / 0.25);
-      } else {
-        F = 0.95 + 0.05 * ((t - 0.75) / 0.25);
-      }
-      return {
-        F,
-        cumulativeDepth: F * P,
-        description: t <= 0.25 ? '1st Quartile (65% of rain)' : `Quartile ${Math.ceil(t * 4)}`
-      };
-    }
-
-    case 'huff2': {
-      let F: number;
-      if (t <= 0.25) {
-        F = 0.20 * (t / 0.25);
-      } else if (t <= 0.50) {
-        F = 0.20 + 0.50 * Math.pow((t - 0.25) / 0.25, 0.7);
-      } else if (t <= 0.75) {
-        F = 0.70 + 0.20 * ((t - 0.50) / 0.25);
-      } else {
-        F = 0.90 + 0.10 * ((t - 0.75) / 0.25);
-      }
-      return {
-        F,
-        cumulativeDepth: F * P,
-        description: t <= 0.25 ? '1st Quartile' : t <= 0.50 ? '2nd Quartile (peak)' : `Quartile ${Math.ceil(t * 4)}`
-      };
-    }
-
-    case 'huff3': {
-      let F: number;
-      if (t <= 0.25) {
-        F = 0.15 * (t / 0.25);
-      } else if (t <= 0.50) {
-        F = 0.15 + 0.20 * ((t - 0.25) / 0.25);
-      } else if (t <= 0.75) {
-        F = 0.35 + 0.45 * Math.pow((t - 0.50) / 0.25, 0.7);
-      } else {
-        F = 0.80 + 0.20 * ((t - 0.75) / 0.25);
-      }
-      return {
-        F,
-        cumulativeDepth: F * P,
-        description: t <= 0.50 ? 'Pre-peak quartiles' : t <= 0.75 ? '3rd Quartile (peak)' : '4th Quartile'
-      };
-    }
-
-    case 'huff4': {
-      let F: number;
-      if (t <= 0.25) {
-        F = 0.10 * (t / 0.25);
-      } else if (t <= 0.50) {
-        F = 0.10 + 0.15 * ((t - 0.25) / 0.25);
-      } else if (t <= 0.75) {
-        F = 0.25 + 0.15 * ((t - 0.50) / 0.25);
-      } else {
-        F = 0.40 + 0.60 * Math.pow((t - 0.75) / 0.25, 0.7);
-      }
-      return {
-        F,
-        cumulativeDepth: F * P,
-        description: t <= 0.75 ? 'Slow buildup phase' : '4th Quartile (60% of rain)'
-      };
-    }
-
-    case 'chicago': {
-      // Simplified Chicago storm with r=0.4
-      const r = 0.4;
-      const tp = r; // peak at 40% of duration
-      const a = 100; // IDF coefficient
-      const b = 10;
-      const c = 0.75;
-      
-      let i: number;
-      if (t <= tp) {
-        const tb = tp - t;
-        i = (a * ((1 - c) * (tb / r) + b)) / Math.pow((tb / r) + b, 1 + c);
-      } else {
-        const ta = t - tp;
-        i = (a * ((1 - c) * (ta / (1 - r)) + b)) / Math.pow((ta / (1 - r)) + b, 1 + c);
-      }
-      
-      return {
-        i: i * P / 100, // Scale by depth
-        description: t <= tp ? 'Before peak (rising)' : 'After peak (falling)'
-      };
-    }
-
-    case 'double': {
-      const mu1 = 0.3;
-      const mu2 = 0.7;
-      const sigma = 0.08;
-      const A1 = 2.5;
-      const A2 = 2.0;
-      
-      const peak1 = A1 * Math.exp(-Math.pow((t - mu1) / sigma, 2));
-      const peak2 = A2 * Math.exp(-Math.pow((t - mu2) / sigma, 2));
-      const combined = peak1 + peak2;
-      
-      return {
-        i: combined * P / D / 2, // Approximate scaling
-        description: t < 0.5 ? `First peak zone (t=${mu1})` : `Second peak zone (t=${mu2})`
-      };
-    }
-
-    default:
-      return {
-        description: 'Computation not available for this pattern'
-      };
+    case 'block': return 'Constant intensity throughout duration';
+    case 'triangular': return t <= 0.33 ? 'Rising limb (before peak)' : 'Falling limb (after peak)';
+    case 'trapezoidal': return t <= 0.25 ? 'Rising limb' : t <= 0.6 ? 'Sustained peak' : 'Falling limb';
+    case 'scs1': return t < 9.5 / 24 ? 'Pre-peak accumulation' : t <= 10 / 24 ? 'Peak period' : 'Recession';
+    case 'scs1a': return t < 7.5 / 24 ? 'Early accumulation' : t <= 8 / 24 ? 'Peak period' : 'Recession';
+    case 'scs2': return t < 11.5 / 24 ? 'Pre-peak buildup' : t <= 12 / 24 ? 'Peak intensity zone' : 'Post-peak recession';
+    case 'scs3': return t < 11.5 / 24 ? 'Slow buildup' : t <= 12.5 / 24 ? 'Sharp peak burst' : 'Gradual recession';
+    case 'huff1': case 'huff2': case 'huff3': case 'huff4': return `Quartile ${Math.min(4, Math.max(1, Math.ceil(t * 4)))}`;
+    case 'double': return t < 0.5 ? 'First peak zone' : 'Second peak zone';
+    default: return t < 0.5 ? 'First half of the storm' : 'Second half of the storm';
   }
 };
 
@@ -303,13 +69,19 @@ interface InteractiveEquationExplorerProps {
   pattern: PatternType;
   totalDepth?: number;
   duration?: number;
+  /** Wizard time step in minutes; the explorer uses the same intervals as the generated storm. */
+  timeStep?: number;
+  unitSystem?: UnitSystem;
 }
 
 export function InteractiveEquationExplorer({
   pattern,
   totalDepth = 2.0,
-  duration = 6.0
+  duration = 6.0,
+  timeStep = 15,
+  unitSystem = 'USA'
 }: InteractiveEquationExplorerProps) {
+  const depthUnit = unitSystem === 'SI' ? 'mm' : 'in';
   const equation = getPatternEquation(pattern);
   
   // Input states
@@ -325,8 +97,9 @@ export function InteractiveEquationExplorer({
 
   // Compute results
   const results = useMemo(() => {
-    return computePatternValues(pattern, t, P, D);
-  }, [pattern, t, P, D]);
+    const v = explorerValues(pattern, t, P, D, timeStep);
+    return { ...(v ?? {}), description: describePhase(pattern, t) } as Partial<ExplorerValues> & { description: string };
+  }, [pattern, t, P, D, timeStep]);
 
   // Compute actual time in hours/minutes
   const actualTime = useMemo(() => {
@@ -406,7 +179,7 @@ export function InteractiveEquationExplorer({
                   min={0}
                   className="font-mono"
                 />
-                <span className="text-xs text-muted-foreground">in</span>
+                <span className="text-xs text-muted-foreground">{depthUnit}</span>
               </div>
             </div>
             <div className="space-y-2">
@@ -470,7 +243,7 @@ export function InteractiveEquationExplorer({
                   <span className="font-mono font-semibold text-primary text-lg">
                     {results.i.toFixed(3)}
                   </span>
-                  <span className="text-xs text-muted-foreground ml-1">in/hr</span>
+                  <span className="text-xs text-muted-foreground ml-1">{depthUnit}/hr</span>
                 </div>
               </div>
             )}
@@ -479,14 +252,14 @@ export function InteractiveEquationExplorer({
             {results.cumulativeDepth !== undefined && (
               <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                 <div className="flex items-center gap-2">
-                  <LatexInline latex="P(t) = F(t) \\cdot P" />
+                  <LatexInline latex="P(t) = F(t) \cdot P" />
                   <span className="text-sm text-muted-foreground">Cumulative Depth</span>
                 </div>
                 <div className="text-right">
                   <span className="font-mono font-semibold text-primary text-lg">
                     {results.cumulativeDepth.toFixed(3)}
                   </span>
-                  <span className="text-xs text-muted-foreground ml-1">in</span>
+                  <span className="text-xs text-muted-foreground ml-1">{depthUnit}</span>
                 </div>
               </div>
             )}
@@ -494,7 +267,7 @@ export function InteractiveEquationExplorer({
             {/* Time conversion */}
             <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-dashed">
               <div className="flex items-center gap-2">
-                <LatexInline latex="t_{actual} = t \\cdot D" />
+                <LatexInline latex="t_{actual} = t \cdot D" />
                 <span className="text-sm text-muted-foreground">Actual Time</span>
               </div>
               <div className="text-right">
@@ -515,6 +288,11 @@ export function InteractiveEquationExplorer({
           <p className="text-xs text-muted-foreground text-center">
             Drag the time slider to see how values change through the storm duration
           </p>
+          {results.intervals !== undefined && (
+            <p className="text-xs text-muted-foreground text-center mt-1">
+              Values come from the storm calculator ({results.intervals} intervals of {results.stepMin?.toFixed(results.stepMin % 1 ? 2 : 0)} min), so they match the generated hyetograph and exports. Intensity is the average for the interval containing t.
+            </p>
+          )}
         </div>
       </CardContent>
     </Card>

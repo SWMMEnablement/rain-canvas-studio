@@ -5,11 +5,13 @@ import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Badge } from '@/components/ui/badge';
 import { Droplets, Calculator, Link } from 'lucide-react';
+import { toRunoffTransfer, type RunoffTransfer } from '@/lib/hydrologyCalcs';
 
 interface RunoffCalculatorProps {
   linkedCN?: number | null;
   linkedArea?: number;
-  onRunoffChange?: (runoffDepth: number) => void;
+  /** Runoff passed on with explicit units (inches, acres) so linked calculators never mix mm and inches. */
+  onRunoffChange?: (runoff: RunoffTransfer | null) => void;
 }
 
 const RunoffCalculator: React.FC<RunoffCalculatorProps> = ({ linkedCN, linkedArea, onRunoffChange }) => {
@@ -77,10 +79,9 @@ const RunoffCalculator: React.FC<RunoffCalculatorProps> = ({ linkedCN, linkedAre
 
   // Emit runoff depth changes to parent
   useEffect(() => {
-    if (onRunoffChange && calculations) {
-      onRunoffChange(calculations.Q);
-    }
-  }, [calculations?.Q, onRunoffChange]);
+    if (!onRunoffChange) return;
+    onRunoffChange(calculations ? toRunoffTransfer(calculations.Q, area, units) : null);
+  }, [calculations?.Q, area, units, onRunoffChange]);
 
   const depthUnit = units === 'us' ? 'in' : 'mm';
   const areaUnit = units === 'us' ? 'acres' : 'hectares';
