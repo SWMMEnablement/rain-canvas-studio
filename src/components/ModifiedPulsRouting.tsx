@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { Waves, Plus, Trash2, Download, RefreshCw, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import { routeModifiedPuls } from '@/lib/hydrologyCalcs';
 
 export interface StorageOutflowPoint {
   stage: number;
@@ -152,68 +153,16 @@ const ModifiedPulsRouting: React.FC<ModifiedPulsRoutingProps> = ({ importedSSODa
     return yData[yData.length - 1];
   };
 
-  // Modified Puls Routing
-  const routingResults = useMemo(() => {
-    if (inflowData.length < 2 || ssoData.length < 2) return [];
-
-    const results: RoutingResult[] = [];
-    
-    // Extract arrays for interpolation
-    const stages = ssoData.map(p => p.stage);
-    const storages = ssoData.map(p => p.storage);
-    const outflows = ssoData.map(p => p.outflow);
-
-    // Initial conditions
-    let S1 = 0;
-    let O1 = 0;
-    
-    // Sort inflow data by time
-    const sortedInflow = [...inflowData].sort((a, b) => a.time - b.time);
-
-    for (let i = 0; i < sortedInflow.length; i++) {
-      const I1 = i > 0 ? sortedInflow[i - 1].inflow : 0;
-      const I2 = sortedInflow[i].inflow;
-      
-      if (i === 0) {
-        results.push({
-          time: sortedInflow[i].time,
-          inflow: I2,
-          outflow: 0,
-          storage: 0,
-          stage: 0
-        });
-        continue;
-      }
-
-      // Δt MUST be the actual spacing of this inflow interval (the hydrograph rows are not
-      // necessarily spaced at the nominal timeStep); using a mismatched Δt violates mass balance.
-      const dt = (sortedInflow[i].time - sortedInflow[i - 1].time) * 3600; // seconds
-      if (!(dt > 0)) continue;
-      const routingValues = ssoData.map(p => (2 * p.storage / dt) + p.outflow);
-
-      // Modified Puls equation: (2S2/Δt + O2) = (2S1/Δt - O1) + I1 + I2
-      const leftSide = (2 * S1 / dt) - O1 + I1 + I2;
-      
-      // Find O2 by interpolating on routing curve
-      const O2 = interpolate(leftSide, routingValues, outflows);
-      const S2 = interpolate(O2, outflows, storages);
-      const stage2 = interpolate(S2, storages, stages);
-
-      results.push({
-        time: Math.round(sortedInflow[i].time * 100) / 100,
-        inflow: I2,
-        outflow: Math.round(O2 * 100) / 100,
-        storage: Math.round(S2),
-        stage: Math.round(stage2 * 100) / 100
-      });
-
-      // Update for next iteration
-      S1 = S2;
-      O1 = O2;
-    }
-
-    return results;
-  }, [inflowData, ssoData]);
+  // Modified Puls Routing — storage and outflow come from the same storage-indication bracket,
+  // so water below an elevated outlet stays in storage (see routeModifiedPuls).
+  const routing = useMemo(() => routeModifiedPuls(inflowData, ssoData), [inflowData, ssoData]);
+  const routingResults: RoutingResult[] = useMemo(() => routing.rows.map(r => ({
+    time: Math.round(r.time * 100) / 100,
+    inflow: r.inflow,
+    outflow: Math.round(r.outflow * 100) / 100,
+    storage: Math.round(r.storage),
+    stage: Math.round(r.stage * 100) / 100,
+  })), [routing]);
 
   // Calculate summary statistics
   const summary = useMemo(() => {
@@ -516,6 +465,28 @@ const ModifiedPulsRouting: React.FC<ModifiedPulsRoutingProps> = ({ importedSSODa
                       <span className="ml-2 font-medium">{(summary.peakInflow - summary.peakOutflow).toFixed(1)} cfs</span>
                     </div>
                   </div>
+                  <div className="mt-3 pt-3 border-t border-border grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">Inflow volume:</span>
+                      <span className="ml-2 font-medium">{Math.round(routing.inflowVolume).toLocaleString()} cf</span>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Outflow + final storage:</span>
+                      <span className="ml-2 font-medium">{Math.round(routing.outflowVolume + routing.finalStorage).toLocaleString()} cf</span>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Continuity residual (I − O − ΔS):</span>
+                      <span className="ml-2 font-medium">
+                        {Math.round(routing.continuityResidual).toLocaleString()} cf
+                        {routing.inflowVolume > 0 && ` (${((routing.continuityResidual / routing.inflowVolume) * 100).toFixed(2)}%)`}
+                      </span>
+                    </div>
+                  </div>
+                  {routing.tableExceeded && (
+                    <p role="alert" className="mt-3 text-sm text-destructive">
+                      The inflow overtops the stage–storage–discharge table. Results above the top row are extrapolated from the last segment — extend the table to cover the full event.
+                    </p>
+                  )}
                 </CardContent>
               </Card>
             )}
