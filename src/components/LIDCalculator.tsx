@@ -596,7 +596,7 @@ const LIDCalculator: React.FC<LIDCalculatorProps> = ({ onExportToTreatmentTrain 
                       <div>
                         <Label htmlFor={`lid-overflow-${bmp.id}`}>Overflow Goes To</Label>
                         <Select
-                          value={bmp.overflowTo ?? 'none'}
+                          value={bmp.overflowTo || 'none'}
                           onValueChange={(v) => updateBMP(bmp.id, 'overflowTo', v === 'none' ? '' : v)}
                         >
                           <SelectTrigger id={`lid-overflow-${bmp.id}`} aria-label={`Where overflow from ${bmp.name} goes`}>
