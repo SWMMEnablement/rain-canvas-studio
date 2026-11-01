@@ -56,8 +56,13 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Cumulative Distribution',
-        latex: 'F(t) = \\begin{cases} 0.50 \\cdot \\left(\\frac{t}{0.4}\\right)^{0.8} & t \\leq 0.4 \\\\ 0.50 + 0.35 \\cdot \\frac{t - 0.4}{0.2} & 0.4 < t \\leq 0.6 \\\\ 0.85 + 0.15 \\cdot \\frac{t - 0.6}{0.4} & t > 0.6 \\end{cases}',
-        description: 'Piecewise cumulative rainfall fraction (t = fraction of total duration)'
+        latex: 'F(t) = F_k + \\left(F_{k+1} - F_k\\right)\\frac{t - t_k}{t_{k+1} - t_k}, \\quad t_k \\le t \\le t_{k+1}',
+        description: 'NRCS tabulated 24-h mass curve (WinTR-55 / NEH 630 Ch. 4 ordinates), linearly interpolated between tabulated times t_k (t = fraction of duration). This is exactly what the storm calculator uses.'
+      },
+      {
+        label: 'Reference ordinates',
+        latex: 'F(9.5/24)=0.303,\\; F(10/24)=0.515,\\; F(12/24)=0.684',
+        description: 'Selected tabulated values; the full table is listed in the numerical table view'
       },
       {
         label: 'Incremental Depth',
@@ -88,8 +93,13 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Cumulative Distribution',
-        latex: 'F(t) = \\begin{cases} 0.55 \\cdot \\left(\\frac{t}{0.35}\\right)^{0.75} & t \\leq 0.35 \\\\ 0.55 + 0.30 \\cdot \\frac{t - 0.35}{0.2} & 0.35 < t \\leq 0.55 \\\\ 0.85 + 0.15 \\cdot \\frac{t - 0.55}{0.45} & t > 0.55 \\end{cases}',
-        description: 'Earlier and more intense peak than Type I'
+        latex: 'F(t) = F_k + \\left(F_{k+1} - F_k\\right)\\frac{t - t_k}{t_{k+1} - t_k}, \\quad t_k \\le t \\le t_{k+1}',
+        description: 'NRCS tabulated 24-h mass curve (WinTR-55 / NEH 630 Ch. 4 ordinates), linearly interpolated between tabulated times t_k (t = fraction of duration). This is exactly what the storm calculator uses.'
+      },
+      {
+        label: 'Reference ordinates',
+        latex: 'F(7.5/24)=0.310,\\; F(8/24)=0.425,\\; F(12/24)=0.664',
+        description: 'Selected tabulated values; the full table is listed in the numerical table view'
       }
     ],
     variables: [
@@ -113,13 +123,18 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Cumulative Distribution',
-        latex: 'F(t) = \\begin{cases} 0.35 \\cdot \\left(\\frac{t}{0.5}\\right)^{0.9} & t \\leq 0.5 \\\\ 0.35 + 0.45 \\cdot \\frac{t - 0.5}{0.1} & 0.5 < t \\leq 0.6 \\\\ 0.80 + 0.20 \\cdot \\frac{t - 0.6}{0.4} & t > 0.6 \\end{cases}',
-        description: 'Standard US distribution with mid-storm peak'
+        latex: 'F(t) = F_k + \\left(F_{k+1} - F_k\\right)\\frac{t - t_k}{t_{k+1} - t_k}, \\quad t_k \\le t \\le t_{k+1}',
+        description: 'NRCS tabulated 24-h mass curve (WinTR-55 / NEH 630 Ch. 4 ordinates), linearly interpolated between tabulated times t_k (t = fraction of duration). This is exactly what the storm calculator uses.'
       },
       {
-        label: 'Peak Intensity Ratio',
-        latex: 'i_{peak} \\approx 4.8 \\cdot \\bar{i}',
-        description: 'Peak is approximately 4.8 times the average intensity'
+        label: 'Reference ordinates',
+        latex: 'F(11/24)=0.235,\\; F(12/24)=0.663,\\; F(13/24)=0.772',
+        description: 'Selected tabulated values; the full table is listed in the numerical table view'
+      },
+      {
+        label: 'Interval Intensity',
+        latex: 'i_k = \\frac{[F(t_{k+1}) - F(t_k)]\\,P}{\\Delta t}',
+        description: 'Average intensity in each interval; the peak-to-mean ratio depends on the time step (about 10× at 15 min, 24 h)'
       }
     ],
     variables: [
@@ -144,8 +159,13 @@ export const patternEquations: PatternEquation[] = [
     equations: [
       {
         label: 'Cumulative Distribution',
-        latex: 'F(t) = \\begin{cases} 0.25 \\cdot \\frac{t}{0.5} & t \\leq 0.5 \\\\ 0.25 + 0.50 \\cdot \\frac{t - 0.5}{0.08} & 0.5 < t \\leq 0.58 \\\\ 0.75 + 0.25 \\cdot \\frac{t - 0.58}{0.42} & t > 0.58 \\end{cases}',
-        description: 'Very sharp peak representing tropical storm characteristics'
+        latex: 'F(t) = F_k + \\left(F_{k+1} - F_k\\right)\\frac{t - t_k}{t_{k+1} - t_k}, \\quad t_k \\le t \\le t_{k+1}',
+        description: 'NRCS tabulated 24-h mass curve (WinTR-55 / NEH 630 Ch. 4 ordinates), linearly interpolated between tabulated times t_k (t = fraction of duration). This is exactly what the storm calculator uses.'
+      },
+      {
+        label: 'Reference ordinates',
+        latex: 'F(11/24)=0.250,\\; F(12/24)=0.500,\\; F(13/24)=0.750',
+        description: 'Selected tabulated values; the full table is listed in the numerical table view'
       }
     ],
     variables: [
