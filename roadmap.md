@@ -9,20 +9,20 @@
   - [x] Climate uplift and custom drawing kept in SWMM/ICM/HEC/XP integration exports and export metadata
   - [x] Time step snaps to fit duration; coarse storms conserve depth (Cyprus WDD crash fixed)
   - [ ] SCS II / triangular equation explorer disagree with engine
-  - [ ] Importers: CSV comments, ISO dates, HEC metric units, SWMM multi-series
+  - [x] Importers: CSV comments, ISO dates, HEC metric units, SWMM multi-series
   - [x] Batch export derived from the shared catalogue (339)
   - [ ] Calculators: runoff→detention units, Modified Puls storage loss, unit hydrograph duration, pre/post Rational intensity, LID over-capture
   - [x] Return-period badge removed ("not assigned"); presets labelled illustrative; ARR 2019 renamed
   - [x] ICM export labels clarified; storm check panel added
   - [x] Native InfoWorks ICM event CSV (Autodesk type=RED format)
   - [x] "Create a storm now" shortcut; release version shown in footer
-  - [ ] Per-pattern source records
+  - [x] Per-pattern source records
 - Source notes + confidence levels:
-  - [ ] Source note and confidence level for every pattern
-  - [ ] Show them in pattern details (wizard picker) and regional recommendations
+  - [x] Source note and confidence level for every pattern
+  - [x] Show them in pattern details (wizard picker) and regional recommendations
 - Re-import of exported files:
-  - [ ] CSV export (comment header, Time (hr)) loads back
-  - [ ] HEC-HMS .gage (both exporters) and DSS CSV load back
-  - [ ] SWMM script, XP-SWMM .inp, template .inp, .dat load back with correct units and depth
-  - [ ] Round-trip tests using the real export builders
+  - [x] CSV export (comment header, Time (hr)) loads back
+  - [x] HEC-HMS .gage (both exporters) and DSS CSV load back
+  - [x] SWMM script, XP-SWMM .inp, template .inp, .dat load back with correct units and depth
+  - [x] Round-trip tests using the real export builders
   - [ ] Usability: chips as buttons, shared active storm, tab state, climate in share links
