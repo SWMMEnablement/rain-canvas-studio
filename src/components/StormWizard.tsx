@@ -137,7 +137,7 @@ export const patternNames: Record<PatternType, string> = {
   'abu_dhabi_adm': 'Abu Dhabi ADM',
   'montana_caquot': 'Montana/Caquot (FR)',
   'm5_60_fsr': 'M5-60 (UK/Ireland)',
-  'arr2019': 'ARR 2019 Ensemble',
+  'arr2019': 'ARR 2019 Representative Pattern',
   'upm_plata': 'UPM Río de la Plata',
   // v3 patterns
   'feh22_refh2': 'FEH22/ReFH2',

@@ -380,7 +380,7 @@ const PATTERN_SHAPES: Record<string, { label: string; ratios: number[] }> = {
   "Abu Dhabi ADM": { label: "Abu Dhabi ADM — FEH 75th pctl peak at 50%", ratios: centerPeaked(48, 2.8, 0.50) },
   "Montana/Caquot (FR)": { label: "Montana/Caquot — French power-law IT77", ratios: frontLoaded(48, 5.0) },
   "M5-60 (UK/Ireland)": { label: "M5-60 FSR — UK short-duration", ratios: centerPeaked(48, 1.8, 0.45) },
-  "ARR 2019 Ensemble": { label: "ARR 2019 — Australian median ensemble", ratios: centerPeaked(48, 1.3, 0.45) },
+  "ARR 2019 Representative Pattern": { label: "ARR 2019 — single representative pattern (not the 10-pattern ensemble)", ratios: centerPeaked(48, 1.3, 0.45) },
   "UPM Río de la Plata": { label: "UPM — Uruguay/Paraguay basin", ratios: centerPeaked(48, 1.5, 0.35) },
   // v3 patterns
   "FEH22/ReFH2": { label: "FEH22/ReFH2 — UK current DDF + design hyetograph", ratios: gaussianPeaked(48, 0.50, 9) },

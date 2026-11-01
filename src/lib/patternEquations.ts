@@ -1688,7 +1688,7 @@ export const patternEquations: PatternEquation[] = [
   // ============ ARR 2019 Ensemble ============
   {
     pattern: 'arr2019',
-    name: 'ARR 2019 Ensemble (Australia)',
+    name: 'ARR 2019 Representative Pattern (Australia)',
     category: 'cumulative',
     equations: [
       {

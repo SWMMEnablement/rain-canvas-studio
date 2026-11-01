@@ -159,7 +159,7 @@ const patternMetadata: Record<PatternType, { name: string; peakPosition: number;
   abu_dhabi_adm: { name: 'Abu Dhabi ADM', peakPosition: 0.50, description: 'FEH 75th pctl peak' },
   montana_caquot: { name: 'Montana/Caquot', peakPosition: 0.10, description: 'French power-law IT77' },
   m5_60_fsr: { name: 'M5-60 FSR', peakPosition: 0.45, description: 'UK short-duration FSR' },
-  arr2019: { name: 'ARR 2019', peakPosition: 0.45, description: 'Australian ensemble median' },
+  arr2019: { name: 'ARR 2019', peakPosition: 0.45, description: 'Single representative curve — not the ARR 10-pattern ensemble' },
   upm_plata: { name: 'UPM Plata', peakPosition: 0.35, description: 'Uruguay/Paraguay basin' },
   // v3 patterns
   feh22_refh2: { name: 'FEH22/ReFH2', peakPosition: 0.50, description: 'UK FEH22 DDF + ReFH2 design hyetograph' },
