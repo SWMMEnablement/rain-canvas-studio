@@ -32,7 +32,7 @@ const TabFallback = () => (
 const PATTERN_BADGES = stormPatterns.map((pattern) => pattern.name);
 
 const FEATURED_BADGES = [
-  "ARR 2019 Ensemble",
+  "ARR 2019 Representative Pattern",
   "Balanced Storm",
   "Block Pattern",
   "Canadian CDA",
