@@ -252,7 +252,7 @@ export function InteractiveEquationExplorer({
             {results.cumulativeDepth !== undefined && (
               <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                 <div className="flex items-center gap-2">
-                  <LatexInline latex="P(t) = F(t) \\cdot P" />
+                  <LatexInline latex="P(t) = F(t) \cdot P" />
                   <span className="text-sm text-muted-foreground">Cumulative Depth</span>
                 </div>
                 <div className="text-right">
@@ -267,7 +267,7 @@ export function InteractiveEquationExplorer({
             {/* Time conversion */}
             <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-dashed">
               <div className="flex items-center gap-2">
-                <LatexInline latex="t_{actual} = t \\cdot D" />
+                <LatexInline latex="t_{actual} = t \cdot D" />
                 <span className="text-sm text-muted-foreground">Actual Time</span>
               </div>
               <div className="text-right">
