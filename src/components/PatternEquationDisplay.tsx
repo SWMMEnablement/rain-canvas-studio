@@ -66,7 +66,9 @@ export function PatternEquationDisplay({
   showReferences = true,
   compact = false,
   totalDepth = 2.0,
-  duration = 6.0
+  duration = 6.0,
+  timeStep = 15,
+  unitSystem = 'USA'
 }: PatternEquationDisplayProps) {
   const equation = getPatternEquation(pattern);
   const [showExplorer, setShowExplorer] = useState(false);
