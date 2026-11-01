@@ -82,7 +82,7 @@ export const patternEquations: PatternEquation[] = [
       year: 1986,
       link: 'https://www.nrcs.usda.gov/wps/portal/nrcs/detailfull/national/water/manage/hydrology/?cid=stelprdb1042925'
     },
-    notes: 'Pacific maritime climate (wet winters, dry summers). Peak at ~40% of duration.'
+    notes: 'Pacific maritime climate (wet winters, dry summers). Peak between 9.5 h and 10 h of 24 h (~40–42% of duration).'
   },
 
   // ============ SCS Type IA ============
@@ -112,7 +112,7 @@ export const patternEquations: PatternEquation[] = [
       year: 1986,
       link: 'https://www.nrcs.usda.gov/wps/portal/nrcs/detailfull/national/water/manage/hydrology/?cid=stelprdb1042925'
     },
-    notes: 'Pacific Northwest coastal areas. Very early peak at ~35% of duration.'
+    notes: 'Pacific Northwest coastal areas. Early peak between 7.5 h and 8 h of 24 h (~31–33% of duration).'
   },
 
   // ============ SCS Type II ============
@@ -134,7 +134,7 @@ export const patternEquations: PatternEquation[] = [
       {
         label: 'Interval Intensity',
         latex: 'i_k = \\frac{[F(t_{k+1}) - F(t_k)]\\,P}{\\Delta t}',
-        description: 'Average intensity in each interval; the peak-to-mean ratio depends on the time step (about 10× at 15 min, 24 h)'
+        description: 'Average intensity in each interval; the peak-to-mean ratio depends on the time step (about 26× at a 15-min step for a 24-h storm)'
       }
     ],
     variables: [
@@ -148,7 +148,7 @@ export const patternEquations: PatternEquation[] = [
       year: 1986,
       link: 'https://www.nrcs.usda.gov/wps/portal/nrcs/detailfull/national/water/manage/hydrology/?cid=stelprdb1042925'
     },
-    notes: 'Most common US distribution. Covers ~95% of the continental US. Peak at 50% of duration.'
+    notes: 'Most common US distribution. Peak in the 15 minutes before hour 12 of 24 (~49–50% of duration); about 27% of the depth falls in that interval.'
   },
 
   // ============ SCS Type III ============
@@ -178,7 +178,7 @@ export const patternEquations: PatternEquation[] = [
       year: 1986,
       link: 'https://www.nrcs.usda.gov/wps/portal/nrcs/detailfull/national/water/manage/hydrology/?cid=stelprdb1042925'
     },
-    notes: 'Gulf Coast and tropical areas. Sharp mid-storm peak (50-58% of duration).'
+    notes: 'Gulf Coast and tropical areas. Sharp peak between 11.75 h and 12.5 h of 24 h (~49–52% of duration).'
   },
 
   // ============ Triangular ============
