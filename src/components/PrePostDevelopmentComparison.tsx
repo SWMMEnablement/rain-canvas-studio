@@ -9,10 +9,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, AreaChart, Area, ComposedChart } from 'recharts';
 import { Scale, Download, Calculator, TrendingUp, Droplets } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { generateRainfallData } from '@/lib/rainfallPatterns';
+import { unitHydrograph, incrementalExcess, convolve } from '@/lib/hydrologyCalcs';
 
 interface StormEvent {
   returnPeriod: string;
   rainfall: number;
+  /** Rational Method design intensities (in/hr) for this frequency at a duration equal to each Tc, read from the local IDF curve. */
+  preIntensity: number;
+  postIntensity: number;
 }
 
 const PrePostDevelopmentComparison: React.FC = () => {
@@ -31,10 +36,11 @@ const PrePostDevelopmentComparison: React.FC = () => {
   // Storm parameters
   const [stormDuration, setStormDuration] = useState<number>(24); // hours
   const [designStorms, setDesignStorms] = useState<StormEvent[]>([
-    { returnPeriod: '2-year', rainfall: 3.2 },
-    { returnPeriod: '10-year', rainfall: 5.0 },
-    { returnPeriod: '25-year', rainfall: 6.0 },
-    { returnPeriod: '100-year', rainfall: 7.5 },
+    // Illustrative values — replace with your local IDF/DDF data.
+    { returnPeriod: '2-year', rainfall: 3.2, preIntensity: 2.4, postIntensity: 3.3 },
+    { returnPeriod: '10-year', rainfall: 5.0, preIntensity: 3.4, postIntensity: 4.6 },
+    { returnPeriod: '25-year', rainfall: 6.0, preIntensity: 4.0, postIntensity: 5.4 },
+    { returnPeriod: '100-year', rainfall: 7.5, preIntensity: 5.0, postIntensity: 6.8 },
   ]);
   
   // Method selection
@@ -43,10 +49,8 @@ const PrePostDevelopmentComparison: React.FC = () => {
   // Safety factor for storage
   const [safetyFactor, setSafetyFactor] = useState<number>(1.1);
 
-  const updateStormRainfall = (index: number, rainfall: number) => {
-    const updated = [...designStorms];
-    updated[index].rainfall = rainfall;
-    setDesignStorms(updated);
+  const updateStorm = (index: number, field: 'rainfall' | 'preIntensity' | 'postIntensity', value: number) => {
+    setDesignStorms(designStorms.map((s, i) => (i === index ? { ...s, [field]: Number.isFinite(value) ? value : 0 } : s)));
   };
 
   // Calculate runoff using SCS method
@@ -64,30 +68,24 @@ const PrePostDevelopmentComparison: React.FC = () => {
     return { depth: Q, volumeAcFt, volumeCuFt, S, Ia };
   };
 
-  // Calculate peak flow using NRCS TR-55 graphical method approximation
-  const calculateSCSPeakFlow = (runoffDepth: number, area: number, tc: number) => {
-    // Simplified TR-55 peak discharge: qp = qu * A * Q
-    // qu = unit peak discharge (csm/in) - varies with Tc and Ia/P ratio
-    // Approximation: qu ≈ 484 / (Tc + 0.6*Tc) for Type II storm
-    const lagTime = 0.6 * (tc / 60); // hours
-    const timeToPeak = (stormDuration / 48) + lagTime; // hours
-    const areaSqMi = area / 640;
-    
-    // Peak flow coefficient (484 for NRCS standard)
-    const Cp = 484;
-    const peakFlow = (Cp * areaSqMi * runoffDepth) / timeToPeak;
-    
-    return peakFlow; // cfs
+  // SCS peak flow: SCS Type II rainfall over the storm duration → incremental CN excess →
+  // convolution with the NRCS dimensionless unit hydrograph (same method as the unit hydrograph calculator).
+  const calculateSCSPeakFlow = (rainfall: number, cn: number, area: number, tcMin: number) => {
+    const tcHr = Math.max(5, tcMin) / 60;
+    const dt = Math.max(0.02, Math.min(0.1, Math.round(0.2 * tcHr * 100) / 100));
+    const duration = Math.min(72, Math.max(dt, stormDuration || 24));
+    const n = Math.min(5000, Math.max(1, Math.round(duration / dt)));
+    const intensities = rainfall > 0 ? generateRainfallData('scs2', rainfall, n * dt, dt * 60) : [];
+    const excess = incrementalExcess(intensities.map(i => i * dt), cn);
+    const uh = unitHydrograph({ areaAcres: area, tcHours: tcHr, dtHours: dt, method: 'dimensionless' });
+    const q = convolve(excess, uh.ordinates);
+    return q.length ? Math.max(...q) : 0; // cfs
   };
 
-  // Calculate peak flow using Rational Method
-  const calculateRationalPeakFlow = (rainfall: number, c: number, area: number, tc: number) => {
-    // i = intensity (in/hr) - approximate from rainfall and Tc
-    // Using simplified IDF: i ≈ P * K / (Tc + b) where K and b are constants
-    // Simplified: i ≈ (total rainfall / duration) * adjustment for Tc
-    const intensity = rainfall / (tc / 60); // crude approximation
-    const peakFlow = c * intensity * area; // Q = CiA
-    return peakFlow; // cfs
+  // Rational Method: Q = C·i·A with i the design intensity for the selected frequency at a duration
+  // equal to Tc (entered from the local IDF curve, as in the standalone Rational Method calculator).
+  const calculateRationalPeakFlow = (intensity: number, c: number, area: number) => {
+    return c * Math.max(0, intensity) * area; // cfs (1.008 conversion factor taken as 1)
   };
 
   const calculations = useMemo(() => {
@@ -104,12 +102,12 @@ const PrePostDevelopmentComparison: React.FC = () => {
         preRunoff = preCalc;
         postRunoff = postCalc;
         
-        prePeak = calculateSCSPeakFlow(preCalc.depth, preArea, preTc);
-        postPeak = calculateSCSPeakFlow(postCalc.depth, postArea, postTc);
+        prePeak = calculateSCSPeakFlow(storm.rainfall, preCN, preArea, preTc);
+        postPeak = calculateSCSPeakFlow(storm.rainfall, postCN, postArea, postTc);
       } else {
         // Rational Method calculations
-        prePeak = calculateRationalPeakFlow(storm.rainfall, preC, preArea, preTc);
-        postPeak = calculateRationalPeakFlow(storm.rainfall, postC, postArea, postTc);
+        prePeak = calculateRationalPeakFlow(storm.preIntensity, preC, preArea);
+        postPeak = calculateRationalPeakFlow(storm.postIntensity, postC, postArea);
         
         // Estimate runoff volumes for rational method (simplified)
         const preRunoffCoef = preC;
@@ -406,18 +404,52 @@ const PrePostDevelopmentComparison: React.FC = () => {
               <h4 className="font-semibold">Design Storm Events</h4>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {designStorms.map((storm, idx) => (
-                  <div key={storm.returnPeriod}>
-                    <Label>{storm.returnPeriod} Rainfall (in)</Label>
-                    <Input
-                      type="number"
-                      value={storm.rainfall}
-                      onChange={(e) => updateStormRainfall(idx, Number(e.target.value))}
-                      min={0.1}
-                      step={0.1}
-                    />
+                  <div key={storm.returnPeriod} className="space-y-2">
+                    <div>
+                      <Label htmlFor={`pp-rain-${idx}`}>{storm.returnPeriod} Rainfall (in)</Label>
+                      <Input
+                        id={`pp-rain-${idx}`}
+                        type="number"
+                        value={storm.rainfall}
+                        onChange={(e) => updateStorm(idx, 'rainfall', Number(e.target.value))}
+                        min={0.1}
+                        step={0.1}
+                      />
+                    </div>
+                    {method === 'rational' && (
+                      <>
+                        <div>
+                          <Label htmlFor={`pp-ipre-${idx}`}>i at pre Tc ({preTc} min), in/hr</Label>
+                          <Input
+                            id={`pp-ipre-${idx}`}
+                            type="number"
+                            value={storm.preIntensity}
+                            onChange={(e) => updateStorm(idx, 'preIntensity', Number(e.target.value))}
+                            min={0}
+                            step={0.1}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor={`pp-ipost-${idx}`}>i at post Tc ({postTc} min), in/hr</Label>
+                          <Input
+                            id={`pp-ipost-${idx}`}
+                            type="number"
+                            value={storm.postIntensity}
+                            onChange={(e) => updateStorm(idx, 'postIntensity', Number(e.target.value))}
+                            min={0}
+                            step={0.1}
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
                 ))}
               </div>
+              {method === 'rational' && (
+                <p className="text-xs text-muted-foreground">
+                  Enter the design intensity for each frequency at a duration equal to Tc, read from your local IDF curve (e.g. NOAA Atlas 14). The defaults are illustrative only. The 24-hour rainfall depth is used for runoff volume, not for peak intensity.
+                </p>
+              )}
             </div>
 
             {/* Safety Factor */}
@@ -581,15 +613,16 @@ const PrePostDevelopmentComparison: React.FC = () => {
               <p className="text-sm text-muted-foreground">
                 {method === 'scs' ? (
                   <>
-                    Storage estimates use the SCS/NRCS curve number method for runoff calculations 
-                    with simplified TR-55 peak flow estimates. For detailed design, use the Modified Puls 
-                    routing method with actual hydrographs.
+                    Runoff uses the SCS/NRCS curve number method. Peak flows come from SCS Type II rainfall over the
+                    storm duration, converted to excess interval by interval and convolved with the NRCS dimensionless
+                    unit hydrograph. Storage estimates are simplified; for detailed design, use Modified Puls
+                    routing with these hydrographs.
                   </>
                 ) : (
                   <>
-                    Storage estimates use the Rational Method for peak flow calculations. This method 
-                    is suitable for small watersheds (&lt;200 acres). For larger watersheds, use the 
-                    SCS method with hydrograph routing.
+                    Peak flows use the Rational Method, Q = C·i·A, with i the design intensity for each frequency at a
+                    duration equal to Tc. This method is suitable for small watersheds (&lt;200 acres). For larger
+                    watersheds, use the SCS method with hydrograph routing.
                   </>
                 )}
               </p>
