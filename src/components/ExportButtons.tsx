@@ -7,6 +7,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { toast } from "sonner";
 import { type UnitSystem, convertDepth, convertIntensity, getDepthUnit, getIntensityUnit } from "@/lib/unitConversions";
 import { buildIcmEventCsv } from "@/lib/icmCsvExport";
+import { type ExportMeta, buildCsvExport, buildSwmmDatExport, buildSwmmScriptExport } from "@/lib/stormFileExports";
 import { PdfReportGenerator } from "@/components/PdfReportGenerator";
 import { HecHmsExportPanel } from "@/components/HecHmsExportPanel";
 import { type PatternType, generateRainfallData, prepareExportData } from "@/lib/rainfallPatterns";
@@ -58,50 +59,9 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
     URL.revokeObjectURL(url);
   };
 
-  const generateHeader = (format: string) => {
-    const exportDepth = convertDepth(totalDepth, 'USA', unitSystem);
-    const depthUnit = getDepthUnit(unitSystem);
-    const intensityUnit = getIntensityUnit(unitSystem);
-    const peakIntensity = Math.max(...data.map(d => convertIntensity(d.intensity, 'USA', unitSystem)));
-    const peakIndex = data.findIndex(d => d.intensity === Math.max(...data.map(d => d.intensity)));
-    const peakTime = peakIndex >= 0 ? data[peakIndex].time : 0;
-    const timestamp = new Date().toISOString().slice(0, 19).replace('T', ' ') + ' UTC';
-    const prefix = format === 'csv' ? '# ' : '; ';
+  const exportMeta = (): ExportMeta => ({ pattern, totalDepth, duration, timeStep, unitSystem, projectName, engineerName, companyName });
 
-    const lines = [
-      `${prefix}==========================================`,
-      `${prefix}Rain Canvas Studio Export`,
-      `${prefix}Generated: ${timestamp}`,
-      `${prefix}==========================================`,
-    ];
-    if (projectName) lines.push(`${prefix}Project:        ${projectName}`);
-    if (engineerName) lines.push(`${prefix}Engineer:       ${engineerName}`);
-    if (companyName) lines.push(`${prefix}Company:        ${companyName}`);
-    if (projectName || engineerName || companyName) lines.push(`${prefix}------------------------------------------`);
-    lines.push(
-      `${prefix}Total Depth:    ${exportDepth.toFixed(unitSystem === 'USA' ? 2 : 1)} ${depthUnit}`,
-      `${prefix}Duration:       ${duration} hours`,
-      `${prefix}Time Step:      ${timeStep} minutes`,
-      `${prefix}Pattern:        ${pattern}`,
-      `${prefix}Peak Intensity: ${peakIntensity.toFixed(2)} ${intensityUnit} at t=${peakTime.toFixed(2)} hr`,
-      `${prefix}Unit System:    ${unitSystem}`,
-      `${prefix}==========================================`,
-      '',
-    );
-    return lines.join('\n');
-  };
-
-  const buildCsvContent = () => {
-    const intensityUnit = getIntensityUnit(unitSystem);
-    let csvContent = generateHeader('csv');
-    csvContent += `Time (hr),Intensity (${intensityUnit})\n`;
-    data.forEach(point => {
-      const intensity = convertIntensity(point.intensity, 'USA', unitSystem);
-      const decimals = unitSystem === 'USA' ? 4 : 2;
-      csvContent += `${point.time.toFixed(2)},${intensity.toFixed(decimals)}\n`;
-    });
-    return csvContent;
-  };
+  const buildCsvContent = () => buildCsvExport(data, exportMeta());
 
   const exportAsCsv = () => {
     downloadFile(buildCsvContent(), 'rainfall_pattern.csv', 'text/csv');
@@ -141,24 +101,7 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
     toast.success("Exported as JSON");
   };
 
-  const buildSwmmScript = () => {
-    const intensityUnit = getIntensityUnit(unitSystem);
-    
-    let script = generateHeader('swmm');
-    script += `[TIMESERIES]\n`;
-    script += `;Name       Date       Time       Value (${intensityUnit})\n`;
-
-    data.forEach(point => {
-      const hours = Math.floor(point.time);
-      const minutes = Math.round((point.time - hours) * 60);
-      const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-      const intensity = convertIntensity(point.intensity, 'USA', unitSystem);
-      const decimals = unitSystem === 'USA' ? 4 : 2;
-      script += `RainPattern             ${timeStr}     ${intensity.toFixed(decimals)}\n`;
-    });
-
-    return script;
-  };
+  const buildSwmmScript = () => buildSwmmScriptExport(data, exportMeta());
 
   const exportIcmCsv = () => {
     const exportDepth = convertDepth(totalDepth, 'USA', unitSystem);
@@ -179,49 +122,7 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
     toast.success("Generated SWMM script");
   };
 
-  const buildSwmmDatContent = () => {
-    const depthUnit = getDepthUnit(unitSystem);
-    const totalDepthConverted = convertDepth(totalDepth, 'USA', unitSystem);
-    const timeStepHr = timeStep / 60;
-    const timestamp = new Date().toISOString().slice(0, 19).replace('T', ' ') + ' UTC';
-
-    let dat = '';
-    dat += `; EPA SWMM Rainfall Data File (.dat)\n`;
-    dat += `; Generated by Rain Canvas Studio\n`;
-    dat += `; ${timestamp}\n`;
-    dat += `;\n`;
-    if (projectName) dat += `; Project:    ${projectName}\n`;
-    if (engineerName) dat += `; Engineer:   ${engineerName}\n`;
-    if (companyName) dat += `; Company:    ${companyName}\n`;
-    if (projectName || engineerName || companyName) dat += `;\n`;
-    dat += `; Pattern:    ${pattern}\n`;
-    dat += `; Total Depth: ${totalDepthConverted.toFixed(unitSystem === 'USA' ? 2 : 1)} ${depthUnit}\n`;
-    dat += `; Duration:   ${duration} hours\n`;
-    dat += `; Time Step:  ${timeStep} minutes\n`;
-    dat += `; Units:      ${unitSystem === 'USA' ? 'IN (inches)' : 'MM (millimeters)'}\n`;
-    dat += `;\n`;
-    dat += `; Format: Station Year Month Day Hour Minute Value\n`;
-    dat += `; Value = incremental depth per timestep (${depthUnit})\n`;
-    dat += `;\n`;
-
-    const baseDate = new Date(2025, 0, 1, 0, 0, 0);
-    const stationId = 'STA001';
-
-    data.forEach(d => {
-      const intensity = convertIntensity(d.intensity, 'USA', unitSystem);
-      const depth = intensity * timeStepHr;
-      const currentDate = new Date(baseDate.getTime() + d.time * 3600000);
-      const yr = currentDate.getFullYear();
-      const mo = String(currentDate.getMonth() + 1).padStart(2, ' ');
-      const dy = String(currentDate.getDate()).padStart(2, ' ');
-      const hr = String(currentDate.getHours()).padStart(2, ' ');
-      const mn = String(currentDate.getMinutes()).padStart(2, '0');
-      const decimals = unitSystem === 'USA' ? 4 : 2;
-      dat += `${stationId}  ${yr}  ${mo}  ${dy}  ${hr}  ${mn}  ${depth.toFixed(decimals)}\n`;
-    });
-
-    return dat;
-  };
+  const buildSwmmDatContent = () => buildSwmmDatExport(data, exportMeta());
 
   const exportSwmmDat = () => {
     downloadFile(buildSwmmDatContent(), `swmm_rainfall_${pattern.replace(/\s+/g, '_')}.dat`, 'text/plain');

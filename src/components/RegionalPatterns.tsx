@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { patterns } from "@/components/PatternSelector";
+import { PatternProvenanceNote } from "@/components/PatternProvenanceNote";
+import { getPatternProvenance } from "@/lib/patternProvenance";
 import type { PatternType } from "@/lib/rainfallPatterns";
 
 interface Region {
@@ -14,25 +16,12 @@ interface Region {
   source: string;
 }
 
-/** Literature sources for widely used generic patterns */
-const PATTERN_SOURCES: Record<string, string> = {
-  balanced: "Chow, Maidment & Mays (1988) Applied Hydrology, §14.4 alternating block",
-  chicago: "Keifer & Chu (1957) Synthetic storm pattern for drainage design, ASCE J. Hydraulics Div. 83(4)",
-  dwa: "DWA-A 118 (2006)",
-  euler2: "DWA-A 118 (2006) Euler Type II",
-  huff1: "Huff (1967) Time distribution of rainfall in heavy storms, Water Resources Research 3(4)",
-  huff2: "Huff (1967) Time distribution of rainfall in heavy storms, Water Resources Research 3(4)",
-  noaa_a14: "Bonnin et al. NOAA Atlas 14 Precipitation-Frequency Atlas (2004–2019)",
-  scs2: "USDA NRCS (1986) TR-55 Urban Hydrology for Small Watersheds",
-  triangular: "Yen & Chow (1980) Design hyetographs for small drainage structures, ASCE J. Hydraulics Div. 106(6)",
-};
-
 type Confidence = "high" | "medium" | "manual" | "default";
 const CONFIDENCE_LABEL: Record<Confidence, string> = {
-  default: "No detection — default shown",
-  high: "High confidence — browser language region",
-  manual: "Selected manually",
-  medium: "Medium confidence — time zone",
+  default: "Location: not detected — default shown",
+  high: "Location: from browser language (high certainty)",
+  manual: "Location: chosen manually",
+  medium: "Location: from time zone (medium certainty)",
 };
 
 /** Country code → locally accepted design storm patterns (alphabetical by name) */
@@ -151,6 +140,9 @@ export const RegionalPatterns = ({ onSelectPattern }: Props) => {
             <Badge variant={confidence === "high" ? "default" : "outline"} className="mt-2 text-xs">
               {CONFIDENCE_LABEL[confidence]}
             </Badge>
+            <p className="mt-2 text-xs text-muted-foreground max-w-2xl">
+              <span className="font-medium text-foreground">Local references:</span> {region.source}
+            </p>
           </div>
           <Select value={code} onValueChange={(v) => { setCode(v); setConfidence("manual"); }}>
             <SelectTrigger className="w-[240px]" aria-label="Choose your country">
@@ -171,7 +163,7 @@ export const RegionalPatterns = ({ onSelectPattern }: Props) => {
             type="button"
             onClick={() => onSelectPattern(p.id, p.name)}
             className="text-left rounded-lg border border-border bg-muted/40 hover:bg-muted transition-colors p-4"
-            aria-label={`Use ${p.name} in the storm wizard`}
+            aria-label={`Use ${p.name} in the storm wizard. Confidence ${getPatternProvenance(p.id, p.name, p.description).confidence}.`}
           >
             <div className="flex items-center gap-2 mb-1">
               <Badge variant={i === 0 ? "default" : "secondary"} className="text-[10px]">
@@ -180,15 +172,12 @@ export const RegionalPatterns = ({ onSelectPattern }: Props) => {
             </div>
             <p className="font-medium text-foreground">{p.name}</p>
             <p className="text-xs text-muted-foreground mt-1 line-clamp-3">{p.description}</p>
-            <p className="text-xs text-muted-foreground mt-2 border-t border-border pt-2">
-              <span className="font-medium text-foreground">Source:</span>{" "}
-              {i === 0 ? region.source : PATTERN_SOURCES[p.id] ?? region.source}
-            </p>
+            <PatternProvenanceNote tooltip={false} id={p.id} name={p.name} description={p.description} className="mt-2 border-t border-border pt-2" />
           </button>
         ))}
       </CardContent>
       <p className="px-6 pb-4 text-xs text-muted-foreground">
-        Country is inferred on your device from browser language (high confidence) or time zone (medium confidence); nothing is sent to a server. Always confirm against the current local standard.
+        Country is inferred on your device from browser language or time zone; nothing is sent to a server. Each card's confidence level says how closely this app's curve is known to follow its source. Always confirm against the current local standard.
       </p>
     </Card>
   );
