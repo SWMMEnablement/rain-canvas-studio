@@ -5,3 +5,5 @@
 - The wizard snaps the time step (`fitTimeStep`) so duration is a whole number of intervals — fixed-interval exports assume full intervals.
 - Storm file text formats (CSV, SWMM, HEC gage) are built in `src/lib/stormFileExports.ts` / `src/lib/hecHmsExport.ts` and must load back through `src/lib/rainfallParsers.ts`; `exportReimport.test.ts` round-trips every format — so exports and imports never drift apart.
 - Per-pattern source notes and confidence levels come only from `src/lib/patternProvenance.ts`; unlisted patterns default to low confidence — confidence is raised only with a named source.
+- The equation explorer reads its numbers from `generateRainfallData` via `src/lib/equationExplorer.ts`, never from separate formulas — so explanation and generated storm cannot disagree.
+- Linked engineering calculations (unit transfers, Modified Puls, unit-hydrograph convolution, LID accounting) live in `src/lib/hydrologyCalcs.ts` with tests; components only call them — so the hydraulics stay testable.
