@@ -450,7 +450,7 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
         <div className="flex items-center">
           <Button onClick={generateInfoWorksScript} className="gap-2 rounded-r-none flex-1">
             <Droplets className="w-4 h-4" />
-            InfoWorks ICM
+            ICM Profile Text (reference, paste manually)
           </Button>
           <Button
             variant="default"

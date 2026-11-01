@@ -1783,7 +1783,7 @@ LINKS ALL
         <div className="space-y-2">
           <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
             <Droplets className="w-3 h-3" />
-            InfoWorks ICM Export
+            InfoWorks ICM — via SWMM5 import
           </p>
           <Button
             onClick={exportAsIcm}
@@ -1795,7 +1795,7 @@ LINKS ALL
             {batchMode ? `Export ${selectedBatchPatterns.length} ICM Events` : 'Export ICM Rainfall Event'}
           </Button>
           <p className="text-xs text-muted-foreground">
-            SWMM5-compatible timeseries format for ICM import
+            SWMM5 [TIMESERIES] text. In ICM use File › Import › SWMM5 network/rainfall; this is not a native ICM event CSV.
           </p>
         </div>
 
