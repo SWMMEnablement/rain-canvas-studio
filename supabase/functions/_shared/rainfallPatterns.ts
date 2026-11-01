@@ -232,19 +232,47 @@ export function generateRainfallData(
 ): number[] {
   const raw = generateRainfallDataRaw(pattern, totalDepth, duration, timeStep);
   if (pattern === 'custom' || !(totalDepth > 0) || !(duration > 0) || !(timeStep > 0)) return raw;
-  const total = raw.reduce((a, v) => a + (Number.isFinite(v) ? v : 0) * timeStep / 60, 0);
-  const valid = raw.every((v) => Number.isFinite(v) && v >= 0) && Math.abs(total - totalDepth) <= 0.02 * totalDepth;
-  const totalMin = Math.round(duration * 60);
-  if (valid || timeStep <= 1 || totalMin % timeStep !== 0) return raw;
-  const fine = generateRainfallDataRaw(pattern, totalDepth, duration, 1);
-  if (!fine.every((v) => Number.isFinite(v) && v >= 0)) return raw.map((v) => (Number.isFinite(v) && v > 0 ? v : 0));
-  const out: number[] = [];
-  for (let i = 0; i < totalMin / timeStep; i++) {
-    let depth = 0;
-    for (let k = i * timeStep; k < (i + 1) * timeStep && k < fine.length; k++) depth += fine[k] / 60;
-    out.push(depth / (timeStep / 60));
+  const dt = timeStep / 60;
+  const n = raw.length;
+  // A storm with a single interval can only be one block holding the whole depth.
+  if (n <= 1) return [totalDepth / dt];
+  if (isValidSeries(raw, totalDepth, dt)) return conserveDepth(raw, totalDepth, dt);
+  // Formula broke down at this resolution: build the same storm on a finer grid
+  // (sub-minute if needed) and aggregate it into the requested intervals.
+  const totalMin = duration * 60;
+  if (Math.abs(n * timeStep - totalMin) < 1e-9) {
+    for (const target of [240, 1440, 6000]) {
+      const m = Math.max(2, Math.ceil(target / n));
+      const fine = generateRainfallDataRaw(pattern, totalDepth, duration, timeStep / m);
+      if (fine.length !== n * m || !fine.every((v) => Number.isFinite(v) && v >= 0)) continue;
+      const out: number[] = [];
+      for (let i = 0; i < n; i++) {
+        let sum = 0;
+        for (let k = i * m; k < (i + 1) * m; k++) sum += fine[k];
+        out.push(sum / m);
+      }
+      if (isValidSeries(out, totalDepth, dt)) return conserveDepth(out, totalDepth, dt);
+    }
   }
-  return out;
+  // Last resort: keep the finite, non-negative shape and rescale it; if nothing usable remains,
+  // fall back to a uniform block so callers always receive a valid series.
+  const cleaned = raw.map((v) => (Number.isFinite(v) && v > 0 ? v : 0));
+  if (cleaned.some((v) => v > 0)) return conserveDepth(cleaned, totalDepth, dt);
+  return raw.map(() => totalDepth / (n * dt));
+}
+
+function isValidSeries(values: number[], totalDepth: number, dt: number): boolean {
+  if (!values.every((v) => Number.isFinite(v) && v >= 0)) return false;
+  const total = values.reduce((a, v) => a + v * dt, 0);
+  return Math.abs(total - totalDepth) <= 0.02 * totalDepth;
+}
+
+/** Rescale a valid series so sum(I × dt) equals the requested depth exactly. */
+function conserveDepth(values: number[], totalDepth: number, dt: number): number[] {
+  const total = values.reduce((a, v) => a + v * dt, 0);
+  if (!(total > 0) || Math.abs(total - totalDepth) <= 1e-9 * totalDepth) return values;
+  const k = totalDepth / total;
+  return values.map((v) => v * k);
 }
 
 function generateRainfallDataRaw(
