@@ -139,20 +139,6 @@ const ModifiedPulsRouting: React.FC<ModifiedPulsRoutingProps> = ({ importedSSODa
     }));
   }, [ssoData, timeStep]);
 
-  // Interpolation helper
-  const interpolate = (x: number, xData: number[], yData: number[]): number => {
-    if (x <= xData[0]) return yData[0];
-    if (x >= xData[xData.length - 1]) return yData[yData.length - 1];
-    
-    for (let i = 0; i < xData.length - 1; i++) {
-      if (x >= xData[i] && x <= xData[i + 1]) {
-        const ratio = (x - xData[i]) / (xData[i + 1] - xData[i]);
-        return yData[i] + ratio * (yData[i + 1] - yData[i]);
-      }
-    }
-    return yData[yData.length - 1];
-  };
-
   // Modified Puls Routing — storage and outflow come from the same storage-indication bracket,
   // so water below an elevated outlet stays in storage (see routeModifiedPuls).
   const routing = useMemo(() => routeModifiedPuls(inflowData, ssoData), [inflowData, ssoData]);
