@@ -14,5 +14,7 @@
   - [ ] Calculators: runoff→detention units, Modified Puls storage loss, unit hydrograph duration, pre/post Rational intensity, LID over-capture
   - [x] Return-period badge removed ("not assigned"); presets labelled illustrative; ARR 2019 renamed
   - [x] ICM export labels clarified; storm check panel added
-  - [ ] Native InfoWorks ICM event CSV (needs exact Autodesk spec confirmed); per-pattern source records
+  - [x] Native InfoWorks ICM event CSV (Autodesk type=RED format)
+  - [x] "Create a storm now" shortcut; release version shown in footer
+  - [ ] Per-pattern source records
   - [ ] Usability: chips as buttons, shared active storm, tab state, climate in share links
