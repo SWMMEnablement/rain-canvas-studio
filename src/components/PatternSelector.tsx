@@ -873,9 +873,9 @@ const rawPatterns: PatternOption[] = [
   },
   {
     id: 'arr2019',
-    name: 'ARR 2019 Ensemble',
+    name: 'ARR 2019 Representative Pattern',
     icon: '🇦🇺',
-    description: 'Australian Rainfall & Runoff 2019 median ensemble burst pattern. Representative of 10 temporal patterns per duration. Modern successor to pre-2016 ARR.',
+    description: 'Single fixed representative curve shaped like an ARR 2019 burst. Illustrative only: ARR 2019 design uses an ensemble of 10 temporal patterns chosen by region, duration and AEP — use the ARR Data Hub for design.',
     category: 'oceania',
   },
   {
