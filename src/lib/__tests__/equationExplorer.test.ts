@@ -24,7 +24,7 @@ describe("equation explorer matches the storm calculator", () => {
       cum += v * 0.25;
       const e = explorerValues(p, (k + 1) / series.length, 100, 6, 15)!;
       expect(e.cumulativeDepth).toBeCloseTo(cum, 9);
-      expect(e.i).toBeCloseTo(v, 9);
+      expect(explorerValues(p, (k + 0.5) / series.length, 100, 6, 15)!.i).toBeCloseTo(v, 9);
     });
   });
 });
