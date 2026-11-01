@@ -90,4 +90,13 @@ describe('importer edge cases', () => {
     expect(r.data.map((d) => d.intensity)).toEqual([6, 12, 6]);
     expect(r.metadata.totalDepth).toBeCloseTo(4, 6);
   });
+
+  it('the Real Data Hub edited-storm CSV loads back in its own units', () => {
+    const csv = '# Rain Canvas Studio – edited storm "x"\n# Units: MM\ntime (min),intensity (mm/hr),cumulative depth (mm)\n0,12.0000,3.0000\n15,24.0000,9.0000\n30,0.0000,9.0000\n';
+    const r = parseRainfallFile(csv, 'x.csv');
+    expect(r.errors).toEqual([]);
+    expect(r.metadata.units).toBe('mm');
+    expect(r.metadata.timeStep).toBe(15);
+    expect(r.metadata.totalDepth).toBeCloseTo(9, 6);
+  });
 });
