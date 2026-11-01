@@ -12,6 +12,7 @@ import { canonicalPatternId } from "../../supabase/functions/_shared/patternCata
 import { PatternSelector, stormPatternCount } from "@/components/PatternSelector";
 import { StormParameters } from "@/components/StormParameters";
 import { RainfallChart } from "@/components/RainfallChart";
+import { StormCheckPanel } from "@/components/StormCheckPanel";
 import { ExportButtons } from "@/components/ExportButtons";
 import { SwmmFileIntegration } from "@/components/SwmmFileIntegration";
 import { CustomPatternEditor } from "@/components/CustomPatternEditor";
@@ -1385,6 +1386,15 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
             {/* Chart */}
             <div className="relative">
               <RainfallChart data={chartData} unitSystem={unitSystem} stepMinutes={timeStep} />
+              <StormCheckPanel
+                intensities={apiIntensities}
+                requestedDepth={effectiveDepth}
+                durationHr={duration}
+                timeStepMin={timeStep}
+                unitSystem={unitSystem}
+                patternName={patternNames[selectedPattern] || selectedPattern}
+                source={dataSource}
+              />
               <div className="flex items-center gap-2 mt-1 justify-end">
                 {isApiLoading && (
                   <span className="text-xs text-muted-foreground animate-pulse">Syncing with API…</span>
