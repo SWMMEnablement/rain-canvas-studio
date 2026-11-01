@@ -791,6 +791,18 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
   const [depth, setDepth] = useState(initialShareParams?.depth || 2.0);
   const [duration, setDuration] = useState(initialShareParams?.duration || 6.0);
   const [timeStep, setTimeStep] = useState(initialShareParams?.timeStep || 15);
+  // A storm must split into whole intervals, otherwise it is stretched past its duration
+  // and some patterns add or lose rainfall. Snap to the nearest step that fits.
+  useEffect(() => {
+    const fitted = fitTimeStep(duration, timeStep);
+    if (fitted !== timeStep) {
+      setTimeStep(fitted);
+      toast({
+        title: `Time step changed to ${fitted} min`,
+        description: `${timeStep} min does not divide a ${duration} h storm into whole intervals.`,
+      });
+    }
+  }, [duration, timeStep]);
   const [showEquations, setShowEquations] = useState(false);
   const [climateScenario, setClimateScenario] = useState<string>(initialShareParams?.climateScenario || 'none');
   const [shareCopied, setShareCopied] = useState(false);
