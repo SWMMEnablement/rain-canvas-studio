@@ -26,6 +26,8 @@ import {
   type PatternType,
 } from "@/lib/rainfallPatterns";
 import { useStormApi } from "@/hooks/useStormApi";
+import { toast } from "sonner";
+import { fitTimeStep } from "@/lib/stormValidation";
 import { type UnitSystem, convertDepth } from "@/lib/unitConversions";
 
 export const patternNames: Record<PatternType, string> = {
@@ -797,8 +799,7 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
     const fitted = fitTimeStep(duration, timeStep);
     if (fitted !== timeStep) {
       setTimeStep(fitted);
-      toast({
-        title: `Time step changed to ${fitted} min`,
+      toast.info(`Time step changed to ${fitted} min`, {
         description: `${timeStep} min does not divide a ${duration} h storm into whole intervals.`,
       });
     }
