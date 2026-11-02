@@ -238,12 +238,6 @@ function betaStorm(
   return raw.map(v => (v / totalRaw) * totalDepth / (timeStep / 60));
 }
 
-/**
- * Public entry point. Guarantees finite, non-negative intensities that conserve total depth.
- * Some pattern formulas break down at very coarse resolution (one or two intervals); in that case
- * the storm is built at 1-minute resolution and aggregated into the requested intervals, which is
- * the physically correct coarse representation of the same storm.
- */
 /** How the guarded generator produced the series it returned. */
 export type GenerationFallback =
   | 'none'            // the pattern formula was used as-is
