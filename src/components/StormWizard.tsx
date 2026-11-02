@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { GulfDdfLookup } from "@/components/GulfDdfLookup";
 import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck, FlaskRound, AlertTriangle, MapPin, Ruler, Clock, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,7 @@ import { useStormApi } from "@/hooks/useStormApi";
 import { toast } from "sonner";
 import { fitTimeStep } from "@/lib/stormValidation";
 import { type UnitSystem, convertDepth } from "@/lib/unitConversions";
+import { type ActiveStorm, nextClimateScenario } from "@/lib/activeStorm";
 
 export const patternNames: Record<PatternType, string> = {
   'scs1a': 'SCS Type IA',
