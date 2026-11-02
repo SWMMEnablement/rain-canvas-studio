@@ -109,7 +109,7 @@ describe('fallback behaviour is reported', () => {
 describe('exports state source and confidence', () => {
   it('CSV header carries source, confidence, approximation and calculator lines that still re-import', async () => {
     const { buildCsvExport } = await import('@/lib/stormFileExports');
-    const { parseRainfallFile } = await import('@/lib/rainfallParsers').catch(() => ({ parseRainfallFile: undefined as any }));
+    const { parseRainfallFile } = await import('@/lib/rainfallParsers');
     const v = generateRainfallData('chicago', 2, 6, 15);
     const csv = buildCsvExport(v.map((intensity, i) => ({ time: (i * 15) / 60, intensity })), {
       pattern: 'Chicago Storm', patternId: 'chicago', totalDepth: 2, duration: 6, timeStep: 15, unitSystem: 'USA',
@@ -118,6 +118,8 @@ describe('exports state source and confidence', () => {
     expect(csv).toMatch(/# Confidence: +Medium/);
     expect(csv).toMatch(/# Approximation: +.*r = 0\.4/);
     expect(csv).toMatch(/# Calculator: +pattern formula used directly/);
-    if (parseRainfallFile) expect(parseRainfallFile).toBeTypeOf('function');
+    const back = parseRainfallFile(csv, 'storm.csv');
+    expect(back.errors).toEqual([]);
+    expect(back.data.length).toBe(24);
   });
 });
