@@ -322,6 +322,10 @@ const Index = () => {
               <span className="hidden sm:inline">Documentation</span>
               <span className="sm:hidden">Docs</span>
             </TabsTrigger>
+            <TabsTrigger value="changes" className="flex items-center gap-2 min-w-max">
+              <History className="w-4 h-4" />
+              <span>Changes</span>
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="generator" className="space-y-8">
@@ -331,8 +335,8 @@ const Index = () => {
               <p className="text-muted-foreground leading-relaxed">
                 Follow the 4-step workflow below to define your storm parameters,
                 select a rainfall pattern, review &amp; export data for your stormwater models,
-                and optionally test all patterns. For pattern comparisons and advanced analysis,
-                visit the <strong>Advanced Tools</strong> tab.
+                and optionally test all patterns. The storm you set here is used by the
+                <strong> Advanced Tools</strong> and <strong>API Playground</strong> tabs, and your work is kept when you switch tabs.
               </p>
             </section>
 
@@ -344,6 +348,7 @@ const Index = () => {
               initialShareParams={sharedStorm}
               onStormContextChange={setStormContext}
               externalPatternRequest={wizardPatternRequest}
+              onActiveStormChange={setActiveStorm}
             />
             </div>
           </TabsContent>
@@ -354,16 +359,20 @@ const Index = () => {
 
           <TabsContent value="advanced">
             <Suspense fallback={<TabFallback />}>
-              <AdvancedTools onSendToGenerator={handleSendToGenerator} onViewIdf={handleViewIdf} />
+              <AdvancedTools onSendToGenerator={handleSendToGenerator} onViewIdf={handleViewIdf} activeStorm={activeStorm} />
             </Suspense>
           </TabsContent>
 
           <TabsContent value="api">
-            <Suspense fallback={<TabFallback />}><ApiPlayground /></Suspense>
+            <Suspense fallback={<TabFallback />}><ApiPlayground activeStorm={activeStorm} /></Suspense>
           </TabsContent>
 
           <TabsContent value="docs">
             <Suspense fallback={<TabFallback />}><Documentation idfCity={idfCityData} /></Suspense>
+          </TabsContent>
+
+          <TabsContent value="changes">
+            <Suspense fallback={<TabFallback />}><ChangeLog /></Suspense>
           </TabsContent>
         </Tabs>
       </main>
