@@ -208,6 +208,27 @@ export function ApiPlayground() {
 
           <Card>
             <CardContent className="pt-6 space-y-4">
+              {activeStorm && (
+                <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-primary/30 bg-primary/5 px-3 py-2 text-sm">
+                  <span className="text-muted-foreground">
+                    <span className="font-medium text-foreground">Active storm:</span> {describeActiveStorm(activeStorm)}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const depthIn = activeStorm.unitSystem === "SI" ? activeStorm.effectiveDepth / 25.4 : activeStorm.effectiveDepth;
+                      if (allPatterns.some(p => p.value === activeStorm.pattern)) setGenPattern(activeStorm.pattern);
+                      setGenDepth(String(Number(depthIn.toFixed(4))));
+                      setGenDuration(String(activeStorm.duration));
+                      setGenTimeStep(String(activeStorm.timeStep));
+                      toast.success("Request filled from your active storm");
+                    }}
+                  >
+                    Use active storm
+                  </Button>
+                </div>
+              )}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="gen-pattern">Pattern</Label>
