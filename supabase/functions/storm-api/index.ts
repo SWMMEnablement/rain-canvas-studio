@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { generateRainfallData, type PatternType as EnginePattern } from "../_shared/rainfallPatterns.ts";
+import { generateRainfallDataDetailed, type PatternType as EnginePattern } from "../_shared/rainfallPatterns.ts";
 import { PATTERN_IDS, PATTERN_NAMES, CANONICAL_PATTERN_IDS, canonicalPatternId, aliasesOf } from "../_shared/patternCatalog.ts";
 
 const corsHeaders = {
@@ -326,10 +326,10 @@ const patternMeta: Record<string, { name: string; region: string; description: s
 
 function generateHyetograph(
   pattern: PatternType, totalDepth: number, durationHr: number, timeStepMin: number,
-): { time_min: number; intensity: number; cumulative: number }[] {
-  const intensities = generateRainfallData(canonicalPatternId(pattern) as EnginePattern, totalDepth, durationHr, timeStepMin);
+): { data: { time_min: number; intensity: number; cumulative: number }[]; generation: { fallback: string; reason: string | null } } {
+  const gen = generateRainfallDataDetailed(canonicalPatternId(pattern) as EnginePattern, totalDepth, durationHr, timeStepMin);
   let cumulative = 0;
-  return intensities.map((intensity, i) => {
+  const data = gen.values.map((intensity, i) => {
     cumulative += intensity * (timeStepMin / 60);
     return {
       time_min: i * timeStepMin,
@@ -337,6 +337,7 @@ function generateHyetograph(
       cumulative: Math.round(cumulative * 10000) / 10000,
     };
   });
+  return { data, generation: { fallback: gen.fallback, reason: gen.reason } };
 }
 
 // ── Storm statistics from raw timeseries ────────────────────────────────
@@ -420,7 +421,7 @@ serve(async (req) => {
       if (!dur || dur <= 0 || dur > 72) return json({ error: 'duration_hr must be 0-72' }, 400);
       if (ts < 1 || ts > 360) return json({ error: 'time_step_min must be 1-360' }, 400);
 
-      const data = generateHyetograph(pattern, depth, dur, ts);
+      const { data, generation } = generateHyetograph(pattern, depth, dur, ts);
       return json({
         pattern: canonicalPatternId(pattern),
         requested_pattern: pattern,
@@ -428,6 +429,8 @@ serve(async (req) => {
         duration_hr: dur,
         time_step_min: ts,
         data_points: data.length,
+        // How the shared calculator produced this series ('none' = pattern formula used directly).
+        generation,
         data,
       });
     }
