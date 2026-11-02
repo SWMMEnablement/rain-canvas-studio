@@ -1907,7 +1907,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
   const PatternGrid = ({ patterns }: { patterns: PatternOption[] }) => (
     patterns.length === 0 ? (
       <p className="text-sm text-muted-foreground py-6 text-center">
-        No patterns {q ? <>match "{search}"</> : null}{q && minConfidence !== 'all' ? ' at ' : minConfidence !== 'all' ? 'at ' : ''}{minConfidence !== 'all' ? `${minConfidence === 'high' ? 'High' : 'Medium or High'} confidence` : ''} in this category.
+        No patterns {q ? <>match "{search}" </> : ''}{minConfidence !== 'all' ? `at ${minConfidence === 'high' ? 'High' : 'Medium or High'} confidence ` : ''}in this category.
       </p>
     ) : (
     <div className="grid grid-cols-2 gap-3">
