@@ -28,9 +28,9 @@
   - [x] Round-trip tests using the real export builders
   - [ ] Usability: chips as buttons, shared active storm, tab state, climate in share links
 - B− review (method fidelity):
-  - [ ] Euler Type II peak at 30% of duration; tests for peak timing + cumulative
-  - [ ] Audit "High" confidence (Chicago, Huff etc.) — benchmark tests, downgrade approximations
-  - [ ] Confidence filter in picker; source + confidence in exported file headers
-  - [ ] Report fallback reason (refined / rescaled / uniform) in app and API
-  - [ ] Shorter opening screen; storm inputs + chart visible sooner
-  - [ ] Relabel "IDF data points" counter as a calculated grid
+  - [x] Euler Type II peak at 30% of duration; tests for peak timing + cumulative
+  - [x] Audit "High" confidence (Chicago, Huff etc.) — benchmark tests, downgrade approximations
+  - [x] Confidence filter in picker; source + confidence in exported file headers
+  - [x] Report fallback reason (refined / rescaled / uniform) in app and API
+  - [x] Shorter opening screen; storm inputs + chart visible sooner
+  - [x] Relabel "IDF data points" counter as a calculated grid
