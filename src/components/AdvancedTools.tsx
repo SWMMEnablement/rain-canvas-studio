@@ -20,6 +20,7 @@ import {
   type PatternType,
 } from "@/lib/rainfallPatterns";
 import { type UnitSystem } from "@/lib/unitConversions";
+import { type ActiveStorm, describeActiveStorm } from "@/lib/activeStorm";
 import { chinaRainstormDatabase } from "@/lib/chinaRainstormData";
 import { canadaIdfDatabase } from "@/lib/canadaIdfData";
 
