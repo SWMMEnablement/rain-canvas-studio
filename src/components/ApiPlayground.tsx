@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { stormPatternCount } from "@/components/PatternSelector";
+import { type ActiveStorm, describeActiveStorm } from "@/lib/activeStorm";
 
 const API_BASE = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/storm-api`;
 
@@ -41,7 +42,7 @@ const FALLBACK_PATTERNS = [
   { value: "balanced", label: "Balanced Storm" },
 ];
 
-export function ApiPlayground() {
+export function ApiPlayground({ activeStorm }: { activeStorm?: ActiveStorm | null } = {}) {
   // Dynamic pattern list fetched from API
   const [allPatterns, setAllPatterns] = useState(FALLBACK_PATTERNS);
 
