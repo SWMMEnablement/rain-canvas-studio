@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { GulfDdfLookup } from "@/components/GulfDdfLookup";
 import { Check, ChevronRight, CloudRain, Layers, Download, Settings, ArrowLeft, ArrowRight, Pencil, FlaskConical, ChevronDown, ChevronUp, Thermometer, Share2, Copy, CheckCheck, FlaskRound, AlertTriangle, MapPin, Ruler, Clock, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,7 @@ import { useStormApi } from "@/hooks/useStormApi";
 import { toast } from "sonner";
 import { fitTimeStep } from "@/lib/stormValidation";
 import { type UnitSystem, convertDepth } from "@/lib/unitConversions";
+import { type ActiveStorm, nextClimateScenario } from "@/lib/activeStorm";
 
 export const patternNames: Record<PatternType, string> = {
   'scs1a': 'SCS Type IA',
@@ -780,9 +781,10 @@ interface StormWizardProps {
   initialShareParams?: StormShareParams | null;
   onStormContextChange?: (context: string) => void;
   externalPatternRequest?: { pattern: string; nonce: number } | null;
+  onActiveStormChange?: (storm: ActiveStorm) => void;
 }
 
-export function StormWizard({ externalStormParams, onExternalParamsConsumed, initialShareParams, onStormContextChange, externalPatternRequest }: StormWizardProps = {}) {
+export function StormWizard({ externalStormParams, onExternalParamsConsumed, initialShareParams, onStormContextChange, externalPatternRequest, onActiveStormChange }: StormWizardProps = {}) {
   const [currentStep, setCurrentStep] = useState(initialShareParams ? 3 : 1);
   const [selectedPattern, setSelectedPattern] = useState<PatternType>(initialShareParams?.pattern || 'block');
 
@@ -885,10 +887,29 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
     return depth;
   }, [depth, selectedPattern, climateScenario, activeClimateConfig]);
 
-  // Reset climate scenario when pattern changes
+  // Reset the climate scenario only when the user actually switches pattern.
+  // (Running on first load would wipe the scenario from a shared link.)
+  const prevPatternRef = useRef<string | null>(null);
   useEffect(() => {
-    setClimateScenario('none');
+    setClimateScenario((cur) => nextClimateScenario(prevPatternRef.current, selectedPattern, cur));
+    prevPatternRef.current = selectedPattern;
   }, [selectedPattern]);
+
+  // Publish the active storm so other tabs use the same storm
+  const climateFactor = (activeClimateConfig && climateScenario !== 'none' && activeClimateConfig.scenarios[climateScenario]?.factor) || 1;
+  useEffect(() => {
+    onActiveStormChange?.({
+      pattern: selectedPattern,
+      patternName: patternNames[selectedPattern] || selectedPattern,
+      depth,
+      effectiveDepth,
+      duration,
+      timeStep,
+      unitSystem,
+      climateScenario: climateFactor !== 1 ? climateScenario : 'none',
+      climateFactor,
+    });
+  }, [selectedPattern, depth, effectiveDepth, duration, timeStep, unitSystem, climateScenario, climateFactor, onActiveStormChange]);
 
   // Save unit system preference
   useEffect(() => {

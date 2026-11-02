@@ -25,7 +25,7 @@ const FALLBACK_LABEL = {
   uniform: "Uniform block substituted",
 } as const;
 
-export const RELEASE_VERSION = "3.1.0";
+export const RELEASE_VERSION = "3.2.0";
 
 /** Shows that the storm about to be exported is the one that was requested. */
 export function StormCheckPanel({ intensities, requestedDepth, durationHr, timeStepMin, unitSystem, patternName, patternId, source }: StormCheckPanelProps) {

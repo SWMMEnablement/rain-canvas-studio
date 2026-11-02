@@ -20,22 +20,26 @@ import {
   type PatternType,
 } from "@/lib/rainfallPatterns";
 import { type UnitSystem } from "@/lib/unitConversions";
+import { type ActiveStorm, describeActiveStorm } from "@/lib/activeStorm";
 import { chinaRainstormDatabase } from "@/lib/chinaRainstormData";
 import { canadaIdfDatabase } from "@/lib/canadaIdfData";
 
 interface AdvancedToolsProps {
   onSendToGenerator?: (depthMm: number, durationMin: number) => void;
   onViewIdf?: (city: { name: string; lat: number; lon: number }) => void;
+  /** The storm set up in the Storm Generator; tools analyse this storm */
+  activeStorm?: ActiveStorm | null;
 }
 
-export function AdvancedTools({ onSendToGenerator, onViewIdf }: AdvancedToolsProps = {}) {
-  const [depth, setDepth] = useState(2.0);
-  const [duration, setDuration] = useState(6.0);
-  const [timeStep, setTimeStep] = useState(15);
-  const [unitSystem, setUnitSystem] = useState<UnitSystem>(() => {
+export function AdvancedTools({ onSendToGenerator, onViewIdf, activeStorm }: AdvancedToolsProps = {}) {
+  const [savedUnits] = useState<UnitSystem>(() => {
     const saved = localStorage.getItem('preferredUnitSystem');
     return (saved === 'SI' || saved === 'USA') ? saved : 'USA';
   });
+  const depth = activeStorm?.effectiveDepth ?? 2.0;
+  const duration = activeStorm?.duration ?? 6.0;
+  const timeStep = activeStorm?.timeStep ?? 15;
+  const unitSystem: UnitSystem = activeStorm?.unitSystem ?? savedUnits;
 
   return (
     <div className="space-y-6">
@@ -44,6 +48,15 @@ export function AdvancedTools({ onSendToGenerator, onViewIdf }: AdvancedToolsPro
         <p className="text-muted-foreground max-w-2xl mx-auto">
           Compare multiple patterns, explore regional guidance, and access unit conversion utilities
         </p>
+      </div>
+
+      <div role="status" className="flex flex-wrap items-center gap-2 rounded-lg border border-primary/30 bg-primary/5 px-4 py-2 text-sm">
+        <CloudRain className="w-4 h-4 text-primary shrink-0" aria-hidden="true" />
+        <span className="font-medium text-foreground">Active storm:</span>
+        <span className="text-muted-foreground">
+          {activeStorm ? describeActiveStorm(activeStorm) : "default 2 in · 6 h · 15 min (set a storm in the Storm Generator)"}
+        </span>
+        <span className="text-xs text-muted-foreground">— comparison, sensitivity and unit tools use this storm. Change it in the Storm Generator tab.</span>
       </div>
 
       <Tabs defaultValue="comparison" className="w-full">

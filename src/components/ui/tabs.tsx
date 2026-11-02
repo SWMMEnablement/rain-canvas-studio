@@ -3,7 +3,34 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 import { cn } from "@/lib/utils";
 
-const Tabs = TabsPrimitive.Root;
+/**
+ * Tabs keep a panel mounted once it has been opened, so switching tabs never
+ * throws away a user's inputs, imported data or results. Panels that were never
+ * opened are not rendered (keeps first load light). Pass `keepMounted={false}`
+ * on a TabsContent to restore the unmount-on-hide behaviour.
+ */
+const TabsValueContext = React.createContext<string | undefined>(undefined);
+
+const Tabs = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>
+>(({ value, defaultValue, onValueChange, ...props }, ref) => {
+  const [inner, setInner] = React.useState<string | undefined>(defaultValue);
+  const current = value !== undefined ? value : inner;
+  const handleChange = React.useCallback(
+    (v: string) => {
+      if (value === undefined) setInner(v);
+      onValueChange?.(v);
+    },
+    [value, onValueChange],
+  );
+  return (
+    <TabsValueContext.Provider value={current}>
+      <TabsPrimitive.Root ref={ref} value={current} onValueChange={handleChange} {...props} />
+    </TabsValueContext.Provider>
+  );
+});
+Tabs.displayName = TabsPrimitive.Root.displayName;
 
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
@@ -35,19 +62,42 @@ const TabsTrigger = React.forwardRef<
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
+const baseContentClass =
+  "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
+
 const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Content
-    ref={ref}
-    className={cn(
-      "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-      className,
-    )}
-    {...props}
-  />
-));
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content> & { keepMounted?: boolean }
+>(({ className, value, keepMounted = true, forceMount, ...props }, ref) => {
+  const active = React.useContext(TabsValueContext);
+  const isActive = active === value;
+  const [visited, setVisited] = React.useState(isActive);
+  React.useEffect(() => {
+    if (isActive) setVisited(true);
+  }, [isActive]);
+
+  if (!keepMounted || forceMount) {
+    return (
+      <TabsPrimitive.Content
+        ref={ref}
+        value={value}
+        forceMount={forceMount}
+        className={cn(baseContentClass, className)}
+        {...props}
+      />
+    );
+  }
+  if (!visited && !isActive) return null;
+  return (
+    <TabsPrimitive.Content
+      ref={ref}
+      value={value}
+      forceMount
+      className={cn(baseContentClass, className, "data-[state=inactive]:hidden")}
+      {...props}
+    />
+  );
+});
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 
 export { Tabs, TabsList, TabsTrigger, TabsContent };

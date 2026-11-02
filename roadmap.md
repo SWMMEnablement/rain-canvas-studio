@@ -26,7 +26,8 @@
   - [x] HEC-HMS .gage (both exporters) and DSS CSV load back
   - [x] SWMM script, XP-SWMM .inp, template .inp, .dat load back with correct units and depth
   - [x] Round-trip tests using the real export builders
-  - [ ] Usability: chips as buttons, shared active storm, tab state, climate in share links
+  - [x] Usability: shared active storm, tabs keep state, climate in share links
+  - [x] Changes tab (release history + monthly activity)
 - B− review (method fidelity):
   - [x] Euler Type II peak at 30% of duration; tests for peak timing + cumulative
   - [x] Audit "High" confidence (Chicago, Huff etc.) — benchmark tests, downgrade approximations

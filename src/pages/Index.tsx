@@ -12,6 +12,7 @@ const AdvancedTools = lazy(() => import("@/components/AdvancedTools").then(m => 
 const Documentation = lazy(() => import("@/components/Documentation").then(m => ({ default: m.Documentation })));
 const RealDataHub = lazy(() => import("@/components/RealDataHub").then(m => ({ default: m.RealDataHub })));
 const ApiPlayground = lazy(() => import("@/components/ApiPlayground").then(m => ({ default: m.ApiPlayground })));
+const ChangeLog = lazy(() => import("@/components/ChangeLog").then(m => ({ default: m.ChangeLog })));
 const StormChatbot = lazy(() => import("@/components/StormChatbot").then(m => ({ default: m.StormChatbot })));
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { RainParticles } from "@/components/RainParticles";
@@ -21,8 +22,9 @@ import { RegionalPatterns } from "@/components/RegionalPatterns";
 import { PatternCompareDemo } from "@/components/PatternCompareDemo";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
+import { Droplets, CloudRain, BookOpen, Wrench, Database, Code2, History, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import type { ActiveStorm } from "@/lib/activeStorm";
 
 const TabFallback = () => (
   <div className="flex items-center justify-center py-24 text-muted-foreground gap-2">
@@ -93,6 +95,7 @@ const Index = () => {
   }, [sharedStorm]);
 
   const [activeTab, setActiveTab] = useState("generator");
+  const [activeStorm, setActiveStorm] = useState<ActiveStorm | null>(null);
   const [externalStormParams, setExternalStormParams] = useState<{ depth: number; duration: number } | null>(null);
   const [idfCityData, setIdfCityData] = useState<{ name: string; lat: string; lon: string } | null>(null);
   const [heroPattern, setHeroPattern] = useState<string | undefined>(undefined);
@@ -296,7 +299,7 @@ const Index = () => {
         </section>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="flex w-full mb-8 overflow-x-auto scrollbar-thin sm:grid sm:grid-cols-5">
+        <TabsList className="flex w-full mb-8 overflow-x-auto scrollbar-thin sm:grid sm:grid-cols-6">
             <TabsTrigger value="generator" className="flex items-center gap-2 min-w-max">
               <CloudRain className="w-4 h-4" />
               <span className="hidden sm:inline">Storm Generator</span>
@@ -322,6 +325,10 @@ const Index = () => {
               <span className="hidden sm:inline">Documentation</span>
               <span className="sm:hidden">Docs</span>
             </TabsTrigger>
+            <TabsTrigger value="changes" className="flex items-center gap-2 min-w-max">
+              <History className="w-4 h-4" />
+              <span>Changes</span>
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="generator" className="space-y-8">
@@ -331,8 +338,8 @@ const Index = () => {
               <p className="text-muted-foreground leading-relaxed">
                 Follow the 4-step workflow below to define your storm parameters,
                 select a rainfall pattern, review &amp; export data for your stormwater models,
-                and optionally test all patterns. For pattern comparisons and advanced analysis,
-                visit the <strong>Advanced Tools</strong> tab.
+                and optionally test all patterns. The storm you set here is used by the
+                <strong> Advanced Tools</strong> and <strong>API Playground</strong> tabs, and your work is kept when you switch tabs.
               </p>
             </section>
 
@@ -344,6 +351,7 @@ const Index = () => {
               initialShareParams={sharedStorm}
               onStormContextChange={setStormContext}
               externalPatternRequest={wizardPatternRequest}
+              onActiveStormChange={setActiveStorm}
             />
             </div>
           </TabsContent>
@@ -354,16 +362,20 @@ const Index = () => {
 
           <TabsContent value="advanced">
             <Suspense fallback={<TabFallback />}>
-              <AdvancedTools onSendToGenerator={handleSendToGenerator} onViewIdf={handleViewIdf} />
+              <AdvancedTools onSendToGenerator={handleSendToGenerator} onViewIdf={handleViewIdf} activeStorm={activeStorm} />
             </Suspense>
           </TabsContent>
 
           <TabsContent value="api">
-            <Suspense fallback={<TabFallback />}><ApiPlayground /></Suspense>
+            <Suspense fallback={<TabFallback />}><ApiPlayground activeStorm={activeStorm} /></Suspense>
           </TabsContent>
 
           <TabsContent value="docs">
             <Suspense fallback={<TabFallback />}><Documentation idfCity={idfCityData} /></Suspense>
+          </TabsContent>
+
+          <TabsContent value="changes">
+            <Suspense fallback={<TabFallback />}><ChangeLog /></Suspense>
           </TabsContent>
         </Tabs>
       </main>
@@ -379,6 +391,7 @@ const Index = () => {
             <a className="underline underline-offset-4 hover:text-foreground" href="/API.md">API Reference</a>
             <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("docs")}>Data sources &amp; references</button>
             <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("advanced")}>Advanced Tools</button>
+            <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("changes")}>Changes</button>
           </nav>
           <p className="text-xs opacity-80">
             {stormPatternCount} storm patterns · Data derived from published agency standards (NRCS TR-55, NOAA Atlas 14/15, FEH, ARR, DWA-A 118, and national meteorological services) · v{RELEASE_VERSION}
