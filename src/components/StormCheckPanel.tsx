@@ -17,7 +17,7 @@ interface StormCheckPanelProps {
 }
 
 const FALLBACK_LABEL = {
-  none: "Formula used as published",
+  none: "Pattern formula used directly",
   depth_adjusted: "Depth scaled to match (shape unchanged)",
   single_interval: "Single block (one interval)",
   refined_grid: "Built on a finer grid, then summed",

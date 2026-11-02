@@ -59,7 +59,7 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
     URL.revokeObjectURL(url);
   };
 
-  const exportMeta = (): ExportMeta => ({ pattern, totalDepth, duration, timeStep, unitSystem, projectName, engineerName, companyName });
+  const exportMeta = (): ExportMeta => ({ pattern, patternId: patternKey, totalDepth, duration, timeStep, unitSystem, projectName, engineerName, companyName });
 
   const buildCsvContent = () => buildCsvExport(data, exportMeta());
 
