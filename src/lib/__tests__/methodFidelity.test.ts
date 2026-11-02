@@ -50,7 +50,7 @@ describe('Euler Type II (DWA-A 118)', () => {
     const p = v.indexOf(Math.max(...v));
     for (let i = 1; i <= p; i++) expect(v[i]).toBeGreaterThanOrEqual(v[i - 1]);
     for (let i = p + 1; i < v.length; i++) expect(v[i]).toBeLessThanOrEqual(v[i - 1]);
-    expect(cumulative(v, 0.25).at(-1)).toBeCloseTo(2, 9);
+    { const c = cumulative(v, 0.25); expect(c[c.length - 1]).toBeCloseTo(2, 9); }
   });
 });
 
