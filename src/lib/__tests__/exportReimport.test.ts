@@ -22,8 +22,8 @@ type Built = { file: string; content: string; relTol: number };
 function exportsFor(c: (typeof CASES)[number]): Built[] {
   const intensities = generateRainfallData(c.pattern, c.depth, c.duration, c.step);
   const hourPoints = prepareExportData(intensities, c.step);
-  const meta = { pattern: c.pattern, totalDepth: c.depth, duration: c.duration, timeStep: c.step, unitSystem: c.units };
-  const series = { name: `TS_${c.pattern}`, patternDisplayName: c.pattern, totalDepth: c.depth, duration: c.duration, timeStep: c.step, unitSystem: c.units };
+  const meta = { pattern: c.pattern, patternId: c.pattern, totalDepth: c.depth, duration: c.duration, timeStep: c.step, unitSystem: c.units };
+  const series = { name: `TS_${c.pattern}`, patternDisplayName: c.pattern, patternId: c.pattern, totalDepth: c.depth, duration: c.duration, timeStep: c.step, unitSystem: c.units };
   const hec = {
     gageName: 'G1', startDate: '01Jan2025', startTime: '00:00', patternName: c.pattern,
     totalDepth: c.depth, durationHours: c.duration, timestepMinutes: c.step, unitSystem: c.units, data: hourPoints,

@@ -97,6 +97,7 @@ const Index = () => {
   const [idfCityData, setIdfCityData] = useState<{ name: string; lat: string; lon: string } | null>(null);
   const [heroPattern, setHeroPattern] = useState<string | undefined>(undefined);
   const [showAllBadges, setShowAllBadges] = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
   const [stormContext, setStormContext] = useState<string>("");
   const [wizardPatternRequest, setWizardPatternRequest] = useState<{ pattern: string; nonce: number } | null>(null);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -141,16 +142,16 @@ const Index = () => {
         <div className="absolute top-4 right-4 z-10">
           <ThemeToggle />
         </div>
-        <div className="container mx-auto px-4 py-12 text-center relative z-10">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Droplets className="w-12 h-12" />
-            <h1 className="text-5xl font-bold">World Rainfall Pattern Painter</h1>
+        <div className="container mx-auto px-4 py-8 text-center relative z-10">
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <Droplets className="w-10 h-10" />
+            <h1 className="text-3xl md:text-4xl font-bold">World Rainfall Pattern Painter</h1>
           </div>
           <p className="text-lg max-w-3xl mx-auto opacity-95">
             Generate and visualize synthetic rainfall patterns for stormwater modeling. 
             Create SWMM5 and ICM-ready timeseries with custom parameters.
           </p>
-          <div className="mt-5 flex justify-center">
+          <div className="mt-5 flex flex-wrap justify-center gap-3">
             <Button
               size="lg"
               variant="secondary"
@@ -158,8 +159,19 @@ const Index = () => {
             >
               Create a storm now
             </Button>
+            <Button
+              size="lg"
+              variant="ghost"
+              className="border border-primary-foreground/40 hover:bg-primary-foreground/10"
+              aria-expanded={showGallery}
+              aria-controls="hero-gallery"
+              onClick={() => setShowGallery((v) => !v)}
+            >
+              {showGallery ? <>Hide pattern gallery <ChevronUp className="w-4 h-4" /></> : <>Preview patterns <ChevronDown className="w-4 h-4" /></>}
+            </Button>
           </div>
 
+          {showGallery && (<div id="hero-gallery">
           {/* Hero Hyetograph Preview */}
           <div className="mt-8 mb-2 flex flex-col items-center">
             <div ref={heroRef} className="inline-block px-4 pb-4 pt-2">
@@ -224,6 +236,7 @@ const Index = () => {
               </button>
             </div>
           </div>
+          </div>)}
 
           {/* Statistics Counters */}
           {(() => {
@@ -251,7 +264,10 @@ const Index = () => {
                 <div className="w-px bg-primary-foreground/20 hidden sm:block" />
                 <div className="text-center px-4">
                   <p className="text-2xl md:text-3xl font-bold text-primary-foreground">{(totalIdfDataPoints / 1000).toFixed(0)}k+</p>
-                  <p className="text-xs opacity-80 uppercase tracking-wider">IDF Data Points</p>
+                  <p className="text-xs opacity-80 uppercase tracking-wider">IDF grid values</p>
+                  <p className="text-[12px] opacity-80 max-w-[11rem] mx-auto leading-tight mt-1">
+                    Calculated: {totalIdfCities} cities × 6 return periods × 15 durations — not measured observations
+                  </p>
                 </div>
                 <div className="w-px bg-primary-foreground/20 hidden sm:block" />
                 <div className="text-center px-4">

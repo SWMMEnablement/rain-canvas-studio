@@ -547,7 +547,7 @@ export function GlobalIdfCalculator({ onSendToGenerator }: GlobalIdfCalculatorPr
         {[
           { label: "Cities", value: cityNames.length, icon: "🏙️" },
           { label: "Return Periods", value: returnPeriods.length, icon: "📊" },
-          { label: "Data Points", value: idfData.length * returnPeriods.length, icon: "🔢" },
+          { label: "Calculated values", value: idfData.length * returnPeriods.length, icon: "🔢" },
           { label: "Formula", value: country.calcWithT ? "4-param" : "3-param", icon: "📐" },
           { label: "Units", value: country.units, icon: "📏" },
         ].map((s, i) => (

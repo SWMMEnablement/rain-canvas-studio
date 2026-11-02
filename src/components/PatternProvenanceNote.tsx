@@ -21,7 +21,7 @@ const VARIANT = { high: "default", medium: "secondary", low: "outline" } as cons
 
 /** Source note and confidence badge for one pattern. */
 export function PatternProvenanceNote({ id, name, description, explain = false, className = "", tooltip = true }: Props) {
-  const { source, confidence } = getPatternProvenance(id, name, description);
+  const { source, confidence, approximation } = getPatternProvenance(id, name, description);
   const badge = (
     <Badge
       variant={VARIANT[confidence]}
@@ -48,6 +48,11 @@ export function PatternProvenanceNote({ id, name, description, explain = false, 
       <p>
         <span className="font-medium text-foreground">Source:</span> {source}
       </p>
+      {approximation && (
+        <p>
+          <span className="font-medium text-foreground">How the app differs:</span> {approximation}
+        </p>
+      )}
       {explain && <p className="italic">{CONFIDENCE_MEANING[confidence]}</p>}
     </div>
   );

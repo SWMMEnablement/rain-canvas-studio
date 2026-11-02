@@ -1395,6 +1395,7 @@ export function StormWizard({ externalStormParams, onExternalParamsConsumed, ini
                 timeStepMin={timeStep}
                 unitSystem={unitSystem}
                 patternName={patternNames[selectedPattern] || selectedPattern}
+                patternId={selectedPattern}
                 source={dataSource}
               />
               <div className="flex items-center gap-2 mt-1 justify-end">

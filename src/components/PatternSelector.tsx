@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { type PatternType } from "@/lib/rainfallPatterns";
 import { PATTERN_ALIASES, PATTERN_NAMES, aliasesOf } from "../../supabase/functions/_shared/patternCatalog";
 import { PatternProvenanceNote } from "@/components/PatternProvenanceNote";
+import { CONFIDENCE_LABELS, getPatternProvenance, type PatternConfidence } from "@/lib/patternProvenance";
 
 interface PatternOption {
   id: PatternType;
@@ -1863,10 +1864,25 @@ interface PatternSelectorProps {
 export function PatternSelector({ selectedPattern, onPatternChange }: PatternSelectorProps) {
   const selectedPatternInfo = patterns.find(p => p.id === selectedPattern);
   const [search, setSearch] = useState("");
+  const [minConfidence, setMinConfidence] = useState<"all" | PatternConfidence>("all");
+  const confidenceOf = useMemo(() => {
+    const m = new Map<string, PatternConfidence>();
+    patterns.forEach((p) => m.set(p.id, getPatternProvenance(p.id, p.name, p.description).confidence));
+    return m;
+  }, []);
+  const confidenceCounts = useMemo(() => {
+    const c = { high: 0, medium: 0, low: 0 };
+    stormPatterns.forEach((p) => c[confidenceOf.get(p.id) ?? 'low']++);
+    return c;
+  }, [confidenceOf]);
+  const passesConfidence = (p: PatternOption) =>
+    p.id === 'custom' || minConfidence === 'all' ||
+    (minConfidence === 'high' ? confidenceOf.get(p.id) === 'high' : confidenceOf.get(p.id) !== 'low');
   const sortByName = (a: PatternOption, b: PatternOption) => a.name.localeCompare(b.name);
   const q = search.trim().toLowerCase();
   const matchesSearch = (p: PatternOption) =>
-    !q || p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
+    passesConfidence(p) && (!q || p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
+  const filtering = !!q || minConfidence !== 'all';
   const byCategory = (cat: PatternOption['category']) =>
     patterns.filter(p => p.category === cat && matchesSearch(p)).sort(sortByName);
   const swmmPatterns = byCategory('swmm');
@@ -1881,7 +1897,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
   const americasPatterns = byCategory('americas');
   const oceaniaPatterns = byCategory('oceania');
   const internationalPatterns = byCategory('international');
-  const totalMatches = q
+  const totalMatches = filtering
     ? swmmPatterns.length + usAgencyPatterns.length + icmPatterns.length +
       europeanPatterns.length + scandinavianPatterns.length + asianPatterns.length +
       middleEastPatterns.length + africanPatterns.length + latamPatterns.length +
@@ -1890,7 +1906,9 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
 
   const PatternGrid = ({ patterns }: { patterns: PatternOption[] }) => (
     patterns.length === 0 ? (
-      <p className="text-sm text-muted-foreground py-6 text-center">No patterns match "{search}" in this category.</p>
+      <p className="text-sm text-muted-foreground py-6 text-center">
+        No patterns {q ? <>match "{search}" </> : ''}{minConfidence !== 'all' ? `at ${minConfidence === 'high' ? 'High' : 'Medium or High'} confidence ` : ''}in this category.
+      </p>
     ) : (
     <div className="grid grid-cols-2 gap-3">
       {patterns.map((pattern) => (
@@ -1921,7 +1939,7 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
       <CardHeader>
         <CardTitle>Pattern Type</CardTitle>
         <CardDescription>
-          Select a rainfall distribution pattern ({q ? `${totalMatches} matching options` : `${stormPatternCount} storms + Custom`})
+          Select a rainfall distribution pattern ({filtering ? `${totalMatches} matching options` : `${stormPatternCount} storms + Custom`})
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -1947,6 +1965,28 @@ export function PatternSelector({ selectedPattern, onPatternChange }: PatternSel
             </Button>
           )}
         </div>
+        <fieldset className="flex flex-wrap items-center gap-2 text-xs">
+          <legend className="sr-only">Filter patterns by confidence</legend>
+          <span className="text-muted-foreground">Confidence:</span>
+          {([
+            ['all', `All (${stormPatternCount})`],
+            ['high', `${CONFIDENCE_LABELS.high} only (${confidenceCounts.high})`],
+            ['medium', `${CONFIDENCE_LABELS.medium} or ${CONFIDENCE_LABELS.high} (${confidenceCounts.high + confidenceCounts.medium})`],
+          ] as const).map(([value, label]) => (
+            <Button
+              key={value}
+              type="button"
+              size="sm"
+              variant={minConfidence === value ? 'default' : 'outline'}
+              className="h-7 px-2 text-xs"
+              aria-pressed={minConfidence === value}
+              onClick={() => setMinConfidence(value)}
+            >
+              {label}
+            </Button>
+          ))}
+          <span className="text-muted-foreground">High = published table applied directly and tested; Medium = published method with typical parameters; Low = reconstructed or app-written.</span>
+        </fieldset>
         <Tabs defaultValue="swmm" className="w-full">
           <TabsList className="flex w-full flex-wrap h-auto gap-1">
             <TabsTrigger value="swmm">SWMM</TabsTrigger>

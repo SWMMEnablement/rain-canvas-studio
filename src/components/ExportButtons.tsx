@@ -10,7 +10,8 @@ import { buildIcmEventCsv } from "@/lib/icmCsvExport";
 import { type ExportMeta, buildCsvExport, buildSwmmDatExport, buildSwmmScriptExport } from "@/lib/stormFileExports";
 import { PdfReportGenerator } from "@/components/PdfReportGenerator";
 import { HecHmsExportPanel } from "@/components/HecHmsExportPanel";
-import { type PatternType, generateRainfallData, prepareExportData } from "@/lib/rainfallPatterns";
+import { type PatternType, generateRainfallData, generateRainfallDataDetailed, prepareExportData } from "@/lib/rainfallPatterns";
+import { getPatternProvenance } from "@/lib/patternProvenance";
 import { CANONICAL_PATTERN_IDS, PATTERN_NAMES } from "../../supabase/functions/_shared/patternCatalog";
 
 interface RainfallDataPoint {
@@ -59,7 +60,7 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
     URL.revokeObjectURL(url);
   };
 
-  const exportMeta = (): ExportMeta => ({ pattern, totalDepth, duration, timeStep, unitSystem, projectName, engineerName, companyName });
+  const exportMeta = (): ExportMeta => ({ pattern, patternId: patternKey, totalDepth, duration, timeStep, unitSystem, projectName, engineerName, companyName });
 
   const buildCsvContent = () => buildCsvExport(data, exportMeta());
 
@@ -76,6 +77,11 @@ export function ExportButtons({ data, pattern, patternKey, totalDepth, duration,
     const jsonData: Record<string, any> = {
       _generator: "Rain Canvas Studio",
       _generated: new Date().toISOString(),
+      ...(patternKey && patternKey !== 'custom' && (() => {
+        const p = getPatternProvenance(patternKey);
+        const g = generateRainfallDataDetailed(patternKey, 1, duration, timeStep);
+        return { _source: p.source, _confidence: p.confidence, ...(p.approximation && { _approximation: p.approximation }), _calculator: { fallback: g.fallback, reason: g.reason } };
+      })()),
       ...(projectName && { projectName }),
       ...(engineerName && { engineer: engineerName }),
       ...(companyName && { company: companyName }),

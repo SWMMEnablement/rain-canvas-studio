@@ -200,6 +200,26 @@ function chicagoVariant(
   return orderedData;
 }
 
+/**
+ * Euler Type II arrangement (DWA-A 118). `cumDepths[j]` is the depth-duration value for
+ * duration (j+1)·Δt. Returns block depths in time order: peak in the interval containing 0.3·D
+ * (index floor(0.3·N), at least 1 when N ≥ 2), ranks 2…k+1 before it rising to the peak,
+ * ranks k+2…N after it falling. Cumulative depth from the start therefore equals h(t) for every
+ * t at or after the end of the peak interval.
+ */
+export function eulerTypeIIArrange(cumDepths: number[]): number[] {
+  const n = cumDepths.length;
+  if (n === 0) return [];
+  const inc = cumDepths.map((v, j) => Math.max(0, v - (j > 0 ? cumDepths[j - 1] : 0)));
+  const ranked = [...inc].sort((a, b) => b - a);
+  const k = n >= 2 ? Math.max(1, Math.floor(0.3 * n)) : 0;
+  const out = new Array(n).fill(0);
+  out[k] = ranked[0];
+  for (let r = 1; r <= k; r++) out[k - r] = ranked[r];
+  for (let r = k + 1; r < n; r++) out[r] = ranked[r];
+  return out;
+}
+
 /** Beta-distribution shaped storm for monsoon/tropical patterns */
 function betaStorm(
   totalDepth: number, numSteps: number, timeStep: number,
@@ -218,27 +238,54 @@ function betaStorm(
   return raw.map(v => (v / totalRaw) * totalDepth / (timeStep / 60));
 }
 
+/** How the guarded generator produced the series it returned. */
+export type GenerationFallback =
+  | 'none'            // the pattern formula was used as-is
+  | 'depth_adjusted'  // formula output was valid but missed the depth by >0.1%; scaled to match
+  | 'single_interval' // only one interval: the storm is one block holding the whole depth
+  | 'refined_grid'    // formula failed at this step; built on a finer grid and summed into intervals
+  | 'rescaled'        // invalid values removed, remaining shape rescaled — the shape has changed
+  | 'uniform';        // nothing usable remained: replaced with a uniform block
+
+export interface GenerationResult {
+  values: number[];
+  fallback: GenerationFallback;
+  /** Plain-language explanation, or null when the formula was used unchanged. */
+  reason: string | null;
+}
+
 /**
- * Public entry point. Guarantees finite, non-negative intensities that conserve total depth.
+ * Guarded generator with diagnostics. Guarantees finite, non-negative intensities that conserve
+ * total depth, and reports when (and why) the returned shape differs from the raw formula.
  * Some pattern formulas break down at very coarse resolution (one or two intervals); in that case
- * the storm is built at 1-minute resolution and aggregated into the requested intervals, which is
+ * the storm is built on a finer grid and aggregated into the requested intervals, which is
  * the physically correct coarse representation of the same storm.
  */
-export function generateRainfallData(
+export function generateRainfallDataDetailed(
   pattern: PatternType,
   totalDepth: number,
   duration: number,
   timeStep: number
-): number[] {
+): GenerationResult {
   const raw = generateRainfallDataRaw(pattern, totalDepth, duration, timeStep);
-  if (pattern === 'custom' || !(totalDepth > 0) || !(duration > 0) || !(timeStep > 0)) return raw;
+  const done = (values: number[], fallback: GenerationFallback, reason: string | null): GenerationResult => ({ values, fallback, reason });
+  if (pattern === 'custom' || !(totalDepth > 0) || !(duration > 0) || !(timeStep > 0)) return done(raw, 'none', null);
   const dt = timeStep / 60;
   const n = raw.length;
-  // A storm with a single interval can only be one block holding the whole depth.
-  if (n <= 1) return [totalDepth / dt];
-  if (isValidSeries(raw, totalDepth, dt)) return conserveDepth(raw, totalDepth, dt);
-  // Formula broke down at this resolution: build the same storm on a finer grid
-  // (sub-minute if needed) and aggregate it into the requested intervals.
+  if (n <= 1) {
+    return done([totalDepth / dt], 'single_interval',
+      'The storm has only one interval, so it is a single block holding the whole depth; the pattern shape cannot show at this time step.');
+  }
+  if (isValidSeries(raw, totalDepth, dt)) {
+    const total = raw.reduce((a, v) => a + v * dt, 0);
+    const err = Math.abs(total - totalDepth) / totalDepth;
+    const out = conserveDepth(raw, totalDepth, dt);
+    if (err > 0.001) {
+      return done(out, 'depth_adjusted',
+        `The pattern formula gave ${(err * 100).toFixed(2)}% ${total > totalDepth ? 'more' : 'less'} than the requested depth; every interval was scaled by the same factor to match. The shape is unchanged.`);
+    }
+    return done(out, 'none', null);
+  }
   const totalMin = duration * 60;
   if (Math.abs(n * timeStep - totalMin) < 1e-9) {
     for (const target of [240, 1440, 6000]) {
@@ -251,14 +298,30 @@ export function generateRainfallData(
         for (let k = i * m; k < (i + 1) * m; k++) sum += fine[k];
         out.push(sum / m);
       }
-      if (isValidSeries(out, totalDepth, dt)) return conserveDepth(out, totalDepth, dt);
+      if (isValidSeries(out, totalDepth, dt)) {
+        return done(conserveDepth(out, totalDepth, dt), 'refined_grid',
+          `The pattern formula does not work at a ${timeStep}-minute step, so the storm was built at ${+(timeStep / m).toFixed(4)}-minute resolution and summed into your intervals. This is the same storm seen at a coarser step.`);
+      }
     }
   }
-  // Last resort: keep the finite, non-negative shape and rescale it; if nothing usable remains,
-  // fall back to a uniform block so callers always receive a valid series.
   const cleaned = raw.map((v) => (Number.isFinite(v) && v > 0 ? v : 0));
-  if (cleaned.some((v) => v > 0)) return conserveDepth(cleaned, totalDepth, dt);
-  return raw.map(() => totalDepth / (n * dt));
+  if (cleaned.some((v) => v > 0)) {
+    const dropped = raw.filter((v) => !(Number.isFinite(v) && v >= 0)).length;
+    return done(conserveDepth(cleaned, totalDepth, dt), 'rescaled',
+      `The pattern formula gave ${dropped} invalid value${dropped === 1 ? '' : 's'} at this step; those were set to zero and the rest rescaled to the requested depth. The shape differs from the published pattern — check before use.`);
+  }
+  return done(raw.map(() => totalDepth / (n * dt)), 'uniform',
+    'The pattern formula gave no usable values at this step, so a uniform block storm was substituted. This is NOT the selected pattern.');
+}
+
+/** Public entry point: values only. See generateRainfallDataDetailed for the fallback reason. */
+export function generateRainfallData(
+  pattern: PatternType,
+  totalDepth: number,
+  duration: number,
+  timeStep: number
+): number[] {
+  return generateRainfallDataDetailed(pattern, totalDepth, duration, timeStep).values;
 }
 
 function isValidSeries(values: number[], totalDepth: number, dt: number): boolean {
@@ -1354,46 +1417,22 @@ function generateRainfallDataRaw(
     }
 
     case 'euler2': {
-      // Euler Type II - center-peaked variant (same as DWA but standalone)
-      // Peak at 1/3 of duration, German standard
-      for (let i = 0; i < numSteps; i++) {
-        const t = i / numSteps;
-        let cumulativeFraction: number;
-        
-        if (t <= 0.167) {
-          cumulativeFraction = 0.09 * (t / 0.167);
-        } else if (t <= 0.333) {
-          cumulativeFraction = 0.09 + 0.42 * Math.pow((t - 0.167) / 0.167, 0.85);
-        } else if (t <= 0.5) {
-          cumulativeFraction = 0.51 + 0.23 * ((t - 0.333) / 0.167);
-        } else if (t <= 0.667) {
-          cumulativeFraction = 0.74 + 0.13 * ((t - 0.5) / 0.167);
-        } else if (t <= 0.833) {
-          cumulativeFraction = 0.87 + 0.08 * ((t - 0.667) / 0.167);
-        } else {
-          cumulativeFraction = 0.95 + 0.05 * ((t - 0.833) / 0.167);
-        }
-        
-        const nextT = Math.min((i + 1) / numSteps, 1.0);
-        let nextCumulative: number;
-        if (nextT <= 0.167) {
-          nextCumulative = 0.09 * (nextT / 0.167);
-        } else if (nextT <= 0.333) {
-          nextCumulative = 0.09 + 0.42 * Math.pow((nextT - 0.167) / 0.167, 0.85);
-        } else if (nextT <= 0.5) {
-          nextCumulative = 0.51 + 0.23 * ((nextT - 0.333) / 0.167);
-        } else if (nextT <= 0.667) {
-          nextCumulative = 0.74 + 0.13 * ((nextT - 0.5) / 0.167);
-        } else if (nextT <= 0.833) {
-          nextCumulative = 0.87 + 0.08 * ((nextT - 0.667) / 0.167);
-        } else {
-          nextCumulative = 0.95 + 0.05 * ((nextT - 0.833) / 0.167);
-        }
-        
-        const incrementalDepth = (nextCumulative - cumulativeFraction) * totalDepth;
-        data.push(incrementalDepth / (timeStep / 60));
-      }
-      break;
+      // Euler Type II model rain (DWA-A 118, Annex; DWA-A 531 / KOSTRA practice).
+      // Built from a depth-duration curve h(d): the block increments Δh_j = h(jΔt) − h((j−1)Δt)
+      // are ranked; the largest is placed in the interval containing 0.3·D (never the first one),
+      // the next k ranks fill the k earlier intervals rising towards the peak, and the remaining
+      // ranks follow the peak in falling order (Euler Type I from the peak onward).
+      // h(d) here is a generic KOSTRA-like power law (exponent 0.45 up to 60 min, 0.25 beyond),
+      // not site KOSTRA data — so the arrangement rule is exact but the block heights are typical.
+      const dtMin = timeStep;
+      const h = (dMin: number) => {
+        if (dMin <= 0) return 0;
+        return dMin <= 60 ? Math.pow(dMin / 60, 0.45) : Math.pow(dMin / 60, 0.25);
+      };
+      const cum = Array.from({ length: numSteps }, (_, j) => h((j + 1) * dtMin));
+      const arranged = eulerTypeIIArrange(cum);
+      const total = arranged.reduce((x, v) => x + v, 0);
+      return arranged.map((v) => (total > 0 ? (v / total) * totalDepth : 0) / (timeStep / 60));
     }
 
     case 'desbordes_double': {
