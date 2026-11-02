@@ -8,3 +8,6 @@
 - Per-pattern source notes and confidence levels come only from `src/lib/patternProvenance.ts`; unlisted patterns default to low confidence — confidence is raised only with a named source.
 - The equation explorer reads its numbers from `generateRainfallData` via `src/lib/equationExplorer.ts`, never from separate formulas — so explanation and generated storm cannot disagree.
 - Linked engineering calculations (unit transfers, Modified Puls, unit-hydrograph convolution, LID accounting) live in `src/lib/hydrologyCalcs.ts` with tests; components only call them — so the hydraulics stay testable.
+- Tab panels stay mounted after first open (`src/components/ui/tabs.tsx`, opt out with `keepMounted={false}`) — so switching tabs never discards user work.
+- The Storm Generator publishes the active storm (`src/lib/activeStorm.ts`) via `onActiveStormChange`; other tabs read it instead of keeping their own storm defaults — so every tab analyses the same storm.
+- The Changes tab reads `src/lib/changelog.ts`; add a release entry there when shipping notable changes — so the history stays current.
