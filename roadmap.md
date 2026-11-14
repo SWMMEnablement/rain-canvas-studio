@@ -35,3 +35,4 @@
   - [x] Report fallback reason (refined / rescaled / uniform) in app and API
   - [x] Shorter opening screen; storm inputs + chart visible sooner
   - [x] Relabel "IDF data points" counter as a calculated grid
+  - [x] app.md technical summary + llms.txt + links

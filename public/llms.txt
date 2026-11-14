@@ -1,0 +1,8 @@
+# World Rainfall Pattern Painter
+
+> Synthetic design storm hyetographs (339 patterns) with SWMM, ICM, HEC-HMS and CSV export.
+
+## Apps
+
+- [World Rainfall Pattern Painter](/rain-canvas-studio.md): technical summary for engineers and AI assistants.
+- [API Reference](/API.md): public REST API for the same storm calculator.

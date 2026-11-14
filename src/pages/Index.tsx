@@ -389,6 +389,7 @@ const Index = () => {
             <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("docs")}>Documentation</button>
             <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("api")}>API Playground</button>
             <a className="underline underline-offset-4 hover:text-foreground" href="/API.md">API Reference</a>
+            <a className="underline underline-offset-4 hover:text-foreground" href="/rain-canvas-studio.md">Technical summary (.md)</a>
             <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("docs")}>Data sources &amp; references</button>
             <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("advanced")}>Advanced Tools</button>
             <button type="button" className="underline underline-offset-4 hover:text-foreground" onClick={() => setActiveTab("changes")}>Changes</button>
